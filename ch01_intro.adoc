@@ -10,23 +10,9 @@ In this book, the ((("bitcoins", "defined")))unit of currency is called "bitcoin
 and the system is called "Bitcoin," with a capital _B_.
 ====
 
-Users can transfer bitcoin over the network to do just about anything
-that can be done with conventional currencies, including buying and selling
-goods, sending money to people or organizations, or extending credit. Bitcoin
-can be purchased, sold, and exchanged for other currencies at
-specialized currency exchanges. Bitcoin is arguably the perfect form
-of money for the internet because it is fast, secure, and borderless.
+Gli utenti possono trasferire bitcoin sulla rete per fare praticamente tutto ciò che è possibile fare con le valute tradizionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni o concedere credito. I bitcoin possono essere acquistati, venduti e scambiati con altre valute presso appositi cambi di valuta, i cosiddetti exchange. Bitcoin è considerato da molti la forma di denaro perfetta per internet, poiché è veloce, sicuro e senza confini.
 
-Unlike traditional currencies, the bitcoin currency is entirely virtual. There are no
-physical coins or even individual digital coins. The coins are implied in
-transactions that transfer value from spender to receiver. Users of
-Bitcoin control keys that allow them to prove ownership of bitcoin in the
-Bitcoin network. With these keys, they can sign transactions to unlock
-the value and spend it by transferring it to a new owner. Keys are often
-stored in a digital wallet on each user’s computer or smartphone.
-Possession of the key that can sign a transaction is the only
-prerequisite to spending bitcoin, putting the control entirely in the
-hands of each user.
+A differenza delle valute tradizionali, bitcoin è interamente virtuale. Non esistono monete fisiche né monete digitali individuali. Le monete sono implicite nelle transazioni che trasferiscono valore da chi spende a chi riceve. Gli utenti di Bitcoin controllano chiavi che permettono loro di dimostrare la proprietà di bitcoin nella rete Bitcoin. Con queste chiavi possono firmare transazioni per sbloccare il valore e spenderlo trasferendolo a un nuovo proprietario. Le chiavi sono spesso conservate in un portafoglio digitale sul computer o sullo smartphone dell’utente. Il possesso della chiave necessaria per firmare una transazione è l’unico requisito per spendere bitcoin, mettendo il controllo dei bitcoin interamente nelle mani di ogni utente.
 
 Bitcoin is a distributed, peer-to-peer system. As such, there is no
 central server or point of control. Units of bitcoin
