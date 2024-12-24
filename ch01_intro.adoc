@@ -1,8 +1,8 @@
 [role="pagenumrestart"]
-[[ch01_intro_what_is_bitcoin]]
-== Introduction
+[[ch01_intro_cos'_è_bitcoin]]
+== Introduzione
 
-Bitcoin((("Bitcoin", "operational overview", id="bitcoin-operational-overview"))) is a collection of concepts and technologies that form the basis of a digital money ecosystem. Units of currency called bitcoin are used to store and transmit value among participants in the Bitcoin network. Bitcoin users communicate with each other using the Bitcoin protocol primarily via the internet, although other transport networks can also be used. The Bitcoin protocol stack, available as open source software, can be run on a wide range of computing devices, including laptops and smartphones, making the technology easily accessible.
+Bitcoin((("Bitcoin", "operational overview", id="bitcoin-operational-overview"))) è un insieme di concetti e tecnologie che formano le basi di un ecosistema di moneta digitale. Le unità di valuta chiamate bitcoin sono usate per conservare e trasmettere valore tra i partecipanti al network di Bitcoin. Gli utenti bitcoin comunicano tra di loro attraverso il protocollo Bitcoin principalmente via internet, anche se possono essere usate anche altre reti di trasporto. L'architettura a strati del protocollo Bitcoin, disponibile come software open source, è compatibile con una vasta gamma di dispositivi, dai laptop agli smartphone, rendendo la tecnologia facilmente accessibile a tutti.
 
 [TIP]
 ====
