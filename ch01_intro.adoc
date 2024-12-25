@@ -14,18 +14,7 @@ Gli utenti possono trasferire bitcoin sulla rete per fare praticamente tutto ci�
 
 A differenza delle valute tradizionali, bitcoin è interamente virtuale. Non esistono monete fisiche né monete digitali individuali. Le monete sono implicite nelle transazioni che trasferiscono valore da chi spende a chi riceve. Gli utenti di Bitcoin controllano chiavi che permettono loro di dimostrare la proprietà di bitcoin nella rete Bitcoin. Con queste chiavi possono firmare transazioni per sbloccare il valore e spenderlo trasferendolo a un nuovo proprietario. Le chiavi sono spesso conservate in un portafoglio digitale sul computer o sullo smartphone dell’utente. Il possesso della chiave necessaria per firmare una transazione è l’unico requisito per spendere bitcoin, mettendo il controllo dei bitcoin interamente nelle mani di ogni utente.
 
-Bitcoin is a distributed, peer-to-peer system. As such, there is no
-central server or point of control. Units of bitcoin
-are created through a process((("bitcoins", "mining")))((("mining"))) called "mining," which involves repeatedly
-performing a computational task that references a list of recent Bitcoin
-transactions. Any participant in the Bitcoin network may operate as a
-miner, using their computing devices to help secure
-transactions. Every 10 minutes, on average, one Bitcoin miner can add security to
-past transactions and is rewarded with both brand new
-bitcoins and the fees paid by recent transactions. Essentially, Bitcoin
-mining decentralizes the currency-issuance
-and clearing functions of a central bank and replaces the need for any
-central bank.
+Bitcoin è un sistema peer-to-peer distribuito. Pertanto, non esiste un server centrale o un punto di controllo. Le unità di bitcoin vengono create attraverso un processo((("bitcoins", "mining")))((("mining"))) chiamato "mining," che consiste nell'eseguire ripetutamente un'operazione computazionale che fa riferimento a un elenco di transazioni Bitcoin recenti. Qualsiasi partecipante alla rete Bitcoin può operare come miner, usando i propri dispositivi informatici per contribuire a garantire la sicurezza delle transazioni. In media, ogni 10 minuti, un miner di Bitcoin può aggiungere sicurezza alle transazioni precedenti e viene ricompensato sia con nuovi bitcoin sia con le commissioni pagate dalle transazioni recenti. In sostanza, il mining di Bitcoin decentralizza le funzioni di una banca centrale relative all'emissione di valuta e alla compensazione, e rende superflua la necessità di una banca centrale.
 
 //-- Math for following paragraph --
 //total_btc = 0
@@ -35,36 +24,20 @@ central bank.
 //     print(i)
 //     break
 
-The Bitcoin protocol includes built-in algorithms that regulate the
-mining function across the network. The difficulty of the computational
-task that miners must perform is adjusted dynamically so that, on
-average, someone succeeds every 10 minutes regardless of how many miners
-(and how much processing) are competing at any moment. The protocol also
-periodically decreases the number of new bitcoins that are created,
-limiting the total number of bitcoins that will ever be created to a fixed total
-just below 21 million coins. The result is that the number of bitcoins in
-circulation closely follows an easily predictable curve where half of
-the remaining coins are added to circulation every four years.  At
-approximately block 1,411,200, which is expected to be produced around
-the year 2035, 99% of all bitcoins
-that will ever exist will have been issued.  Due to Bitcoin's
-diminishing rate of issuance, over the long term, the Bitcoin currency
-is deflationary.  Furthermore, nobody can force you to accept
-any bitcoins that were created beyond the
-expected issuance rate.
+Il protocollo Bitcoin include algoritmi integrati che regolano la funzione di mining in tutta la rete. La difficoltà del compito computazionale che i miner devono eseguire viene regolata dinamicamente, in modo che, in media, qualcuno riesca a completarlo ogni 10 minuti, indipendentemente dal numero di miner (e dalla potenza di calcolo) che stanno competendo in quel momento. Inoltre, il protocollo riduce periodicamente il numero di nuovi bitcoin creati, limitando il totale dei bitcoin che verranno mai emessi a una quantità fissa appena inferiore a 21 milioni di monete. Il risultato è che il numero di bitcoin in circolazione segue una curva facilmente prevedibile, in cui la metà dei bitcoin rimanenti viene aggiunta alla circolazione ogni quattro anni. Al blocco 1.411.200 circa, previsto intorno al 2035, sarà stato emesso il 99% di tutti i bitcoin che potranno mai esistere. A causa del tasso di emissione decrescente di Bitcoin, nel lungo termine la valuta Bitcoin è deflazionistica. Inoltre, nessuno può obbligarti ad accettare bitcoin creati in più rispetto a quelli previsti.
 
-Behind the scenes, Bitcoin is also the name of the protocol, a peer-to-peer network, and a distributed computing innovation. Bitcoin builds on decades of research in cryptography and distributed systems and includes at least four key innovations brought together in a unique and powerful combination. Bitcoin consists of:
+Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-peer e di un'innovazione nel campo del calcolo distribuito. Bitcoin si basa su decenni di ricerche in crittografia e sistemi distribuiti e incorpora almeno quattro innovazioni chiave, unite in una combinazione unica e potente. Bitcoin si compone di:
 
-* A decentralized peer-to-peer network (the Bitcoin protocol)
-* A public transaction journal (the blockchain)
-* A set of rules for independent transaction validation and currency issuance (consensus rules)
-* A mechanism for reaching global decentralized consensus on the valid blockchain (proof-of-work algorithm)
+* Una rete peer-to-peer decentralizzata (il protocollo Bitcoin)
+* Un registro pubblico delle transazioni (la blockchain)
+* Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
+* Un meccanismo per raggiungere un consenso decentralizzato globale sulla validità della blockchain (algoritmo di proof-of-work)
 
-As a developer, I see Bitcoin as akin to the internet of money, a network for propagating value and securing the ownership of digital assets via distributed computation. There's a lot more to Bitcoin than first meets ((("Bitcoin", "operational overview", startref="bitcoin-operational-overview")))the eye.
+Come sviluppatore, vedo Bitcoin come una sorta di "denaro di internet", una rete per propagare valore e garantire la proprietà di beni digitali attraverso il calcolo distribuito. C'è molto di più in Bitcoin di quanto possa sembrare a ((("Bitcoin", "operational overview", startref="bitcoin-operational-overview"))) prima vista.
 
-In this chapter we'll get started by explaining some of the main concepts and terms, getting the necessary software, and using Bitcoin for simple transactions. In the following chapters, we'll start unwrapping the layers of technology that make Bitcoin possible and examine the inner workings of the Bitcoin network and protocol.
+In questo capitolo inizieremo spiegando alcuni dei concetti e termini principali, ottenendo il software necessario e utilizzando Bitcoin per transazioni semplici. Nei capitoli seguenti, inizieremo a svelare gli strati di tecnologia che rendono possibile Bitcoin e vedremo come funzionano la rete e il protocollo Bitcoin.
 
-.Digital Currencies Before Bitcoin
+.Monete Digitali Prima di Bitcoin
 ****
 
 The ((("digital currencies, history of")))((("history", "of digital currencies", secondary-sortas="digital currencies")))((("cryptography")))emergence of viable digital money is closely linked to developments in cryptography. This is not surprising when one considers the fundamental challenges involved with using bits to represent value that can be exchanged for goods and services. Three basic questions for anyone accepting digital money are:
