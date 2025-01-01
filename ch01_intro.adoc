@@ -60,108 +60,43 @@ Per essere robuste contro l'intervento di antagonisti, siano essi governi legitt
 
 Bitcoin è stato((("Bitcoin", "history of")))((("history", "of Bitcoin", secondary-sortas="Bitcoin")))((("Nakamoto, Satoshi"))) descritto per la prima volta nel 2008 con la pubblicazione di un documento intitolato "Bitcoin: A Peer-to-Peer Electronic Cash System,"footnote:[https://oreil.ly/KUaBM["Bitcoin: A Peer-to-Peer Electronic Cash System"],Satoshi Nakamoto.] scritto sotto lo pseudonimo di Satoshi Nakamoto (vedi <<satoshi_whitepaper>>). Nakamoto ha combinato diverse invenzioni precedenti, come le firme digitali e Hashcash, per creare un sistema di moneta elettronica completamente decentralizzato che non dipende da un'autorità centrale per l'emissione di valuta, la validazione o la validazione delle transazioni. Un'innovazione chiave è stata l'uso di un sistema di calcolo distribuito (chiamato algoritmo di "proof-of-work") per condurre una sorta di lotteria globale ogni 10 minuti, in media, permettendo alla rete decentralizzata di raggiungere un _consenso_ sullo stato delle transazioni. Questo risolve elegantemente il problema della doppia spesa (double-spend), in cui un'unità di valuta può essere spesa due volte. In precedenza, il problema del double-spend era una debolezza delle valute digitali e veniva affrontato facendo passare tutte le transazioni attraverso un centro di smistamento centrale.
 
-The Bitcoin network started in 2009, based on a reference implementation
-published by Nakamoto and since revised by many other programmers. The
-number and power of machines running the((("proof-of-work algorithm", seealso="mining"))) proof-of-work algorithm
-(mining) that provides security and resilience for Bitcoin have
-increased exponentially, and their combined computational power now
-exceeds the combined number of computing operations of the
-world's top supercomputers.
+La rete Bitcoin è nata nel 2009, basandosi su un'implementazione iniziale pubblicata da Nakamoto e successivamente migliorata da numerosi programmatori. Nel tempo, il numero e la potenza delle macchine impegnate nel mining,((("proof-of-work algorithm", seealso="mining"))) l'algoritmo di proof-of-work che garantisce la sicurezza e la resilienza di Bitcoin, sono cresciuti in modo esponenziale. Oggi, la capacità computazionale complessiva di queste macchine supera quella di tutti i supercomputer più potenti del mondo messi insieme.
 
+Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affidando lo sviluppo del codice e della rete a una comunità di volontari attiva e dinamica. L'identità di Nakamoto, che potrebbe essere una singola persona o un gruppo, rimane ancora un mistero. Tuttavia, né lui né nessun altro ha il controllo esclusivo sul sistema Bitcoin, che si basa su principi matematici trasparenti, codice open source e il consenso dei partecipanti. Questa invenzione rivoluzionaria ha già dato vita a nuove discipline scientifiche nei campi del calcolo distribuito, dell'economia e dell'econometria.
 
-Satoshi Nakamoto withdrew from the public in April 2011, leaving the responsibility of developing the code and network to a thriving group of volunteers. The identity of the person or people behind Bitcoin is still unknown. However, neither Satoshi Nakamoto nor anyone else exerts individual control over the Bitcoin system, which operates based on fully transparent mathematical principles, open source code, and consensus among participants. The invention itself is groundbreaking and has already spawned new science in the fields of distributed computing, economics, and econometrics.
-
-.A Solution to a Distributed Computing Problem
+.Una soluzione ad un problema di calcolo distribuito
 ****
-Satoshi Nakamoto's invention ((("Byzantine Generals&#x27; Problem")))((("distributed computing problem")))is
-also a practical and novel solution to a problem in distributed
-computing, known as the "Byzantine Generals' Problem." Briefly, the
-problem consists of trying to get multiple participants without a leader
-to agree on a course of action by exchanging information over an
-unreliable and potentially compromised network. Satoshi Nakamoto's solution, which uses the concept of
-proof of work to achieve consensus _without a central trusted
-authority_, represents a breakthrough in distributed computing.
+L'invenzione di Satoshi Nakamoto ((("Byzantine Generals&#x27; Problem")))((("distributed computing problem")))rappresenta anche una soluzione pratica e innovativa ad un problema del calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel cercare di far concordare più partecipanti, privi di un leader, su una linea d'azione comune, scambiandosi informazioni attraverso una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che utilizza il concetto di proof-of-work per raggiungere il consenso _senza un'autorità centrale fidata_, rappresenta un progresso rivoluzionario nel settore del calcolo distribuito.
 ****
 
-=== Getting Started
+=== Iniziare con Bitcoin 
 
-Bitcoin is((("Bitcoin", "wallets", see="wallets")))((("wallets", "explained"))) a protocol that can be accessed using an
-application that speaks the protocol. A "Bitcoin wallet" is the
-most common user interface to the Bitcoin system, just like a web
-browser is the most common user interface for the HTTP protocol. There
-are many implementations and brands of Bitcoin wallets, just like there
-are many brands of web browsers (e.g., Chrome, Safari, and Firefox).
-And just like we all have our favorite browsers,
-Bitcoin wallets vary in quality, performance, security, privacy, and
-reliability. There is also a reference implementation of the Bitcoin
-protocol that includes a wallet, known as "Bitcoin Core," which is
-derived from the original implementation written by Satoshi Nakamoto.
+Bitcoin è((("Bitcoin", "wallets", see="wallets")))((("wallets", "explained"))) un protocollo che si può usare tramite un'app che lo supporta. Un "wallet Bitcoin" è l'interfaccia utente più comune per il sistema Bitcoin, proprio come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e marchi di wallet Bitcoin, proprio come esistono vari browser web (es. Chrome, Safari, Firefox). E proprio come abbiamo tutti i nostri browser preferiti, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sull'originale creato da Satoshi Nakamoto.
 
-==== Choosing a Bitcoin Wallet
+==== Scegliere un Wallet Bitcoin
 
-Bitcoin wallets ((("wallets", "choosing")))((("selecting", "wallets")))((("choosing", see="selecting")))are one of the most actively developed applications in the Bitcoin ecosystem. There is intense competition, and while a new wallet is probably being developed right now, several wallets from last year are no longer actively maintained. Many wallets focus on specific platforms or specific uses and some are more suitable for beginners while others are filled with features for advanced users. Choosing a wallet is highly subjective and depends on the use and user expertise. Therefore, it would be pointless to recommend a specific brand or wallet. However, we can categorize Bitcoin wallets according to their platform and function and provide some clarity about all the different types of wallets that exist. It is worth trying out several different wallets until you find one that fits your needs.
+I wallet Bitcoin ((("wallets", "choosing")))((("selecting", "wallets")))((("choosing", see="selecting")))sono tra le applicazioni più attivamente sviluppate nell'ecosistema Bitcoin. C'è una forte competizione, e mentre probabilmente un nuovo wallet è in fase di sviluppo proprio ora, molti wallet creati l'anno scorso non sono più mantenuti attivamente. Molti wallet si concentrano su piattaforme o usi specifici, e alcuni sono più adatti per i principianti, mentre altri sono ricchi di funzionalità per utenti avanzati. La scelta di un wallet è molto soggettiva e dipende dall'uso e dall'esperienza dell'utente. Pertanto, sarebbe inutile consigliare un marchio o wallet specifico. Tuttavia, possiamo classificare i wallet Bitcoin in base alla piattaforma e alla funzione, fornendo maggiore chiarezza su tutti i tipi di wallet che esistono. È utile provare diversi wallet fino a trovare quello che meglio si adatta alle proprie esigenze.
 
-===== Types of Bitcoin wallets
-Bitcoin wallets ((("wallets", "types of", id="wallet-type")))can be categorized as follows, according to the platform:
+===== Tipi di wallet Bitcoin
+I wallet Bitcoin ((("wallets", "types of", id="wallet-type")))possono essere classificati come segue, in base alla piattaforma:
 
-Desktop wallet:: A ((("desktop wallets")))desktop wallet was the first type of Bitcoin wallet created as a reference implementation. Many users run desktop wallets for the features, autonomy, and control they offer. Running on general-use operating systems such as Windows and macOS has certain security disadvantages, however, as these platforms are often insecure and poorly configured.
+Wallet desktop:: I ((("desktop wallets")))wallet desktop sono stati i primi tipi di wallet Bitcoin creati come implementazione di riferimento. Molti utenti utilizzano wallet desktop per le funzionalità, l'autonomia e il controllo che offrono. Tuttavia, l'esecuzione su sistemi operativi di uso generale come Windows e macOS ha alcuni svantaggi di sicurezza, poiché queste piattaforme sono spesso insicure e mal configurate.
 
-Mobile wallet:: A ((("mobile wallets")))mobile wallet is the most common type of Bitcoin
-wallet. Running on smart-phone operating systems such as Apple iOS and
-Android, these wallets are often a great choice for new users. Many are
-designed for simplicity and ease-of-use, but there are also fully
-featured mobile wallets for power users.  To avoid downloading and
-storing large amounts of data, most mobile wallets retrieve information
-from remote servers, reducing your privacy by disclosing to third
-parties information about your Bitcoin addresses and balances.
+Wallet mobile:: I ((("mobile wallets")))wallet per mobile sono i wallet Bitcoin più comuni. Funzionando su sistemi operativi per smartphone come iOS di Apple e Android, questi wallet sono spesso una scelta eccellente per i nuovi utenti. Molti sono progettati per semplicità e facilità d'uso, ma esistono anche wallet mobili avanzati per utenti esperti. Per evitare di scaricare e memorizzare grandi quantità di dati, la maggior parte dei wallet recupera informazioni da server remoti, riducendo la privacy, poiché divulga a terzi informazioni sui tuoi indirizzi Bitcoin e sui saldi.
 
-Web wallet:: Web wallets ((("web wallets")))are accessed through a web browser and store
-the user's wallet on a server owned by a third party. This is similar to
-webmail in that it relies entirely on a third-party server. Some of
-these services operate using client-side code running in the user's
-browser, which keeps control of the Bitcoin keys in the hands of the
-user, although the user's dependence on the server still compromises
-their privacy. Most, however, take control of the Bitcoin keys from
-users in exchange for ease-of-use. It is inadvisable
-to store large amounts of bitcoin on third-party systems.
+Wallet web:: I wallet web Web ((("web wallets")))sono accessibili tramite browser web e memorizzano il wallet dell'utente su un server di proprietà di una terza parte. Questo è simile alla webmail, in quanto dipende interamente da un server di terze parti. Alcuni di questi servizi operano utilizzando codice lato client che gira nel browser dell'utente, mantenendo il controllo delle chiavi Bitcoin in mano all'utente, sebbene la dipendenza dal server comprometta ancora la privacy. La maggior parte di questi wallet, tuttavia, prende il controllo delle chiavi Bitcoin dagli utenti in cambio di una maggiore facilità d'uso. Non è consigliabile memorizzare grandi quantità di bitcoin su sistemi di terze parti.
 
-Hardware signing devices:: Hardware signing devices((("hardware signing devices"))) are devices that can
-store keys and sign transactions using special-purpose hardware and
-firmware. They usually
-connect to a desktop, mobile, or web wallet via USB cable,
-near-field-communication (NFC), or a camera with QR codes.  By handling
-all Bitcoin-related operations on the specialized hardware, these
-wallets are less vulnerable to many types of attacks.  Hardware signing
-devices are sometimes called "hardware wallets", but they need to be
-paired with a full-featured wallet to send and receive transactions, and
-the security and privacy offered by that paired wallet plays a critical
-role in how much security and privacy the user obtains when using the
-hardware signing device.
+Dispositivi di firma hardware:: I dispositivi di firma hardware((("hardware signing devices"))) sono dispositivi che possono memorizzare le chiavi e firmare transazioni utilizzando hardware e firmware specializzati. Di solito si collegano a un wallet desktop, mobile o web tramite cavo USB, comunicazione a corto raggio (NFC) o una fotocamera con codici QR. Gestendo tutte le operazioni relative a Bitcoin sull'hardware specializzato, questi wallet sono meno vulnerabili a molti tipi di attacchi.  I dispositivi di firma hardware sono spesso chiamati "hardware wallet",ma tale nome non è completamente giusto: per inviare e ricevere transazioni devono essere abbinati a un wallet completo,e la sicurezza e la privacy offerte dal wallet abbinato giocano un ruolo fondamentale nel determinare quanta sicurezza e privacy l'utente ottiene quando utilizza il dispositivo di firma hardware.
 
-===== Full node versus Lightweight
-Another way to categorize Bitcoin wallets is by their degree of autonomy and how they interact with the Bitcoin network:
+===== Client Full Node contro Client Leggero
+Un altro modo per classificare i wallet Bitcoin è in base al loro grado di autonomia e a come interagiscono con la rete Bitcoin:
 
-Full node:: A full node ((("full nodes")))is a program that validates the
-entire history of Bitcoin transactions (every transaction by every user, ever).  Optionally, full nodes can also store previously validated
-transactions and serve data to other Bitcoin programs, either on the
-same computer or over the internet.  A full node uses substantial
-computer resources--about the same as watching an hour-long streaming
-video for each day of Bitcoin transactions--but the full node offers
-complete autonomy to its users.
+Client full node:: Un client full node ((("full nodes"))) un programma che convalida l'intera cronologia delle transazioni Bitcoin (ogni transazione mai fatta da ogni singolo utente). Facoltativamente, i full node possono anche memorizzare le transazioni precedentemente convalidate e fornire dati ad altri programmi Bitcoin, sia sullo stesso computer che tramite internet. Un full node richiede risorse informatiche sostanziali—​più o meno come guardare un video in streaming di un'ora ogni giorno per tutte le transazioni Bitcoin—​ma offre completa autonomia agli utenti.
 
-Lightweight client:: 
-A lightweight client,((("lightweight clients")))((("simplified-payment-verification (SPV) clients")))((("SPV (simplified-payment-verification) clients"))) also known as a simplified-payment-verification (SPV) client,
-connects to a full node or other remote server for receiving and sending
-Bitcoin transaction information, but stores the user wallet locally,
-partially validates the transactions it receives, and independently
-creates outgoing transactions.
+Client leggero:: 
+Un client leggero,((("lightweight clients")))((("simplified-payment-verification (SPV) clients")))((("SPV (simplified-payment-verification) clients"))) noto anche come client di verifica semplificata dei pagamenti (SPV), si collega a un full node o a un altro server remoto per ricevere e inviare informazioni sulle transazioni Bitcoin, ma memorizza il wallet dell'utente localmente, convalida parzialmente le transazioni ricevute e crea in modo indipendente le transazioni in uscita.
 
-Third-party API client:: A third-party
-API client ((("third-party API clients")))is one that interacts with Bitcoin through a third-party
-system of APIs rather than by
-connecting to the Bitcoin network directly. The wallet may be stored by
-the user or by third-party servers, but the client trusts the remote
-server to provide it with accurate information and protect its ((("wallets", "types of", startref="wallet-type")))privacy.
+Client API di Terze Parti:: Un client API di terze parti ((("third-party API clients")))è un client che interagisce con Bitcoin tramite un sistema di API di terze parti, piuttosto che collegarsi direttamente alla rete Bitcoin. Il wallet può essere memorizzato dall'utente o su server di terze parti, ma il client si affida al server remoto per fornirgli informazioni accurate e proteggere la((("wallets", "types of", startref="wallet-type"))) privacy dell'utente.
 
 [TIP]
 ====
@@ -176,7 +111,7 @@ peer, but the security of a client ultimately relies on the integrity of
 its peers.
 ====
 
-===== Who controls the keys
+===== Chi controlla le chiavi
 
 A very((("wallets", "key control")))((("keys, control of")))((("bitcoins", "key control"))) important additional consideration is _who controls the keys_. As
 we will see in subsequent chapters, access to bitcoins is
