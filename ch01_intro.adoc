@@ -112,27 +112,11 @@ its peers.
 ====
 
 ===== Chi controlla le chiavi
+Un aspetto ((("wallets", "key control")))((("keys, control of")))((("bitcoins", "key control")))  molto importante da considerare è _chi controlla le chiavi_. Come vedremo nei capitoli successivi, l'accesso ai bitcoin è gestito tramite "chiavi private," che possono essere paragonate a PIN molto lunghi. Se sei l’unico a controllare queste chiavi private, hai il pieno controllo sui tuoi bitcoin. Al contrario, se non hai il controllo delle chiavi private, i tuoi bitcoin sono gestiti da una terza parte che detiene i tuoi fondi per conto tuo. I software per la gestione delle chiavi si suddividono in due categorie principali: i _wallet_, in cui sei tu a controllare le chiavi private, e i conti presso custodi, dove una terza parte controlla le chiavi. Per sottolineare questo concetto, io (Andreas) ho coniato la frase: _Chiavi tue, monete tue. Chiavi non tue, monete non tue_.
 
-A very((("wallets", "key control")))((("keys, control of")))((("bitcoins", "key control"))) important additional consideration is _who controls the keys_. As
-we will see in subsequent chapters, access to bitcoins is
-controlled by "private keys," which are like very long PINs. If
-you are the only one to have control over these private
-keys, you are in control of your bitcoins. Conversely, if you do not have
-control, then your bitcoins are managed by a third-party who
-ultimately controls your funds on your behalf. Key management software falls into two
-important categories based on control: _wallets_, where you
-control the keys, and the funds and accounts with custodians where some
-third-party controls the keys. To emphasize this point, I (Andreas)
-coined the phrase: _Your keys, your coins. Not your keys, not your coins_.
+Data questa categorizzazione, a loro volta i wallet Bitcoin possono essere raccolti in una manciata di gruppi principali. I tre più comuni sono: i wallet desktop full node (dove tu controlli le chiavi private), i wallet "leggeri" per smartphone (dove tu controlli le chiavi private) e i conti web gestiti da terze parti (dove tu non controlli le chiavi private). I confini tra queste categorie possono a volte essere sfumati, poiché il software può funzionare su più piattaforme e interagire con la rete in modi diversi.
 
-Combining these categorizations, many Bitcoin wallets fall into a few
-groups, with the three most common being desktop full node
-(you control the keys), mobile lightweight wallet (you control the keys), and web-based
-accounts with third parties (you don't control the keys). The lines between different categories
-are sometimes blurry, as software runs on multiple platforms and can
-interact with the network in different ways.
-
-==== Quick Start
+==== Avvio rapido
 
 Alice is not a
 technical user and only recently heard about Bitcoin from her friend
