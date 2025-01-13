@@ -117,15 +117,7 @@ Un aspetto ((("wallets", "key control")))((("keys, control of")))((("bitcoins", 
 Data questa categorizzazione, a loro volta i wallet Bitcoin possono essere raccolti in una manciata di gruppi principali. I tre più comuni sono: i wallet desktop full node (dove tu controlli le chiavi private), i wallet "leggeri" per smartphone (dove tu controlli le chiavi private) e i conti web gestiti da terze parti (dove tu non controlli le chiavi private). I confini tra queste categorie possono a volte essere sfumati, poiché il software può funzionare su più piattaforme e interagire con la rete in modi diversi.
 
 ==== Avvio rapido
-
-Alice is not a
-technical user and only recently heard about Bitcoin from her friend
-Joe. While at a party, Joe is enthusiastically explaining
-Bitcoin to everyone around him and is offering a demonstration. Intrigued,
-Alice asks how she can get started with Bitcoin. Joe says that a mobile
-wallet is best for new users and he recommends a few of his favorite
-wallets. Alice downloads one of Joe's recommendations
-and installs it on her phone.
+Alice non è un’esperta di tecnologia e ha sentito parlare di Bitcoin solo di recente dal suo amico Joe. Durante una festa, Joe ha spiegato Bitcoin con entusiasmo a tutti i presenti, offrendo una dimostrazione pratica del suo utilizzo. Alice, incuriosita, gli ha chiesto come iniziare a usare Bitcoin. Joe le ha consigliato un wallet per smartphone, ideale per i principianti, suggerendole alcuni dei suoi preferiti. Alice ha scaricato uno dei wallet consigliati e lo ha installato sul suo telefono.
 
 When Alice runs her wallet application for the first time, she chooses
 the option to create a new Bitcoin wallet. Because the wallet she has
