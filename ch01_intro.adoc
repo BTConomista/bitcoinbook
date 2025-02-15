@@ -160,6 +160,10 @@ examples.
 
 [TIP]
 ====
+Un codice di recupero è talvolta chiamato mnemonico o frase mnemonica ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes"))), un nome che suggerisce che la frase dovrebbe essere memorizzata. Tuttavia, scriverla su carta richiede meno sforzo ed è generalmente più affidabile della memoria della maggior parte delle persone. Un'altra denominazione alternativa è frase seed, perché fornisce l'input (seed, ovvero seme) alla funzione che genera tutte le chiavi del wallet.
+
+
+
 A recovery code is ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes")))sometimes called a "mnemonic" or "mnemonic phrase,"
 which implies you should memorize the phrase, but writing the phrase
 down on paper takes less work and tends to be more reliable than most
@@ -168,30 +172,32 @@ it provides the input ("seed") to the function that generates all of
 a wallet's keys.
 ====
 
-If something happens to Alice's wallet, she can download a new copy of
-her wallet software and enter this recovery code to rebuild the wallet
-database of all the onchain transactions she's ever sent or received.
-However, recovering from the recovery code will not by itself restore any additional
-data Alice entered into her wallet, such as the labels she associated
-with particular addresses or transactions.  Although losing access to
-that metadata isn't as important as losing access to money, it can
-still be important in its own way.  Imagine you need to review an old
-bank or credit card statement and the name of every entity you paid (or
-who paid you) has been blanked out.  To prevent losing metadata, many
-wallets provide an additional backup feature beyond recovery codes.
+Se qualcosa dovesse accadere al wallet di Alice, lei potrebbe scaricare 
+nuovamente il software del wallet e inserire il codice di recupero per 
+ricostruire il database del wallet contenente tutte le transazioni onchain 
+che ha inviato o ricevuto. Tuttavia, il recupero tramite codice di recupero 
+da solo non ripristinerà eventuali dati aggiuntivi che Alice aveva inserito 
+nel suo wallet, come le etichette associate a particolari indirizzi o transazioni. 
+Sebbene perdere questi metadati non sia grave quanto perdere l’accesso ai fondi, 
+può comunque avere una certa importanza. Immagina di dover consultare un vecchio 
+estratto conto bancario o della carta di credito e di trovare i nomi di tutti i 
+soggetti a cui hai effettuato pagamenti (o da cui hai ricevuto pagamenti) cancellati. 
+Per evitare la perdita dei metadati, molti wallet offrono una funzionalità di backup 
+aggiuntiva oltre ai codici di recupero.
 
-For some wallets, that additional backup feature is even more important
-today than it used to be.  Many Bitcoin payments ((("offchain technology")))are now made using
-_offchain_ technology, where not every payment is stored in the public blockchain.  This reduces user's costs and improves privacy, among other
-benefits, but it means that a mechanism like recovery codes that depends on
-onchain data can't guarantee recovery of all of a user's bitcoins.  For
-applications with offchain support, it's important to make frequent
-backups of the wallet database.
+Per alcuni wallet, questa funzione di backup aggiuntiva è oggi ancora più importante 
+rispetto al passato. Molti pagamenti in Bitcoin ((("offchain technology")))vengono 
+ora effettuati _offchain_, cioè non registrando tutte le transazioni nella blockchain 
+pubblica. Questo riduce i costi per gli utenti e migliora la privacy, tra gli altri
+vantaggi, ma significa anche che un meccanismo di recupero basato esclusivamente sui 
+dati onchain non può garantire il ripristino di tutti i bitcoin dell’utente. Per le 
+applicazioni che supportano transazioni offchain, è fondamentale eseguire frequenti 
+backup del database del wallet.
 
-Of note, when receiving funds to a new mobile wallet for the first time,
-many wallets will often re-verify that you have securely backed-up your
-recovery code. This can range from a simple prompt to requiring the
-user to manually re-enter the code.
+Va sottolineato che, quando si ricevono fondi su un nuovo wallet mobile per la prima 
+volta, molti wallet richiedono spesso di verificare nuovamente che il codice di 
+recupero sia stato salvato in modo sicuro. Questo può variare da un semplice avviso 
+fino alla richiesta di reinserire manualmente il codice di recupero.
 
 [WARNING]
 ====
@@ -249,10 +255,9 @@ bitcoin-accepting charity.
 
 [[getting_first_bitcoin]]
 ==== Getting Your First Bitcoin
+Il primo compito ((("bitcoins", "acquiring", id="bitcoin-acquire")))((("acquiring bitcoins", id="acquire-bitcoin")))per i nuovi utenti è acquisire alcuni bitcoin .
 
-The((("bitcoins", "acquiring", id="bitcoin-acquire")))((("acquiring bitcoins", id="acquire-bitcoin"))) first task for new users is to acquire some bitcoin.
-
-Bitcoin transactions are irreversible. Most electronic payment networks such as credit cards, debit cards, PayPal, and bank account transfers are reversible. For someone selling bitcoin, this difference introduces a very high risk that the buyer will reverse the electronic payment after they have received bitcoin, in effect defrauding the seller. To mitigate this risk, companies accepting traditional electronic payments in return for bitcoin usually require buyers to undergo identity verification and credit-worthiness checks, which may take several days or weeks. As a new user, this means you cannot buy bitcoin instantly with a credit card. With a bit of patience and creative thinking, however, you won't need to.
+Le transazioni sulla rete Bitcoin sono irreversibili. La maggior parte delle reti di pagamento elettronico, come carte di credito, carte di debito, PayPal e bonifici bancari, sono invece reversibili. Per chi vende bitcoin, questa differenza introduce un rischio molto elevato: l'acquirente potrebbe annullare il pagamento elettronico dopo aver ricevuto i bitcoin, truffando di fatto il venditore. Per ridurre questo rischio, le aziende che accettano pagamenti elettronici tradizionali in cambio di bitcoin di solito richiedono agli acquirenti di sottoporsi a verifiche di identità e controlli di solvibilità, che possono richiedere diversi giorni o settimane.
 
 
 Here are some methods for acquiring bitcoin as a new user:
