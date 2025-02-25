@@ -160,16 +160,8 @@ examples.
 
 [TIP]
 ====
-Un codice di recupero è talvolta chiamato mnemonico o frase mnemonica ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes"))), un nome che suggerisce che la frase dovrebbe essere memorizzata. Tuttavia, scriverla su carta richiede meno sforzo ed è generalmente più affidabile della memoria della maggior parte delle persone. Un'altra denominazione alternativa è frase seed, perché fornisce l'input (seed, ovvero seme) alla funzione che genera tutte le chiavi del wallet.
+Un codice di recupero è ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes")))talvolta chiamato mnemonico o frase mnemonica ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes"))), un nome che suggerisce che la frase dovrebbe essere memorizzata. Tuttavia, scriverla su carta richiede meno sforzo ed è generalmente più affidabile della memoria della maggior parte delle persone, quindi è preferibile. Un'altra denominazione alternativa è frase seed, perché fornisce l'input ("seed") (seed, ovvero seme) alla funzione che genera tutte le chiavi del wallet.
 
-
-
-A recovery code is ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes")))sometimes called a "mnemonic" or "mnemonic phrase,"
-which implies you should memorize the phrase, but writing the phrase
-down on paper takes less work and tends to be more reliable than most
-people's memories.  Another alternative name is "seed phrase" because
-it provides the input ("seed") to the function that generates all of
-a wallet's keys.
 ====
 
 Se qualcosa dovesse accadere al wallet di Alice, lei potrebbe scaricare 
@@ -214,9 +206,10 @@ asks for your recovery code any other time, consult with an expert to
 ensure you aren't ((("wallets", "recovery codes", startref="wallet-recovery")))((("recovery codes", startref="recovery-code")))being phished.
 ====
 
-==== Bitcoin Addresses
+==== Indirizzi Bitcoin
 
-Alice is ((("addresses", "explained")))now ready to start using her new Bitcoin wallet.  Her wallet application randomly generated a private key (described in more detail in <<private_keys>>) that will be used to derive Bitcoin addresses that direct to her wallet. At this point, her Bitcoin addresses are not known to the Bitcoin network or "registered" with any part of the Bitcoin system. Her Bitcoin addresses are simply numbers that correspond to her private key that she can use to control access to the funds. The addresses are generated independently by her wallet without reference or registration with any service.
+Alice è ((("addresses", "explained")))ora pronta a iniziare a usare il suo nuovo wallet Bitcoin. 
+L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<private_keys>>) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
 
 [TIP]
 ====
@@ -241,10 +234,10 @@ Alice((("bitcoins", "receiving")))((("receiving bitcoins"))) uses the _Receive_ 
 
 [role="width-50"]
 [[wallet_receive]]
-.Alice uses the Receive screen on her mobile Bitcoin wallet and displays her address in a QR code format.
+Figura 1. Alice usa la schermata “Ricevi” sul suo wallet Bitcoin e mostra il suo indirizzo in formato codice QR.
 image::images/mbc3_0101.png["Wallet receive screen with QR code displayed.  Image derived from Bitcoin Design Guide CC-BY"]
 
-The QR code is the square with a pattern of black and white dots, serving as a form of barcode that contains the same information in a format that can be scanned by Joe's smartphone camera.
+Il codice QR è il quadrato con un motivo di punti bianchi e neri che funge da codice a barre, contenendo le stesse informazioni in un formato che può essere scansionato dalla fotocamera dello smartphone di Joe.
 
 [WARNING]
 ====
@@ -254,18 +247,22 @@ bitcoin-accepting charity.
 ====
 
 [[getting_first_bitcoin]]
-==== Getting Your First Bitcoin
+==== Ottenere i tuoi primi Bitcoin
 Il primo compito ((("bitcoins", "acquiring", id="bitcoin-acquire")))((("acquiring bitcoins", id="acquire-bitcoin")))per i nuovi utenti è acquisire alcuni bitcoin .
 
 Le transazioni sulla rete Bitcoin sono irreversibili. La maggior parte delle reti di pagamento elettronico, come carte di credito, carte di debito, PayPal e bonifici bancari, sono invece reversibili. Per chi vende bitcoin, questa differenza introduce un rischio molto elevato: l'acquirente potrebbe annullare il pagamento elettronico dopo aver ricevuto i bitcoin, truffando di fatto il venditore. Per ridurre questo rischio, le aziende che accettano pagamenti elettronici tradizionali in cambio di bitcoin di solito richiedono agli acquirenti di sottoporsi a verifiche di identità e controlli di solvibilità, che possono richiedere diversi giorni o settimane.
 
 
-Here are some methods for acquiring bitcoin as a new user:
+Ecco alcuni metodi per acquistare bitcoin se sei un nuovo utente:
 
-* Find a friend who has bitcoins and buy some from him or her directly. Many Bitcoin users start this way. This method is the least complicated. One way to meet people with bitcoins is to attend a local Bitcoin meetup listed at pass:[<a href="https://meetup.com" class="orm:hideurl">Meetup.com</a>].
-* Earn bitcoin by selling a product or service for bitcoin. If you are a programmer, sell your programming skills. If you're a hairdresser, cut hair for bitcoins.
-* Use a Bitcoin ATM in your city.  A Bitcoin ATM is a machine that accepts cash and sends bitcoins to your smartphone Bitcoin wallet.
-* Use((("bitcoins", "currency exchanges")))((("currency exchanges"))) a Bitcoin currency exchange linked to your bank account. Many countries now have currency exchanges that offer a market for buyers and sellers to swap bitcoins with local currency. Exchange-rate listing services, such as https://bitcoinaverage.com[BitcoinAverage], often show a list of Bitcoin exchanges for each currency.
+*Trova un amico che possiede bitcoin e acquistane direttamente da lui o da lei. Molti utenti Bitcoin iniziano in questo modo. Questo metodo è il meno complicato. Un modo per incontrare persone con bitcoin è partecipare a un meetup Bitcoin locale elencato su pass:[<a href="https://meetup.com" class="orm:hideurl">Meetup.com</a>].
+
+*Guadagna bitcoin vendendo un prodotto o un servizio in cambio di bitcoin. Se sei un programmatore, vendi le tue competenze di programmazione. Se sei un parrucchiere, taglia i capelli in cambio di bitcoin.
+
+*Usa un ATM Bitcoin nella tua città. Un ATM Bitcoin è una macchina che accetta contanti e invia bitcoin al tuo wallet Bitcoin.
+
+*Usa ((("bitcoins", "currency exchanges")))((("currency exchanges")))un exchange di criptovalute collegato al tuo conto bancario. Molti Paesi hanno ormai exchange di criptovalute che offrono un mercato per acquirenti e venditori, consentendo loro di scambiare bitcoin con valuta locale. I servizi di elencazione dei tassi di cambio, come BitcoinAverage, spesso mostrano una lista di exchange Bitcoin per ogni valuta.
+
 
 [TIP]
 ====
@@ -285,10 +282,13 @@ many users choose to maintain dedicated exchange accounts independent from
 their wallets.
 ====
 
+Alice si è avvicinata a Bitcoin grazie ad un amico, quindi ha un modo semplice per acquistare i suoi primi bitcoin. 
+In seguito, vedremo come compra i bitcoin dal suo amico Joe e come Joe le manda i bitcoin sul suo wallet((("bitcoins", "acquiring", startref="bitcoin-acquire")))((("acquiring bitcoins", startref="acquire-bitcoin")).
 Alice was introduced to Bitcoin by a friend, so she has an easy way to acquire her first bitcoins. Next, we will look at how she buys bitcoins from her friend Joe and how Joe sends the bitcoins to her ((("bitcoins", "acquiring", startref="bitcoin-acquire")))((("acquiring bitcoins", startref="acquire-bitcoin")))wallet.
 
 [[bitcoin_price]]
-==== Finding the Current Price of Bitcoin
+
+==== Trovare il prezzo attuale di Bitcoin
 
 Before ((("bitcoins", "exchange rate", id="bitcoin-exchange-rate")))((("exchange rate", id="exchange-rate")))((("current price of bitcoins", id="current-price")))Alice can buy bitcoin from Joe, they have to agree on the _exchange rate_ between bitcoin and US dollars. This brings up a common question for those new to Bitcoin: "Who sets the price
 of bitcoins?" The short answer is that the price is set by markets.
