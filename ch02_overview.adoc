@@ -1,51 +1,27 @@
 [[ch02_bitcoin_overview]]
-== How Bitcoin Works
+== Come funziona Bitcoin
 
-The Bitcoin system, unlike traditional banking and
-payment systems, does not require trust in third parties. Instead of a central
-trusted authority, in Bitcoin, each user can use software running on
-their own computer to verify the correct operation of every
-aspect of the Bitcoin system.
-In this chapter, we will examine Bitcoin from a high level by tracking a
-single transaction through the Bitcoin system and watch as it
-is recorded on the blockchain, the distributed journal of all
-transactions. Subsequent chapters will delve into the technology behind
-transactions, the network, and ((("Bitcoin", "operational overview", id="bitcoin-operational-overview-ch2")))((("blockchain explorers", id="blockchain-explorers")))mining.
+Bitcoin, a differenza dei tradizionali sistemi bancari e di pagamento, non richiede di riporre fiducia in terze parti. Invece di dover fare affidamento su un’autorità centrale affidabile, con Bitcoin ogni utente può utilizzare un software in esecuzione sul proprio computer per verificare il corretto funzionamento di ogni aspetto del sistema. In questo capitolo esamineremo Bitcoin da un punto di vista generale, seguendo una transazione nel sistema e osservando come viene registrata sulla blockchain, il registro distribuito di tutte le transazioni. Nei capitoli successivi approfondiremo la tecnologia alla base delle transazioni, della rete e((("Bitcoin", "operational overview", id="bitcoin-operational-overview-ch2")))((("blockchain explorers", id="blockchain-explorers"))) del mining.
 
-=== Bitcoin Overview
+
+=== Panoramica di Bitcoin
 
 ++++
 <p class="fix_tracking">
-The Bitcoin system consists of users with wallets containing keys,
-transactions that are propagated across the network, and miners who
-produce (through competitive computation) the consensus blockchain,
-which is the authoritative journal of all transactions.
+Il sistema Bitcoin è composto da utenti dotati di wallet contenenti chiavi, da transazioni che vengono distribuite attraverso la rete e da miner che producono (attraverso un calcolo competitivo) la blockchain di consenso, che rappresenta il registro ufficiale di tutte le transazioni.
 </p>
 
 <p class="fix_tracking2">
-Each example in this chapter is based
-on an actual transaction made on the Bitcoin network, simulating the
-interactions between several users by sending
-funds from one wallet to another. While tracking a transaction through
-the Bitcoin network to the blockchain, we will use a <em>blockchain
-explorer</em> site to visualize each step. A blockchain explorer is a web
-application that operates as a Bitcoin search engine, in that it allows
-you to search for addresses, transactions, and blocks and see the
-relationships and flows between them.
+Ogni esempio in questo capitolo si basa su una transazione reale effettuata sulla rete Bitcoin, simulando le interazioni tra diversi utenti inviando fondi da un wallet all'altro. Durante il tracciamento di una transazione nella rete Bitcoin sulla blockchain, utilizzeremo un blockchain explorer per visualizzare ogni fase. Un blockchain explorer è un'applicazione web che funziona come un motore di ricerca per Bitcoin, consentendo di cercare indirizzi, transazioni e blocchi, e di osservare le relazioni e i flussi tra di essi.
 </p>
 ++++
 
-Popular blockchain explorers include the following:
-
+Tra i blockchain explorer più popolari ci sono:
 * https://blockstream.info[Blockstream Explorer]
 * https://mempool.space[Mempool.Space]
 * https://live.blockcypher.com[BlockCypher Explorer]
 
-Each of these has a search function that can take a Bitcoin address,
-transaction hash, block number, or block hash and retrieve corresponding
-information from the Bitcoin network. With each transaction or block
-example, we will provide a URL so you can look it up yourself and study
-it in detail.
+Ognuno di questi strumenti dispone di una funzione di ricerca che consente di inserire un indirizzo Bitcoin, un hash di transazione, un numero di blocco o un hash di blocco per recuperare le informazioni corrispondenti dalla rete Bitcoin. Per ogni esempio di transazione o blocco, forniremo un URL che ti permetterà di visualizzarlo direttamente e studiarlo dettagliatamente.
 
 [[block-explorer-privacy]]
 .Block Explorer Privacy Warning
@@ -62,7 +38,7 @@ you've received, spent, and ((("Bitcoin", "operational overview", startref="bitc
 ====
 
 [[spending_bitcoin]]
-=== Buying from an Online Store
+=== Comprare da un negozio online
 
 Alice, ((("transactions", "spending bitcoins", id="transaction-spend")))((("bitcoins", "spending", id="bitcoin-spend")))((("spending bitcoins", id="spend-bitcoin")))introduced in the previous chapter, is a new user who has just
 acquired her first bitcoins. In <<getting_first_bitcoin>>, Alice met with
