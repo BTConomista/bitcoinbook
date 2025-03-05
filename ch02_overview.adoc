@@ -56,8 +56,7 @@ TODO: Replace QR code with test-BTC address
 image::images/mbc3_0201.png["payment-request"]
 
 A differenza di un codice QR che contiene semplicemente un indirizzo Bitcoin di destinazione, questo ordine di pagamento è un URI codificato in QR che include un indirizzo di destinazione, un importo di pagamento e una descrizione.
-
-Questo permette a un'applicazione wallet Bitcoin di precompilare le informazioni necessarie per inviare il pagamento, mostrando contemporaneamente una descrizione leggibile dall'utente. Puoi scansionare il codice QR con un'applicazione wallet Bitcoin per vedere ciò che vedrebbe Alice:
+Questo permette all'applicazione del wallet Bitcoin di precompilare le informazioni necessarie per inviare il pagamento, mostrando contemporaneamente una descrizione leggibile dall'utente. Puoi scansionare il codice QR con un'applicazione wallet Bitcoin per vedere ciò che vedrebbe Alice:
 
 
 
@@ -82,11 +81,8 @@ Try to scan this with your wallet to see
 the address and amount but DO NOT SEND MONEY.
 ====
 
-Alice uses her smartphone to scan the barcode on display. Her smartphone
-shows a payment for the correct amount to +Bob's Store+ and she selects Send to
-authorize the payment. Within a few seconds (about the same amount of
-time as a credit card authorization), Bob sees the transaction on the
-register.
+Alice usa il suo smartphone per scansionare il codice a barre visualizzato. Sullo schermo del suo smartphone compare un ordine di pagamento per l'importo corretto destinato a +Bob's Store+ e lei seleziona Invia per autorizzarlo.
+Nel giro di pochi secondi (più o meno lo stesso tempo necessario per l'autorizzazione di una carta di credito), Bob vede la transazione registrata nel sistema.
 
 [NOTE]
 ====
@@ -101,22 +97,14 @@ rules also apply to other bitcoin bookkeeping units, such as
 millibitcoins and satoshis.
 ====
 
-You can use a block explorer to examine blockchain data, such as the payment made to Bob in Alice's((("transactions", "spending bitcoins", startref="transaction-spend")))((("bitcoins", "spending", startref="bitcoin-spend")))((("spending bitcoins", startref="spend-bitcoin"))) https://oreil.ly/hAeyh[transaction].
+Si può usare un blockchain explorer per esaminare i dati presenti sulla blockcahin, come la((("transactions", "spending bitcoins", startref="transaction-spend")))((("bitcoins", "spending", startref="bitcoin-spend")))((("spending bitcoins", startref="spend-bitcoin"))) https://oreil.ly/hAeyh[transazione] effettuata da Alice.
 
-In the following sections, we will examine this transaction in more
-detail. We'll see how Alice's wallet constructed it, how it was
-propagated across the network, how it was verified, and finally, how Bob
-can spend that amount in subsequent transactions.
+Nei capitoli seguenti, esamineremo questa transazione più nel dettaglio. Vedremo come il wallet di Alice l'ha costruita, come è stata distribuita attraverso la rete, come è stata verificata e, infine, come Bob può spendere quell'importo in transazioni successive.
 
-=== Bitcoin Transactions
+=== Transazioni Bitcoin
+Una transazione(((("transactions", "defined")))((("bitcoins", "transactions", see="transactions")))) comunica alla rete che il proprietario di determinati bitcoin ha autorizzato il trasferimento di quel valore a un altro proprietario. Il nuovo proprietario può ora spendere i bitcoin creando un'altra transazione che autorizza il trasferimento a un altro destinatario, e così via, in una catena di proprietà.
 
-In ((("transactions", "defined")))((("bitcoins", "transactions", see="transactions")))simple terms, a transaction tells the
-network that the owner of certain bitcoins has authorized the transfer
-of that value to another owner. The new owner can now spend the bitcoin
-by creating another transaction that authorizes the transfer to another
-owner, and so on, in a chain of ownership.
-
-==== Transaction Inputs and Outputs
+==== Input e Output di una Transazione
 
 Transactions((("transactions", "inputs", id="transaction-input-ch2")))((("transactions", "outputs", id="transaction-output-ch2")))((("inputs", id="input")))((("outputs", id="output"))) are like lines in a double-entry
 bookkeeping ledger.  Each transaction contains one or more _inputs_,
