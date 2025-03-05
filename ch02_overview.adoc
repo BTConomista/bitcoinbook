@@ -39,46 +39,30 @@ you've received, spent, and ((("Bitcoin", "operational overview", startref="bitc
 
 [[spending_bitcoin]]
 === Comprare da un negozio online
+Alice, (((("transactions", "spending bitcoins", id="transaction-spend")))) (((("bitcoins", "spending", id="bitcoin-spend")))) (((("spending bitcoins", id="spend-bitcoin")))), introdotta nel capitolo precedente, è una nuova utente che ha appena acquistato i suoi primi bitcoin. In <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe per scambiare del denaro contante con bitcoin. Da allora, ha acquistato altri bitcoin. Ora è pronta a effettuare la sua prima transazione di spesa, acquistando l’accesso a un episodio premium di un podcast dal negozio online di Bob.
 
-Alice, ((("transactions", "spending bitcoins", id="transaction-spend")))((("bitcoins", "spending", id="bitcoin-spend")))((("spending bitcoins", id="spend-bitcoin")))introduced in the previous chapter, is a new user who has just
-acquired her first bitcoins. In <<getting_first_bitcoin>>, Alice met with
-her friend Joe to exchange some cash for bitcoins. Since then, Alice has
-bought additional bitcoins.  Now Alice will make
-her first spending transaction, buying access to a premium podcast episode from Bob's online store.
+Il negozio online di Bob ha recentemente iniziato ad accettare pagamenti in bitcoin, aggiungendo questa opzione al proprio sito web. I prezzi nel negozio di Bob sono indicati nella valuta locale (dollari statunitensi), ma al momento del pagamento i clienti possono scegliere se pagare in dollari o in bitcoin.
 
-Bob's web store recently started accepting bitcoin payments by adding a
-Bitcoin option to its website. The prices at Bob's store are listed in
-the local currency (US dollars), but at checkout, customers have the
-option of paying in either dollars or bitcoin.
+Alice trova l'episodio del podcast che vuole acquistare e procede alla pagina di pagamento. Qui le viene offerta la possibilità di pagare con bitcoin, oltre alle opzioni tradizionali. Il carrello mostra il prezzo sia in dollari sia in bitcoin (BTC), calcolato in base al tasso di cambio corrente di Bitcoin.
 
-Alice finds the podcast episode she wants to buy and proceeds to the checkout page. At checkout,
-Alice is offered the option to pay with bitcoin in addition to the
-usual options. The checkout cart displays the price in US dollars and
-also in bitcoin (BTC), at Bitcoin's prevailing exchange rate.
-
-Bob's
-ecommerce system will automatically create a QR code((("invoices")))((("QR codes"))) containing an
-_invoice_ (<<invoice-QR>>).
+Il sistema e-commerce di Bob genera automaticamente un codice QR (((("invoices")))) (((("QR codes")))) contenente un _ordine di pagamento_ (<<invoice-QR>>).
 
 ////
 TODO: Replace QR code with test-BTC address
 ////
 
 [[invoice-QR]]
-.Invoice QR code.
+.Codice QR di un ordine di pagamento.
 image::images/mbc3_0201.png["payment-request"]
 
-Unlike a QR code that simply contains a destination Bitcoin address, this
-invoice is a QR-encoded URI that contains a destination address,
-a payment amount, and a description.
-This allows a Bitcoin wallet application to prefill the
-information used to send the payment while showing a human-readable
-description to the user. You can scan the QR code with a bitcoin wallet
-application to see what Alice would see:
+A differenza di un codice QR che contiene semplicemente un indirizzo Bitcoin di destinazione, questo ordine di pagamento è un URI codificato in QR che include un indirizzo di destinazione, un importo di pagamento e una descrizione.
+
+Questo permette a un'applicazione wallet Bitcoin di precompilare le informazioni necessarie per inviare il pagamento, mostrando contemporaneamente una descrizione leggibile dall'utente. Puoi scansionare il codice QR con un'applicazione wallet Bitcoin per vedere ciò che vedrebbe Alice:
+
 
 
 [[invoice-URI]]
-.The invoice QR code encodes the following URI, defined in BIP21:
+.Il codice QR dell'ordine di pagamento codifica il seguente URI, definito in BIP21:
 ----
 bitcoin:bc1qk2g6u8p4qm2s2lh3gts5cpt2mrv5skcuu7u3e4?amount=0.01577764&
 label=Bob%27s%20Store&
