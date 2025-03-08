@@ -39,7 +39,7 @@ you've received, spent, and ((("Bitcoin", "operational overview", startref="bitc
 
 [[spending_bitcoin]]
 === Comprare da un negozio online
-Alice, (((("transactions", "spending bitcoins", id="transaction-spend")))) (((("bitcoins", "spending", id="bitcoin-spend")))) (((("spending bitcoins", id="spend-bitcoin"))))introdotta nel capitolo precedente, è una nuova utente che ha appena acquistato i suoi primi bitcoin. In <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe per scambiare del denaro contante con bitcoin. Da allora, ha acquistato altri bitcoin. Ora è pronta a effettuare la sua prima transazione di spesa, acquistando l’accesso a un episodio premium di un podcast dal negozio online di Bob.
+Alice, (((("transactions", "spending bitcoins", id="transaction-spend")))) (((("bitcoins", "spending", id="bitcoin-spend")))) (((("spending bitcoins", id="spend-bitcoin"))))introdotta nel capitolo precedente, è una nuova utente che ha appena acquistato i suoi primi bitcoin. In <<Comprare_i_tuoi_primi_Bitcoin>>, Alice ha incontrato il suo amico Joe per scambiare del denaro contante con bitcoin. Da allora, ha acquistato altri bitcoin. Ora è pronta a effettuare la sua prima transazione di spesa, acquistando l’accesso a un episodio premium di un podcast dal negozio online di Bob.
 
 Il negozio online di Bob ha recentemente iniziato ad accettare pagamenti in bitcoin, aggiungendo questa opzione al proprio sito web. I prezzi nell'e-commerce di Bob sono indicati nella valuta locale (dollari statunitensi), ma al momento del pagamento i clienti possono scegliere se pagare in dollari o in bitcoin.
 
