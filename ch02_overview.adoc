@@ -119,23 +119,12 @@ image::images/mbc3_0202.png["Transaction Double-Entry"]
 
 Il pagamento di Alice al negozio di Bob utilizza come input l'output di una precedente transazione((("transaction chains", id="transaction-chains"))). Nel capitolo precedente, Alice aveva ricevuto dei bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<transaction-chain>>.
 
-Tx1 sent 0.001 bitcoins (100,000 satoshis) to an output locked by
-Alice's key. Her new transaction to Bob's Store (Tx2) references the
-previous output as an input.  In the illustration, we show that
-reference using an arrow and by labeling the input as "Tx1:0".  In an
-actual transaction, the reference is the 32-byte transaction identifier
-(txid) for the transaction where Alice received the money from Joe.  The
-":0" indicates the position of the output where Alice received the
-money; in this case, the first position (position 0).
+La transazione Tx1 ha inviato 0,001 bitcoin (100.000 satoshi) verso un output bloccato dalla chiave di Alice. La nuova transazione che Alice invia al negozio di Bob (Tx2) usa proprio quell'output precedente come input. Nell'immagine, questa relazione è mostrata usando una freccia e indicando l'input come "Tx1:0". In una transazione reale, questo riferimento sarebbe l'identificatore della transazione (txid), un valore di 32 byte che identifica la transazione con cui Alice ha ricevuto il denaro da Joe. L'indicazione ":0" indica la posizione precisa dell'output in cui Alice ha ricevuto i bitcoin: in questo caso, si tratta del primo output, che occupa la posizione 0.
 
-As shown, actual Bitcoin transactions don't
-explicitly include the value of their input.  To determine the value of
-an input, software needs to use the input's reference to find the
-previous transaction output being spent.
+Come mostrato, nelle transazioni reali di Bitcoin non viene incluso esplicitamente il valore dell'input. Per conoscere questo valore, il software deve utilizzare il riferimento presente nell'input per risalire all'output della transazione precedente che si sta spendendo.
 
-Alice's Tx2 contains two new outputs, one paying 75,000 satoshis for the
-podcast and another paying 20,000 satoshis back to Alice to receive
-change.
+La Tx2 di Alice contiene due nuovi output: uno paga 75.000 satoshi per il podcast e l’altro restituisce 20.000 satoshi ad Alice come resto.
+
 
 ////
 @startditaa
@@ -155,7 +144,7 @@ change.
 ////
 
 [[transaction-chain]]
-.A chain of transactions, where the output of one transaction is the input of the next transaction.
+.Una catena di transazioni, in cui l’output di una transazione diventa l’input di quella successiva.
 image::images/mbc3_0203.png["Transaction chain"]
 
 [TIP]
@@ -172,29 +161,14 @@ that's what the protocol itself ((("satoshis")))uses.
 
 ==== Making Change
 
-In addition((("transactions", "change output", id="transaction-change-output")))((("change output", id="change-output")))((("outputs", "change output", id="output-change"))) to one or more outputs that pay the receiver of
-bitcoins, many transactions will also include an output that pays the
-spender of the bitcoins, called a _change_ output.
-This is because transaction inputs,
-like currency notes, cannot be partly spent. If you purchase a $5 US item in a store but use a $20 bill to pay for the item, you
-expect to receive $15 in change. The same concept applies to
-Bitcoin transaction inputs. If you purchased an item that costs 5
-bitcoins but only had an input worth 20 bitcoins to use, you would send one
-output of 5 bitcoins to the store owner and one output of 15 bitcoins back
-to yourself as change (not counting your transaction fee).
+Oltre a uno o più output((("transactions", "change output", id="transaction-change-output")))((("change output", id="change-output")))((("outputs", "change output", id="output-change"))) che pagano il destinatario dei bitcoin, molte transazioni includono anche un output che restituisce bitcoin a chi effettua il pagamento: questo si chiama output di _resto_ (change output).
 
-At the level of the Bitcoin protocol, there is no difference between a
-change output (and the address it pays, called a _change address_) and a
-payment output.
+Ciò avviene perché gli input delle transazioni, proprio come le banconote, non possono essere spesi parzialmente. Se in un negozio compri un oggetto da 5 dollari, ma usi una banconota da 20 dollari per pagarlo, ti aspetti di ricevere 15 dollari di resto. Lo stesso concetto si applica agli input delle transazioni Bitcoin. Se acquistassi qualcosa al costo di 5 bitcoin ma avessi a disposizione soltanto un input da 20 bitcoin, invieresti un output da 5 bitcoin al venditore e un output da 15 bitcoin di resto a te stesso (senza contare la commissione della transazione).
+Le transazioni((("transactions", "inputs", id="transaction-input-ch2")))((("transactions", "outputs", id="transaction-output-ch2")))((("inputs", id="input")))((("outputs", id="output"))) possono essere immaginate come delle righe in un registro contabile a partita doppia. Ogni transazione è composta da due parti principali: gli *input* e gli *output*. Gli *input* rappresentano i fondi che qualcuno possiede e che intende spendere; in pratica, indicano da dove provengono i soldi utilizzati nella transazione. Gli *output*, invece, sono i destinatari dei fondi, ovvero coloro che riceveranno i soldi inviati. Di solito, la somma totale degli output è leggermente inferiore alla somma degli input, e questa differenza rappresenta una *commissione di transazione* implicita(("transaction fees")), cioè un piccolo importo incassato dal miner che include la transazione nella blockchain. Una transazione Bitcoin è rappresentata come una voce del registro contabile nella figura <<transaction-double-entry>>.
 
-Importantly, the change address does not have to be the
-same address as that of the input and, for privacy reasons, is often a new
-address from the owner's wallet.  In ideal circumstances, the two
-different uses of outputs both use never-before-seen addresses and
-otherwise look identical, preventing any third party from determining
-which outputs are change and which are payments.  However, for
-illustration purposes, we've added shading to the change outputs in
-<<transaction-chain>>.
+Nel protocollo Bitcoin, non c’è alcuna differenza tra un output di resto (e l’indirizzo a cui viene inviato, definito _indirizzo di resto_, o change address) e un output di pagamento.
+
+È importante sottolineare che l’indirizzo di resto (change address) non deve necessariamente coincidere con l’indirizzo di input e, per motivi di privacy, spesso corrisponde a un nuovo indirizzo generato dal wallet del proprietario. In circostanze ideali, i due diversi utilizzi degli output ricorrono entrambi a indirizzi mai visti prima e appaiono identici, impedendo così a terze parti di stabilire quali output siano di resto e quali di pagamento. Tuttavia, a scopo illustrativo, abbiamo aggiunto un’ombreggiatura agli output di resto in <<transaction-chain>>.
 
 Not every transaction has a change output.  Those that don't are ((("changeless transactions")))((("transactions", "changeless")))called
 _changeless transactions_, and they can have only a single output.
