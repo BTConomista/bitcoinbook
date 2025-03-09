@@ -59,7 +59,6 @@ A differenza di un codice QR che contiene semplicemente un indirizzo Bitcoin di 
 Questo permette all'applicazione del wallet Bitcoin di precompilare le informazioni necessarie per inviare il pagamento, mostrando contemporaneamente una descrizione leggibile dall'utente. Puoi scansionare il codice QR con un'applicazione wallet Bitcoin per vedere ciò che vedrebbe Alice:
 
 
-
 [[invoice-URI]]
 .Il codice QR dell'ordine di pagamento codifica il seguente URI, definito in BIP21:
 ----
@@ -111,7 +110,7 @@ Le transazioni((("transactions", "inputs", id="transaction-input-ch2")))((("tran
 La transazione contiene anche una prova di proprietà per ciascuna quantità di bitcoin (input) che viene spesa. Questa prova è rappresentata da una firma digitale del proprietario, che chiunque può verificare autonomamente. Nel sistema Bitcoin, spendere significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario, identificato da un indirizzo Bitcoin.
 
 
-[[transaction-double-entry]]
+[[partita_doppia_della_transazione]]
 .Transaction as double-entry bookkeeping.
 image::images/mbc3_0202.png["Transaction Double-Entry"]
 
