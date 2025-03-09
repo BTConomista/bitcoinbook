@@ -116,7 +116,7 @@ image::images/mbc3_0202.png["Transaction Double-Entry"]
 
 ==== Catene di Transazioni
 
-Il pagamento di Alice al negozio di Bob utilizza come input l'output di una precedente transazione((("transaction chains", id="transaction-chains"))). Nel capitolo precedente, Alice aveva ricevuto dei bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<transaction-chain>>.
+Il pagamento di Alice al negozio di Bob utilizza come input l'output di una precedente transazione((("transaction chains", id="transaction-chains"))). Nel capitolo precedente, Alice aveva ricevuto dei bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<catena-di-transazioni>>.
 
 La transazione Tx1 ha inviato 0,001 bitcoin (100.000 satoshi) verso un output bloccato dalla chiave di Alice. La nuova transazione che Alice invia al negozio di Bob (Tx2) usa proprio quell'output precedente come input. Nell'immagine, questa relazione è mostrata usando una freccia e indicando l'input come "Tx1:0". In una transazione reale, questo riferimento sarebbe l'identificatore della transazione (txid), un valore di 32 byte che identifica la transazione con cui Alice ha ricevuto il denaro da Joe. L'indicazione ":0" indica la posizione precisa dell'output in cui Alice ha ricevuto i bitcoin: in questo caso, si tratta del primo output, che occupa la posizione 0.
 
@@ -142,7 +142,7 @@ La Tx2 di Alice contiene due nuovi output: uno paga 75.000 satoshi per il podcas
 @enddittaa
 ////
 
-[[transaction-chain]]
+[[catena-di-transazioni]]
 .Una catena di transazioni, in cui l’output di una transazione diventa l’input di quella successiva.
 image::images/mbc3_0203.png["Transaction chain"]
 
@@ -169,13 +169,7 @@ Nel protocollo Bitcoin, non c’è alcuna differenza tra un output di resto (e l
 
 È importante sottolineare che l’indirizzo di resto (change address) non deve necessariamente coincidere con l’indirizzo di input e, per motivi di privacy, spesso corrisponde a un nuovo indirizzo generato dal wallet del proprietario. In circostanze ideali, i due diversi utilizzi degli output ricorrono entrambi a indirizzi mai visti prima e appaiono identici, impedendo così a terze parti di stabilire quali output siano di resto e quali di pagamento. Tuttavia, a scopo illustrativo, abbiamo aggiunto un’ombreggiatura agli output di resto in <<transaction-chain>>.
 
-Not every transaction has a change output.  Those that don't are ((("changeless transactions")))((("transactions", "changeless")))called
-_changeless transactions_, and they can have only a single output.
-Changeless transactions are only a practical option if the amount being
-spent is roughly the same as the amount available in the transaction
-inputs minus the anticipated transaction fee.  In <<transaction-chain>>,
-we see Bob creating Tx3 as a changeless transaction that spends the
-output he received in Tx2.
+Non tutte le transazioni hanno un output di resto. Quelle che non ne hanno sono ((("changeless transactions")))((("transactions", "changeless")))chiamate _transazioni senza resto_ (o changeless transaction), e possono avere un solo output. Le transazioni senza resto sono possibili soltanto se la somma che si vuole spendere corrisponde più o meno all’importo disponibile negli input della transazione, meno la commissione prevista. In <<catena-di-transazioni>>, vediamo Bob creare Tx3 come una transazione senza resto che spende l’output ricevuto in Tx2.
 
 ==== Coin Selection
 
