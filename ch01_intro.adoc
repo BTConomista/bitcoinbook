@@ -6,8 +6,7 @@ Bitcoin((("Bitcoin", "operational overview", id="bitcoin-operational-overview"))
 
 [TIP]
 ====
-In this book, the ((("bitcoins", "defined")))unit of currency is called "bitcoin" with a small _b_,
-and the system is called "Bitcoin," with a capital _B_.
+In questo libro, l’unità di valuta è chiamata “bitcoin”((("bitcoins", "defined"))) (con la _b_ minuscola), mentre il sistema si chiama “Bitcoin” (con la _B_ maiuscola).
 ====
 
 Gli utenti possono trasferire bitcoin sul network Bitcoin per fare praticamente tutto ciò che è possibile fare con le valute tradizionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni o concedere credito. I bitcoin possono essere acquistati, venduti e scambiati con altre valute presso appositi cambi di valuta, i cosiddetti exchange. Bitcoin è considerato da molti la forma di denaro perfetta per internet, poiché è veloce, sicuro e senza confini.
