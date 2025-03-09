@@ -32,7 +32,7 @@ Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-p
 * Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
 * Un meccanismo per raggiungere un consenso decentralizzato globale sulla validità della blockchain (algoritmo di proof-of-work)
 
-Come sviluppatore, vedo Bitcoin come una sorta di "denaro di internet", una rete per propagare valore e garantire la proprietà di beni digitali attraverso il calcolo distribuito. C'è molto di più in Bitcoin di quanto possa sembrare a ((("Bitcoin", "operational overview", startref="bitcoin-operational-overview"))) prima vista.
+Come sviluppatore, vedo (Andreas vede) Bitcoin come una sorta di "denaro di internet", una rete per propagare valore e garantire la proprietà di beni digitali attraverso il calcolo distribuito. C'è molto di più in Bitcoin di quanto possa sembrare a ((("Bitcoin", "operational overview", startref="bitcoin-operational-overview"))) prima vista.
 
 In questo capitolo inizieremo spiegando alcuni dei concetti e termini principali, ottenendo il software necessario e utilizzando Bitcoin per transazioni semplici. Nei capitoli seguenti, inizieremo a svelare gli strati di tecnologia che rendono possibile Bitcoin e vedremo come funzionano la rete e il protocollo Bitcoin.
 
