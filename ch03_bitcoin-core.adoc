@@ -18,39 +18,19 @@ Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte
 .Architettura di Bitcoin Core (Source: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
+Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del progetto. La maggior parte degli aggiornamenti più importanti dal 2011 in poi è documentata nei https://oreil.ly/BCXAQBitcoin[Improvement Proposals (BIP)]. Nel corso((("BIPs (Bitcoin Improvement Proposals)")))((("Bitcoin Improvement Proposals", see="BIPs"))) di questo libro, ci riferiremo a queste specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di((("Bitcoin Core", "explained", startref="bitcoin-core-explain"))) Bitcoin.
 
+=== Ambiente di sviluppo Bitcoin
 
-
-
-Although Bitcoin Core serves as a reference implementation for many
-major parts of the system, the Bitcoin whitepaper describes several
-early parts of the system.  Most major parts of the system since 2011
-have been documented in a set of
-https://oreil.ly/BCXAQ[Bitcoin Improvement
-Proposals (BIPs)].  Throughout((("BIPs (Bitcoin Improvement Proposals)")))((("Bitcoin Improvement Proposals", see="BIPs"))) this book, we refer to BIP specifications
-by their number; for example, BIP9 describes a mechanism used for
-several major upgrades to((("Bitcoin Core", "explained", startref="bitcoin-core-explain"))) Bitcoin.
-
-=== Bitcoin Development Environment
-
-If you're a
-developer, you will want to set up a development environment with all
-the tools, libraries, and support software for writing Bitcoin
-applications. In this highly technical chapter, we'll walk through that
-process step by step. If the material becomes too dense (and you're not
-actually setting up a development environment) feel free to skip to the
-next chapter, which is less technical.
+Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventi troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
 
 [[compiling_core]]
-=== Compiling Bitcoin Core from the Source Code
 
-Bitcoin Core's
-source code((("Bitcoin Core", "compiling from source code", id="bitcoin-core-compile")))((("compiling Bitcoin Core from source code", id="compile-bitcoin-core")))((("source code, compiling Bitcoin Core", id="source-code-compile"))) can be downloaded as an archive or by cloning the
-source repository from GitHub.  On the https://oreil.ly/hN9g1[Bitcoin Core download
-page], select the most recent version and download the compressed
-archive of the source code. Alternatively, use the Git command line to create a
-local copy of the source code from the
-https://oreil.ly/BdOwl[GitHub Bitcoin page].
+=== Compilare Bitcoin Core dal codice sorgente
+
+Il codice sorgente di Bitcoin Core((("Bitcoin Core", "compiling from source code", id="bitcoin-core-compile")))((("compiling Bitcoin Core from source code", id="compile-bitcoin-core")))((("source code, compiling Bitcoin Core", id="source-code-compile"))) può essere scaricato come file zip o clonando il repository GitHub. Vai alla pagina https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin].
+
+
 
 [TIP]
 ====
