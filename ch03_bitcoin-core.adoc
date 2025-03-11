@@ -1,59 +1,26 @@
 [[ch03_bitcoin_client]]
-== Bitcoin Core: The Reference Implementation
 
-People only accept money in exchange for their valuable goods and
-services if they believe that they'll be able to spend that money later.
-Money that is counterfeit or unexpectedly debased may not be spendable
-later, so every person accepting bitcoins has a strong incentive to
-verify the integrity of the bitcoins they receive.  The Bitcoin system
-was designed so that it's possible for software running entirely on your
-local computer to perfectly prevent counterfeiting, debasement, and
-several other critical problems.  Software which provides that function
-is called a _full verification node_ because it verifies every confirmed
-Bitcoin transaction against every rule in the system.  Full ((("full nodes")))verification
-nodes, _full nodes_ for short, may also provide tools and data for
-understanding how Bitcoin works and what is currently happening in the
-network.
+== Bitcoin Core: L'implementazione di riferimento
 
-In this chapter, we'll install Bitcoin Core, the implementation that
-most full node operators have used since the beginning of the Bitcoin
-network.   We'll then inspect blocks, transactions, and other data from
-your node, data which is authoritative--not because some powerful entity
-designated it as such but because your node independently verified it.
-Throughout the rest of this book, we'll continue using Bitcoin Core to
-create and examine data related to the blockchain and network.
+Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere accettato in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente che non vi siano problemi nel network. Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_,((("full nodes"))) perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
-=== From Bitcoin to Bitcoin Core
+In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
-Bitcoin ((("Bitcoin Core", "explained", id="bitcoin-core-explain")))is an _open
-source_ project and the source code is available under an open (MIT)
-license, free to download and use for any purpose.  More than just being
-open source, Bitcoin is developed by
-an open community of volunteers. At first, that community consisted of
-only ((("Nakamoto, Satoshi")))Satoshi Nakamoto. By 2023, Bitcoin's source code had more than 1,000
-contributors with about a dozen developers working on the code almost
-full time and several dozen more on a part-time basis. Anyone can
-contribute to the code&#x2014;including you!
+=== Da Bitcoin a Bitcoin Core
 
-When Bitcoin was created by Satoshi Nakamoto, the
-software was mostly completed before publication of the whitepaper (reproduced in
-<<satoshi_whitepaper>>). Satoshi wanted to make sure the
-implementation worked before publishing a paper about it. That first implementation, then simply
-known as "Bitcoin," has been heavily modified and
-improved. It has evolved into what is known as _Bitcoin Core_, to
-differentiate it from other implementations. Bitcoin Core is
-the _reference implementation_ of the Bitcoin system, meaning that it
-provides a reference for how each part of the technology should be
-implemented. Bitcoin Core implements all aspects of Bitcoin, including
-wallets, a transaction and block validation engine, tools for block construction, and all modern parts
-of Bitcoin peer-to-peer communication.
+Bitcoin((("Bitcoin Core", "explained", id="bitcoin-core-explain"))) è un progetto _open source_ e il codice sorgente è disponibile con una licenza aperta (MIT), scaricabile gratuitamente e utilizzabile per qualsiasi scopo. Oltre ad essere open source, Bitcoin è sviluppato da una comunità aperta di volontari. Inizialmente questa comunità era composta soltanto da ((("Nakamoto, Satoshi")))Satoshi Nakamoto. Nel 2023 il codice sorgente di Bitcoin contava oltre 1.000 contributori, con circa una dozzina di sviluppatori impegnati a tempo pieno e diverse decine che collaborano part-time. Chiunque può contribuire al codice—compreso tu!
 
-<<bitcoin_core_architecture>> shows the architecture of Bitcoin
-Core.
+Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte completato prima della pubblicazione del whitepaper (puoi leggerlo in <<satoshi_whitepaper>>). Satoshi voleva assicurarsi che l'implementazione funzionasse correttamente prima di pubblicare il documento che lo descriveva. Quella prima implementazione, nota semplicemente come "Bitcoin", è stata pesantemente modificata e migliorata nel tempo. È evoluta in ciò che oggi è conosciuto come _Bitcoin Core_, per differenziarla da altre implementazioni. Bitcoin Core è l'_implementazione di riferimento_ del sistema Bitcoin, il che significa che fornisce un riferimento per come ogni parte della tecnologia dovrebbe essere implementata. Bitcoin Core implementa tutti gli aspetti di Bitcoin, compresi wallet, un motore di validazione di transazioni e blocchi, strumenti per la costruzione di blocchi, e tutte le parti moderne della comunicazione peer-to-peer di Bitcoin.
+
+<<bitcoin_core_architecture>> mostra l'architettura di Bitcoin Core.
 
 [[bitcoin_core_architecture]]
-.Bitcoin Core architecture (Source: Eric Lombrozo).
+.Architettura di Bitcoin Core (Source: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
+
+
+
+
 
 Although Bitcoin Core serves as a reference implementation for many
 major parts of the system, the Bitcoin whitepaper describes several
