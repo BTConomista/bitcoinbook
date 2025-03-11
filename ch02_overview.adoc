@@ -219,7 +219,7 @@ Un wallet Bitcoin che gira su un full node contiene effettivamente una copia di 
 
 In questo caso, questo singolo UTXO è sufficiente a pagare il podcast. Se così non fosse, il wallet di Alice potrebbe dover combinare diversi UTXO più piccoli, che equivale a prendere delle monete da un portafogli, finché non riesce a raggiungere l’importo necessario per il podcast. In entrambi i casi, potrebbe esserci bisogno di un resto, come vedremo nella prossima sezione, quando il wallet crea gli output di transazione.
 
-==== Creare gli Output
+==== Creazione degli Output
 
 L'output di una transazione((("outputs", "constructing transactions"))) viene creato con uno script che dice qualcosa come: "Questo output verrà pagato a chiunque sia in grado di fornire una firma della chiave corrispondente all'indirizzo pubblico di Bob". Dal momento che solo Bob ha il wallet con le chiavi corrispondenti a quell'indirizzo, soltanto il wallet di Bob può fornire una firma di questo tipo per spendere successivamente l'output. Alice, quindi, _vincolerà_ il valore dell'output richiedendo una firma da parte di Bob.
 
@@ -237,25 +237,14 @@ View the https://oreil.ly/GwBq1[transaction from Alice to Bob's Store].
 
 ==== Aggiungere la Transazione alla Blockchain
 
-The ((("transactions", "adding to blockchain", id="transaction-add-blockchain")))((("blockchain", "adding transactions to", id="blockchain-add-transaction")))transaction created by Alice's wallet application
-contains everything necessary to confirm ownership of the funds and
-assign new owners. Now, the transaction must be transmitted to the
-Bitcoin network where it will become part of the blockchain. In the next
-section we will see how a transaction becomes part of a new block and
-how the block is mined. Finally, we will see how the new block, once
-added to the blockchain, is increasingly trusted by the network as more
-blocks are added.
+La transazione((("transactions", "adding to blockchain", id="transaction-add-blockchain")))((("blockchain", "adding transactions to", id="blockchain-add-transaction"))) creata dall’applicazione del wallet di Alice contiene tutto il necessario per confermare la proprietà dei fondi e assegnarli al nuovo proprietario. Ora la transazione deve essere trasmessa alla rete Bitcoin, dove diventerà parte della blockchain. Nella prossima sezione scopriremo come una transazione venga inclusa in un nuovo blocco e come quel blocco venga “minato”. Infine, vedremo come il nuovo blocco, una volta aggiunto alla blockchain, acquisisca gradualmente maggiore fiducia da parte della rete man mano che si aggiungono ulteriori blocchi.
 
-===== Transmitting the transaction
+===== Trasmissione della Transazione
 
-Because the transaction contains all
-the information necessary for it to be processed, it does not matter how or where it
-is transmitted to the Bitcoin network. The Bitcoin network is a
-peer-to-peer network, with each Bitcoin peer participating by
-connecting to several other Bitcoin peers. The purpose of the Bitcoin
-network is to propagate transactions and blocks to all participants.
+Poiché la transazione include tutte le informazioni necessarie per essere elaborata, non ha importanza come o da quale nodo venga inviata alla rete Bitcoin. La rete Bitcoin è una rete peer-to-peer: ogni nodo partecipa collegandosi a diversi altri nodi. L’obiettivo principale di questa rete è diffondere transazioni e blocchi a tutti i partecipanti.
 
-===== How it propagates
+===== Come si propaga
+
 
 
 Peers in ((("Bitcoin", "as peer-to-peer network", secondary-sortas="peer-to-peer network")))((("peer-to-peer networks, Bitcoin as")))the Bitcoin peer-to-peer network are programs that have both
