@@ -4,7 +4,7 @@
 Bitcoin, a differenza dei tradizionali sistemi bancari e di pagamento, non richiede di riporre fiducia in terze parti. Invece di dover fare affidamento su un’autorità centrale affidabile, con Bitcoin ogni utente può utilizzare un software in esecuzione sul proprio computer per verificare il corretto funzionamento di ogni aspetto del sistema. In questo capitolo esamineremo Bitcoin da un punto di vista generale, seguendo una transazione nel sistema e osservando come viene registrata sulla blockchain, il registro distribuito di tutte le transazioni. Nei capitoli successivi approfondiremo la tecnologia alla base delle transazioni, della rete e((("Bitcoin", "operational overview", id="bitcoin-operational-overview-ch2")))((("blockchain explorers", id="blockchain-explorers"))) del mining.
 
 
-=== Panoramica di Bitcoin
+=== Panoramica su Bitcoin
 
 ++++
 <p class="fix_tracking">
@@ -158,7 +158,7 @@ and some other illustrations in this book, we use satoshi values because
 that's what the protocol itself ((("satoshis")))uses.
 ====
 
-==== Making Change
+==== Dare il resto
 
 Oltre a uno o più output((("transactions", "change output", id="transaction-change-output")))((("change output", id="change-output")))((("outputs", "change output", id="output-change"))) che pagano il destinatario dei bitcoin, molte transazioni includono anche un output che restituisce bitcoin a chi effettua il pagamento: questo si chiama output di _resto_ (change output).
 
@@ -173,28 +173,16 @@ Non tutte le transazioni hanno un output di resto. Quelle che non ne hanno sono 
 
 ==== Coin Selection
 
-Different wallets((("transactions", "coin selection")))((("coin selection in transactions")))((("selecting", "coins in transactions"))) use different strategies when choosing which
-inputs to use in a payment, called _coin selection_.
+I vari wallet((("transactions", "coin selection")))((("coin selection in transactions")))((("selecting", "coins in transactions"))) adottano strategie diverse quando scelgono quali input utilizzare in un pagamento, in un processo chiamato _coin selection_.
 
-They might aggregate many small
-inputs, or use one that is equal to or larger than the desired payment.
-Unless the wallet can aggregate inputs in such a way to exactly match
-the desired payment plus transaction fees, the wallet will need to
-generate some change. This is very similar to how people handle cash. If
-you always use the largest bill in your pocket, you will end up with a
-pocket full of loose change. If you only use the loose change, you'll
-often have only big bills. People subconsciously find a balance between
-these two extremes, and Bitcoin wallet developers strive to program this
-balance.
+Potrebbero aggregare molti input di piccole dimensioni o usarne uno che sia uguale o superiore all’importo desiderato. A meno che il wallet non riesca ad aggregare gli input in modo da corrispondere esattamente all’importo richiesto più le commissioni di transazione, si dovrà corrispondere del resto. Per capure meglio questo processo, pensiamo al modo in cui gestiamo il contante: se utilizzi sempre la banconota più grande che hai, finirai con una tasca piena di spiccioli; se invece usi soltanto gli spiccioli, ti ritroverai spesso con solo banconote di grosso taglio. Le persone, in modo naturale, trovano un equilibrio tra questi due estremi, e gli sviluppatori di wallet Bitcoin cercano di programmare questo stesso equilibrio.
 
-==== Common Transaction Forms
+==== Forme comuni di Transazioni
 
-A very ((("transactions", "common types", id="transaction-common-ch2")))common form of transaction is a simple payment. This type of
-transaction has one input and two outputs and is shown in
-<<transaction-common>>.
+Una forma di transazione molto ((("transactions", "common types", id="transaction-common-ch2")))comune è un semplice pagamento. Questo tipo di transazione ha un input e due output ed è mostrato in <<transazione-comune>>.
 
-[[transaction-common]]
-.Most common transaction.
+[[transazione-comune]]
+.Il tipo di transazione più comune.
 image::images/mbc3_0204.png["Common Transaction"]
 
 Another common form of transaction ((("consolidation transactions")))is a _consolidation transaction_, which spends several inputs
@@ -219,66 +207,27 @@ image::images/mbc3_0206.png["Distributing Transaction"]
 
 === Constructing a Transaction
 
-Alice's wallet((("transactions", "constructing", id="transaction-construct"))) application contains all
-the logic for selecting inputs and generating outputs to build a
-transaction to Alice's specification. Alice only needs to choose a
-destination, amount, and transaction fee, and the rest happens in the wallet
-application without her seeing the details. Importantly, if a wallet
-already knows what inputs it controls, it can construct transactions
-even if it is completely offline.
-Like writing a check at home and later sending it to the bank in an
-envelope, the transaction does not need to be constructed and signed
-while connected to the Bitcoin network.
+L’applicazione del wallet((("transactions", "constructing", id="transaction-construct"))) di Alice contiene tutta la logica per selezionare gli input e generare gli output in modo da costruire una transazione secondo le specifiche di Alice. Alice deve solo scegliere una destinazione, un importo e la commissione di transazione, e il resto avviene all’interno della wallet senza che lei veda i dettagli. È importante notare che, se una wallet sa già quali input controlla, può creare transazioni anche restando completamente offline.
 
-==== Getting the Right Inputs
+Proprio come possiamo scrivere un assegno a casa e poi inviarlo alla banca in una busta, la transazione non ha bisogno di essere costruita e firmata mentre si è connessi alla rete Bitcoin.
 
-Alice's wallet
-application ((("inputs", "constructing transactions")))will first have to find inputs that can pay the amount she
-wants to send to Bob. Most wallets keep track of all the available
-outputs belonging to addresses in the wallet. Therefore, Alice's wallet
-would contain a copy of the transaction output from Joe's transaction,
-which was created in exchange for cash (see <<getting_first_bitcoin>>).
-A Bitcoin wallet application that runs on a full node actually
-contains a copy of every confirmed transaction's ((("UTXOs (unspent transaction outputs)")))unspent outputs, called
-_unspent transaction outputs_ (UTXOs).
-However, because full nodes use more resources, many
-user wallets run lightweight clients that track only the user's own
-UTXOs.
+==== Prendere l'input giusto
 
-In this case, this single
-UTXO is sufficient to pay for the podcast. Had this not been the case,
-Alice's wallet application might have to combine several
-smaller UTXOs, like picking coins from a purse, until it could
-find enough to pay for the podcast. In both cases, there might be a need
-to get some change back, which we will see in the next section, as the
-wallet application creates the transaction outputs (payments).
+Il wallet((("inputs", "constructing transactions"))) di Alice deve prima di tutto individuare gli input in grado di coprire l’importo che desidera inviare a Bob. La maggior parte dei wallet tiene traccia di tutti gli output disponibili associati agli indirizzi del wallet. Di conseguenza, il wallet di Alice contiene una copia dell’output della transazione di Joe, che era stata creata in cambio di contanti (vedi <<getting_first_bitcoin>>).
 
+Un wallet Bitcoin che gira su un full node contiene effettivamente una copia di tutti gli output non spesi di ogni transazione confermata, detti _output di transazione non spesi_ (unspent transaction outputs ,UTXOs). Tuttavia, poiché i full node richiedono più risorse, molti wallet si basano su client leggeri che tengono traccia soltanto dei UTXO di proprietà dell’utente stesso.
 
-==== Creating the Outputs
+In questo caso, questo singolo UTXO è sufficiente a pagare il podcast. Se così non fosse, il wallet di Alice potrebbe dover combinare diversi UTXO più piccoli, che equivale a prendere delle monete da un portafogli, finché non riesce a raggiungere l’importo necessario per il podcast. In entrambi i casi, potrebbe esserci bisogno di un resto, come vedremo nella prossima sezione, quando il wallet crea gli output di transazione.
 
-A transaction output((("outputs", "constructing transactions"))) is
-created with a
-script that says something like, "This output is paid to whoever can
-present a signature from the key corresponding to Bob's public address."
-Because only Bob has the wallet with the keys corresponding to that
-address, only Bob's wallet can present such a signature to later spend this
-output. Alice will therefore _encumber_ the output value with a demand
-for a signature from Bob.
+==== Creare gli Output
 
-This transaction will also include a second output ((("change output")))because Alice's
-funds contain more money than the cost of the
-podcast. Alice's change
-output is created in the very same
-transaction as the payment to Bob. Essentially, Alice's wallet breaks
-her funds into two outputs: one to Bob and one back to herself. She can
-then spend the change output in a subsequent transaction.
+L'output di una transazione((("outputs", "constructing transactions"))) viene creato con uno script che dice qualcosa come: "Questo output verrà pagato a chiunque sia in grado di fornire una firma della chiave corrispondente all'indirizzo pubblico di Bob". Dal momento che solo Bob ha il wallet con le chiavi corrispondenti a quell'indirizzo, soltanto il wallet di Bob può fornire una firma di questo tipo per spendere successivamente l'output. Alice, quindi, _vincolerà_ il valore dell'output richiedendo una firma da parte di Bob.
 
-Finally, for the transaction to be processed by the network in a((("transaction fees"))) timely
-fashion, Alice's wallet application will add a small fee. The fee is not
-explicitly stated in the transaction; it is implied by the difference in value between
-inputs and outputs.  This transaction fee is collected by the
-miner as a fee for including the transaction in a block
-that gets recorded on the blockchain.
+In altre parole, possiamo dire che Bob per spendere l'output di Alice avrà bisogno di una firma per attestare la proprietà dell'output.
+
+Questa transazione includerà anche un secondo output (di resto)((("change output"))) perché i fondi di Alice contengono più denaro del costo del podcast. L’output di resto di Alice viene creato nella stessa transazione con cui paga Bob. In pratica, il wallet di Alice suddivide i suoi fondi in due output: uno per Bob e uno che torna a lei stessa. Alice poi potrà spendere l’output di resto in una transazione successiva.
+
+Infine, per fare in modo che la transazione venga elaborata dalla rete in tempi rapidi, l’applicazione del wallet di Alice aggiunge una piccola commissione((("transaction fees"))). La commissione non è dichiarata esplicitamente nella transazione; è implicita nella differenza di valore tra gli input e gli output. Questa commissione viene incassata dal miner come compenso per l’inclusione della transazione in un blocco che sarà registrato sulla blockchain.
 
 [[transaction-alice-url]]
 [TIP]
@@ -286,7 +235,7 @@ that gets recorded on the blockchain.
 View the https://oreil.ly/GwBq1[transaction from Alice to Bob's Store].
 ====
 
-==== Adding the Transaction to the Blockchain
+==== Aggiungere la Transazione alla Blockchain
 
 The ((("transactions", "adding to blockchain", id="transaction-add-blockchain")))((("blockchain", "adding transactions to", id="blockchain-add-transaction")))transaction created by Alice's wallet application
 contains everything necessary to confirm ownership of the funds and
