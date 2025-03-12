@@ -1,16 +1,9 @@
 [[ch04_keys_addresses]]
-== Keys and Addresses
+== Chiavi e indirizzi
 
-Alice wants to pay Bob, but the thousands of Bitcoin full nodes who
-will verify her transaction don't know who Alice or Bob are--and we want
-to keep it that way to protect their privacy.  Alice needs to
-communicate that Bob should receive some of her bitcoins without tying
-any aspect of that transaction to Bob's real-world identity or to other
-Bitcoin payments that Bob receives.  The method Alice uses must ensure
-that only Bob can further spend the bitcoins he receives.
+Alice vuole pagare Bob, ma le migliaia di full nodes Bitcoin che verificheranno la sua transazione non sanno chi sono Alice e Bob--e vogliamo che rimanga così per proteggere la loro privacy. Alice deve comunicare che Bob deve ricevere alcuni dei suoi bitcoin senza collegare alcun aspetto di quella transazione all’identità reale di Bob o ad altri pagamenti Bitcoin che Bob riceve. Il metodo che Alice utilizza deve garantire che solo Bob possa spendere i bitcoin che riceve.
 
-The original Bitcoin paper describes a very simple scheme for achieving
-those goals, shown in <<pay-to-pure-pubkey>>.  
+Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in <<<pay-to-pure-pubkey>>>.
 
 [[pay-to-pure-pubkey]]
 .Transaction chain from original Bitcoin paper.
@@ -28,27 +21,23 @@ We'll examine public keys, private keys, signatures, and hash functions
 in this chapter, and then use all of them together to describe
 the addresses used by modern Bitcoin software.
 
-=== Public Key Cryptography
+=== Crittografia a Chiave Pubblica
 
-Public ((("public key cryptography", id="pub-key")))key
-cryptography was invented in the 1970s and is a mathematical foundation
-for modern computer and information security.
+La crittografia a chiave pubblica((("public key cryptography", id="pub-key"))) è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
 
-Since the invention of public key cryptography, several suitable
-mathematical functions, such as prime number exponentiation and elliptic
-curve multiplication, have been discovered. These mathematical functions
-are easy to calculate in
-one direction and infeasible to calculate in the opposite direction
-using the computers and algorithms available today.
+Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’esponenziazione di numeri primi e la moltiplicazione su curve ellittiche. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
+
+
+
 Based on these mathematical functions, cryptography enables the creation
-of unforgeable digital signatures. Bitcoin uses
-elliptic curve addition and multiplication as the basis for its cryptography.
+of unforgeable digital signatures. 
 
-In Bitcoin, we can use public key cryptography to create a ((("key pairs", id="key-pair")))((("public keys", "purpose of")))((("private keys", "purpose of")))key pair that
-controls access to bitcoins. The key pair consists of a private key
-and a public key derived from the private key. The public key is used to
-receive funds, and the private key is used to sign transactions to spend
-the funds.
+
+Bitcoin utilizza la somma e la moltiplicazione su curve ellittiche come base per la sua crittografia.
+
+In Bitcoin, possiamo usare la crittografia a chiave pubblica per creare((("key pairs", id="key-pair")))((("public keys", "purpose of")))((("private keys", "purpose of"))) una coppia di chiavi che controlla l’accesso ai bitcoin. La coppia di chiavi è composta da una chiave privata e una chiave pubblica derivata dalla chiave privata. La chiave pubblica viene utilizzata per ricevere fondi, mentre la chiave privata serve a firmare le transazioni per spendere quei fondi.
+
+
 
 There is a mathematical relationship between the public and the private
 key that allows the private key to be used to generate signatures on
