@@ -247,48 +247,21 @@ Poiché la transazione include tutte le informazioni necessarie per essere elabo
 
 I peer nella rete peer-to-peer di ((("Bitcoin", "as peer-to-peer network", secondary-sortas="peer-to-peer network")))((("peer-to-peer networks, Bitcoin as")))Bitcoin sono programmi che possiedono sia la logica software sia i dati necessari per verificare completamente la correttezza di una nuova transazione. Le connessioni tra i peer vengono spesso visualizzate come archi (linee) in un grafo, mentre i peer stessi rappresentano i nodi (punti). Per questa ragione, i peer di Bitcoin vengono comunemente chiamati "nodi di verifica completa" ((("full nodes")))o, più semplicemente, nodi completi (_full nodes_).
 
+L'applicazione wallet di Alice può inviare la nuova transazione a qualunque nodo Bitcoin, utilizzando qualsiasi tipo di connessione: cablata, WiFi, mobile e così via. Può anche trasmettere la transazione ad altri programmi (come un block explorer), che poi la inoltreranno a un nodo. Il suo wallet Bitcoin non deve necessariamente essere connesso direttamente al wallet di Bob e non deve per forza utilizzare la stessa connessione internet di Bob, anche se entrambe queste opzioni sono comunque possibili. Qualunque nodo Bitcoin che riceva una transazione valida mai vista prima, la inoltrerà a tutti gli altri nodi ai quali è connesso, secondo una tecnica di propagazione nota((("gossiping"))) come _gossiping_ (passaparola). In questo modo, la transazione si diffonde rapidamente attraverso la rete peer-to-peer, raggiungendo gran parte dei nodi in pochi secondi.
+
+===== Dal punto di vista di Bob
+
+Se l'applicazione del wallet Bitcoin di Bob è connesso direttamente all'applicazione del wallet di Alice, il wallet di Bob potrebbe essere il primo a ricevere la transazione. Tuttavia, anche se il wallet di Alice invia la transazione tramite altri nodi, essa raggiungerà comunque il wallet di Bob in pochi secondi. Il wallet di Bob identificherà immediatamente la transazione di Alice come un pagamento in arrivo, perché contiene un output riscattabile con le chiavi di Bob. L'applicazione wallet di Bob può inoltre verificare autonomamente che la transazione sia strutturata correttamente. Se Bob utilizza il proprio full node, il suo wallet può anche verificare che la transazione di Alice spenda esclusivamente((("transactions", "constructing", startref="transaction-construct")))((("transactions", "adding to blockchain", startref="transaction-add-blockchain")))((("blockchain", "adding transactions to", startref="blockchain-add-transaction"))) UTXO validi.
+
+=== Mining di Bitcoin
+
+La transazione di Alice((("mining", "operational overview", id="mining-operational-overview"))) è ora propagata sulla rete Bitcoin. Tuttavia, non diventa parte della _blockchain_ finché non viene inclusa in un blocco tramite un processo chiamato _mining_ e quel blocco non viene convalidato dai full nodes. Per una spiegazione dettagliata, vedi <<mining>>.
+
+Il sistema di protezione contro la contraffazione di Bitcoin si basa sul calcolo computazionale. Le transazioni vengono raggruppate((("transactions", "in blocks", secondary-sortas="blocks")))((("blocks"))) in _blocchi_. I blocchi hanno un'intestazione molto piccola che deve essere formata in un modo molto specifico, richiedendo un'enorme quantità di calcolo per essere generata correttamente, ma solo una piccola quantità di calcolo per essere verificata.
+
+Il processo di mining svolge due funzioni fondamentali in Bitcoin:
 
 
-Alice's wallet application can send the new
-transaction to any Bitcoin node over any type of
-connection: wired, WiFi, mobile, etc.  It can also send the transaction
-to another program (such as a block explorer) that will relay it to a
-node.  Her Bitcoin wallet does not have
-to be connected to Bob's Bitcoin wallet directly and she does not have
-to use the internet connection offered by Bob, though both those
-options are possible too. Any Bitcoin node that receives a
-valid transaction it has not seen before will forward it to
-all other nodes to which it is connected, a propagation technique known
-((("gossiping")))as _gossiping_. Thus, the transaction rapidly propagates out across the
-peer-to-peer network, reaching a large percentage of the nodes within a
-few seconds.
-
-===== Bob's view
-
-If Bob's Bitcoin wallet application is directly connected to Alice's
-wallet application, Bob's wallet application might be the first to
-receive the transaction. However, even if Alice's wallet sends the
-transaction through other nodes, it will reach Bob's wallet within a few
-seconds. Bob's wallet will immediately identify Alice's transaction as
-an incoming payment because it contains an output redeemable by Bob's
-keys. Bob's wallet application can also independently verify that the
-transaction is well formed.  If Bob is using his own full node, his
-wallet can further verify Alice's transaction only spends((("transactions", "constructing", startref="transaction-construct")))((("transactions", "adding to blockchain", startref="transaction-add-blockchain")))((("blockchain", "adding transactions to", startref="blockchain-add-transaction"))) valid UTXOs.
-
-=== Bitcoin Mining
-
-Alice's transaction((("mining", "operational overview", id="mining-operational-overview"))) is now propagated on the Bitcoin
-network. It does not become part of the _blockchain_ until it is
-included in a block by a process called _mining_ and that block has been
-validated by full nodes. See
-<<mining>> for a detailed explanation.
-
-Bitcoin's system of counterfeit protection is based on computation.
-Transactions are bundled((("transactions", "in blocks", secondary-sortas="blocks")))((("blocks"))) into _blocks_.  Blocks have a very small header
-that must be formed in a very specific way, requiring an enormous
-amount of computation to get right--but only a small amount of
-computation to verify as correct.
-The mining process serves two purposes in Bitcoin:
 
 [role="less_space pagebreak-before"]
 * Miners can only
