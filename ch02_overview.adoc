@@ -264,90 +264,29 @@ Il processo di mining svolge due funzioni fondamentali in Bitcoin:
 
 
 [role="less_space pagebreak-before"]
-* Miners can only
-receive honest income from creating blocks that follow all of((("consensus rules"))) Bitcoin's
-_consensus rules_.  Therefore, miners are normally incentivized to
-only include valid transactions in their blocks and the blocks they
-build upon.  This allows users to optionally make a trust-based
-assumption that any transaction in a block is a valid transaction.
+* I miner possono ottenere ricompense oneste solo creando blocchi che rispettano((("consensus rules"))) tutte le _regole di consenso_ di Bitcoin. Per questo motivo, i miner sono generalmente incentivati a includere nei loro blocchi solo transazioni valide e a costruire su blocchi validi. Ciò permette agli utenti di fare, se lo desiderano, l'assunzione basata sulla fiducia che qualsiasi transazione contenuta in un blocco sia una transazione valida.
 
-* Mining currently creates new bitcoins in each block, almost like a central bank
-printing new money. The amount of bitcoin created per block is limited
-and diminishes with time, following a fixed issuance schedule.
+* Il processo di mining attualmente genera nuovi bitcoin in ogni blocco, quasi come una banca centrale che stampa nuova moneta. Tuttavia, la quantità di bitcoin creata per blocco è limitata e diminuisce nel tempo, seguendo un programma di emissione prestabilito.
+
+Il mining raggiunge un delicato equilibrio tra costi e ricompense. Il processo di mining utilizza elettricità per risolvere un problema computazionale. Un miner che ha successo riceverà((("rewards"))) una _ricompensa_ sotto forma di nuovi bitcoin e commissioni di transazione. Tuttavia, la ricompensa verrà incassata solo se il miner ha incluso esclusivamente transazioni valide, con le regole di _consenso_ del protocollo Bitcoin a determinare cosa sia valido. Questo delicato equilibrio fornisce sicurezza a Bitcoin senza la necessità di un'autorità centrale.
+
+Il mining è progettato per funzionare come una lotteria decentralizzata. Ogni miner può creare il proprio biglietto della lotteria generando((("candidate blocks"))) un _blocco candidato_ che include le nuove transazioni che desidera minare, oltre ad alcuni campi di dati aggiuntivi.
+Il miner inserisce il proprio blocco candidato in un algoritmo appositamente progettato che mescola i dati((("hash functions"))) con una funzione di _hash_, producendo un output che non assomiglia per nulla ai dati in ingresso. Questa funzione di hash restituirà sempre lo stesso output per lo stesso input, ma nessuno può prevedere quale sarà l'output per un nuovo input, anche se la variazione è minima rispetto a quello precedente.
+Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo Bitcoin, il miner vince la lotteria e gli utenti di Bitcoin accetteranno il blocco con le sue transazioni come un blocco valido. Se l'output non corrisponde al modello richiesto, il miner apporta una piccola modifica al proprio blocco candidato e riprova. Al momento della stesura di questo testo, il numero medio di blocchi candidati che un miner deve provare prima di trovare una combinazione vincente è di circa 168 miliardi di trilioni. Questo è anche il numero di volte in cui la funzione di hash deve essere eseguita.
+
+Una volta che è stata trovata una combinazione vincente, chiunque può verificare la validità del blocco eseguendo la funzione di hash una sola volta. Questo significa che un blocco valido richiede un'enorme quantità di lavoro per essere creato, ma solo una quantità minima di lavoro per essere verificato.
+Il semplice processo di verifica è in grado di dimostrare in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo motivo, i dati necessari per generare questa prova--ossia il blocco stesso--sono chiamati algoritmo _proof of work (PoW)_, ovvero algoritmo di _prova di lavoro_.
+
+Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con la commissione più alta, e secondo altri criteri. Ogni miner inizia il processo di mining di un nuovo blocco candidato non appena riceve il blocco precedente dalla rete, sapendo che un altro miner ha vinto quella iterazione della lotteria. Subito dopo, i miner creano un nuovo blocco candidato con un collegamento al blocco precedente, lo riempiono di transazioni e iniziano a calcolare il PoW per quel blocco.
+Ogni miner include nei propri blocchi candidati una transazione speciale che invia al propria indirizzo Bitcoin la ricompensa del blocco più la somma delle commissioni di transazione di tutte le transazioni incluse nel blocco candidato. Se trovano una soluzione che rende valido il blocco candidato, ricevono questa ricompensa dopo che il blocco è stato aggiunto con successo alla blockchain globale e la transazione di ricompensa inclusa diventa spendibile.
+I miner che partecipano ad una mining pool configurano il loro software in modo da creare blocchi candidati che assegnano la ricompensa ad un indirizzo della pool. Da lì, una parte della ricompensa viene distribuita ai membri del pool in proporzione alla quantità di lavoro che hanno fornito.
+
+La transazione di Alice è stata rilevata dalla rete e inclusa nel pool delle transazioni non verificate. Una volta validata da un full node, è stata inserita in un blocco candidato.
+Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volta dal wallet di Alice, un miner trova una soluzione per il blocco e la annuncia alla rete. Dopo che ogni altro miner ha validato il blocco vincente, iniziano una nuova lotteria per generare il blocco successivo.
+
+Il blocco vincente contenente la transazione di Alice è diventato parte della blockchain. Il blocco che include la transazione di Alice viene conteggiato come una _conferma_ ((("confirmations"))) ((("clearing transactions"))) ((("transactions", "clearing"))) di quella transazione. Dopo che il blocco con la transazione di Alice si è propagato attraverso la rete, per creare un blocco alternativo contenente una versione diversa della transazione di Alice (ad esempio, una transazione che non paga Bob), sarebbe necessario effettuare la stessa quantità di lavoro richiesta a tutti i miner Bitcoin per creare un nuovo blocco da zero. Quando ci sono diversi blocchi alternativi tra cui scegliere, i full node Bitcoin selezionano la catena di blocchi validi che presenta il maggior lavoro totale (PoW). Questa catena viene chiamata _best blockchain_. Affinché l'intera rete accetti un blocco alternativo, sarebbe necessario che venisse minato un ulteriore nuovo blocco sopra quello alternativo.
 
 
-Mining achieves a fine balance between cost and reward. Mining uses
-electricity to solve a computational problem. A successful miner will
-collect ((("rewards")))a _reward_ in the form of new bitcoins and transaction fees.
-However, the reward will only be collected if the miner has only
-included valid transactions, with the Bitcoin protocol's rules for
-_consensus_ determining what is valid.  This delicate balance provides
-security for Bitcoin without a central authority.
-
-Mining is designed to be a decentralized lottery.  Each miner can create
-their own lottery ticket by creating ((("candidate blocks")))a _candidate block_ that includes
-the new transactions they want to mine plus some additional data fields.
-The miner inputs their candidate into a specially designed algorithm that
-scrambles((("hash functions"))) (or "hashes") the data, producing output that looks nothing
-like the input data.  This _hash_ function will always produce the same
-output for the same input--but nobody can predict what the output will
-look like for a new input, even if it is only slightly different from a
-previous input.  If the output of the hash function matches a template
-determined by the Bitcoin protocol, the miner wins the lottery and
-Bitcoin users will accept the block with its transactions as a
-valid block.  If the output doesn't match the template, the miner makes
-a small change to their candidate block and tries again.  As of this
-writing, the number of candidate blocks miners need to try before finding
-a winning combination is about 168 billion trillion.  That's also how
-many times the hash function needs to be run.
-
-However, once a winning combination has been found, anyone can verify
-the block is valid by running the hash function just once.  That makes a
-valid block something that requires an incredible amount of work to
-create but only a trivial amount of work to verify.  The simple
-verification process is able to probabalistically prove the work was
-done, so the data necessary to generate that proof--in this case, the
-block--is called((("proof-of-work algorithm"))) _proof of work (PoW)_.
-
-Transactions are added to the new block, prioritized by the highest fee rate
-transactions first and a few other criteria. Each miner starts the
-process of mining a new candidate block of transactions as soon as they receive the
-previous block from the network, knowing that some other miner won that
-iteration of the lottery.  They immediately create a new candidate block
-with a commitment to the previous block, fill it with transactions, and start
-calculating the PoW for the candidate block. Each miner includes a
-special transaction in their candidate blocks, one that pays their own Bitcoin address
-the block reward plus the sum of
-transaction fees from all the transactions included in the candidate block. If they
-find a solution that makes the candidate into a valid block, they receive this reward
-after their successful block is added to the global blockchain and the
-reward transaction they included becomes spendable. Miners who participate in a mining pool have set up their
-software to create candidate blocks that assign the reward to a pool address.
-From there, a share of the reward is distributed to members of the pool
-miners in proportion to the amount of work they contributed.
-
-Alice's
-transaction was picked up by the network and included in the pool of
-unverified transactions. Once validated by a full node, it was
-included in a candidate block.
-Approximately five minutes after the transaction was first transmitted
-by Alice's wallet, a miner finds a solution for the
-block and announces it to the network. After each other miner
-validates the winning block, they start a new lottery to generate the next
-block.
-
-The winning block containing Alice's transaction became part of the
-blockchain. The block containing Alice's transaction is counted as ((("confirmations")))((("clearing transactions")))((("transactions", "clearing")))one
-_confirmation_ of that transaction.  After the block containing Alice's
-transaction has propagated through the network, creating an alternative
-block with a different version of Alice's transaction (such as a
-transaction that doesn't pay Bob) would require performing the same
-amount of work as it will take all Bitcoin miners to create an entirely
-new block.  When there are multiple alternative blocks to choose from,
-Bitcoin full nodes choose the chain of valid blocks with the most total
-PoW, called the _best blockchain_.  For the entire network to
-accept an alternative block, an additional new block would need to be
-mined on top of the alternative.
 
 That means miners have a choice.  They can work with Alice on an
 alternative to the transaction where she pays Bob, perhaps with
