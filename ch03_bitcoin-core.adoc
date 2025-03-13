@@ -31,7 +31,6 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 Il codice sorgente di Bitcoin Core((("Bitcoin Core", "compiling from source code", id="bitcoin-core-compile")))((("compiling Bitcoin Core from source code", id="compile-bitcoin-core")))((("source code, compiling Bitcoin Core", id="source-code-compile"))) può essere scaricato come file zip o clonando il repository GitHub. Vai alla pagina https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin].
 
 
-
 [SUGGERIMENTO]
 ====
 In molti degli esempi di questo capitolo, useremo l'interfaccia a riga di comando del sistema operativo (nota anche come “shell”), accessibile tramite un'applicazione “terminal”. La shell mostrerà un prompt, tu digiterai un comando e la shell risponderà con del testo, quindi mostrerà di nuovo un prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi che seguono lo indicheremo con il simbolo +$+.
@@ -113,16 +112,9 @@ In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +b
 
 Nel caso di piattaforme diverse, puoi trovare istruzioni alternative nella directory _doc_; ad esempio, _build-windows.md_ contiene le istruzioni specifiche per Windows. Al momento della stesura di questa guida, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
 
-
-
-Carefully review the build prerequisites, which are in the first part of
-the build documentation. These are libraries that must be present on
-your system before you can begin to compile Bitcoin. If these
-prerequisites are missing, the build process will fail with an error. If
-this happens because you missed a prerequisite, you can install it and
-then resume the build process from where you left off. Assuming the
-prerequisites are installed, you start the build process by generating a
-set of build scripts using the _autogen.sh_ script:
+Esamina attentamente i prerequisiti per la compilazione, che si trovano nella prima parte della documentazione sulla build. Questi prerequisiti includono librerie e pacchetti che devono essere presenti sul tuo sistema prima di iniziare a compilare Bitcoin Core.
+Se uno di questi prerequisiti è mancante, il processo di compilazione fallirà con un errore. Se ciò accade perché hai dimenticato di installare un prerequisito, puoi semplicemente installarlo e poi riprendere la compilazione dal punto in cui l'avevi lasciata.
+Una volta verificato che i prerequisiti siano tutti installati, puoi avviare il processo di compilazione generando una serie di script di build eseguendo lo script _autogen.sh_:
 
 ----
 $ ./autogen.sh
@@ -135,12 +127,8 @@ src/Makefile.am: installing 'build-aux/depcomp'
 parallel-tests: installing 'build-aux/test-driver'
 ----
 
-The _autogen.sh_ script creates a set of automatic configuration scripts
-that will interrogate your system to discover the correct settings and
-ensure you have all the necessary libraries to compile the code. The
-most important of these is the +configure+ script that offers a number
-of different options to customize the build process. Use the
-+--help+ flag to see the various options:
+Lo script _autogen.sh_ genera una serie di script di configurazione automatica che analizzeranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
+Il più importante di questi script è +configure+, che offre diverse opzioni per personalizzare il processo di compilazione. Per visualizzare le varie opzioni disponibili, utilizza il flag +--help+:
 
 ----
 $ ./configure --help
@@ -158,19 +146,11 @@ Optional Features:
 ...
 ----
 
-The +configure+ script allows you to enable or disable certain features
-of +bitcoind+ through the use of the +--enable-FEATURE+ and
-+--disable-FEATURE+ flags, where pass:[<span
-class="keep-together"><code>FEATURE</code></span>] is replaced by the
-feature name, as listed in the help output. In this chapter, we will
-build the +bitcoind+ client with all the default features. We won't be
-using the configuration flags, but you should review them to understand
-what optional features are part of the client. If you are in an academic
-setting, computer lab restrictions may require you to install
-applications in your home directory (e.g., using +--prefix=$HOME+).
-
-Here are some useful options that override the default behavior of the
-+configure+ script:
+Lo script +configure+ ti permette di abilitare o disabilitare specifiche funzionalità di +bitcoind+ tramite i flag +--enable-FEATURE+ e +--disable-FEATURE+, in cui pass:[<span
+class="keep-together"><code>FEATURE</code></span>] deve essere sostituito con il nome della funzionalità, come indicato nell'output della guida.
+In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminarli per comprendere quali funzionalità opzionali fanno parte del client.
+Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
+Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
 ++++
 <dl>
@@ -188,7 +168,7 @@ Here are some useful options that override the default behavior of the
 </dl>
 ++++
 
-Next, run the +configure+ script to automatically discover all the necessary libraries and create a customized build script for your system:
+Successivamente, esegui lo script +configure+ per individuare automaticamente tutte le librerie necessarie e creare uno script di build personalizzato per il tuo sistema:
 
 ----
 $ ./configure
@@ -202,24 +182,14 @@ checking for a BSD-compatible install... /usr/bin/install -c
 ...
 ----
 
-If all went well, the +configure+ command will end by creating the
-customized build scripts that will allow us to compile +bitcoind+. If
-there are any missing libraries or errors, the +configure+ command will
-terminate with an error instead of creating the build scripts. If an
-error occurs, it is most likely because of a missing or incompatible
-library. Review the build documentation again and make sure you install
-the missing prerequisites. Then run +configure+ again and see if that
-fixes the((("Bitcoin Core", "compiling from source code", "configuring build", startref="bitcoin-core-compile-configure")))((("compiling Bitcoin Core from source code", "configuring build", startref="compile-bitcoin-core-configure")))((("source code, compiling Bitcoin Core", "configuring build", startref="source-code-compile-configure")))((("configuring", "Bitcoin Core build", startref="configure-build"))) error.
+Se tutto è andato bene, il comando +configure+ terminerà creando gli script di build personalizzati che ci permetteranno di compilare +bitcoind+. Se invece mancano librerie o si verificano errori, il comando +configure+ si interromperà con un errore anziché generare gli script di build.
+Se si verifica un errore, è molto probabile che sia dovuto alla mancanza di una libreria necessaria o a una libreria incompatibile. In questo caso, rivedi la documentazione relativa alla compilazione e assicurati di installare tutti i prerequisiti mancanti. Dopodiché, esegui nuovamente +configure+ e verifica se il problema((("Bitcoin Core", "compiling from source code", "configuring build", startref="bitcoin-core-compile-configure")))((("compiling Bitcoin Core from source code", "configuring build", startref="compile-bitcoin-core-configure")))((("source code, compiling Bitcoin Core", "configuring build", startref="source-code-compile-configure")))((("configuring", "Bitcoin Core build", startref="configure-build"))) è stato risolto.
 
-==== Building the Bitcoin Core Executables
+==== Compilazione degli eseguibili di Bitcoin Core
 
-Next, you
-will ((("Bitcoin Core", "compiling from source code", "building executables")))((("compiling Bitcoin Core from source code", "building executables")))((("source code, compiling Bitcoin Core", "building executables")))((("executables (Bitcoin Core), building")))compile the source code, a process that can take up to an hour to
-complete, depending on the speed of your CPU and available memory.
-If an error
-occurs, or the compilation process is interrupted, it can be resumed any
-time by typing +make+ again. Type *+make+* to start compiling the
-executable application:
+Successivamente,((("Bitcoin Core", "compiling from source code", "building executables")))((("compiling Bitcoin Core from source code", "building executables")))((("source code, compiling Bitcoin Core", "building executables")))((("executables (Bitcoin Core), building"))) compilerai il codice sorgente, un processo che può richiedere fino a un'ora per completarsi, a seconda della velocità della CPU e della memoria disponibile.
+Se si verifica un errore o se il processo di compilazione viene interrotto, è possibile riprenderlo in qualsiasi momento semplicemente digitando di nuovo +make+.
+Digita *+make+* per avviare la compilazione dell'applicazione eseguibile:
 
 ----
 $ make
