@@ -32,24 +32,14 @@ Il codice sorgente di Bitcoin Core((("Bitcoin Core", "compiling from source code
 
 
 
-[TIP]
+[SUGGERIMENTO]
 ====
-In
-many of the examples in this chapter, we will be using the operating
-system's command-line interface (also known as a "shell"), accessed via
-a "terminal" application. The shell will display a prompt, you type a
-command, and the shell responds with some text and a new prompt for your
-next command. The prompt may look different on your system, but in the
-following examples, it is denoted by a +$+ symbol. In the examples, when
-you see text after a +$+ symbol, don't type the +$+ symbol but type the
-command immediately following it, then press Enter to execute the
-command. In the examples, the lines below each command are the operating
-system's responses to that command. When you see the next +$+ prefix,
-you'll know it's a new command and you should repeat the process.
+In molti degli esempi di questo capitolo, useremo l'interfaccia a riga di comando del sistema operativo (nota anche come “shell”), accessibile tramite un'applicazione “terminal”. La shell mostrerà un prompt, tu digiterai un comando e la shell risponderà con del testo, quindi mostrerà di nuovo un prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi che seguono lo indicheremo con il simbolo +$+.
+
+Quando, negli esempi, vedi del testo dopo il simbolo +$+, non digitare +$+ ma scrivi direttamente il comando che lo segue, poi premi Invio per eseguirlo. Nelle righe sotto ogni comando, invece, troverai le risposte del sistema operativo. Quando vedrai di nuovo il simbolo +$+, saprai che si tratta di un nuovo comando e potrai ripetere la procedura.
 ====
 
-Here, we use the +git+ command to create a
-local copy ("clone") of the source code:
+Qui, utilizziamo il comando +git+ per creare una copia locale (“clone”) del codice sorgente:
 
 ----
 $ git clone https://github.com/bitcoin/bitcoin.git
@@ -71,23 +61,15 @@ graphical user interface for Git, on your operating system if you do not
 have it already.
 ====
 
-When the Git cloning operation has completed, you will have a complete
-local copy of the source code repository in the directory _bitcoin_.
-Change to this directory using the +cd+ command:
+Al termine dell’operazione di clonazione eseguita da Git, avrai una copia locale completa del repository di codice sorgente nella cartella _bitcoin_. Passa a questa cartella con il comando +cd+:
 
 ----
 $ cd bitcoin
 ----
 
-==== Selecting a Bitcoin Core Release
+==== Selezionare una Versione di Bitcoin Core
 
-By default,((("Bitcoin Core", "compiling from source code", "selecting release version", id="bitcoin-core-compile-release")))((("compiling Bitcoin Core from source code", "selecting release version", id="compile-bitcoin-core-release")))((("source code, compiling Bitcoin Core", "selecting release version", id="source-code-compile-release")))((("release version (Bitcoin Core), selecting", id="release-select")))((("selecting", "release version (Bitcoin Core)", id="select-release"))) the local copy will be synchronized with the
-most recent code, which might be an unstable or beta version of Bitcoin.
-Before compiling the code, select a specific version by checking out a
-release _tag_. This will synchronize the local copy with a specific
-snapshot of the code repository identified by a keyword tag. Tags are
-used by the developers to mark specific releases of the code by version
-number. First, to find the available tags, we use the +git tag+ command:
+Per impostazione predefinita,((("Bitcoin Core", "compiling from source code", "selecting release version", id="bitcoin-core-compile-release")))((("compiling Bitcoin Core from source code", "selecting release version", id="compile-bitcoin-core-release")))((("source code, compiling Bitcoin Core", "selecting release version", id="source-code-compile-release")))((("release version (Bitcoin Core), selecting", id="release-select")))((("selecting", "release version (Bitcoin Core)", id="select-release"))) la copia locale sarà sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, seleziona una versione specifica eseguendo un checkout su un _tag_ di release. Questo permetterà di sincronizzare la copia locale con una versione precisa del codice salvata nel repository, identificata da un'etichetta. Gli sviluppatori utilizzano i tag per contrassegnare le diverse versioni del codice in base al numero di versione. Per prima cosa, per trovare i tag disponibili, usiamo il comando +git tag+:
 
 ----
 $ git tag
@@ -102,12 +84,8 @@ v0.12.0rc2
 ...
 ----
 
-The list of tags shows all the released versions of Bitcoin. By
-convention, _release candidates_, which ((("release candidates")))are intended for testing, have
-the suffix "rc." Stable releases that can be run on production systems
-have no suffix. From the preceding list, select the highest version
-release, which at the time of writing was v24.0.1. To synchronize the
-local code with this version, use the +git checkout+ command:
+L'elenco dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, le versioni _candidate al rilascio_ ((("release candidates"))), destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
+Dall'elenco precedente, seleziona la versione più recente, che al momento della scrittura era la v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
 $ git checkout v24.0.1
