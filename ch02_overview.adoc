@@ -286,87 +286,34 @@ Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volt
 
 Il blocco vincente contenente la transazione di Alice è diventato parte della blockchain. Il blocco che include la transazione di Alice viene conteggiato come una _conferma_ ((("confirmations"))) ((("clearing transactions"))) ((("transactions", "clearing"))) di quella transazione. Dopo che il blocco con la transazione di Alice si è propagato attraverso la rete, per creare un blocco alternativo contenente una versione diversa della transazione di Alice (ad esempio, una transazione che non paga Bob), sarebbe necessario effettuare la stessa quantità di lavoro richiesta a tutti i miner Bitcoin per creare un nuovo blocco da zero. Quando ci sono diversi blocchi alternativi tra cui scegliere, i full node Bitcoin selezionano la catena di blocchi validi che presenta il maggior lavoro totale (PoW). Questa catena viene chiamata _best blockchain_. Affinché l'intera rete accetti un blocco alternativo, sarebbe necessario che venisse minato un ulteriore nuovo blocco sopra quello alternativo.
 
-
-
-That means miners have a choice.  They can work with Alice on an
-alternative to the transaction where she pays Bob, perhaps with
-Alice paying miners a share of the money she previously paid Bob.  This
-dishonest behavior will require they expend the effort required to
-create two new blocks.  Instead, miners who behave honestly can create a
-single new block and receive all of the fees from the transactions
-they include in it, plus the block subsidy.  Normally, the high cost of
-dishonestly creating two blocks for a small additional payment is much
-less profitable than honestly creating a new block, making it unlikely
-that a confirmed transaction will be deliberately changed.  For Bob, this
-means that he can begin to believe that the payment from Alice can be
-relied upon.
+Ciò significa che i miner hanno una scelta. Possono collaborare con Alice per creare un'alternativa alla transazione in cui lei paga Bob, magari con Alice che offre ai miner una parte del denaro che in precedenza aveva pagato a Bob. Questo comportamento disonesto richiederebbe loro di investire lo sforzo necessario per creare due nuovi blocchi. D'altra parte, i miner che si comportano onestamente possono creare un solo nuovo blocco e ricevere tutte le commissioni delle transazioni che vi includono, oltre alla sovvenzione del blocco. Normalmente, l'elevato costo di creare disonestamente due blocchi per ottenere un piccolo pagamento aggiuntivo è molto meno redditizio rispetto alla creazione onesta di un nuovo blocco, rendendo improbabile che una transazione confermata venga intenzionalmente modificata. Per Bob, questo significa che può considerare il pagamento di Alice come affidabile.
 
 [TIP]
 ====
+Puoi vedere il blocco che include il
 You can see the block that includes
-https://oreil.ly/7v_lH[Alice's transaction].
+https://oreil.ly/7v_lH[pagamento di Alice].
 ====
 
-Approximately 19 minutes
-after the block containing Alice's transaction is broadcast, a new block
-is mined by another miner. Because this
-new block is built on top of the block that contained Alice's
-transaction (giving Alice's transaction two confirmations), Alice's
-transaction can now only be changed if two alternative blocks are
-mined--plus a new block built on top of them--for a total of three
-blocks that would need to be mined for Alice to take back the money she
-sent Bob.  Each block mined on top of the one containing Alice's
-transaction counts as an additional confirmation.  As the blocks pile on
-top of each other, it becomes harder to reverse the transaction, thereby
-giving Bob more and more confidence that Alice's payment is secure.
+Circa 19 minuti dopo la trasmissione del blocco contenente la transazione di Alice, un nuovo blocco viene minato da un altro miner. Dato che questo nuovo blocco si basa sul blocco che conteneva la transazione di Alice (fornendo così due conferme), adesso la transazione di Alice può essere modificata soltanto se vengono minati due blocchi alternativi — più un nuovo blocco costruito sopra di essi — per un totale di tre blocchi da minare, qualora Alice volesse riprendersi il denaro inviato a Bob.
+Ogni blocco estratto sopra quello che contiene la transazione di Alice conta come un’ulteriore conferma. Man mano che i blocchi si accumulano uno sull’altro, diventa sempre più difficile annullare la transazione, e ciò offre a Bob sempre maggiore fiducia sul fatto che il pagamento di Alice sia sicuro.
 
-In <<block-alice1>>,  we can see the block that contains Alice's transaction. Below it are
-hundreds of thousands of blocks, linked to each other in a chain of
-blocks (blockchain) all the way back to block #0, known as((("genesis block"))) the _genesis
-block_. Over time, as the "height" of new blocks increases, so does the
-computation difficulty for the chain as a whole.
-By convention, any block with more than six confirmations
-is considered very hard to change, because it would require an immense amount of
-computation to recalculate six blocks (plus one new block). We will examine
-the process of mining and the way it builds confidence in more ((("mining", "operational overview", startref="mining-operational-overview")))detail in
-<<mining>>.
+In <<block-alice1>>, possiamo vedere il blocco che contiene la transazione di Alice. Sotto di esso si trovano centinaia di migliaia di blocchi, collegati tra loro in una catena di blocchi (blockchain) fino ad arrivare al blocco n. 0, noto come((("genesis block"))) _genesis block_. Con il passare del tempo, man mano che aumenta la cosiddetta "altezza" (“height”) dei nuovi blocchi, cresce anche la difficoltà di calcolo dell’intera catena.
+Per convenzione, qualunque blocco con più di sei conferme viene considerato molto difficile da modificare, poiché richiederebbe un’enorme quantità di calcolo per ricalcolare sei blocchi (più un nuovo blocco). Esamineremo il processo di “mining” e il modo in cui incrementa la fiducia in maniera più((("mining", "operational overview", startref="mining-operational-overview"))) approfondita in <<mining>>.
 
 [[block-alice1]]
 .Alice's transaction included in a block.
 image::images/mbc3_0207.png["Alice's transaction included in a block"]
 
 [role="less_space pagebreak-before"]
-=== Spending the Transaction
+=== Spendere la Transazione
 
-Now((("transactions", "spending bitcoins", id="transaction-spend2")))((("bitcoins", "spending", id="bitcoin-spend2")))((("spending bitcoins", id="spend-bitcoin2"))) that Alice's
-transaction has been embedded in the blockchain as part of a block, it
-is visible to all Bitcoin
-applications. Each Bitcoin full node can independently verify the
-transaction as valid and spendable. Full nodes validate every transfer
-of the funds from the moment the bitcoins were first generated in
-a block through each subsequent transaction until they reach
-Bob's address. Lightweight clients can partially verify payments
-by confirming that the
-transaction is in the blockchain and has several blocks mined after it,
-thus providing assurance that the miners expended significant effort
-committing to it (see <<spv_nodes>>).
+Ora((("transactions", "spending bitcoins", id="transaction-spend2")))((("bitcoins", "spending", id="bitcoin-spend2")))((("spending bitcoins", id="spend-bitcoin2"))) che la transazione di Alice è stata incorporata nella blockchain come parte di un blocco, risulta visibile a tutte le applicazioni che eseguono Bitcoin. Ogni Bitcoin full node può verificare in modo indipendente che la transazione sia valida e spendibile. I full nodes verificano ogni trasferimento di fondi, a partire dal momento in cui i bitcoin sono stati generati la prima volta in un blocco, passando per ciascuna transazione successiva, fino a raggiungere l’indirizzo di Bob. I client leggeri (lightweight clients) possono invece verificare parzialmente i pagamenti, controllando che la transazione sia effettivamente presente nella blockchain e che siano stati minati diversi blocchi successivi. In questo modo, si ha la certezza che i miner abbiano investito uno sforzo significativo per registrare la transazione (vedi <<spv_nodes>>).
 
-Bob can now spend the output from this and other transactions. For
-example, Bob can pay a contractor or supplier by transferring value from
-Alice's podcast payment to these new owners.
-As Bob spends the payments received from Alice and other customers, he
-extends the chain of transactions. Let's assume that Bob pays his web
-designer Gopesh
-for a new website page. Now the chain of transactions will
-look like <<block-alice2>>.
+Bob può ora spendere l’output derivante da questa e da altre transazioni. Ad esempio, Bob può pagare un appaltatore o un fornitore trasferendo il valore dal pagamento di Alice per il podcast a questi nuovi destinatari. Man mano che Bob spende i pagamenti ricevuti da Alice e da altri clienti, estende la catena di transazioni. Supponiamo che Bob paghi il suo web designer, Gopesh, per una nuova pagina del sito. A questo punto la catena di transazioni si presenterà come mostrato in <<block-alice2>>.
 
 [[block-alice2]]
 .Alice's transaction as part of a transaction chain from Joe to Gopesh.
 image::images/mbc3_0208.png["Alice's transaction as part of a transaction chain"]
 
-In this chapter, we saw how transactions build a chain that moves value
-from owner to owner. We also tracked Alice's transaction from the
-moment it was created in her wallet, through the Bitcoin network, and to
-the miners who recorded it on the blockchain. In the rest of this book,
-we will examine the specific technologies behind wallets, addresses,
-signatures, transactions, the network, and finally, mining.
+In questo capitolo, abbiamo visto come le transazioni creino una catena che trasferisce valore da un proprietario all’altro. Abbiamo anche seguito la transazione di Alice dal momento in cui è stata creata nel suo wallet, passando attraverso la rete Bitcoin, fino ai miner che l’hanno registrata sulla blockchain. Nel resto di questo libro, esamineremo nel dettaglio le tecnologie specifiche che stanno dietro a wallet, indirizzi, firme, transazioni, al network e, infine, al mining.
