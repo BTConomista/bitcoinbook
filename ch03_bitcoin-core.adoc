@@ -98,26 +98,22 @@ state without impacting any branches by switching back to a branch.
 HEAD is now at b3f866a8d Merge bitcoin/bitcoin#26647: 24.0.1 final changes
 ----
 
-You can confirm you have the desired version "checked out" by((("Bitcoin Core", "compiling from source code", "selecting release version", startref="bitcoin-core-compile-release")))((("compiling Bitcoin Core from source code", "selecting release version", startref="compile-bitcoin-core-release")))((("source code, compiling Bitcoin Core", "selecting release version", startref="source-code-compile-release")))((("release version (Bitcoin Core), selecting", startref="release-select")))((("selecting", "release version (Bitcoin Core)", startref="select-release"))) issuing
-the command +git status+:
+Puoi confermare di aver selezionato la versione desiderata eseguendo il comando +git status+(("Bitcoin Core", "compiling from source code", "selecting release version", startref="bitcoin-core-compile-release")))((("compiling Bitcoin Core from source code", "selecting release version", startref="compile-bitcoin-core-release")))((("source code, compiling Bitcoin Core", "selecting release version", startref="source-code-compile-release")))((("release version (Bitcoin Core), selecting", startref="release-select")))((("selecting", "release version (Bitcoin Core)":
 
 ----
 HEAD detached at v24.0.1
 nothing to commit, working tree clean
 ----
 
-==== Configuring the Bitcoin Core Build
+==== Configurazione della Build di Bitcoin Core
 
-The((("Bitcoin Core", "compiling from source code", "configuring build", id="bitcoin-core-compile-configure")))((("compiling Bitcoin Core from source code", "configuring build", id="compile-bitcoin-core-configure")))((("source code, compiling Bitcoin Core", "configuring build", id="source-code-compile-configure")))((("configuring", "Bitcoin Core build", id="configure-build"))) source code includes documentation, which
-can be found in a number of files. Review the main documentation located
-in _README.md_ in the _bitcoin_ directory.
-In this chapter, we will build the Bitcoin Core daemon
-(server), also known as +bitcoind+ on Linux (a Unix-like system). Review the instructions for
-compiling the +bitcoind+ command-line client on your platform by reading
-_doc/build-unix.md_.  Alternative instructions can be found in
-the _doc_ directory; for example, _build-windows.md_ for Windows
-instructions.  As of this writing, instructions are available for
-Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix, and Windows.
+Il((("Bitcoin Core", "compiling from source code", "configuring build", id="bitcoin-core-compile-configure")))((("compiling Bitcoin Core from source code", "configuring build", id="compile-bitcoin-core-configure")))((("source code, compiling Bitcoin Core", "configuring build", id="source-code-compile-configure")))((("configuring", "Bitcoin Core build", id="configure-build"))) codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
+
+In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (o altri sistemi Unix). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
+
+Nel caso di piattaforme diverse, puoi trovare istruzioni alternative nella directory _doc_; ad esempio, _build-windows.md_ contiene le istruzioni specifiche per Windows. Al momento della stesura di questa guida, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
+
+
 
 Carefully review the build prerequisites, which are in the first part of
 the build documentation. These are libraries that must be present on
