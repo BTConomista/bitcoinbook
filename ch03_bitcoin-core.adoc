@@ -22,7 +22,7 @@ Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte par
 
 === Ambiente di sviluppo Bitcoin
 
-Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventi troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
+Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventa troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
 
 [[compiling_core]]
 
