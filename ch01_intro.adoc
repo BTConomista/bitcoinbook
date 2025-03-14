@@ -99,15 +99,7 @@ Client API di Terze Parti:: Un client API di terze parti ((("third-party API cli
 
 [TIP]
 ====
-Bitcoin ((("Bitcoin", "as peer-to-peer network", secondary-sortas="peer-to-peer network")))((("peer-to-peer networks, Bitcoin as")))((("peers")))((("clients")))is a peer-to-peer (P2P) network.  Full nodes are the _peers:_
-each peer individually validates every confirmed transaction and can
-provide data to its user with complete authority.  Lightweight wallets
-and other software are _clients:_ each client depends on one or more peers
-to provide it with valid data.  Bitcoin clients can perform secondary
-validation on some of the data they receive and make connections to
-multiple peers to reduce their dependence on the integrity of a single
-peer, but the security of a client ultimately relies on the integrity of
-its peers.
+Bitcoin((("Bitcoin", "as peer-to-peer network", secondary-sortas="peer-to-peer network")))((("peer-to-peer networks, Bitcoin as")))((("peers")))((("clients"))) è una rete peer-to-peer (P2P, potremmo tradurre in italiano con l'espressione "da pari a pari"). I full nodes sono i _peer_: ogni peer convalida personalmente tutte le transazioni confermate e può fornire al proprio utente dati con autorità. I wallet leggeri e altri software, invece, sono chiamati _client_: ogni client dipende da uno o più peer per ottenere dati validi. I client Bitcoin possono eseguire una convalida secondaria su alcuni dati ricevuti e connettersi a più peer per ridurre la dipendenza dall'integrità di un singolo peer. Tuttavia, la sicurezza di un client dipende alla fine dall'integrità dei peer a cui si collega.
 ====
 
 ===== Chi controlla le chiavi
@@ -158,7 +150,6 @@ Vedi <<recovery_code_sample>> per alcuni esempi
 Un codice di recupero è ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes")))talvolta chiamato mnemonico o frase mnemonica ((("mnemonic phrases", see="recovery codes")))((("seed phrases", see="recovery codes"))), un nome che suggerisce che la frase dovrebbe essere memorizzata. Tuttavia, scriverla su carta richiede meno sforzo ed è generalmente più affidabile della memoria della maggior parte delle persone, quindi è preferibile. Un'altra denominazione alternativa è frase seed, perché fornisce l'input ("seed") (seed, ovvero seme) alla funzione che genera tutte le chiavi del wallet.
 
 ====
-
 Se qualcosa dovesse accadere al wallet di Alice, lei potrebbe scaricare 
 nuovamente il software del wallet e inserire il codice di recupero per 
 ricostruire il database del wallet contenente tutte le transazioni onchain 
@@ -188,17 +179,10 @@ fino alla richiesta di reinserire manualmente il codice di recupero.
 
 [WARNING]
 ====
-Although many legitimate wallets will prompt you to re-enter
-your recovery code, there are also many malware applications that mimic the
-design of a wallet, insist you enter your recovery code, and then
-relay any entered code to the malware developer so they can steal
-your funds.  This is the equivalent of phishing websites that try to
-trick you into giving them your bank passphrase.  For most wallet
-applications, the only times they will ask for your recovery code are during
-the initial set up (before you have received any bitcoins) and during
-recovery (after you lost access to your original wallet).  If the application
-asks for your recovery code any other time, consult with an expert to
-ensure you aren't ((("wallets", "recovery codes", startref="wallet-recovery")))((("recovery codes", startref="recovery-code")))being phished.
+Anche se molti wallet legittimi ti chiedono di reinserire il tuo codice di recupero, esistono anche numerose applicazioni malware che imitano il design di un wallet, insistono affinché tu inserisca il codice di recupero e poi lo trasmettono agli sviluppatori del malware, permettendo loro di rubare i tuoi fondi.
+Questo è l’equivalente dei siti di phishing che cercano di ingannarti per ottenere la password del tuo conto bancario.
+Nella maggior parte delle applicazioni wallet, il codice di recupero viene richiesto solo in due situazioni: durante la configurazione iniziale (prima di ricevere qualsiasi bitcoin) e durante il recupero (dopo aver perso l’accesso al wallet originale).
+Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, consulta un esperto per assicurarti di non essere vittima di un((("wallets", "recovery codes", startref="wallet-recovery")))((("recovery codes", startref="recovery-code"))) attacco di phishing.
 ====
 
 ==== Indirizzi Bitcoin
@@ -208,20 +192,12 @@ L’applicazione del wallet ha generato casualmente una chiave privata (descritt
 
 [TIP]
 ====
-There
-are a variety ((("invoices")))of Bitcoin addresses and invoice formats.  Addresses and
-invoices can be shared with other Bitcoin users
-who can use them to send bitcoins directly to your wallet.  You can share
-an address or invoice with other people without worrying about the
-security of your bitcoins.  Unlike a bank account number, nobody who
-learns one of your Bitcoin addresses can withdraw money from your wallet--you
-must initiate all spends.  However, if you give two people the same
-address, they will be able to see how many bitcoins the other person sent
-you.  If you post your address publicly, everyone will be able to see
-how much bitcoin other people sent to that address.  To protect your privacy, you
-should generate a new invoice with a new address each time you request a
-payment.
+Esistono diversi formati di indirizzi Bitcoin e ordini di pagamento (invoice)((("invoices"))). Gli indirizzi e gli ordini di pagamento possono essere condivisi con altri utenti Bitcoin, che potranno usarli per inviarti bitcoin direttamente nel tuo wallet.
+Puoi condividere un indirizzo o un ordine di pagamento con altre persone senza preoccuparti per la sicurezza dei tuoi bitcoin. A differenza di un numero di conto bancario, nessuno che conosca uno dei tuoi indirizzi Bitcoin può prelevare fondi dal tuo wallet: sei sempre tu a dover avviare una transazione.
+Tuttavia, se fornisci lo stesso indirizzo a due persone diverse, entrambe potranno vedere quanti bitcoin ti ha inviato l'altra. Inoltre, se pubblichi il tuo indirizzo pubblicamente, chiunque potrà vedere quanti bitcoin sono stati inviati a quell'indirizzo.
+Per proteggere la tua privacy, dovresti generare un nuovo ordine di pagamento con un nuovo indirizzo ogni volta che richiedi un pagamento.
 ====
+
 ==== Ricevere Bitcoin
 
 Alice((("bitcoins", "receiving")))((("receiving bitcoins"))) usa il pulsante _Ricevi_, che mostra un codice QR, mostrato in <<wallet_receive>>.
@@ -235,9 +211,7 @@ Il codice QR è il quadrato con un motivo di punti bianchi e neri mostrato sopra
 
 [WARNING]
 ====
-Any funds sent to the addresses in this book will be lost.  If you want
-to test sending bitcoins, please consider donating it to a
-bitcoin-accepting charity.
+Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se vuoi testare l'invio di bitcoin, considera di donarli a un'organizzazione benefica che accetta bitcoin.
 ====
 
 [[getting_first_bitcoin]]
@@ -260,20 +234,9 @@ Ecco alcuni metodi per acquistare bitcoin se sei un nuovo utente:
 
 [TIP]
 ====
-One of the advantages of
-Bitcoin over other payment systems is that, when used correctly, it
-affords users much more privacy. Acquiring, holding, and spending
-bitcoin does not require you to divulge sensitive and personally
-identifiable information to third parties. However, where bitcoin
-touches traditional systems, such as currency exchanges, national and
-international regulations often apply. In order to exchange bitcoin for
-your national currency, you will often be required to provide proof of
-identity and banking information. Users should be aware that once a
-Bitcoin address is attached to an identity, other associated Bitcoin
-transactions may also become easy to identify and track--including
-transactions made earlier. This is one reason
-many users choose to maintain dedicated exchange accounts independent from
-their wallets.
+Uno dei vantaggi di Bitcoin rispetto ad altri sistemi di pagamento è che, se utilizzato correttamente, offre agli utenti un livello di privacy molto più elevato. Acquistare, detenere e spendere bitcoin non richiede di divulgare informazioni sensibili o dati personali identificabili a terze parti.
+Tuttavia, quando Bitcoin interagisce con i sistemi finanziari tradizionali, come gli exchange di valute, spesso si applicano normative nazionali e internazionali. Per scambiare bitcoin con la valuta del tuo paese, di solito ti verrà richiesto di fornire un documento d’identità e informazioni bancarie.
+Gli utenti devono essere consapevoli che, una volta che un indirizzo Bitcoin è collegato a un’identità, anche altre transazioni associate potrebbero diventare facilmente identificabili e tracciabili, comprese quelle effettuate in passato. Per questo motivo, molti utenti scelgono di mantenere account sugli exchange separati dai loro wallet personali.
 ====
 
 Alice si è avvicinata a Bitcoin grazie ad un amico, quindi ha un modo semplice per acquistare i suoi primi bitcoin. 
@@ -297,29 +260,18 @@ Oltre a questi vari siti e applicazioni, alcuni wallet Bitcoin convertono automa
 
 [[sending_receiving]]
 ==== Inviare e ricevere bitcoin
+Alice ((("bitcoins", "spending", id="bitcoin-send")))((("spending bitcoins", id="send-bitcoin")))((("bitcoins", "receiving", id="bitcoin-receive")))((("receiving bitcoins", id="receive-bitcoin")))ha deciso di acquistare 0,001 bitcoin. Dopo aver controllato il tasso di cambio con Joe, gli consegna la somma corrispondente in contanti, apre l'applicazione del suo wallet mobile e seleziona l'opzione Ricevi.
+A questo punto, viene visualizzato un codice QR contenente il primo indirizzo Bitcoin di Alice.
 
-Alice ((("bitcoins", "spending", id="bitcoin-send")))((("spending bitcoins", id="send-bitcoin")))((("bitcoins", "receiving", id="bitcoin-receive")))((("receiving bitcoins", id="receive-bitcoin")))has
-decided to buy 0.001 bitcoins. After she and Joe check the exchange rate,
-she gives Joe an appropriate amount of cash, opens her mobile wallet
-application, and selects Receive. This
-displays a QR code with Alice's first Bitcoin address.
+Joe seleziona quindi Invia sul suo wallet mobile e apre lo scanner per i codici QR. In questo modo, può scansionare il codice con la fotocamera del suo smartphone, evitando di dover digitare manualmente l’indirizzo Bitcoin di Alice, che è piuttosto lungo.
 
-Joe then selects Send on his smartphone wallet and opens the QR code
-scanner.  This allows Joe to scan the barcode with his smartphone camera
-so that he doesn't have to type in Alice's Bitcoin address, which is
-quite long.
+Ora Joe ha l’indirizzo Bitcoin di Alice impostato come destinatario. Inserisce quindi l’importo di 0,001 bitcoin (BTC); vedi <<wallet-send>>.
+Alcuni wallet potrebbero mostrare l’importo in una denominazione diversa: 0,001 BTC equivale a 1 millibitcoin (mBTC) o 100.000 satoshi (sats).
 
-Joe now has Alice's Bitcoin address set as the recipient. Joe enters the amount as 0.001 bitcoins (BTC); see <<wallet-send>>.  Some wallets may
-show the amount in a different denomination: 0.001 BTC is 1 millibitcoin
-(mBTC) or 100,000 satoshis (sats).
-
-Some wallets may also suggest Joe enter a label for this transaction; if
-so, Joe enters "Alice".  Weeks or months from now, this will help Joe
-remember why he sent these 0.001 bitcoins.  Some wallets may also prompt
-Joe about fees.  Depending on the wallet and how the transaction is
-being sent, the wallet may ask Joe to either enter a transaction fee rate or
-prompt him with a suggested fee (or fee rate).  The higher the transaction fee, the
-faster the transaction will be confirmed (see <<confirmations>>).
+Alcuni wallet potrebbero anche suggerire a Joe di inserire un'etichetta per questa transazione; se così fosse, Joe digita "Alice". Questo gli permetterà, tra settimane o mesi, di ricordare il motivo per cui ha inviato questi 0,001 bitcoin.  
+Alcuni wallet potrebbero anche chiedere a Joe di impostare una commissione di transazione (fee). A seconda del wallet e del metodo di invio della transazione, il wallet potrebbe chiedergli di inserire manualmente un tasso di commissione o mostrargli la commissione suggerita (o un tasso di commissione per byte).  
+Più alta è la commissione, più velocemente la transazione verrà confermata (vedi <<confirmations>>).
+  
 
 [[wallet-send]]
 .Schermata di invio di un wallet Bitcoin.
