@@ -203,14 +203,9 @@ Making all in src
 [... many more compilation messages follow ...]
 ----
 
-On a fast system with more than one CPU, you might want to set the
-number of parallel compile jobs. For instance, +make -j 2+ will use two
-cores if they are available. If all goes well, Bitcoin Core is now
-compiled. You should run the unit test suite with +make check+ to ensure
-the linked libraries are not broken in obvious ways. The final step is
-to install the various executables on your system using the +make
-install+ command. You may be prompted for your user password because
-this step requires administrative privileges:
+Su un sistema veloce con più di una CPU, potresti voler impostare il numero di processi di compilazione paralleli. Ad esempio, il comando +make -j 2+ utilizzerà due core, se disponibili.
+Se tutto è andato bene, Bitcoin Core è ora compilato. A questo punto, dovresti eseguire la suite di test unitari con il comando +make check+ per verificare che le librerie collegate non presentino errori evidenti.
+L'ultimo passaggio consiste nell'installare i vari eseguibili sul tuo sistema utilizzando il comando +make install+. Potrebbe essere richiesto di inserire la password dell'utente, poiché questo passaggio richiede privilegi di amministratore.
 
 ----
 $ make check && sudo make install
@@ -223,10 +218,7 @@ libtool: install: /usr/bin/install -c bitcoin-tx /usr/local/bin/bitcoin-tx
 ...
 ----
 
-The default installation of +bitcoind+
-puts it in _/usr/local/bin_. You can confirm that Bitcoin Core is
-correctly installed by asking the system for the path of the
-executables, ((("Bitcoin Core", "compiling from source code", startref="bitcoin-core-compile")))((("compiling Bitcoin Core from source code", startref="compile-bitcoin-core")))((("source code, compiling Bitcoin Core", startref="source-code-compile")))as follows:
+L'installazione predefinita di +bitcoind+ lo posiziona in _/usr/local/bin_. Puoi confermare che Bitcoin Core è stato installato correttamente chiedendo al sistema il percorso degli eseguibili,((("Bitcoin Core", "compiling from source code", startref="bitcoin-core-compile")))((("compiling Bitcoin Core from source code", startref="compile-bitcoin-core")))((("source code, compiling Bitcoin Core", startref="source-code-compile"))) come segue:
 
 ----
 $ which bitcoind
@@ -236,93 +228,50 @@ $ which bitcoin-cli
 /usr/local/bin/bitcoin-cli
 ----
 
-=== Running a Bitcoin Core Node
+=== Esecuzione di un Nodo Bitcoin Core
 
-Bitcoin's ((("Bitcoin Core", "nodes", "running", id="bitcoin-core-nodes-running")))((("nodes", "running", id="nodes-running")))((("running nodes", id="running-nodes")))peer-to-peer
-network is composed of network "nodes," run mostly by individuals and
-some of the businesses that provide Bitcoin services. Those running
-Bitcoin nodes have a direct and authoritative view of the Bitcoin
-blockchain, with a local copy of all the spendable bitcoins
-independently validated by their own system. By running a node, you
-don't have to rely on any third party to validate a transaction.
-Additionally, by using a Bitcoin node to fully validate the transactions
-you receive to your wallet, you contribute to the Bitcoin network and
-help make it more robust.
+La rete peer-to-peer di Bitcoin((("Bitcoin Core", "nodes", "running", id="bitcoin-core-nodes-running")))((("nodes", "running", id="nodes-running")))((("running nodes", id="running-nodes"))) è composta da "nodi", gestiti principalmente da individui e da alcune aziende che forniscono servizi Bitcoin. Chi esegue un nodo Bitcoin ha una visione diretta e autorevole della blockchain di Bitcoin, con una copia locale di tutti i bitcoin spendibili, validata in modo indipendente dal proprio sistema.
+Eseguendo un nodo, non devi fare affidamento su terze parti per validare una transazione. Inoltre, utilizzando un nodo Bitcoin per verificare completamente le transazioni che ricevi nel tuo wallet, contribuisci alla rete Bitcoin, rendendola più robusta e sicura.
 
-Running a node, however, requires downloading and processing over 500 GB
-of data initially and about 400 MB of Bitcoin transactions per day.
-These figures are for 2023 and will likely increase over time.  If you
-shut down your node or get disconnected from the internet for several
-days, your node will need to download the data that it missed.  For
-example, if you close Bitcoin Core for 10 days, you will need to
-download approximately 4 GB the next time you start it.
-
-Depending on whether you choose to index all transactions and keep a
-full copy of the blockchain, you may also need a lot of disk space--at
-least 1 TB if you plan to run Bitcoin Core for several years.  By
-default, Bitcoin nodes also transmit transactions and blocks to other
-nodes (called "peers"), consuming upload internet bandwidth. If your
-internet connection is limited, has a low data cap, or is metered
-(charged by the gigabit), you should probably not run a Bitcoin node on
-it, or run it in a way that constrains its bandwidth (see
-<<bitcoincorenode_config>>).  You may connect your node instead to an
-alternative network, such as a free satellite data provider like
-https://oreil.ly/cIwf3[Blockstream Satellite].
+Eseguire un nodo, tuttavia, richiede il download e l'elaborazione di oltre 500 GB di dati iniziali, oltre a circa 400 MB di transazioni Bitcoin al giorno. Questi dati si riferiscono al 2023 e probabilmente aumenteranno nel tempo.
+Se spegni il tuo nodo o perdi la connessione a Internet per diversi giorni, il nodo dovrà scaricare i dati mancanti al momento della riattivazione. Ad esempio, se chiudi Bitcoin Core per 10 giorni, al successivo avvio dovrai scaricare circa 4 GB di dati.
+A seconda che tu scelga di indicizzare tutte le transazioni e conservare una copia completa della blockchain, potresti aver bisogno di una notevole quantità di spazio su disco—almeno 1 TB se prevedi di eseguire Bitcoin Core per diversi anni.
+Per impostazione predefinita, i nodi Bitcoin trasmettono anche transazioni e blocchi ad altri nodi (chiamati "peer"), consumando banda internet in upload. Se la tua connessione Internet è limitata, ha un tetto massimo di dati o è tariffata in base al consumo (ad esempio, paghi per ogni gigabit trasferito), probabilmente non dovresti eseguire un nodo Bitcoin su di essa, oppure dovresti configurarlo in modo da limitare il consumo di banda (vedi <<bitcoincorenode_config>>).
+In alternativa, puoi collegare il tuo nodo a una rete diversa, come un fornitore di dati satellitari gratuito, ad esempio https://oreil.ly/cIwf3[Blockstream Satellite].
 
 [TIP]
 ====
-Bitcoin Core keeps a full
-copy of the blockchain by default, with nearly every transaction that has ever
-been confirmed on the Bitcoin network since its inception in 2009. This
-dataset is hundreds of gigabytes in size and is downloaded incrementally
-over several hours or days, depending on the speed of your CPU and
-internet connection. Bitcoin Core will not be able to process
-transactions or update account balances until the full blockchain
-dataset is downloaded. Make sure you have enough disk space, bandwidth,
-and time to complete the initial synchronization. You can configure
-Bitcoin Core to reduce the size of the blockchain by discarding old
-blocks, but it will still download the
-entire dataset.
+
+Bitcoin Core mantiene per impostazione predefinita una copia completa della blockchain, contenente quasi tutte le transazioni confermate sulla rete Bitcoin sin dal suo inizio nel 2009. Questo dataset occupa centinaia di gigabyte e viene scaricato gradualmente nel corso di diverse ore o giorni, a seconda della velocità della CPU e della connessione internet.
+Bitcoin Core non sarà in grado di elaborare transazioni o aggiornare i saldi degli account fino a quando l'intero dataset della blockchain non sarà stato scaricato. Assicurati di avere spazio su disco sufficiente, una larghezza di banda adeguata e il tempo necessario per completare la sincronizzazione iniziale.
+Puoi configurare Bitcoin Core per ridurre la dimensione della blockchain eliminando i blocchi più vecchi, ma dovrà comunque scaricare l’intero dataset.
 ====
 
-Despite these resource requirements, thousands of people run Bitcoin
-nodes. Some are running on systems as simple as a Raspberry Pi (a $35
-USD computer the size of a pack of cards).
+Nonostante questi requisiti di risorse, migliaia di persone eseguono nodi Bitcoin. Alcuni funzionano su sistemi semplici come un Raspberry Pi, un computer da 35 dollari delle dimensioni di un mazzo di carte.
 
 [role="less_space pagebreak-before"]
-Why would you want to run a node? Here are some of the most common
-reasons:
+Perché dovresti voler eseguire un nodo? 
+Ecco alcune delle ragioni più comuni:
 
-- You do not want to rely on any third party to validate the
-  transactions you receive.
+- Non vuoi fare affidamento su terze parti per validare le transazioni che ricevi.
 
-- You do not want to disclose to third parties which transactions belong
-  to your wallet.
+- Non vuoi rivelare a terzi quali transazioni appartengono al tuo wallet.
 
-- You are developing Bitcoin software and need to rely on a Bitcoin
-  node for programmable (API) access to the network and blockchain.
+- Stai sviluppando software Bitcoin e hai bisogno di un nodo Bitcoin per accedere alla rete e alla blockchain tramite API.
 
-- You are building applications that must validate transactions
-  according to Bitcoin's consensus rules. Typically, Bitcoin software
-  companies run several nodes.
+- Stai creando applicazioni che devono validare le transazioni in base alle regole di consenso di Bitcoin. Di solito, le aziende che sviluppano software Bitcoin gestiscono diversi nodi.
 
-- You want to support Bitcoin. Running a node that you use to
-  validate the transactions you receive to your wallet makes the network
-  more robust.
+- Vuoi supportare Bitcoin. Eseguire un nodo per validare le transazioni che ricevi nel tuo wallet contribuisce a rendere la rete più robusta e sicura.
 
-If you're reading this book and interested in strong security, superior
-privacy, or developing Bitcoin software, you should be running your ((("Bitcoin Core", "nodes", "running", startref="bitcoin-core-nodes-running")))((("nodes", "running", startref="nodes-running")))((("running nodes", startref="running-nodes")))own
-node.
+Se stai leggendo questo libro e sei interessato a una sicurezza avanzata, a una maggiore privacy o allo sviluppo di software Bitcoin, dovresti eseguire il tuo ((("Bitcoin Core", "nodes", "running", startref="bitcoin-core-nodes-running")))((("nodes", "running", startref="nodes-running")))((("running nodes", startref="running-nodes"))) nodo.
+
 
 [[bitcoincorenode_config]]
-=== Configuring the Bitcoin Core Node
+=== Configurare il Nodo Bitcoin Core
 
-Bitcoin Core will((("Bitcoin Core", "nodes", "configuring", id="bitcoin-core-nodes-configure")))((("nodes", "configuring", id="nodes-configure")))((("configuring", "nodes", id="configure-nodes"))) look for a
-configuration file in its data directory on every start. In this section
-we will examine the various configuration options and set up a
-configuration file. To locate the configuration file, run +bitcoind
--printtoconsole+ in your terminal and look for the first couple of
-lines:
+Bitcoin Core cercherà((("Bitcoin Core", "nodes", "configuring", id="bitcoin-core-nodes-configure")))((("nodes", "configuring", id="nodes-configure")))((("configuring", "nodes", id="configure-nodes"))) un file di configurazione nella sua directory dei dati a ogni avvio. In questa sezione esamineremo le varie opzioni di configurazione e imposteremo un file di configurazione.
+Per individuare il file di configurazione, esegui +bitcoind
+-printtoconsole+ nel terminale e osserva le prime righe dell'output:
 
 ----
 $ bitcoind -printtoconsole
@@ -338,15 +287,12 @@ $ bitcoind -printtoconsole
 ...
 ----
 
-You can hit Ctrl-C to shut down the node once you determine the location
-of the config file. Usually the configuration file is inside the
-_.bitcoin_ data directory under your user's home directory. Open the
-configuration file in your preferred editor.
+Puoi premere Ctrl+C per spegnere il nodo una volta individuata la posizione del file di configurazione.
+Di solito, il file di configurazione si trova nella directory dei dati _.bitcoin_ all'interno della home directory dell'utente.
+Apri il file di configurazione con il tuo editor preferito per modificarlo.
 
-Bitcoin Core offers more than 100 configuration options that modify the
-behavior of the network node, the storage of the blockchain, and many
-other aspects of its operation. To see a listing of these options, run
-+bitcoind  --help+:
+Bitcoin Core offre più di 100 opzioni di configurazione che modificano il comportamento del nodo di rete, la gestione dello storage della blockchain e molti altri aspetti del suo funzionamento.
+Per visualizzare l'elenco completo di queste opzioni, esegui il comando +bitcoind  --help+ nel terminale:
 
 ----
 $ bitcoind --help
