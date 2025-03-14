@@ -193,7 +193,7 @@ Alice usa il pulsante _Ricevi_, che mostra un codice QR, mostrato in <<wallet_ri
 
 [role="width-50"]
 [[wallet_ricevi]]
-Figura 1. Alice usa la schermata “Ricevi” sul suo wallet Bitcoin e mostra il suo indirizzo in formato codice QR.
+.Alice usa la schermata “Ricevi” sul suo wallet Bitcoin e mostra il suo indirizzo in formato codice QR.
 image::images/mbc3_0101.png["Wallet receive screen with QR code displayed.  Image derived from Bitcoin Design Guide CC-BY"]
 
 Il codice QR è il quadrato con un motivo di punti bianchi e neri mostrato sopra che funge da codice a barre, contenendo le stesse informazioni in un formato che può essere scansionato dalla fotocamera dello smartphone di Joe.
