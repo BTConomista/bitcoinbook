@@ -5,9 +5,9 @@
 Bitcoin((("Bitcoin", "operational overview", id="bitcoin-operational-overview"))) è un insieme di concetti e tecnologie che formano le basi di un ecosistema di moneta digitale. Le unità di valuta chiamate bitcoin sono usate per conservare e trasmettere valore tra i partecipanti al network di Bitcoin. Gli utenti Bitcoin operano tra di loro attraverso il protocollo Bitcoin principalmente tramite internet, anche se possono essere usate anche altre reti di trasporto. L'architettura a strati del protocollo Bitcoin, disponibile come software open source, è compatibile con una vasta gamma di dispositivi, dai laptop agli smartphone, rendendo la tecnologia facilmente accessibile a tutti.
 
 [TIP]
-=
+====
 In questo libro, l’unità di valuta è chiamata “bitcoin”((("bitcoins", "defined"))) (con la _b_ minuscola), mentre il sistema si chiama “Bitcoin” (con la _B_ maiuscola).
-=
+====
 
 Gli utenti possono trasferire bitcoin sul network Bitcoin per fare praticamente tutto ciò che è possibile fare con le valute tradizionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni o concedere credito. I bitcoin possono essere acquistati, venduti e scambiati con altre valute presso appositi cambi di valuta, i cosiddetti exchange. Bitcoin è considerato da molti la forma di denaro perfetta per internet, poiché è veloce, sicuro e senza confini.
 
