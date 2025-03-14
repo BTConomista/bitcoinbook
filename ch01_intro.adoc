@@ -29,7 +29,7 @@ In questo capitolo inizieremo spiegando alcuni dei concetti e termini principali
 === 1.1 Monete Digitali Prima di Bitcoin
 
 
-L'emergere ((("digital currencies, history of")))((("history", "of digital currencies", secondary-sortas="digital currencies")))((("cryptography"))) di una moneta digitale valida è strettamente legato agli sviluppi della crittografia. Questo non sorprende, se si considerano le sfide fondamentali legate alla rappresentazione digitale del valore scambiabile con beni e servizi
+L'emergere di una moneta digitale valida è strettamente legato agli sviluppi della crittografia. Questo non sorprende, se si considerano le sfide fondamentali legate alla rappresentazione digitale del valore scambiabile con beni e servizi.
 Tre domande essenziali che chiunque accetti denaro digitale deve porsi sono:
 
 *     Posso fidarmi che il denaro sia autentico e non contraffatto?
