@@ -110,7 +110,7 @@ Vedi <<esempio_codici__di_recupero>>(tabella 1.1) per alcuni esempi
 
 ++++
 <table id="esempio_codici__di_recupero">
-<caption>Sample recovery codes (1.1)</caption>
+<caption>Esempio codici di recupero (1.1)</caption>
 <thead>
 <tr>
 <th>Wallet</th>
