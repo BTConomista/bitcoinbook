@@ -272,9 +272,8 @@ Man mano che la transazione viene trasmessa tramite il protocollo peer-to-peer, 
 Nel frattempo, il wallet di Alice è costantemente "in ascolto" delle nuove transazioni sulla rete Bitcoin, cercando quelle che corrispondono agli indirizzi che contiene. Pochi secondi dopo l'invio della transazione da parte di Joe, il wallet di Alice segnalerà la ricezione di 0.001 BTC.
 
 [[confirmations]]
-.Conferme
-****
+==== 1.15 Conferme
+
 All'inizio, l'indirizzo di Alice mostrerà la transazione proveniente da Joe come "Non confermata". Questo significa che la transazione è stata propagata alla rete, ma non è ancora stata registrata nel registro delle transazioni di Bitcoin, noto come blockchain. Per essere confermata, una transazione deve essere inclusa in un blocco e aggiunta alla blockchain, un processo che avviene, in media, ogni 10 minuti. In termini finanziari tradizionali, questo è noto come _clearing_. Per maggiori dettagli sulla propagazione, validazione e _clearing_ delle transazioni in bitcoin, vedi <<mining>>.
-****
 
 Alice è ora orgogliosamente proprietaria di 0,001 BTC, che può spendere come preferisce. Nei giorni successivi, acquista altri bitcoin utilizzando un ATM e un exchange. Nel prossimo capitolo vedremo il suo primo acquisto con Bitcoin ed esamineremo più nel dettaglio le tecnologie alla base delle transazioni e della loro propagazione.
