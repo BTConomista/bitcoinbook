@@ -9,40 +9,21 @@ Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiu
 .Transaction chain from original Bitcoin paper.
 image::images/mbc3_aain01.png["Transaction chain from original Bitcoin paper"]
 
-A receiver like Bob
-accepts bitcoins to a public key in a transaction that is signed by the
-spender (like Alice).  The bitcoins that Alice is spending had been
-previously received to one of her public keys, and she uses the
-corresponding private key to generate her signature.  Full nodes can
-verify that Alice's signature commits to the output of a hash function
-that itself commits to Bob's public key and other transaction details.
+Il destinatario, come Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (come Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e lei utilizza la corrispondente chiave privata per generare la sua firma.
+I full node possono verificare che la firma di Alice si riferisca all'output di una funzione di hash, che a sua volta lega la transazione alla chiave pubblica di Bob e ad altri dettagli della transazione.
 
-We'll examine public keys, private keys, signatures, and hash functions
-in this chapter, and then use all of them together to describe
-the addresses used by modern Bitcoin software.
+In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme e le funzioni di hash. Successivamente, utilizzeremo tutti questi elementi insieme per descrivere gli indirizzi utilizzati dal software Bitcoin moderno.
 
 === Crittografia a Chiave Pubblica
 
 La crittografia a chiave pubblica((("public key cryptography", id="pub-key"))) è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
-
 Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’esponenziazione di numeri primi e la moltiplicazione su curve ellittiche. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
-
-
-
-Based on these mathematical functions, cryptography enables the creation
-of unforgeable digital signatures. 
-
-
+Sulla base di queste funzioni matematiche, la crittografia permette la creazione di firme digitali non falsificabili.
 Bitcoin utilizza la somma e la moltiplicazione su curve ellittiche come base per la sua crittografia.
 
 In Bitcoin, possiamo usare la crittografia a chiave pubblica per creare((("key pairs", id="key-pair")))((("public keys", "purpose of")))((("private keys", "purpose of"))) una coppia di chiavi che controlla l’accesso ai bitcoin. La coppia di chiavi è composta da una chiave privata e una chiave pubblica derivata dalla chiave privata. La chiave pubblica viene utilizzata per ricevere fondi, mentre la chiave privata serve a firmare le transazioni per spendere quei fondi.
 
-
-
-There is a mathematical relationship between the public and the private
-key that allows the private key to be used to generate signatures on
-messages. These signatures can be validated against the public key without
-revealing the private key.
+Esiste una relazione matematica tra la chiave privata e la chiave pubblica che permette di utilizzare la chiave privata per generare firme sui messaggi. Queste firme possono essere verificate utilizzando la chiave pubblica, senza che la chiave privata venga rivelata.
 
 [TIP]
 ====
