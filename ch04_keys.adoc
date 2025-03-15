@@ -14,7 +14,7 @@ I full node possono verificare che la firma di Alice si riferisca all'output di 
 
 In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme e le funzioni di hash. Successivamente, utilizzeremo tutti questi elementi insieme per descrivere gli indirizzi utilizzati dal software Bitcoin moderno.
 
-=== Crittografia a Chiave Pubblica
+=== 4.1 Crittografia a Chiave Pubblica
 
 La crittografia a chiave pubblica((("public key cryptography", id="pub-key"))) è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
 Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’esponenziazione di numeri primi e la moltiplicazione su curve ellittiche. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
@@ -40,9 +40,8 @@ From the private key, we
 use elliptic curve multiplication, a one-way cryptographic function, to
 generate a public key (_K_).
 
-[role="less_space pagebreak-before"]
-.Why Use Asymmetric Cryptography (Public/Private Keys)?
-****
+==== 4.1.1 Why Use Asymmetric Cryptography (Public/Private Keys)?
+
 Why is ((("asymmetric cryptography", see="public key cryptography")))((("public key cryptography", "purpose in Bitcoin")))((("digital signatures")))asymmetric
 cryptography used in Bitcoin? It's not used to "encrypt" (make secret)
 the transactions. Rather, a useful property of asymmetric cryptography
@@ -55,10 +54,10 @@ signature. This useful property of asymmetric cryptography makes it
 possible for anyone to verify every signature on every transaction,
 while ensuring that only the owners of private keys can produce valid
 signatures.
-****
+
 
 [[chiavi_private]]
-=== 4.3 Chiavi Private
+=== 4.2 Chiavi Private
 
 A
 private ((("private keys", "generating", id="private-key-generate")))key is simply a number, picked at random.  Control
