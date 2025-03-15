@@ -177,7 +177,7 @@ Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, 
 === 1.7 Indirizzi Bitcoin
 
 Alice è ora pronta a iniziare a usare il suo nuovo wallet Bitcoin. 
-L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<private_keys>>, [4.3]) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
+L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<chiavi private_keys>>, vedere capitolo [4.2]) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
 
 [TIP]
 ====
