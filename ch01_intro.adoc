@@ -204,7 +204,7 @@ Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se
 ====
 
 [[getting_first_bitcoin]]
-==== 1.9 Comprare i tuoi primi Bitcoin
+=== 1.9 Comprare i tuoi primi Bitcoin
 Il primo compito per i nuovi utenti è acquistare alcuni bitcoin.
 
 Le transazioni sulla rete Bitcoin sono irreversibili. La maggior parte delle reti di pagamento elettronico, come carte di credito, carte di debito, PayPal e bonifici bancari, sono invece reversibili. Per chi vende bitcoin, questa differenza introduce un rischio molto elevato: l'acquirente potrebbe annullare il pagamento elettronico dopo aver ricevuto i bitcoin, truffando di fatto il venditore. Per ridurre questo rischio, le aziende che accettano pagamenti elettronici tradizionali in cambio di bitcoin di solito richiedono agli acquirenti di sottoporsi a verifiche di identità e controlli di solvibilità, che possono richiedere diversi giorni o settimane.
@@ -248,7 +248,7 @@ Ecco alcuni dei più popolari:
 Oltre a questi vari siti e applicazioni, alcuni wallet Bitcoin convertono automaticamente gli importi tra bitcoin e altre valute.
 
 [[sending_receiving]]
-==== 1.11 Inviare e ricevere bitcoin
+=== 1.11 Inviare e ricevere bitcoin
 Alice ha deciso di acquistare 0,001 bitcoin. Dopo aver controllato il tasso di cambio con Joe, gli consegna la somma corrispondente in contanti, apre l'applicazione del suo wallet mobile e seleziona l'opzione Ricevi.
 A questo punto, viene visualizzato un codice QR contenente il primo indirizzo Bitcoin di Alice.
 
