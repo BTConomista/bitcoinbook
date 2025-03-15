@@ -203,8 +203,8 @@ Il codice QR è il quadrato con un motivo di punti bianchi e neri mostrato sopra
 Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se vuoi testare l'invio di bitcoin, considera di donarli a un'organizzazione benefica che accetta bitcoin.
 ====
 
-[[getting_first_bitcoin]]
-=== 1.9 Comprare i tuoi primi Bitcoin
+[[detenere_i_primi_bitcoin]]
+=== 1.9 Detenere i tuoi primi Bitcoin
 Il primo compito per i nuovi utenti è acquistare alcuni bitcoin.
 
 Le transazioni sulla rete Bitcoin sono irreversibili. La maggior parte delle reti di pagamento elettronico, come carte di credito, carte di debito, PayPal e bonifici bancari, sono invece reversibili. Per chi vende bitcoin, questa differenza introduce un rischio molto elevato: l'acquirente potrebbe annullare il pagamento elettronico dopo aver ricevuto i bitcoin, truffando di fatto il venditore. Per ridurre questo rischio, le aziende che accettano pagamenti elettronici tradizionali in cambio di bitcoin di solito richiedono agli acquirenti di sottoporsi a verifiche di identità e controlli di solvibilità, che possono richiedere diversi giorni o settimane.
@@ -254,7 +254,7 @@ A questo punto, viene visualizzato un codice QR contenente il primo indirizzo Bi
 
 Joe seleziona quindi Invia sul suo wallet mobile e apre lo scanner per i codici QR. In questo modo, può scansionare il codice con la fotocamera del suo smartphone, evitando di dover digitare manualmente l’indirizzo Bitcoin di Alice, che è piuttosto lungo.
 
-Ora Joe ha l’indirizzo Bitcoin di Alice impostato come destinatario. Inserisce quindi l’importo di 0,001 bitcoin (BTC); vedi <<wallet-send>>.
+Ora Joe ha l’indirizzo Bitcoin di Alice impostato come destinatario. Inserisce quindi l’importo di 0,001 bitcoin (BTC); vedi <<wallet-send>>(figura 2).
 Alcuni wallet potrebbero mostrare l’importo in una denominazione diversa: 0,001 BTC equivale a 1 millibitcoin (mBTC) o 100.000 satoshi (sats).
 
 Alcuni wallet potrebbero anche suggerire a Joe di inserire un'etichetta per questa transazione; se così fosse, Joe digita "Alice". Questo gli permetterà, tra settimane o mesi, di ricordare il motivo per cui ha inviato questi 0,001 bitcoin.  
