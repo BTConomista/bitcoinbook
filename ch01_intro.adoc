@@ -254,7 +254,7 @@ A questo punto, viene visualizzato un codice QR contenente il primo indirizzo Bi
 
 Joe seleziona quindi Invia sul suo wallet mobile e apre lo scanner per i codici QR. In questo modo, può scansionare il codice con la fotocamera del suo smartphone, evitando di dover digitare manualmente l’indirizzo Bitcoin di Alice, che è piuttosto lungo.
 
-Ora Joe ha l’indirizzo Bitcoin di Alice impostato come destinatario. Inserisce quindi l’importo di 0,001 bitcoin (BTC); vedi <<wallet-send>>(figura 2).
+Ora Joe ha l’indirizzo Bitcoin di Alice impostato come destinatario. Inserisce quindi l’importo di 0,001 bitcoin (BTC); vedi (figura 2) <<wallet-send>>
 Alcuni wallet potrebbero mostrare l’importo in una denominazione diversa: 0,001 BTC equivale a 1 millibitcoin (mBTC) o 100.000 satoshi (sats).
 
 Alcuni wallet potrebbero anche suggerire a Joe di inserire un'etichetta per questa transazione; se così fosse, Joe digita "Alice". Questo gli permetterà, tra settimane o mesi, di ricordare il motivo per cui ha inviato questi 0,001 bitcoin.  
