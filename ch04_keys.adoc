@@ -3,7 +3,7 @@
 
 Alice vuole pagare Bob, ma le migliaia di full nodes Bitcoin che verificheranno la sua transazione non sanno chi sono Alice e Bob--e vogliamo che rimanga così per proteggere la loro privacy. Alice deve comunicare che Bob deve ricevere alcuni dei suoi bitcoin senza collegare alcun aspetto di quella transazione all’identità reale di Bob o ad altri pagamenti Bitcoin che Bob riceve. Il metodo che Alice utilizza deve garantire che solo Bob possa spendere i bitcoin che riceve.
 
-Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in figura 4.1 <<<pay-to-pure-pubkey>>>
+Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in figura 4.1 <<pay-to-pure-pubkey>>
 
 [[pay-to-pure-pubkey]]
 .Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
