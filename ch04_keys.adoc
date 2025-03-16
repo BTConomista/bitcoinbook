@@ -6,7 +6,7 @@ Alice vuole pagare Bob, ma le migliaia di full nodes Bitcoin che verificheranno 
 Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in figura 4.1 <<<pay-to-pure-pubkey>>>
 
 [[pay-to-pure-pubkey]]
-.Figura 4.1 Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
+.Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
 image::images/mbc3_aain01.png["Transaction chain from original Bitcoin paper"]
 
 Il destinatario, come Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (come Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e lei utilizza la corrispondente chiave privata per generare la sua firma.
