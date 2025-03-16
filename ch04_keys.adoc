@@ -17,9 +17,9 @@ In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme 
 === Crittografia a Chiave Pubblica
 
 La crittografia a chiave pubblica((("public key cryptography", id="pub-key"))) è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
-Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’esponenziazione di numeri primi e la moltiplicazione su curve ellittiche. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
+Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’elevazione a potenza di numeri primi e la moltiplicazione scalare su curva ellittica. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
 Sulla base di queste funzioni matematiche, la crittografia permette la creazione di firme digitali non falsificabili.
-Bitcoin utilizza la somma e la moltiplicazione su curve ellittiche come base per la sua crittografia.
+Bitcoin utilizza la somma di punti su curva ellittica e la moltiplicazione scalare su curva ellittica come base per la sua crittografia.
 
 In Bitcoin, possiamo usare la crittografia a chiave pubblica per creare((("key pairs", id="key-pair")))((("public keys", "purpose of")))((("private keys", "purpose of"))) una coppia di chiavi che controlla l’accesso ai bitcoin. La coppia di chiavi è composta da una chiave privata e una chiave pubblica derivata dalla chiave privata. La chiave pubblica viene utilizzata per ricevere fondi, mentre la chiave privata serve a firmare le transazioni per spendere quei fondi.
 
