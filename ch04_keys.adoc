@@ -27,10 +27,8 @@ Esiste una relazione matematica tra la chiave privata e la chiave pubblica che p
 
 [TIP]
 ====
-In some wallet
-implementations, the private and public keys are stored together as a
-_key pair_ for convenience. However, the public key can be calculated
-from the private key, so storing only the private key is also possible.
+Per comodità in alcuni wallet le chiavi private e quelle pubbliche sono conservate insieme come una _coppia di chiavi_.
+Tuttavia, poiché la chiave pubblica può essere calcolata a partire dalla chiave privata, è anche possibile memorizzare solo la chiave privata senza bisogno di conservare esplicitamente la chiave pubblica.
 ====
 
 A Bitcoin wallet contains a collection of key
