@@ -324,26 +324,20 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++txindex++:: Mantieni ((("txindex option (bitcoind option)")))un indice di tutte le transazioni. Questo consente di recuperare tramite script qualsiasi transazione tramite il suo ID, a condizione che il blocco contenente quella transazione non sia stato eliminato tramite pruning.
 
-
-
-
-
-
 [role="less_space pagebreak-before"]
-++dbcache++:: The size((("dbcache option (bitcoind option)"))) of the UTXO cache. The default is 450 mebibytes (MiB). Increase
-this size on high-end hardware to read and write from your disk less
-often, or reduce the size on low-end hardware to save memory at the
-expense of using your disk more frequently.
+++dbcache++:: La dimensione((("dbcache option (bitcoind option)"))) della cache UTXO. Il valore predefinito è di 450 mebibyte (MiB). Aumenta questa dimensione su hardware di fascia alta per ridurre la frequenza di lettura e scrittura sul disco, oppure riducila su hardware di fascia bassa per risparmiare memoria, a scapito di un utilizzo più frequente del disco.
 
-++blocksonly++:: Minimize ((("blocksonly option (bitcoind option)")))your bandwidth usage by only accepting blocks of
-confirmed transactions from your peers instead of relaying unconfirmed
-transactions.
+++blocksonly++:: Minimizza ((("blocksonly option (bitcoind option)")))l'utilizzo della larghezza di banda accettando solo blocchi di transazioni confermate dai tuoi peer, invece di trasmettere transazioni non confermate.
 
-++maxmempool++:: Limit ((("maxmempool option (bitcoind option)")))the transaction memory pool to this many megabytes.
-Use it to reduce memory use on memory-constrained nodes.
+++maxmempool++:: Limita ((("maxmempool option (bitcoind option)")))la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
+
+
+
+
 
 [[txindex]]
-=== Transaction Database Index and txindex Option
+=== Indice del Database delle Transazioni e Opzione txindex
+Transaction Database Index and txindex Option
 By default,
 Bitcoin Core builds((("txindex option (bitcoind option)")))((("transactions", "building complete index"))) a database containing _only_ the transactions
 related to the user's wallet. If you want to be able to access _any_
