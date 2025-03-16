@@ -312,32 +312,22 @@ Options:
 [many more options]
 ----
 
-Here are some of
-the most important options that you can set in the configuration file,
-or as command-line parameters to +bitcoind+:
+Ecco alcune delle opzioni più importanti che puoi impostare nel file di configurazione o come parametri da riga di comando per +bitcoind+:
 
-++alertnotify++:: Run ((("alertnotify option (bitcoind option)")))a specified command or script to send emergency alerts
-to the owner of this node.
+++alertnotify++:: Esegui ((("alertnotify option (bitcoind option)")))un comando o uno script specifico per inviare avvisi di emergenza al proprietario di questo nodo.
 
-++conf++:: An ((("conf option (bitcoind option)")))alternative location for the configuration file. This only
-makes sense as a command-line parameter to +bitcoind+, as it can't be
-inside the configuration file it refers to.
+++conf++:: Una ((("conf option (bitcoind option)")))posizione alternativa per il file di configurazione. Questa opzione ha senso solo come parametro da riga di comando per +bitcoind+, poiché non può essere specificata all'interno del file di configurazione a cui si riferisce.
 
-++datadir++:: Select((("datadir option (bitcoind option)"))) the directory and filesystem in which to put all the
-blockchain data. By default this is the _.bitcoin_ subdirectory of your
-home directory. Depending on your configuration, this can use from about 10
-GB to almost 1 TB as of this writing, with the maximum size
-expected to increase by several hundred gigabytes per year.
+++datadir++:: Seleziona((("datadir option (bitcoind option)"))) la directory e il filesystem in cui salvare tutti i dati della blockchain. Per impostazione predefinita, viene utilizzata la sottodirectory _.bitcoin_ nella tua home directory. A seconda della configurazione, lo spazio utilizzato può variare da circa 10 GB fino a quasi 1 TB al momento della scrittura, con una crescita prevista di diverse centinaia di gigabyte all'anno.
 
-++prune++:: Reduce the((("prune option (bitcoind option)"))) blockchain disk space requirements to this many megabytes by
-deleting old blocks. Use this on a resource-constrained node that can't
-fit the full blockchain.  Other parts of the system will use other disk
-space that can't currently be pruned, so you will still need at least
-the minimum amount of space mentioned in the +datadir+ option.
+++prune++:: Riduci i((("prune option (bitcoind option)"))) requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
 
-++txindex++:: Maintain ((("txindex option (bitcoind option)")))an index of all transactions. This allows you to
-programmatically retrieve any transaction by its ID provided that the
-block containing that transaction hasn't been pruned.
+++txindex++:: Mantieni ((("txindex option (bitcoind option)")))un indice di tutte le transazioni. Questo consente di recuperare tramite script qualsiasi transazione tramite il suo ID, a condizione che il blocco contenente quella transazione non sia stato eliminato tramite pruning.
+
+
+
+
+
 
 [role="less_space pagebreak-before"]
 ++dbcache++:: The size((("dbcache option (bitcoind option)"))) of the UTXO cache. The default is 450 mebibytes (MiB). Increase
@@ -353,8 +343,7 @@ transactions.
 Use it to reduce memory use on memory-constrained nodes.
 
 [[txindex]]
-.Transaction Database Index and txindex Option
-****
+=== Transaction Database Index and txindex Option
 By default,
 Bitcoin Core builds((("txindex option (bitcoind option)")))((("transactions", "building complete index"))) a database containing _only_ the transactions
 related to the user's wallet. If you want to be able to access _any_
@@ -365,7 +354,6 @@ the +txindex+ option. Set +txindex=1+ in the Bitcoin Core configuration
 file. If you don't set this option at first and later set it to full
 indexing, you need to
 wait for it to rebuild the index.
-****
 
 <<full_index_node>> shows how you might combine the preceding options
 with a fully indexed node, running as an API backend for a bitcoin
