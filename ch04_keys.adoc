@@ -1,12 +1,12 @@
 [[ch04_keys_addresses]]
-== Chiavi e indirizzi
+== 4. Chiavi e indirizzi
 
 Alice vuole pagare Bob, ma le migliaia di full nodes Bitcoin che verificheranno la sua transazione non sanno chi sono Alice e Bob--e vogliamo che rimanga così per proteggere la loro privacy. Alice deve comunicare che Bob deve ricevere alcuni dei suoi bitcoin senza collegare alcun aspetto di quella transazione all’identità reale di Bob o ad altri pagamenti Bitcoin che Bob riceve. Il metodo che Alice utilizza deve garantire che solo Bob possa spendere i bitcoin che riceve.
 
-Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in <<<pay-to-pure-pubkey>>>.
+Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in figura 4.1 <<<pay-to-pure-pubkey>>>
 
 [[pay-to-pure-pubkey]]
-.Transaction chain from original Bitcoin paper.
+.Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
 image::images/mbc3_aain01.png["Transaction chain from original Bitcoin paper"]
 
 Il destinatario, come Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (come Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e lei utilizza la corrispondente chiave privata per generare la sua firma.
@@ -14,7 +14,7 @@ I full node possono verificare che la firma di Alice si riferisca all'output di 
 
 In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme e le funzioni di hash. Successivamente, utilizzeremo tutti questi elementi insieme per descrivere gli indirizzi utilizzati dal software Bitcoin moderno.
 
-=== Crittografia a Chiave Pubblica
+=== 4.1 Crittografia a Chiave Pubblica
 
 La crittografia a chiave pubblica((("public key cryptography", id="pub-key"))) è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
 Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’elevazione a potenza di numeri primi e la moltiplicazione scalare su curva ellittica. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
@@ -31,14 +31,12 @@ Per comodità in alcuni wallet le chiavi private e quelle pubbliche sono conserv
 Tuttavia, poiché la chiave pubblica può essere calcolata a partire dalla chiave privata, è anche possibile memorizzare solo la chiave privata senza bisogno di conservare esplicitamente la chiave pubblica.
 ====
 
-Un wallet Bitcoin contiene una raccolta di coppie di chiavi, ognuna composta da una chiave privata e una chiave pubblica. La chiave privata (_k_) è un numero, solitamente derivato da un numero scelto casualmente. A partire dalla chiave privata, utilizziamo la moltiplicazione su curva ellittica, una funzione crittografica unidirezionale, per generare la chiave pubblica (_K_).
+Un wallet Bitcoin contiene una raccolta di coppie di chiavi, ognuna composta da una chiave privata e una chiave pubblica. La chiave privata (_k_) è un numero, solitamente derivato da un numero scelto casualmente. A partire dalla chiave privata, utilizziamo la moltiplicazione scalare su curva ellittica, una funzione crittografica unidirezionale, per generare la chiave pubblica (_K_).
 
 
 [role="less_space pagebreak-before"]
-.Perché usare la crittografia asimmetrica (chiavi pubbliche/privata)?
+.4.2 Perché usare la crittografia asimmetrica (chiavi pubbliche/privata)?
 ****
-Perché la crittografia asimmetrica è utilizzata in Bitcoin?
-
 La crittografia asimmetrica((("asymmetric cryptography", see="public key cryptography")))((("public key cryptography", "purpose in Bitcoin")))((("digital signatures"))) in Bitcoin non viene utilizzata per "cifrare" (rendere segrete) le transazioni. Piuttosto, si usa una delle proprietà più utili della crittografia asimmetrica, cioè la possibilità di generare _firme digitali_.
 Una chiave privata può essere applicata a una transazione per produrre una firma numerica. Questa firma può essere generata solo da chi possiede la chiave privata. Tuttavia, chiunque abbia accesso alla chiave pubblica e alla transazione può utilizzarle per _verificare_ la firma.
 Questa proprietà della crittografia asimmetrica consente a chiunque di verificare ogni firma su ogni transazione, garantendo al contempo che solo i proprietari delle chiavi private possano generare firme valide.
