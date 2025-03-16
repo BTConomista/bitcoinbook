@@ -31,55 +31,34 @@ Per comodità in alcuni wallet le chiavi private e quelle pubbliche sono conserv
 Tuttavia, poiché la chiave pubblica può essere calcolata a partire dalla chiave privata, è anche possibile memorizzare solo la chiave privata senza bisogno di conservare esplicitamente la chiave pubblica.
 ====
 
-A Bitcoin wallet contains a collection of key
-pairs, each consisting of a private key and a public key. The private
-key (_k_) is a number, usually derived from a number picked at random.
-From the private key, we
-use elliptic curve multiplication, a one-way cryptographic function, to
-generate a public key (_K_).
+Un wallet Bitcoin contiene una raccolta di coppie di chiavi, ognuna composta da una chiave privata e una chiave pubblica. La chiave privata (_k_) è un numero, solitamente derivato da un numero scelto casualmente. A partire dalla chiave privata, utilizziamo la moltiplicazione su curva ellittica, una funzione crittografica unidirezionale, per generare la chiave pubblica (_K_).
+
 
 [role="less_space pagebreak-before"]
-.Why Use Asymmetric Cryptography (Public/Private Keys)?
+.Perché usare la crittografia asimmetrica (chiavi pubbliche/privata)?
 ****
-Why is ((("asymmetric cryptography", see="public key cryptography")))((("public key cryptography", "purpose in Bitcoin")))((("digital signatures")))asymmetric
-cryptography used in Bitcoin? It's not used to "encrypt" (make secret)
-the transactions. Rather, a useful property of asymmetric cryptography
-is the ability to generate _digital signatures_. A private key can be
-applied to a transaction to produce a
-numerical signature. This signature can only be produced by someone with
-knowledge of the private key. However, anyone with access to the public
-key and the transaction can use them to _verify_ the
-signature. This useful property of asymmetric cryptography makes it
-possible for anyone to verify every signature on every transaction,
-while ensuring that only the owners of private keys can produce valid
-signatures.
+Perché la crittografia asimmetrica è utilizzata in Bitcoin?
+
+La crittografia asimmetrica((("asymmetric cryptography", see="public key cryptography")))((("public key cryptography", "purpose in Bitcoin")))((("digital signatures"))) in Bitcoin non viene utilizzata per "cifrare" (rendere segrete) le transazioni. Piuttosto, si usa una delle proprietà più utili della crittografia asimmetrica, cioè la possibilità di generare _firme digitali_.
+Una chiave privata può essere applicata a una transazione per produrre una firma numerica. Questa firma può essere generata solo da chi possiede la chiave privata. Tuttavia, chiunque abbia accesso alla chiave pubblica e alla transazione può utilizzarle per _verificare_ la firma.
+Questa proprietà della crittografia asimmetrica consente a chiunque di verificare ogni firma su ogni transazione, garantendo al contempo che solo i proprietari delle chiavi private possano generare firme valide.
 ****
 
-[[private_keys]]
-==== Private Keys
-
-A
-private ((("private keys", "generating", id="private-key-generate")))key is simply a number, picked at random.  Control
-over the private key is the root of user control over all funds
-associated with the corresponding Bitcoin public key. The private key is
-used to create signatures that are used to spend bitcoins by proving
-control of funds used in a transaction. The private key must remain
-secret at all times because revealing it to third parties is equivalent
-to giving them control over the bitcoins secured by that key. The private
-key must also be backed up and protected from accidental loss because
-if it's lost, it cannot be recovered and the funds secured by it are
-forever lost too.
+[[chiavi_private]]
+==== Chiavi private
+Una chiave((("private keys", "generating", id="private-key-generate"))) privata è semplicemente un numero scelto in modo casuale. Il controllo della chiave privata è la base del controllo dell'utente su tutti i fondi associati alla corrispondente chiave pubblica di Bitcoin.
+La chiave privata viene utilizzata per creare firme digitali, che servono a spendere i bitcoin dimostrando il controllo dei fondi utilizzati in una transazione.
+La chiave privata deve rimanere segreta in ogni momento, perché rivelarla a terzi equivale a dare loro il pieno controllo dei bitcoin protetti da quella chiave.
+Inoltre, bisogna fare il backup della chiave privata ed essa deve essere protetta da eventuali perdite accidentali. Se una chiave privata viene smarrita, non può essere recuperata e i fondi ad essa associati saranno persi per sempre.
 
 [TIP]
 ====
-A Bitcoin private key is just a number. You can pick your private keys
-randomly using just a coin, pencil, and paper: toss a coin 256 times and
-you have the binary digits of a random private key you can use in a
-Bitcoin wallet. The public key can then be generated from the private
-key.  Be careful, though, as any process that's less than completely
-random can significantly reduce the security of your private key and the
-bitcoins it controls.
+Una chiave privata Bitcoin è semplicemente un numero. Puoi scegliere la tua chiave privata in modo casuale usando solo una moneta, una matita e un foglio di carta: lancia una moneta 256 volte e otterrai le cifre binarie di una chiave privata casuale che puoi utilizzare in un wallet Bitcoin.
+Da questa chiave privata, è poi possibile generare la chiave pubblica corrispondente.
+Tuttavia, bisogna fare molta attenzione: qualsiasi processo che non sia completamente casuale può ridurre significativamente la sicurezza della chiave privata e, di conseguenza, dei bitcoin che essa protegge.
 ====
+
+
 
 The first and most important step in generating keys is to find a secure
 source of randomness (which computer scientists ((("entropy")))call _entropy_). Creating a Bitcoin key is almost
