@@ -527,25 +527,15 @@ I dati vengono restituiti in formato JavaScript Object Notation (JSON), facilmen
 
 [TIP]
 ====
-It will take some time, perhaps more than a day, for +bitcoind+
-to catch up to the current blockchain height as it downloads blocks from
-other Bitcoin nodes and validates every transaction in those
-blocks--almost a billion transactions as of this writing. You can check
-its progress using
-+getblockchaininfo+ to see the number of known blocks.  The examples in
-the rest of this chapter assume you're at least at block 775,072.
-Because the security of Bitcoin transactions depends on blocks, some of
-the information in the following examples will change slightly depending
-on how many blocks your ((("Bitcoin Core", "command-line interface", "status information", startref="bitcoin-core-command-status")))((("command-line interface (Bitcoin Core)", "status information", startref="command-status")))((("status information (Bitcoin Core)", startref="status-bitcoin-core")))node has.
+Ci vorrà un po’ di tempo, forse più di un giorno, prima che +bitcoind+ raggiunga l’altezza della blockchain attuale mentre scarica i blocchi dagli altri nodi Bitcoin e convalida ogni transazione contenuta in essi—quasi un miliardo di transazioni al momento in cui scriviamo.
+
+Puoi controllare i suoi progressi usando +getblockchaininfo+ per vedere il numero di blocchi noti. Gli esempi nel resto di questo capitolo presuppongono che tu abbia raggiunto almeno il blocco 775,072. Poiché la sicurezza delle transazioni Bitcoin dipende dai blocchi, alcune delle informazioni nei prossimi esempi cambieranno leggermente in base al numero di blocchi del ((("Bitcoin Core", "command-line interface", "status information", startref="bitcoin-core-command-status")))((("command-line interface (Bitcoin Core)", "status information", startref="command-status")))((("status information (Bitcoin Core)", startref="status-bitcoin-core")))tuo nodo.
 ====
 
 [[exploring_and_decoding_transactions]]
-==== Exploring and Decoding Transactions
-
-In <<spending_bitcoin>>, Alice ((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", id="bitcoin-core-command-transaction")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", id="command-transaction")))((("transactions", "exploring/decoding", id="transactions-explore-decode")))((("exploring", "transactions", id="explore-transaction")))((("decoding", "transactions", id="decode-transaction")))made a purchase from Bob's store. Her
-transaction was recorded on the blockchain.
-Let's use the API to retrieve and examine that transaction by passing
-the transaction ID (txid) as a parameter:
+==== Esplorare e Decodificare le Transazioni
+In <<spending_bitcoin>>, Alice ((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", id="bitcoin-core-command-transaction")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", id="command-transaction")))((("transactions", "exploring/decoding", id="transactions-explore-decode")))((("exploring", "transactions", id="explore-transaction")))((("decoding", "transactions", id="decode-transaction")))ha effettuato un acquisto presso il negozio di Bob. La sua transazione è stata registrata sulla blockchain.
+Utilizziamo l’API per recuperare ed esaminare quella transazione mettendo l’ID della transazione (txid) come parametro:
 
 [[alice_tx_serialized]]
 .Alice's serialized transaction
@@ -564,21 +554,12 @@ e739df2f899c49dc267c0ad280aca6dab0d2fa2b42a45182fc83e81713010000
 
 [TIP]
 ====
-A transaction ID (txid)
-is ((("transaction IDs (txid)")))not authoritative. Absence of a txid in the blockchain does not mean
-the transaction was not processed. This is known as "transaction
-malleability," because transactions can be modified prior to
-confirmation in a block, changing their txids.  After a transaction is
-included in a block, its txid cannot change unless there is a blockchain
-reorganization where that block is removed from the best blockchain.
-Reorganizations are rare after a transaction has several confirmations.
+Gli ID di transazione (txid) ((("transaction IDs (txid)")))non sono autorevoli. L’assenza di un txid nella blockchain non significa che la transazione non sia stata elaborata. Questo fenomeno è noto come "malleabilità delle transazioni" perché le transazioni possono essere modificate prima di essere confermate in un blocco, cambiando di conseguenza il loro txid.
+
+Una volta che una transazione è inclusa in un blocco, il suo txid non può cambiare se non avviene una riorganizzazione della blockchain, in cui quel blocco viene rimosso dalla best blockchain. Difficilmente si verificano delle riorganizzazioni dopo che una transazione ha ricevuto diverse conferme.
 ====
 
-The command +getrawtransaction+ returns a serialized transaction in
-hexadecimal notation. To decode that, we use the +decoderawtransaction+
-command, passing the hex data as a parameter. You can copy the hex
-returned by +getrawtransaction+ and paste it as a parameter to
-+decoderawtransaction+:
+Il comando +getrawtransaction+ restituisce una transazione serializzata in notazione esadecimale. Per decodificarla, utilizziamo il comando +decoderawtransaction+, passando i dati esadecimali come parametro. Puoi copiare l’esadecimale restituito da +getrawtransaction+ e incollarlo come parametro per +decoderawtransaction+:
 
 ++++
 <pre data-type="programlisting">
@@ -643,12 +624,16 @@ dab0d2fa2b42a45182fc83e817130100000000
 </pre>
 ++++
 
-The transaction decode shows all the components of this transaction,
-including the transaction inputs and outputs. In this case we see that
-the transaction used one input and generated two outputs. The input to
-this transaction was the output from a previously confirmed transaction
-(shown as the input +txid+). The two outputs correspond to the payment to
-Bob and the change back to Alice.
+La decodifica della transazione mostra tutti i componenti di questa transazione, compresi gli input e gli output. In questo caso, vediamo che la transazione ha utilizzato un input e generato due output. L’input di questa transazione era l’output di una transazione precedentemente confermata (mostrato come il +txid+ dell’input). I due output corrispondono al pagamento a Bob e al resto destinato ad Alice.
+
+
+
+
+
+
+
+
+
 
 We can further explore the blockchain by examining the previous
 transaction referenced by its +txid+ in this transaction using the same
@@ -656,7 +641,7 @@ commands (e.g., [.keep-together]#+getrawtransaction+).# Jumping from transaction
 transaction, we can follow a chain of transactions back as the coins are
 transmitted from one owner to the((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", startref="bitcoin-core-command-transaction")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", startref="command-transaction")))((("transactions", "exploring/decoding", startref="transactions-explore-decode")))((("exploring", "transactions", startref="explore-transaction")))((("decoding", "transactions", startref="decode-transaction"))) next.
 
-==== Exploring Blocks
+==== Explorare i Blocchi
 
 Exploring
 blocks is((("Bitcoin Core", "command-line interface", "exploring blocks", id="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", id="command-blocks")))((("blocks", "exploring", id="blocks-explore")))((("exploring", "blocks", id="explore-blocks"))) similar to exploring transactions. However, blocks can be
