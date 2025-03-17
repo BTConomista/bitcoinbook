@@ -452,10 +452,8 @@ walletpassphrasechange "oldpassphrase" "newpassphrase"
 walletprocesspsbt "psbt" ( sign "sighashtype" bip32derivs finalize )
 ----
 
-Each of these commands may take a number of parameters. To get
-additional help, a detailed description, and information on the
-parameters, add the command name after +help+. For example, to see help
-on the +getblockhash+ RPC command:
+
+Ognuno di questi comandi può accettare diversi parametri. Per ottenere ulteriore aiuto, una descrizione dettagliata e informazioni sui parametri, aggiungi il nome del comando dopo +help+. Ad esempio, per visualizzare l'aiuto relativo al comando RPC +getblockhash+:
 
 ----
 $ bitcoin-cli help getblockhash
@@ -476,29 +474,18 @@ Examples:
   "params": [1000]}' -H 'content-type: text/plain;' http://127.0.0.1:8332/
 ----
 
-
-
-
-At the end of the help information you will see two examples of the RPC
-command, using the +bitcoin-cli+ helper or the HTTP client +curl+. These
-examples demonstrate how you might call the command. Copy the first
-example and see the result:
+Alla fine delle informazioni di aiuto vedrai due esempi di comandi RPC, che utilizzano l’helper +bitcoin-cli+ o il client HTTP +curl+. Questi esempi mostrano come potresti chiamare il comando. Copia il primo esempio e guarda il risultato che ottieni:
 
 ----
 $ bitcoin-cli getblockhash 1000
 00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09
 ----
 
-The result is a block hash, which is described in more detail in the
-following chapters. But for now, this command should return the same
-result on your system, demonstrating that your Bitcoin Core node is
-running, is accepting commands, and has information about block 1,000 to
-return to you.
+Il risultato è un hash di blocco, descritto più nel dettaglio nei capitoli successivi. Per il momento, però, questo comando dovrebbe restituire lo stesso risultato anche sul tuo sistema, dimostrando che il tuo nodo Bitcoin Core è attivo, sta accettando comandi e possiede le informazioni da restituirti sul blocco 1.000.
 
-In the next sections we will demonstrate some very useful RPC commands
-and their expected ((("Bitcoin Core", "command-line interface", "help command", startref="bitcoin-core-command-help")))((("command-line interface (Bitcoin Core)", "help command", startref="command-help")))((("help command (Bitcoin Core)", startref="help")))output.
+Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro output ((("Bitcoin Core", "command-line interface", "help command", startref="bitcoin-core-command-help")))((("command-line interface (Bitcoin Core)", "help command", startref="command-help")))((("help command (Bitcoin Core)", startref="help")))previsto.
 
-==== Getting Information on Bitcoin Core's Status
+==== Ottenere informazioni sullo stato di Bitcoin Core.
 
 Bitcoin
 Core provides((("Bitcoin Core", "command-line interface", "status information", id="bitcoin-core-command-status")))((("command-line interface (Bitcoin Core)", "status information", id="command-status")))((("status information (Bitcoin Core)", id="status-bitcoin-core"))) status reports on different modules through the JSON-RPC
