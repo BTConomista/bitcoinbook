@@ -331,30 +331,16 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++maxmempool++:: Limita ((("maxmempool option (bitcoind option)")))la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
 
-
-
-
-
 [[txindex]]
 === Indice del Database delle Transazioni e Opzione txindex
-Transaction Database Index and txindex Option
-By default,
-Bitcoin Core builds((("txindex option (bitcoind option)")))((("transactions", "building complete index"))) a database containing _only_ the transactions
-related to the user's wallet. If you want to be able to access _any_
-transaction with commands like +getrawtransaction+ (see
-<<exploring_and_decoding_transactions>>), you need to configure Bitcoin
-Core to build a complete transaction index, which can be achieved with
-the +txindex+ option. Set +txindex=1+ in the Bitcoin Core configuration
-file. If you don't set this option at first and later set it to full
-indexing, you need to
-wait for it to rebuild the index.
 
-<<full_index_node>> shows how you might combine the preceding options
-with a fully indexed node, running as an API backend for a bitcoin
-application.
+Per impostazione predefinita, Bitcoin Core crea((("txindex option (bitcoind option)")))((("transactions", "building complete index"))) un database contenente _solo_ le transazioni relative al wallet dell'utente. Se desideri poter accedere a qualsiasi transazione utilizzando comandi come +getrawtransaction+ (vedi <<exploring_and_decoding_transactions>>), devi configurare Bitcoin Core per creare un indice completo delle transazioni. Questo può essere ottenuto con l'opzione +txindex+.
+Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. Se inizialmente non attivi questa opzione e successivamente scegli di abilitare l'indicizzazione completa, dovrai attendere il tempo necessario per la ricostruzione dell'indice.
+
+<<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
-.Sample configuration of a full-index node
+.Esempio di configutazione di un nodo con indice completo
 ====
 ----
 alertnotify=myemailscript.sh "Alert: %s"
@@ -363,8 +349,7 @@ txindex=1
 ----
 ====
 
-<<constrained_resources>> shows a resource-constrained node running on a
-smaller server.
+<<constrained_resources>> mostra un nodo con risorse limitate in esecuzione su un server di dimensioni ridotte.
 
 [[constrained_resources]]
 .Sample configuration of a resource-constrained system
@@ -378,10 +363,8 @@ maxmempool=150
 ----
 ====
 
-After you've edited the configuration file and set the options that best
-represent your needs, you can test +bitcoind+ with this configuration.
-Run Bitcoin Core with the option +printtoconsole+ to run in the
-foreground with output to the console:
+Dopo aver modificato il file di configurazione e impostato le opzioni che meglio soddisfano le tue esigenze, puoi testare +bitcoind+ con questa configurazione.
+Esegui Bitcoin Core con l'opzione +printtoconsole+ per avviarlo in primo piano con l'output visualizzato direttamente sulla console:
 
 ----
 $ bitcoind -printtoconsole
@@ -415,14 +398,11 @@ $ bitcoind -printtoconsole
 [... more startup messages ...]
 ----
 
-You can hit Ctrl-C to interrupt the process once you are satisfied that
-it is loading the correct settings and running as you expect.
+Puoi premere Ctrl-C per interrompere il processo una volta che sei sicuro che stia caricando le impostazioni corrette e funzionando come previsto.
 
-To run Bitcoin Core in the background as a process, start it with the
-+daemon+ option, as +bitcoind -daemon+.
+Per eseguire Bitcoin Core in background come processo, avvialo con l'opzione +daemon+, utilizzando il comando +bitcoind -daemon+.
 
-To monitor the progress and runtime status of your Bitcoin node, start
-it in daemon mode and then use the command +bitcoin-cli getblockchaininfo+:
+Per monitorare lo stato di avanzamento e il funzionamento del tuo nodo Bitcoin, avvialo in modalità daemon e poi utilizza il comando +bitcoin-cli getblockchaininfo+:
 
 ----
 $ bitcoin-cli getblockchaininfo
@@ -447,27 +427,16 @@ $ bitcoin-cli getblockchaininfo
 }
 ----
 
-This shows a node with a blockchain height of 0 blocks and 83,999
-headers. The node first fetches the block headers from its peers in
-order to find the blockchain with the most proof of work and
-afterward continues to download the full blocks, validating them as it
-goes.
+Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, recupera gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
 
-Once you are happy with the configuration options you have selected, you
-should add Bitcoin Core to the startup scripts in your operating system, so
-that it runs continuously and restarts when the operating system
-restarts. You will find a number of example startup scripts for various
-operating systems in Bitcoin Core's source directory under _contrib/init_ and
-a _README.md_ file showing which system uses ((("Bitcoin Core", "nodes", "configuring", startref="bitcoin-core-nodes-configure")))((("nodes", "configuring", startref="nodes-configure")))((("configuring", "nodes", startref="configure-nodes")))which script.
+Una volta che sei soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che venga eseguito continuamente e si riavvii automaticamente quando il sistema operativo si riavvia.
 
-=== Bitcoin Core API
+Nel codice sorgente di Bitcoin Core, sotto la directory _contrib/init_, troverai diversi esempi di script di avvio per vari sistemi operativi, insieme a un file README.md che indica quale sistema utilizza ((("Bitcoin Core", "nodes", "configuring", startref="bitcoin-core-nodes-configure")))((("nodes", "configuring", startref="nodes-configure")))((("configuring", "nodes", startref="configure-nodes")))quale script.
 
-Bitcoin Core
-implements((("Bitcoin Core", "command-line interface", "help command", id="bitcoin-core-command-help")))((("command-line interface (Bitcoin Core)", "help command", id="command-help")))((("help command (Bitcoin Core)", id="help")))((("RPC commands", see="command-line interface (Bitcoin Core)")))((("bitcoin-cli command", see="command-line interface (Bitcoin Core)"))) a JSON-RPC interface that can also be accessed using
-the command-line helper +bitcoin-cli+. The command line allows us to
-experiment interactively with the capabilities that are also available
-programmatically via the API. To start, invoke the +help+ command to see a list of
-the available Bitcoin Core RPC commands:
+=== API Bitcoin Core 
+Bitcoin Core implementa((("Bitcoin Core", "command-line interface", "help command", id="bitcoin-core-command-help")))((("command-line interface (Bitcoin Core)", "help command", id="command-help")))((("help command (Bitcoin Core)", id="help")))((("RPC commands", see="command-line interface (Bitcoin Core)")))((("bitcoin-cli command", see="command-line interface (Bitcoin Core)"))) un'interfaccia JSON-RPC che può essere raggiunta anche utilizzando l'helper da riga di comando +bitcoin-cli+. Da riga di comando possiamo sperimentare in modo interattivo le stesse funzionalità disponibili in modo programmabile tramite l'API.
+
+Per iniziare, esegui il comando +help+ per visualizzare l’elenco dei comandi RPC disponibili in Bitcoin Core.
 
 [[bitcoind_commands]]
 
@@ -506,6 +475,9 @@ Examples:
   "method": "getblockhash", 
   "params": [1000]}' -H 'content-type: text/plain;' http://127.0.0.1:8332/
 ----
+
+
+
 
 At the end of the help information you will see two examples of the RPC
 command, using the +bitcoin-cli+ helper or the HTTP client +curl+. These
