@@ -689,19 +689,9 @@ f6cd83c3ca
 </pre>
 ++++
 
-The +confirmations+ entry tells us the _depth_ of this block--how many
-blocks have been built on top of it, indicating the difficulty of
-changing any of the transactions in this block.  The +height+ tells us
-how many blocks preceeded this block.  We see the block's version, the
-time it was created (according to its miner), the median time of the 11
-blocks that precede this block (a time measurement that's harder for
-miners to manipulate), and the size of the block in three different
-measurements (its legacy stripped size, its full size, and its size in
-weight units).  We also see some fields used for security and
-proof of work (merkle root, nonce, bits, difficulty, and chainwork);
-we'll examine those ((("Bitcoin Core", "command-line interface", "exploring blocks", startref="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", startref="command-blocks")))((("blocks", "exploring", startref="blocks-explore")))((("exploring", "blocks", startref="explore-blocks")))in detail in <<mining>>.
+La voce +confirmations+ ci indica la _profondità_ (depth) di questo blocco--quanti blocchi sono stati costruiti sopra di esso, indicando la difficoltà di modificare qualsiasi transazione in questo blocco. La +height+ (altezza) ci dice quanti blocchi hanno preceduto questo blocco. Vediamo la versione del blocco, l'ora in cui è stato creato (secondo il suo miner), il tempo mediano degli 11 blocchi che precedono questo blocco (una misurazione temporale più difficile da manipolare per i miner), e la dimensione del blocco in tre diverse misurazioni: la stripped size (dimensione senza dati legacy), la full size (dimensione completa) e la weight units (dimensione in unità di peso). Vediamo anche alcuni campi utilizzati per la sicurezza e la proof of work (merkle root, nonce, bits, difficulty e chainwork); esamineremo questi ((("Bitcoin Core", "command-line interface", "exploring blocks", startref="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", startref="command-blocks")))((("blocks", "exploring", startref="blocks-explore")))((("exploring", "blocks", startref="explore-blocks")))in dettaglio in <<mining>>.
 
-==== Using Bitcoin Core's Programmatic Interface
+==== Utilizzo dell'interfaccia programmabile di Bitcoin Core
 
 The
 +bitcoin-cli+ helper is ((("Bitcoin Core", "command-line interface", "API access", id="bitcoin-core-command-api")))((("command-line interface (Bitcoin Core)", "API access", id="command-api")))((("API access", id="api")))very useful for exploring the Bitcoin Core API
