@@ -626,29 +626,12 @@ dab0d2fa2b42a45182fc83e817130100000000
 
 La decodifica della transazione mostra tutti i componenti di questa transazione, compresi gli input e gli output. In questo caso, vediamo che la transazione ha utilizzato un input e generato due output. L’input di questa transazione era l’output di una transazione precedentemente confermata (mostrato come il +txid+ dell’input). I due output corrispondono al pagamento a Bob e al resto destinato ad Alice.
 
+Possiamo esplorare ulteriormente la blockchain esaminando la transazione precedente, a cui questa transazione fa riferimento tramite il suo +txid+, utilizzando gli stessi comandi (ad esempio, [.keep-together]#+getrawtransaction+).# Passando da una transazione all’altra, possiamo seguire la catena delle transazioni a ritroso, man mano che le monete vengono trasmesse da un proprietario al((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", startref="bitcoin-core-command-transaction")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", startref="command-transaction")))((("transactions", "exploring/decoding", startref="transactions-explore-decode")))((("exploring", "transactions", startref="explore-transaction")))((("decoding", "transactions", startref="decode-transaction"))) successivo.
 
+==== Esplorare i Blocchi
+Esplorare i blocchi è((("Bitcoin Core", "command-line interface", "exploring blocks", id="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", id="command-blocks")))((("blocks", "exploring", id="blocks-explore")))((("exploring", "blocks", id="explore-blocks"))) simile all’esplorazione delle transazioni. Tuttavia, è possibile fare riferimento ai blocchi sia tramite la loro _altezza_ (height) sia tramite il loro _hash_. Per prima cosa, troviamo un blocco in base alla sua altezza.
 
-
-
-
-
-
-
-
-We can further explore the blockchain by examining the previous
-transaction referenced by its +txid+ in this transaction using the same
-commands (e.g., [.keep-together]#+getrawtransaction+).# Jumping from transaction to
-transaction, we can follow a chain of transactions back as the coins are
-transmitted from one owner to the((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", startref="bitcoin-core-command-transaction")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", startref="command-transaction")))((("transactions", "exploring/decoding", startref="transactions-explore-decode")))((("exploring", "transactions", startref="explore-transaction")))((("decoding", "transactions", startref="decode-transaction"))) next.
-
-==== Explorare i Blocchi
-
-Exploring
-blocks is((("Bitcoin Core", "command-line interface", "exploring blocks", id="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", id="command-blocks")))((("blocks", "exploring", id="blocks-explore")))((("exploring", "blocks", id="explore-blocks"))) similar to exploring transactions. However, blocks can be
-referenced either by the block _height_ or by the block _hash_. First,
-let's find a block by its height.
-We use the +getblockhash+ command, which takes the block height as the
-parameter and returns the block _header hash_ for that block:
+Utilizziamo il comando +getblockhash+, che accetta come parametro l’altezza del blocco e restituisce l’_hash dell’header_  di quel blocco.
 
 ++++
 <pre data-type="programlisting">
@@ -657,9 +640,7 @@ $ bitcoin-cli getblockhash 123456
 </pre>
 ++++
 
-Now that we know the header hash for our chosen block, we can
-query that block. We use the +getblock+ command with the block hash as
-the parameter:
+Ora che conosciamo l’hash dell’header del blocco scelto, possiamo interrogare quel blocco. Utilizziamo il comando +getblock+ inserendo l’hash del blocco come parametro:
 
 ++++
 <pre data-type="programlisting">
