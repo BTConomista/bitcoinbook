@@ -487,14 +487,9 @@ Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro outpu
 
 ==== Ottenere informazioni sullo stato di Bitcoin Core.
 
-Bitcoin
-Core provides((("Bitcoin Core", "command-line interface", "status information", id="bitcoin-core-command-status")))((("command-line interface (Bitcoin Core)", "status information", id="command-status")))((("status information (Bitcoin Core)", id="status-bitcoin-core"))) status reports on different modules through the JSON-RPC
-interface. The most important commands include +getblockchaininfo+,
-+getmempoolinfo+, +getnetworkinfo+, and +getwalletinfo+.
+Bitcoin Core fornisce ((("Bitcoin Core", "command-line interface", "status information", id="bitcoin-core-command-status")))((("command-line interface (Bitcoin Core)", "status information", id="command-status")))((("status information (Bitcoin Core)", id="status-bitcoin-core")))rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+, and +getwalletinfo+.
 
-Bitcoin's +getblockchaininfo+ RPC command was introduced earlier. The
-+getnetworkinfo+ command displays basic information about the status of
-the Bitcoin network node. Use +bitcoin-cli+ to run it:
+Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
 
 ----
 $ bitcoin-cli getnetworkinfo
@@ -528,12 +523,7 @@ $ bitcoin-cli getnetworkinfo
 }
 ----
 
-The data is returned in JavaScript Object Notation (JSON), a format that
-can easily be "consumed" by all programming languages but is also quite
-human-readable. Among this data we see the version numbers for the
-Bitcoin Core software and Bitcoin protocol.  We see
-the current number of connections and various information about the
-Bitcoin network and the settings related to this node.
+I dati vengono restituiti in formato JavaScript Object Notation (JSON), facilmente "consumabile" da qualsiasi linguaggio di programmazione e anche piuttosto intuitivo per noi esseri umani. Tra queste informazioni troviamo i numeri di versione del software Bitcoin Core e del protocollo Bitcoin, il numero corrente di connessioni e varie altre informazioni sulla rete Bitcoin e sulle impostazioni di questo nodo.
 
 [TIP]
 ====
