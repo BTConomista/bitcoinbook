@@ -692,21 +692,13 @@ f6cd83c3ca
 La voce +confirmations+ ci indica la _profondità_ (depth) di questo blocco--quanti blocchi sono stati costruiti sopra di esso, indicando la difficoltà di modificare qualsiasi transazione in questo blocco. La +height+ (altezza) ci dice quanti blocchi hanno preceduto questo blocco. Vediamo la versione del blocco, l'ora in cui è stato creato (secondo il suo miner), il tempo mediano degli 11 blocchi che precedono questo blocco (una misurazione temporale più difficile da manipolare per i miner), e la dimensione del blocco in tre diverse misurazioni: la stripped size (dimensione senza dati legacy), la full size (dimensione completa) e la weight units (dimensione in unità di peso). Vediamo anche alcuni campi utilizzati per la sicurezza e la proof of work (merkle root, nonce, bits, difficulty e chainwork); esamineremo questi ((("Bitcoin Core", "command-line interface", "exploring blocks", startref="bitcoin-core-command-blocks")))((("command-line interface (Bitcoin Core)", "exploring blocks", startref="command-blocks")))((("blocks", "exploring", startref="blocks-explore")))((("exploring", "blocks", startref="explore-blocks")))in dettaglio in <<mining>>.
 
 ==== Utilizzo dell'interfaccia programmabile di Bitcoin Core
+L'helper +bitcoin-cli+ è ((("Bitcoin Core", "command-line interface", "API access", id="bitcoin-core-command-api")))((("command-line interface (Bitcoin Core)", "API access", id="command-api")))((("API access", id="api")))molto utile per esplorare l'API di Bitcoin Core e testare le sue funzioni. Tuttavia, lo scopo principale di un'API è permettere l'accesso alle funzionalità in modo programmabile.
+In questa sezione, mostreremo come accedere a Bitcoin Core da un altro programma.
 
-The
-+bitcoin-cli+ helper is ((("Bitcoin Core", "command-line interface", "API access", id="bitcoin-core-command-api")))((("command-line interface (Bitcoin Core)", "API access", id="command-api")))((("API access", id="api")))very useful for exploring the Bitcoin Core API
-and testing functions. But the whole point of an API is to access functions programmatically. In this section we
-will demonstrate accessing Bitcoin Core from another program.
+L'API di Bitcoin Core è un'interfaccia JSON-RPC. JSON è un formato molto pratico per rappresentare i dati, leggibile sia dagli esseri umani che dai programmi.
+RPC sta per remote [.keep-together]#procedure# call (chiamata di procedura remota), il che significa che stiamo invocando procedure (funzioni) che si trovano in remoto (sul nodo Bitcoin Core) tramite un protocollo di rete. In questo caso, il protocollo di rete utilizzato è _HTTP.5_ .
 
-Bitcoin Core's API is a JSON-RPC interface. JSON is a very convenient way to present data that
-both humans and programs can easily read. RPC stands for remote
-[.keep-together]#procedure# call, which means that we are calling procedures (functions)
-that are remote (on the Bitcoin Core node) via a network protocol. In
-this case, the network protocol is HTTP.
-
-When we used the +bitcoin-cli+ command to get help on a command, it
-showed us an example of using +curl+, the versatile command-line HTTP
-client to construct one of these JSON-RPC calls:
+Quando abbiamo usato il comando +bitcoin-cli+ per ottenere aiuto su un comando, ci ha mostrato un esempio di utilizzo di +curl+, il versatile client HTTP da riga di comando, per costruire una di queste chiamate JSON-RPC:
 
 ----
 $ curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest",
@@ -714,10 +706,9 @@ $ curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest",
   "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:8332/
 ----
 
-This command shows that +curl+ submits an HTTP request to the local host
-(127.0.0.1), connecting to the default Bitcoin RPC port (8332), and
-submitting a  +jsonrpc+ request for the +getblockchaininfo+ method using
-+text/plain+ encoding.
+Questo comando mostra che +curl+ invia una richiesta HTTP all’host locale (127.0.0.1), connettendosi alla porta predefinita di Bitcoin RPC (8332) e inviando una richiesta +json-rpc+ per il metodo +getblockchaininfo+, utilizzando la codifica +text/plain+.
+
+
 
 You might notice that +curl+ will ask for credentials to be sent along
 with the request. Bitcoin Core will create a random password on each
