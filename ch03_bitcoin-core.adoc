@@ -708,14 +708,9 @@ $ curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest",
 
 Questo comando mostra che +curl+ invia una richiesta HTTP all’host locale (127.0.0.1), connettendosi alla porta predefinita di Bitcoin RPC (8332) e inviando una richiesta +json-rpc+ per il metodo +getblockchaininfo+, utilizzando la codifica +text/plain+.
 
+Potresti notare che +curl+ richiederà l'invio delle credenziali insieme alla richiesta. Bitcoin Core genera una password casuale ad ogni avvio e la salva nella directory dei dati con il nome +.cookie+.
 
-
-You might notice that +curl+ will ask for credentials to be sent along
-with the request. Bitcoin Core will create a random password on each
-start and place it in the data directory under the name +.cookie+. The
-+bitcoin-cli+ helper can read this password file given the data
-directory. Similarly, you can copy the password and pass it to +curl+ (or
-any higher-level Bitcoin Core RPC wrappers), ((("Bitcoin Core", "authentication")))((("authentication")))as seen in <<cookie_auth>>.
+L’helper +bitcoin-cli+ può leggere questo file di password se fornito con la directory dei dati. Allo stesso modo, puoi copiare la password e passarla a +curl+ (o a qualsiasi altro wrapper di livello superiore per le RPC di Bitcoin Core), ((("Bitcoin Core", "authentication")))((("authentication")))come mostrato in <<cookie_auth>>.
 
 [[cookie_auth]]
 .Using cookie-based authentication with Bitcoin Core
@@ -740,25 +735,15 @@ $ curl
 ----
 ====
 
-Alternatively, you can
-create a static password with the helper script provided in
-[.keep-together]#_./share/rpcauth/rpcauth.py_# in Bitcoin Core's source directory.
+In alternativa, puoi creare una password statica utilizzando lo script helper fornito in [.keep-together]#_./share/rpcauth/rpcauth.py_# nella directory del codice sorgente di Bitcoin Core.
 
-If you're implementing a JSON-RPC call in your own program, you can use
-a generic HTTP library to construct the call, similar to what is shown
-in the preceding +curl+ example.
+Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare una libreria HTTP generica per costruire la chiamata, in modo simile a quanto mostrato nell'esempio precedente con +curl+.
 
-However, there ((("Bitcoin Core", "wrapper libraries")))((("wrapper libraries")))are libraries in most popular programming languages that
-"wrap" the Bitcoin Core API in a way that makes this a lot simpler. We
-will use the +python-bitcoinlib+ library to simplify API access.
-This library is not part of the Bitcoin Core project and needs to be
-installed the usual way you install Python libraries.
-Remember, this requires you to have a running Bitcoin Core instance,
-which will be used to make JSON-RPC calls.
+Tuttavia, esistono ((("Bitcoin Core", "wrapper libraries")))((("wrapper libraries")))librerie nella maggior parte dei linguaggi di programmazione più diffusi che "wrappano" l'API di Bitcoin Core rendendo questo processo molto più semplice.
+Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
+Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
 
-The Python script in <<rpc_example>> makes a simple +getblockchaininfo+
-call and prints the +block+ parameter from the data returned by Bitcoin
-Core.
+Lo script Python in <<rpc_example>> esegue una semplice chiamata a +getblockchaininfo+ e stampa il parametro block dai dati restituiti da Bitcoin Core.
 
 [[rpc_example]]
 .Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API
@@ -769,23 +754,17 @@ include::code/rpc_example.py[]
 ----
 ====
 
-Running it gives us the following result:
+Eseguendolo, otteniamo il seguente risultato:
 
 ----
 $ python rpc_example.py
 773973
 ----
 
-It tells us how many blocks our local Bitcoin Core node has in its
-blockchain. Not a spectacular result, but it demonstrates the basic use
-of the library as a simplified interface to Bitcoin Core's JSON-RPC API.
+Ci mostra quanti blocchi sono presenti nella blockchain del nostro nodo locale di Bitcoin Core. Anche se non è un risultato particolarmente impressionante, dimostra l'utilizzo basilare della libreria come interfaccia semplificata per l’API JSON-RPC di Bitcoin Core.
 
-Next, let's((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", id="bitcoin-core-command-transaction2")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", id="command-transaction2")))((("transactions", "exploring/decoding", id="transactions-explore-decode2")))((("exploring", "transactions", id="explore-transaction2")))((("decoding", "transactions", id="decode-transaction2"))) use the +getrawtransaction+ and +decodetransaction+ calls to
-retrieve the details of Alice's payment to Bob. In <<rpc_transaction>>,
-we retrieve Alice's transaction and list the transaction's outputs. For
-each output, we show the recipient address and value. As a reminder,
-Alice's transaction had one output paying Bob and one output for
-change back to Alice.
+Proseguiamo utilizzando((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", id="bitcoin-core-command-transaction2")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", id="command-transaction2")))((("transactions", "exploring/decoding", id="transactions-explore-decode2")))((("exploring", "transactions", id="explore-transaction2")))((("decoding", "transactions", id="decode-transaction2"))) le chiamate +getrawtransaction+ e +decodetransaction+ per recuperare i dettagli del pagamento di Alice a Bob. In <<rpc_transaction>>, recuperiamo la transazione di Alice ed elenchiamo gli output della transazione.
+Per ogni output, mostriamo l’indirizzo del destinatario e il valore. Ricordiamo che la transazione di Alice aveva un output per il pagamento a Bob e un output per il resto destinato ad Alice.
 
 [[rpc_transaction]]
 .Retrieving a transaction and iterating its outputs
@@ -796,7 +775,7 @@ include::code/rpc_transaction.py[]
 ----
 ====
 
-Running this code, we get:
+Eseguendo questo codice, otteniamo:
 
 ----
 $ python rpc_transaction.py
@@ -804,15 +783,9 @@ bc1p8dqa4wjvnt890qmfws83te0v3qxzsfu7ul63kp7u56w8qc0qwp5qv995qn 0.00020000
 bc1qwafvze0200nh9vkq4jmlf4sy0tn0ga5w0zpkpg 0.00075000
 ----
 
-Both of the ((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", startref="bitcoin-core-command-transaction2")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", startref="command-transaction2")))((("transactions", "exploring/decoding", startref="transactions-explore-decode2")))((("exploring", "transactions", startref="explore-transaction2")))((("decoding", "transactions", startref="decode-transaction2")))preceding examples are rather simple. You don't really need
-a program to run them; you could just as easily use the +bitcoin-cli+
-helper. The next example, however, requires several hundred RPC calls
-and more clearly demonstrates the use of a programmatic interface.
+Entrambi gli ((("Bitcoin Core", "command-line interface", "exploring/decoding transactions", startref="bitcoin-core-command-transaction2")))((("command-line interface (Bitcoin Core)", "exploring/decoding transactions", startref="command-transaction2")))((("transactions", "exploring/decoding", startref="transactions-explore-decode2")))((("exploring", "transactions", startref="explore-transaction2")))((("decoding", "transactions", startref="decode-transaction2")))esempi precedenti sono piuttosto semplici. Non hai davvero bisogno di un programma per eseguirli; potresti facilmente utilizzare l’helper +bitcoin-cli+. Tuttavia, il prossimo esempio richiede diverse centinaia di chiamate RPC e dimostra più chiaramente l'utilizzo di un'interfaccia programmabile.
 
-In <<rpc_block>>, we first ((("Bitcoin Core", "command-line interface", "exploring blocks", id="bitcoin-core-command-blocks2")))((("command-line interface (Bitcoin Core)", "exploring blocks", id="command-blocks2")))((("blocks", "exploring", id="blocks-explore2")))((("exploring", "blocks", id="explore-blocks2")))retrieve a block, then retrieve each of
-the transactions within it by reference to each transaction ID. Next,
-we iterate through each of the transaction's outputs and add up the
-value.
+In <<rpc_block>>, iniziamo ((("Bitcoin Core", "command-line interface", "exploring blocks", id="bitcoin-core-command-blocks2")))((("command-line interface (Bitcoin Core)", "exploring blocks", id="command-blocks2")))((("blocks", "exploring", id="blocks-explore2")))((("exploring", "blocks", id="explore-blocks2")))recuperando un blocco e poi estraiamo tutte le transazioni contenute al suo interno utilizzando i rispettivi transaction ID. Poi, analizziamo gli output di ogni transazione e sommiamo i relativi valori.
 
 [[rpc_block]]
 .Retrieving a block and adding all the transaction outputs
@@ -823,7 +796,7 @@ include::code/rpc_block.py[]
 ----
 ====
 
-Running this code, we get:
+Eseguendo questo codice, otteniamo:
 
 ----
 $ python rpc_block.py
@@ -831,24 +804,14 @@ $ python rpc_block.py
 Total value in block:  10322.07722534
 ----
 
-Our example code calculates that the total value transacted in this
-block is 10,322.07722534 BTC (including 25 BTC reward and 0.0909 BTC in
-fees). Compare that to the amount reported by a block explorer site by
-searching for the block hash or height. Some block explorers report the
-total value excluding the reward and excluding the fees. See if you can
-spot the ((("Bitcoin Core", "command-line interface", "API access", startref="bitcoin-core-command-api")))((("command-line interface (Bitcoin Core)", "API access", startref="command-api")))((("API access", startref="api")))((("Bitcoin Core", "command-line interface", "exploring blocks", startref="bitcoin-core-command-blocks2")))((("command-line interface (Bitcoin Core)", "exploring blocks", startref="command-blocks2")))((("blocks", "exploring", startref="blocks-explore2")))((("exploring", "blocks", startref="explore-blocks2")))difference.
+Il nostro codice di esempio calcola che il valore totale transato in questo blocco è di 10.322,07722534 BTC (inclusi 25 BTC di ricompensa e 0,0909 BTC di commissioni). Confrontalo con l'importo riportato da un block explorer cercando l'hash o l'altezza del blocco. Alcuni block explorer mostrano il valore totale escludendo sia la ricompensa sia le commissioni. Vedi se riesci a notare la ((("Bitcoin Core", "command-line interface", "API access", startref="bitcoin-core-command-api")))((("command-line interface (Bitcoin Core)", "API access", startref="command-api")))((("API access", startref="api")))((("Bitcoin Core", "command-line interface", "exploring blocks", startref="bitcoin-core-command-blocks2")))((("command-line interface (Bitcoin Core)", "exploring blocks", startref="command-blocks2")))((("blocks", "exploring", startref="blocks-explore2")))((("exploring", "blocks", startref="explore-blocks2")))differenza.
 
 [[alt_libraries]]
-=== Alternative Clients, Libraries, and Toolkits
+=== Client, librerie e toolkit alternativi
 
-There
-are many alternative clients, libraries, toolkits, and even full-node
-implementations in the Bitcoin ecosystem. These are implemented in a
-variety of programming languages, offering programmers native interfaces
-in their preferred language.
+Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolkit e persino implementazioni complete di full node. Sono realizzati in vari linguaggi di programmazione, offrendo agli sviluppatori un’interfaccia nativa nel linguaggio che preferiscono.
 
-The following sections list some of the best libraries, clients, and
-toolkits, organized by programming languages.
+Le sezioni seguenti elencano alcune tra le migliori librerie, client e toolkit, suddivisi per linguaggio di programmazione.
 
 ==== C/C++
 https://oreil.ly/BdOwl[Bitcoin Core] :: The reference((("C/C++ toolkits")))((("Bitcoin Core"))) implementation of Bitcoin
@@ -877,15 +840,6 @@ https://bitcoin-s.org[bitcoin-s]:: A ((("Scala toolkits")))((("bitcoin-s")))Bitc
 ==== C#
 https://oreil.ly/Qfjgq[NBitcoin]:: Comprehensive((("C# toolkits")))((("NBitcoin"))) bitcoin library for the .NET framework
 
-Many more libraries exist in a variety of other programming languages,
-and more are created all the time.
+Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
-If you followed the instructions in this chapter, you now have Bitcoin
-Core running and have begun exploring the network and blockchain using
-your own full node.  From now on you can independently use software you
-control—on a computer you control—to verify that any bitcoins you receive
-follow every rule in the Bitcoin system without having to trust any
-outside authority.  In the coming chapters, we'll learn more about the
-rules of the system and how your node and your wallet use them to secure
-your money, protect your privacy, and make spending and receiving
-[.keep-together]#convenient.#
+Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenient.#.
