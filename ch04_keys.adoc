@@ -104,7 +104,7 @@ La curva +secp256k1+ è definita dalla seguente funzione, che genera una curva e
 [latexmath]
 ++++
 \begin{equation}
-y^2 = x^3 + 7 \quad \text{over} \quad \mathbb{F}_p
+{y^2 = (x^3 + 7)}~\text{over}~(\mathbb{F}_p)
 \end{equation}
 ++++
 
@@ -113,7 +113,7 @@ oppure
 [latexmath]
 ++++
 \begin{equation}
-y^2 \equiv x^3 + 7 \pmod{p}
+{y^2 \mod p = (x^3 + 7) \mod p}
 \end{equation}
 ++++
 
