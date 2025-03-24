@@ -55,27 +55,12 @@ Da questa chiave privata, è poi possibile generare la chiave pubblica corrispon
 Tuttavia, bisogna fare molta attenzione: qualsiasi processo che non sia completamente casuale può ridurre significativamente la sicurezza della chiave privata e, di conseguenza, dei bitcoin che essa protegge.
 ====
 
-
-
-The first and most important step in generating keys is to find a secure
-source of randomness (which computer scientists ((("entropy")))call _entropy_). Creating a Bitcoin key is almost
-the same as "Pick a number between 1 and 2^256^." The exact method you
-use to pick that number does not matter as long as it is not predictable
-or repeatable. Bitcoin software uses cryptographically secure random
-number generators to produce 256 bits of entropy.
+Il primo e più importante passaggio nella generazione delle chiavi è trovare una fonte di casualità affidabile (in informatica, detta ((("entropy")))_entropia_). Creare una chiave Bitcoin è praticamente come “scegliere un numero tra 1 e 2^256.” Non ha importanza il metodo specifico con cui scegli questo numero, purché non sia prevedibile né ripetibile. Il software Bitcoin utilizza generatori di numeri casuali crittograficamente sicuri per produrre 256 bit di entropia.
 
 [role="less_space pagebreak-before"]
-More precisely, the private key can be any number between 0 and _n_ -
-1 inclusive, where _n_ is a constant (_n_ = 1.1578 × 10^77^, slightly less
-than 2^256^) defined as the order of the elliptic curve used in Bitcoin
-(see <<elliptic_curve>>). To create such a key, we randomly pick a
-256-bit number and check that it is less than _n_. In programming terms,
-this is usually achieved by feeding a larger string of random bits,
-collected from a cryptographically secure source of randomness, into the
-SHA256 hash algorithm, which will conveniently produce a 256-bit value
-that can be interpreted as a number.
-If the result is less than _n_, we have a suitable private key.
-Otherwise, we simply try again with another random number.
+Più precisamente, la chiave privata può essere qualsiasi numero compreso tra 0 e _n_ - 1 (inclusi), dove _n_ è una costante (_n_ = 1,1578 × 10^77^, leggermente inferiore a 2^256^) definita come l’ordine della curva ellittica utilizzata in Bitcoin (vedi <<elliptic_curve>>). Per creare una chiave di questo tipo, scegliamo casualmente un numero a 256 bit e verifichiamo che sia inferiore a _n_.
+In termini di programmazione, questo processo viene solitamente realizzato generando una stringa più lunga di bit casuali, raccolti da una fonte di casualità crittograficamente sicura, e passandola attraverso l’algoritmo di hash SHA256. Quest’ultimo produce comodamente un valore di 256 bit che può essere interpretato come un numero.
+Se il risultato è inferiore a _n_, allora abbiamo generato una chiave privata valida. In caso contrario, semplicemente ripetiamo il processo con un altro numero casuale.
 
 [WARNING]
 ====
@@ -88,9 +73,7 @@ choose to make sure it is cryptographically secure. Correct
 implementation of the CSPRNG is critical to the security of the keys.
 ====
 
-The following is a randomly generated private key (_k_) shown in
-hexadecimal format (256 bits shown as 64 hexadecimal digits, each 4
-bits):
+Di seguito è mostrata una chiave privata generata casualmente (_k_), rappresentata in formato esadecimale (256 bit visualizzati come 64 cifre esadecimali, ognuna delle quali rappresenta 4 bit):
 
 ----
 1E99423A4ED27608A15A2616A2B0E9E52CED330AC530EDCC32C8FFC6A526AEDD
@@ -104,26 +87,19 @@ visible universe is estimated to((("private keys", "generating", startref="priva
 ====
 
 [[elliptic_curve]]
-==== Elliptic Curve Cryptography Explained
+==== La crittografia a Curve Ellittiche spiegata
 
-Elliptic curve cryptography (ECC) is((("public key cryptography", "elliptic curve cryptography as", id="pub-key-ecc")))((("elliptic curve cryptography (ECC)", id="ecc"))) a type of asymmetric
-or public key cryptography based on the discrete logarithm problem as
-expressed by addition and multiplication on the points of an elliptic
-curve.
+La crittografia a curva ellittica (ECC) è((("public key cryptography", "elliptic curve cryptography as", id="pub-key-ecc")))((("elliptic curve cryptography (ECC)", id="ecc"))) un tipo di crittografia asimmetrica, o crittografia a chiave pubblica, basata sul problema del logaritmo discreto applicato all’addizione e alla moltiplicazione dei punti su una curva ellittica.
 
-<<ecc-curve>> is an example of an elliptic curve, similar to that used
-by Bitcoin.
+<<ecc-curve>> è un esempio di curva ellittica, simile a quella utilizzata da Bitcoin.
 
 [[ecc-curve]]
 [role="width-50"]
 .An elliptic curve.
 image::images/mbc3_0402.png["ecc-curve"]
 
-Bitcoin uses a specific elliptic curve and set of mathematical
-constants, as defined in a standard called +secp256k1+, established by
-the National Institute of Standards and Technology (NIST). The
-+secp256k1+ curve is defined by the following function, which produces
-an elliptic curve:
+Bitcoin utilizza una specifica curva ellittica e un insieme di costanti matematiche, definiti in uno standard chiamato +secp256k1+, stabilito dal National Institute of Standards and Technology (NIST).
+La curva +secp256k1+ è definita dalla seguente funzione, che genera una curva ellittica:
 
 [latexmath]
 ++++
@@ -132,7 +108,7 @@ an elliptic curve:
 \end{equation}
 ++++
 
-or
+oppure
 
 [latexmath]
 ++++
