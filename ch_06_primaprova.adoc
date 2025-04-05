@@ -1,0 +1,1291 @@
+[[c_transactions]]
+== Transazioni
+
+Il modo in cui normalmente trasferiamo denaro contante ha poche somiglianze con
+il modo in cui trasferiamo bitcoin. Il denaro contante è un token al portatore. Alice
+paga Bob consegnandogli un certo numero di token, come banconote.
+Per confronto, i bitcoin non esistono né fisicamente né come dati
+digitali--Alice non può consegnare a Bob dei bitcoin o inviarli via email.
+
+Invece, considera come Alice potrebbe trasferire il controllo su un appezzamento di terreno
+a Bob. Non può fisicamente sollevare il terreno e consegnarlo a Bob.
+Piuttosto esiste una sorta di registro (solitamente gestito da un'amministrazione
+locale) che descrive il terreno che Alice possiede. Alice trasferisce quel
+terreno a Bob convincendo l'amministrazione ad aggiornare il registro per indicare
+che ora Bob possiede il terreno.
+
+Bitcoin funziona in modo simile. Esiste un database su ogni
+nodo completo di Bitcoin che indica che Alice controlla un certo numero di
+bitcoin. Alice paga Bob convincendo i nodi completi ad aggiornare il loro
+database per indicare che alcuni dei bitcoin di Alice sono ora controllati da Bob.
+I dati che Alice usa per convincere i nodi completi ad aggiornare i loro
+database sono chiamati _transazione_. Questo avviene senza utilizzare direttamente
+le identità di Alice o Bob, come vedremo in
+<<c_authorization_authentication>>.
+
+In questo capitolo scomporremo una transazione Bitcoin ed esamineremo ciascuna
+delle sue parti per vedere come facilitano il trasferimento di valore in un modo
+altamente espressivo e sorprendentemente affidabile.
+
+[[tx_structure]]
+=== Una Transazione Bitcoin Serializzata
+
+In <<exploring_and_decoding_transactions>>, abbiamo ((("transactions", "serialized", id="transaction-serialize")))((("serialized transactions", id="serial-transactions")))((("Bitcoin Core", "serialized transactions", id="bitcoin-core-serial-transaction")))utilizzato Bitcoin Core con
+l'opzione txindex abilitata per recuperare una copia del pagamento di Alice a Bob.
+Recuperiamo nuovamente la transazione contenente quel pagamento, come mostrato in <<alice_tx_serialized_reprint>>.
+
+[[alice_tx_serialized_reprint]]
+.Transazione serializzata di Alice
+====
+----
+$ bitcoin-cli getrawtransaction 466200308696215bbc949d5141a49a41\
+38ecdfdfaa2a8029c1f9bcecd1f96177
+
+01000000000101eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da13569
+8679268041c54a0100000000ffffffff02204e0000000000002251203b41daba
+4c9ace578369740f15e5ec880c28279ee7f51b07dca69c7061e07068f8240100
+000000001600147752c165ea7be772b2c0acb7f4d6047ae6f4768e0141cf5efe
+2d8ef13ed0af21d4f4cb82422d6252d70324f6f4576b727b7d918e521c00b51b
+e739df2f899c49dc267c0ad280aca6dab0d2fa2b42a45182fc83e81713010000
+0000
+----
+====
+
+
+Il formato di serializzazione di Bitcoin Core è speciale perché è il formato
+utilizzato per creare impegni verso le transazioni e per trasmetterle attraverso
+la rete P2P di Bitcoin, ma altrimenti i programmi possono utilizzare
+un formato diverso purché trasmettano tutti gli
+stessi dati. Tuttavia, il formato di Bitcoin Core è ragionevolmente compatto per i
+dati che trasmette e semplice da analizzare, quindi molti altri programmi Bitcoin
+utilizzano questo formato.
+
+[TIP]
+====
+L'unico ((("partially signed bitcoin transaction (PSBT) format")))((("PSBT (partially signed bitcoin transaction) format")))altro formato di serializzazione delle transazioni ampiamente utilizzato di cui
+siamo a conoscenza è il formato di transazione bitcoin parzialmente firmata (PSBT)
+documentato nei BIP 174 e 370 (con estensioni documentate in altri
+BIP). PSBT consente a un programma non fidato di produrre un modello di transazione
+che può essere verificato e aggiornato da programmi fidati (come
+dispositivi di firma hardware) che dispongono delle chiavi private necessarie o
+altri dati sensibili per completare il modello. Per realizzare questo, PSBT
+consente di memorizzare una quantità significativa di metadati su una transazione,
+rendendola molto meno compatta rispetto al formato di serializzazione standard.
+Questo libro non entra nei dettagli su PSBT, ma lo raccomandiamo vivamente
+agli sviluppatori di portafogli che intendono supportare la firma
+con chiavi multiple.
+====
+
+La transazione visualizzata in esadecimale in <<alice_tx_serialized_reprint>> è
+replicata come mappa di byte in <<alice_tx_byte_map>>. Nota che servono
+64 caratteri esadecimali per visualizzare 32 byte. Questa mappa mostra solo i
+campi di primo livello. Esamineremo ciascuno di essi nell'ordine in cui appaiono
+nella transazione e descriveremo eventuali campi aggiuntivi che essi((("transactions", "serialized", startref="transaction-serialize")))((("serialized transactions", startref="serial-transactions")))((("Bitcoin Core", "serialized transactions", startref="bitcoin-core-serial-transaction"))) contengono.
+
+[[alice_tx_byte_map]]
+.Una mappa di byte della transazione di Alice.
+image::images/mbc3_0601.png["Una mappa di byte della transazione di Alice"]
+
+[[version]]
+=== Versione
+
+I primi ((("transactions", "version of", id="transactions-version")))((("version (of transactions)", id="version-transactions")))quattro byte di una transazione Bitcoin serializzata sono la sua
+versione. La versione originale delle transazioni Bitcoin era la versione 1
+
+(0x01000000). Tutte le transazioni in Bitcoin devono seguire
+le regole delle transazioni versione 1, con molte di queste regole
+descritte in tutto questo libro.
+
+Le transazioni Bitcoin versione 2 sono state introdotte nel soft fork BIP68
+che ha modificato le regole di consenso di Bitcoin. BIP68 impone vincoli
+aggiuntivi sul campo sequence, ma questi vincoli si applicano solo alle
+transazioni con versione 2 o superiore. Le transazioni versione 1 non sono
+interessate. BIP112, che faceva parte dello stesso soft fork di BIP68,
+ha aggiornato un opcode (++OP_CHECKSEQUENCEVERIFY++), che ora fallirà se viene
+valutato come parte di una transazione con una versione inferiore a 2. Al di là
+di questi due cambiamenti, le transazioni versione 2 sono identiche alle transazioni
+versione 1.
+
+[role="less_space pagebreak-before"]
+.Protezione delle Transazioni Prefirmate
+****
+L'ultimo passo ((("transactions", "presigned", id="transaction-presign")))((("presigned transactions", id="presign-transaction")))prima di trasmettere una transazione alla rete per
+l'inclusione nella blockchain è firmarla. Tuttavia, è possibile
+firmare una transazione senza trasmetterla immediatamente. Puoi salvare
+quella transazione prefirmata per mesi o anni nella convinzione che
+possa essere aggiunta alla blockchain in seguito quando la trasmetterai. Nel
+frattempo, potresti persino perdere l'accesso alla chiave privata (o alle chiavi) necessaria
+per firmare una transazione alternativa che spende i fondi. Questo non è
+ipotetico: diversi protocolli costruiti su Bitcoin, inclusa Lightning
+Network, dipendono da [.keep-together]#transazioni# prefirmate.
+
+Questo crea una sfida per gli sviluppatori di protocolli quando assistono gli utenti
+nell'aggiornamento del protocollo di consenso Bitcoin. L'aggiunta di nuovi
+vincoli--come ha fatto BIP68 al campo sequence--potrebbe invalidare
+alcune transazioni prefirmate. Se non c'è modo di creare una nuova
+firma per una transazione equivalente, allora il denaro speso nella
+transazione prefirmata è perso permanentemente.
+
+Questo problema viene risolto riservando alcune caratteristiche delle transazioni per
+gli aggiornamenti, come i numeri di versione. Chiunque creasse transazioni
+prefirmate prima di BIP68 avrebbe dovuto utilizzare transazioni
+versione 1, quindi applicando i vincoli aggiuntivi di BIP68 sulla
+sequence solo alle transazioni v2 o superiori non si dovrebbero invalidare
+[.keep-together]#transazioni# prefirmate.
+
+Se implementi un protocollo che utilizza transazioni prefirmate, assicurati
+che non utilizzi funzionalità riservate per futuri aggiornamenti.
+La policy di relay delle transazioni predefinita di Bitcoin Core non consente l'uso
+di funzionalità riservate. Puoi verificare se una transazione è conforme a
+quella policy utilizzando l'RPC +testmempoolaccept+ di Bitcoin Core su Bitcoin
+mainnet.
+****
+
+Al momento della stesura, una proposta per iniziare a utilizzare le transazioni versione 3 è
+ampiamente considerata. Quella proposta non cerca di modificare le
+regole di consenso ma solo la policy che i nodi completi Bitcoin utilizzano per inoltrare
+le transazioni. Secondo la proposta, le transazioni versione 3 sarebbero
+soggette a vincoli aggiuntivi per prevenire determinati attacchi di tipo
+denial of service (DoS) che discuteremo((("transactions", "version of", startref="transactions-version")))((("version (of transactions)", startref="version-transactions"))) ulteriormente in <<transaction_pinning>>.
+
+=== Marker e Flag Estesi
+
+I due campi successivi((("transactions", "extended serialization format")))((("extended serialization format")))((("BIP144 extended serialization format"))) della transazione serializzata di esempio sono stati aggiunti come
+parte del soft fork segregated witness (segwit) che ha modificato le regole
+di consenso di Bitcoin. Le regole sono state modificate secondo i BIP 141 e 143,
+ma il _formato di serializzazione esteso_ è definito nel BIP144.
+
+[role="less_space pagebreak-before"]
+Se la transazione include una struttura witness (che descriveremo in
+<<witness_structure>>), il marker deve essere zero (0x00) e il flag deve essere
+diverso da zero. Nell'attuale protocollo P2P, il flag dovrebbe essere sempre uno
+(0x01); flag alternativi sono riservati per futuri aggiornamenti del protocollo.
+
+Se la transazione non necessita di uno stack witness, il marker e il flag non devono
+essere presenti. Questo è compatibile con la versione originale del formato
+di serializzazione delle transazioni di Bitcoin, ora chiamato _serializzazione legacy_.
+Per i dettagli, vedi <<legacy_serialization>>.
+
+Nella ((("transactions", "legacy serialization")))((("legacy serialization")))serializzazione legacy, il byte marker sarebbe stato interpretato come
+il numero di input (zero). Una transazione non può avere zero input, quindi
+il marker segnala ai programmi moderni che si sta utilizzando la serializzazione estesa.
+Il campo flag fornisce un segnale simile e inoltre
+semplifica il processo di aggiornamento del formato di serializzazione in
+futuro.
+
+[[inputs]]
+=== Input
+
+Il((("transactions", "inputs", id="transaction-input")))((("inputs", id="input-transaction"))) campo input contiene diversi altri campi, quindi iniziamo mostrando una
+mappa di quei byte in <<alice_tx_input_map>>.
+
+[[alice_tx_input_map]]
+.Mappa dei byte nel campo input della transazione di Alice.
+image::images/mbc3_0602.png["mappa dei byte nel campo input della transazione di Alice"]
+
+==== Lunghezza della Lista di Input della Transazione
+
+La ((("transactions", "inputs", "length of list", id="transaction-input-length")))((("inputs", "length of list", id="input-transaction-length")))lista di input della transazione inizia con un intero che indica il numero di input
+nella transazione. Il valore minimo è uno. Non c'è un valore
+massimo esplicito, ma le restrizioni sulla dimensione massima di una transazione
+limitano effettivamente le transazioni a poche migliaia di input. Il numero è
+codificato come un intero senza segno compactSize.
+
+[role="less_space pagebreak-before"]
+
+.Interi Senza Segno CompactSize
+****
+Gli interi senza segno((("compactSize  unsigned integers", id="compactsize")))((("unsigned integers", id="unsigned"))) in Bitcoin che spesso hanno valori bassi, ma che possono
+talvolta avere valori alti, sono solitamente codificati utilizzando il tipo
+di dati compactSize. CompactSize è una versione di un intero a lunghezza variabile, quindi
+a volte è chiamato var_int o varint (vedi, ad esempio, la documentazione
+per i BIP 37 e 144).
+
+
+[WARNING]
+====
+Diverse varietà di interi a lunghezza variabile sono utilizzate
+in diversi programmi, inclusi diversi programmi Bitcoin. Per
+esempio, Bitcoin Core serializza il suo database UTXO utilizzando un tipo di dati che
+chiama +VarInts+, che è diverso da compactSize. Inoltre, il
+campo nBits nell'header di un blocco Bitcoin è codificato utilizzando un tipo di dati
+personalizzato noto come +Compact+, che non è correlato a compactSize. Quando
+parliamo degli interi a lunghezza variabile utilizzati nella serializzazione delle transazioni
+Bitcoin e in altre parti del protocollo P2P di Bitcoin, useremo
+sempre il nome completo compactSize.
+====
+
+Per i numeri da 0 a 252, gli interi senza segno compactSize sono identici
+al tipo di dati del linguaggio C +uint8_t+, che è probabilmente la codifica nativa
+familiare a qualsiasi programmatore. Per altri numeri fino a
+0xffffffffffffffff, un byte viene prefissato al numero per indicarne la
+lunghezza—ma altrimenti i numeri appaiono come normali interi senza segno
+codificati nel linguaggio C:
+
+++++
+<table>
+<thead>
+<tr>
+<th>Valore</th>
+<th>Byte utilizzati</th>
+<th>Formato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>≥ <code>0</code> &amp;&amp; ≤ <code>252</code> (<code>0xfc</code>)</p></td>
+<td><p><code>1</code></p></td>
+<td><p><code>uint8_t</code></p></td>
+</tr>
+<tr>
+<td><p>≥ <code>253</code> &amp;&amp; ≤ <code>0xffff</code></p></td>
+<td><p>3</p></td>
+<td><p><code>0xfd</code> seguito dal numero come <code>uint16_t</code></p></td>
+</tr>
+<tr>
+<td><p>≥ <code>0x10000</code> &amp;&amp; ≤ <code>0xffffffff</code></p></td>
+<td><p><code>5</code></p></td>
+<td><p><code>0xfe</code> seguito dal numero come <code>uint32_t</code></p></td>
+</tr>
+<tr>
+<td><p>≥ <code>0x100000000</code> &amp;&amp; ≤ <code>0xffffffffffffffff</code></p></td>
+<td><p><code>9</code></p></td>
+<td><p><code>0xff</code> seguito dal numero come <code>uint64_t</code></p></td>
+</tr>
+</tbody>
+</table>
+++++
+****
+
+Ogni input in una transazione deve contenere tre campi: un campo _outpoint_, un campo _script di input_ con prefisso di lunghezza e un campo _sequence_
+
+Esamineremo ciascuno di questi campi nelle sezioni seguenti. Alcuni
+input includono anche uno stack witness, ma questo viene serializzato alla fine di una
+transazione quindi lo ((("transactions", "inputs", "length of list", startref="transaction-input-length")))((("inputs", "length of list", startref="input-transaction-length")))esamineremo più avanti.
+
+
+[[outpoints]]
+==== Outpoint
+
+Una transazione ((("transactions", "inputs", "outpoint field", id="transaction-input-outpoint")))((("inputs", "outpoint field", id="input-transaction-outpoint")))((("outpoint field (transaction inputs)", id="outpoint")))Bitcoin è una richiesta ai nodi completi di aggiornare il loro
+database di informazioni sulla proprietà delle monete. Affinché Alice trasferisca il controllo
+di alcuni dei suoi bitcoin a Bob, deve prima dire ai nodi completi come
+trovare il trasferimento precedente in cui ha ricevuto quei bitcoin. Poiché
+il controllo sui bitcoin viene assegnato negli output delle transazioni, Alice _punta_
+al precedente _output_ utilizzando un campo _outpoint_. Ogni input deve
+contenere un singolo outpoint.
+
+L'outpoint contiene un txid di 32 byte per la
+transazione in cui Alice ha ricevuto i bitcoin che ora vuole spendere.
+Questo txid è nell'ordine di byte interno di Bitcoin per gli hash; vedi
+<<internal_and_display_order>>.
+
+Poiché le transazioni possono contenere più output, Alice deve anche
+identificare quale particolare output di quella transazione utilizzare, ((("output indexes")))chiamato
+il suo _indice di output_. Gli indici di output sono interi senza segno
+di 4 byte a partire da zero.
+
+Quando un nodo completo incontra un outpoint, utilizza quell'informazione per cercare
+di trovare l'output referenziato. I nodi completi sono tenuti a guardare solo le transazioni
+precedenti nella blockchain. Ad esempio, la transazione di Alice è
+inclusa nel blocco 774.958. Un nodo completo che verifica la sua transazione
+cerca l'output precedente referenziato dal suo outpoint solo in quel
+blocco e nei blocchi precedenti, non in blocchi successivi. All'interno del blocco 774.958,
+guarderanno solo le transazioni inserite nel blocco prima della transazione di Alice,
+come determinato dall'ordine delle foglie nell'albero merkle del blocco
+
+tree (vedi <<merkle_trees>>).
+
+Trovando l'output precedente, il nodo completo ottiene diverse informazioni
+critiche da esso:
+
+- La quantità di bitcoin assegnati a quell'output precedente. Tutti quei
+  bitcoin saranno trasferiti in questa transazione. Nella transazione di
+  esempio, il valore dell'output precedente era di 100.000 satoshi.
+
+- Le condizioni di autorizzazione per quell'output precedente. Queste sono le
+  condizioni che devono essere soddisfatte per poter spendere i bitcoin
+  assegnati a quell'output precedente.
+
+- Per le transazioni confermate, l'altezza del blocco che l'ha confermata
+  e il median time past (MTP) per quel blocco. Questo è necessario per
+  i timelock relativi (descritti in <<relative_timelocks>>) e gli output
+  delle transazioni coinbase (descritte in <<coinbase_transactions>>).
+
+- Prova che l'output precedente esiste nella blockchain (o come transazione
+  non confermata conosciuta) e che nessun'altra transazione l'ha speso.
+  Una delle regole di consenso di Bitcoin vieta che un output venga speso
+  più di una volta all'interno di una blockchain valida. Questa è la((("double spending")))((("conflicting transactions"))) regola contro
+  la _doppia spesa_: Alice non può utilizzare lo stesso output precedente per pagare
+  sia Bob che Carol in transazioni separate. Due transazioni che cercano di spendere
+  lo stesso output precedente sono chiamate _transazioni in conflitto_ perché
+  solo una di esse può essere inclusa in una blockchain valida.
+
+Diversi approcci per tracciare gli output precedenti sono stati provati da
+diverse implementazioni di nodi completi in vari momenti. Bitcoin Core
+attualmente utilizza la soluzione ritenuta più efficace nel conservare
+tutte le informazioni necessarie minimizzando lo spazio su disco: mantiene un
+database che memorizza ogni UTXO e
+metadati essenziali su di esso (come l'altezza del blocco di conferma). Ogni
+volta che arriva un nuovo blocco di transazioni, tutti gli output che spendono
+vengono rimossi dal database UTXO e tutti gli output che creano
+vengono aggiunti al((("transactions", "inputs", "outpoint field", startref="transaction-input-outpoint")))((("inputs", "outpoint field", startref="input-transaction-outpoint")))((("outpoint field (transaction inputs)", startref="outpoint"))) database.
+
+[[internal_and_display_order]]
+.Ordini di Byte Interni e di Visualizzazione
+****
+Bitcoin utilizza ((("hash functions", "digests")))((("digests")))((("internal byte order")))((("display byte order")))l'output delle funzioni di hash, chiamati _digest_, in vari
+modi. I digest forniscono identificatori unici per blocchi e transazioni;
+sono utilizzati negli impegni per indirizzi, blocchi, transazioni,
+firme e altro; e i digest vengono iterati nella funzione
+proof-of-work di Bitcoin. In alcuni casi, i digest degli hash vengono mostrati agli
+utenti in un ordine di byte ma vengono utilizzati internamente in un ordine di byte
+diverso, creando confusione. Ad esempio, considera il txid dell'output precedente
+dall'outpoint nella nostra transazione di esempio:
+
+----
+eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a
+----
+
+Se proviamo a utilizzare quel txid per recuperare quella transazione usando
+Bitcoin Core, otteniamo un errore e dobbiamo invertire l'ordine dei suoi byte:
+
+----
+$ bitcoin-cli getrawtransaction \
+  eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a
+error code: -5
+error message:
+No such mempool or blockchain transaction. 
+Use gettransaction for wallet transactions.
+
+$ echo eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a \
+  | fold -w2 | tac | tr -d "\n"
+4ac541802679866935a19d4f40728bb89204d0cac90d85f3a51a19278fe33aeb
+
+$ bitcoin-cli getrawtransaction \
+  4ac541802679866935a19d4f40728bb89204d0cac90d85f3a51a19278fe33aeb
+02000000000101c25ae90c9f3d40cc1fc509ecfd54b06e35450702...
+----
+
+Questo strano comportamento è probabilmente una conseguenza non intenzionale di una
+https://oreil.ly/01JH2[decisione di progettazione nel software Bitcoin iniziale]. In pratica, significa
+che gli sviluppatori di software Bitcoin devono ricordarsi di invertire l'ordine dei
+byte negli identificatori di transazioni e blocchi che mostrano agli utenti.
+
+In questo libro, utilizziamo il termine _ordine di byte interno_ per i dati che
+appaiono all'interno di transazioni e blocchi. Utilizziamo _ordine di byte di visualizzazione_ per
+la forma mostrata agli utenti. Un altro insieme di termini comuni è
+_ordine di byte little-endian_ per la versione interna e _ordine di byte big-endian_
+per la versione di visualizzazione.
+****
+
+==== Script di Input
+
+Il ((("transactions", "inputs", "input script")))((("inputs", "input script")))((("input scripts")))campo script di input è un residuo del formato di transazione legacy. Il nostro
+input di transazione di esempio spende un output segwit nativo che non
+richiede alcun dato nello script di input, quindi il prefisso di lunghezza per lo
+script di input è impostato a zero (0x00).
+
+Per un esempio di uno script di input con prefisso di lunghezza che spende un output
+legacy, utilizziamo uno da una transazione arbitraria nel blocco più recente
+al momento della stesura:
+
+----
+6b483045022100a6cc4e8cd0847951a71fad3bc9b14f24d44ba59d19094e0a8c
+fa2580bb664b020220366060ea8203d766722ed0a02d1599b99d3c95b97dab8e
+
+41d3e4d3fe33a5706201210369e03e2c91f0badec46c9c903d9e9edae67c167b
+9ef9b550356ee791c9a40896
+----
+
+Il prefisso di lunghezza è un intero senza segno compactSize che indica la
+lunghezza del campo script di input serializzato. In questo caso, è un singolo
+byte (0x6b) che indica che lo script di input è di 107 byte. Tratteremo l'analisi
+e l'utilizzo degli script in dettaglio in <<c_authorization_authentication>>.
+
+[[sequence]]
+==== Sequence
+
+Gli ((("transactions", "inputs", "sequence field", id="transaction-input-sequence")))((("inputs", "sequence field", id="input-transaction-sequence")))((("sequence field (transaction inputs)", id="sequence-field")))ultimi quattro byte di un input sono il suo numero di _sequence_.
+L'uso e il significato di questo campo sono cambiati nel tempo.
+
+[[original_tx_replacement]]
+===== Sostituzione di transazione basata su sequence originale
+
+Il ((("sequence-based transaction replacement", id="sequence-replace")))campo sequence era originariamente destinato a consentire la creazione di
+più versioni della stessa transazione, con versioni successive che sostituiscono
+versioni precedenti come candidate per la conferma. Il numero di sequence
+tracciava la versione della transazione.
+
+Ad esempio, immagina che Alice e Bob vogliano scommettere su una partita a carte. Iniziano
+firmando ciascuno una transazione che deposita del denaro in un
+output con uno script che richiede firme da entrambi per ((("multisignature scripts")))((("setup transactions")))spendere, uno
+script _multisignature_ (_multisig_ in breve). Questa è chiamata la
+_transazione di setup_. Quindi creano una transazione che spende quell'output:
+
+- La prima versione della transazione, con nSequence 0 (0x00000000),
+  restituisce ad Alice e Bob il denaro che hanno inizialmente depositato. Questa è
+  chiamata una _transazione di rimborso_. Nessuno di loro trasmette la transazione di rimborso
+  in questo momento. Ne hanno bisogno solo se c'è un problema.
+
+- Alice vince il primo round del gioco di carte, quindi la seconda versione della
+  transazione, con sequence 1, aumenta la quantità di denaro pagata
+  ad Alice e diminuisce la quota di Bob. Entrambi firmano la transazione
+  aggiornata. Ancora una volta, non hanno bisogno di trasmettere questa versione della
+  transazione a meno che non ci sia un problema.
+
+- Bob vince il secondo round, quindi la sequence viene incrementata a 2,
+  la quota di Alice viene diminuita e quella di Bob aumentata. Firmano di nuovo
+  ma non trasmettono.
+
+- Dopo molti altri round in cui la sequence viene incrementata,
+  i fondi ridistribuiti e la transazione risultante viene firmata ma non
+  trasmessa, decidono di finalizzare la transazione. Creando una
+  transazione con il saldo finale dei fondi, impostano la sequence al suo
+  valore massimo (0xffffffff), finalizzando la transazione. Trasmettono
+  questa versione della transazione, viene inoltrata attraverso la rete e
+  alla fine confermata dai miner.
+
+Possiamo vedere le regole di sostituzione per la sequence all'opera se consideriamo
+scenari alternativi:
+
+- Immagina che Alice trasmetta la transazione finale, con una sequence di
+  0xffffffff, e poi Bob trasmetta una delle transazioni precedenti
+  dove il suo saldo era più alto. Poiché la versione della transazione di
+  Bob ha un numero di sequence inferiore, i nodi completi che utilizzano il codice
+  Bitcoin originale non la inoltreranno ai miner, e i miner che utilizzano anche il
+  codice originale non la mineranno.
+
+- In un altro scenario, immagina che Bob trasmetta una versione precedente della
+  transazione pochi secondi prima che Alice trasmetta la versione finale.
+  I nodi inoltreranno la versione di Bob e i miner tenteranno di
+  minarla, ma quando arriva la versione di Alice con il suo numero di sequence più alto,
+  i nodi la inoltreranno anche e i miner che utilizzano il codice
+  Bitcoin originale cercheranno di minarla invece della versione di Bob. A meno che Bob
+  non sia stato fortunato e un blocco sia stato scoperto prima dell'arrivo della versione di Alice,
+  è la versione della transazione di Alice che verrà confermata.
+
+Questo tipo di protocollo è ciò che ora ((("payment channels")))chiamiamo un _canale di pagamento_.
+Il creatore di Bitcoin, in un'email a lui attribuita, chiamava((("high-frequency transactions"))) queste
+_transazioni ad alta frequenza_ e descriveva una serie di funzionalità aggiunte al
+protocollo per supportarle. Impareremo diverse di quelle altre
+funzionalità più avanti e scopriremo anche come le versioni moderne dei canali di pagamento
+vengono sempre più utilizzate in Bitcoin oggi.
+
+C'erano alcuni problemi con i canali di pagamento basati puramente sulla sequence.
+Il primo era che le regole per sostituire una transazione con sequence inferiore
+con una transazione con sequence superiore erano solo una questione di policy
+software. Non c'era alcun incentivo diretto per i miner a preferire una versione
+della transazione rispetto a qualsiasi altra. Il secondo problema era che la
+prima persona a inviare la propria transazione poteva essere fortunata e vederla
+confermata anche se non era la transazione con la sequence più alta. Un
+protocollo di sicurezza che fallisce qualche percento delle volte a causa della sfortuna
+non è un protocollo molto efficace.
+
+Il terzo problema era che era possibile sostituire una versione di una
+transazione con una versione diversa un numero illimitato di
+volte. Ogni sostituzione avrebbe consumato la larghezza di banda di tutti i nodi completi di inoltro
+sulla rete. Ad esempio, al momento della stesura, ci sono circa 50.000
+nodi completi di inoltro; un attaccante che crea 1.000 transazioni sostitutive
+al minuto a 200 byte ciascuna utilizzerebbe circa 20 KB della propria
+larghezza di banda personale ma circa 10 GB di larghezza di banda della rete di nodi completi
+ogni minuto. Ad eccezione del costo della loro larghezza di banda di 20 KB/minuto e
+della commissione occasionale quando una transazione veniva confermata, l'attaccante non avrebbe
+bisogno di pagare alcun costo per l'enorme onere che imponeva agli operatori
+di nodi completi.
+
+Per eliminare il rischio di questo attacco, il tipo originale di
+sostituzione di transazione basata su sequence è stato disabilitato in una versione iniziale
+del software Bitcoin. Per diversi anni, i nodi completi Bitcoin non
+avrebbero consentito a una transazione non confermata contenente un particolare input (come
+indicato dal suo outpoint) di essere sostituita da una transazione diversa
+contenente lo stesso input. Tuttavia, quella situazione non ((("sequence-based transaction replacement", startref="sequence-replace")))è durata per sempre.
+
+[[sequence-bip125]]
+===== Segnalazione di sostituzione di transazione opt-in
+
+Dopo che((("opt-in transaction replacement")))((("replace by fee (RBF)")))((("transaction fees", "opt-in transaction replacement"))) la sostituzione di transazione basata su sequence originale è stata disabilitata
+a causa del potenziale di abuso, è stata proposta una soluzione: programmare
+Bitcoin Core e altro software di nodi completi di inoltro per consentire a una
+transazione che pagava una tariffa di transazione più alta di sostituire una
+transazione in conflitto che pagava una tariffa più bassa. Questo è chiamato
+_replace by fee_, o _RBF_ in breve. Alcuni utenti e aziende
+si sono opposti all'aggiunta del supporto per la sostituzione delle transazioni in Bitcoin
+Core, quindi è stato raggiunto un compromesso che ha nuovamente utilizzato il campo
+sequence a supporto della sostituzione.
+
+Come documentato nel BIP125, una transazione non confermata con qualsiasi input che
+ha una sequence impostata a un valore inferiore a 0xfffffffe (cioè, almeno 2 sotto
+il valore massimo) segnala alla rete che il suo firmatario vuole che sia
+sostituibile da una transazione in conflitto che paga una tariffa più alta.
+Bitcoin Core ha consentito a quelle transazioni non confermate di essere sostituite e
+ha continuato a non consentire ad altre transazioni di essere sostituite. Questo
+ha permesso a utenti e aziende che si opponevano alla sostituzione di semplicemente
+ignorare le transazioni non confermate contenenti il segnale BIP125 fino a quando non
+diventavano confermate.
+
+C'è di più nelle moderne policy di sostituzione delle transazioni oltre alle tariffe
+e ai segnali di sequence, che vedremo in <<rbf>>.
+
+[[relative_timelocks]]
+===== Sequence come timelock relativo applicato dal consenso
+
+In <<version>>, abbiamo appreso ((("relative timelocks", id="relative-timelock")))che il soft fork BIP68 ha aggiunto
+un nuovo vincolo alle transazioni con numeri di versione 2 o superiori. Quel
+vincolo si applica al campo sequence.
+
+Gli input di transazione con valori di sequence inferiori a 2^31^ sono
+interpretati come aventi un timelock relativo. Tale transazione può solo
+essere inclusa nella blockchain una volta che l'output precedente (referenziato dall'
+outpoint) è invecchiato dell'importo del timelock relativo. Ad esempio, una
+transazione con un input con un timelock relativo di 30 blocchi può
+essere confermata solo in un blocco con almeno 29 blocchi tra esso e il
+blocco contenente l'output che viene speso sulla stessa blockchain.
+Poiché sequence è un campo per-input, una transazione può contenere qualsiasi
+numero di input con timelock, tutti i quali devono essere sufficientemente invecchiati
+affinché la transazione sia valida. Un flag di disabilitazione consente a una transazione di
+includere sia input con un timelock relativo (sequence < 2^31^) sia
+input senza un timelock relativo (sequence ≥ 2^31^).
+
+Il valore di sequence è specificato in blocchi o secondi.
+Un flag di tipo
+viene utilizzato per differenziare tra valori che contano blocchi e valori
+che contano il tempo in secondi. Il flag di tipo è impostato nel 23°
+bit meno significativo (cioè, valore 1<<22). Se il flag di tipo è impostato, allora
+il valore di sequence viene interpretato come un multiplo di 512 secondi. Se
+il flag di tipo non è impostato, il valore di sequence viene interpretato come un
+numero di blocchi.
+
+
+Quando si interpreta sequence come un timelock relativo, vengono considerati solo i 16 bit
+meno significativi. Una volta che i flag (bit 32 e 23) sono
+valutati, il valore di sequence viene solitamente "mascherato" con una maschera a 16 bit
+(ad esempio, +sequence+ & 0x0000FFFF). Il multiplo di 512 secondi è
+approssimativamente uguale alla quantità media di tempo tra i blocchi, quindi il
+timelock relativo massimo sia in blocchi che in secondi da 16 bit
+(2^16^) è poco più di un anno.
+
+<<bip_68_def_of_nseq>> mostra il layout binario del valore di sequence,
+come definito dal BIP68.
+
+[[bip_68_def_of_nseq]]
+.Definizione BIP68 della codifica della sequence (Fonte: BIP68).
+image::images/mbc3_0603.png["Definizione BIP68 della codifica della sequence"]
+
+Nota che qualsiasi transazione che imposta un timelock relativo utilizzando sequence
+invia anche il segnale per il replace by fee opt-in ((("transactions", "inputs", startref="transaction-input")))((("inputs", startref="input-transaction")))((("transactions", "inputs", "sequence field", startref="transaction-input-sequence")))((("inputs", "sequence field", startref="input-transaction-sequence")))((("sequence field (transaction inputs)", startref="sequence-field")))come descritto in
+<<sequence-bip125>>.
+
+=== Output
+
+Il ((("transactions", "outputs", id="transaction-output")))((("outputs", id="output-transaction")))campo output di una transazione contiene diversi campi relativi a
+output specifici. Proprio come abbiamo fatto con il campo input, inizieremo
+esaminando i byte specifici del campo output dalla transazione di esempio
+in cui Alice paga Bob, visualizzati come
+una mappa di quei byte in <<output-byte-map>>.
+
+[[output-byte-map]]
+.Una mappa di byte del campo output dalla transazione di Alice.
+image::images/mbc3_0604.png["Una mappa di byte del campo output dalla transazione di Alice"]
+
+==== Conteggio degli Output
+
+Identico((("transactions", "outputs", "count")))((("outputs", "count"))) all'inizio della sezione input di una transazione, il campo output
+inizia con un conteggio che indica il numero di output in questa
+transazione. È un intero compactSize e deve essere maggiore di zero.
+
+La transazione di esempio ha due output.
+
+==== Importo
+
+Il primo((("transactions", "outputs", "amount field", id="transaction-output-amount")))((("outputs", "amount field", id="output-transaction-amount")))((("amount field (transaction outputs)", id="amount-field"))) campo di un output specifico è il suo _importo_, chiamato anche
+"valore" in Bitcoin Core. Questo è un intero con segno di 8 byte che indica
+il numero di satoshi da trasferire. Un satoshi è la più piccola unità di
+bitcoin che può essere rappresentata in una transazione Bitcoin onchain.
+Ci sono 100 milioni di satoshi in un bitcoin.
+
+Le regole di consenso di Bitcoin consentono a un output di avere un valore minimo di
+zero e massimo di 21 milioni di bitcoin (2,1 quadrilioni di satoshi).
+
+//TODO:describe early integer overflow problem
+
+[[uneconomical_outputs]]
+===== Output non economici e dust non consentito
+
+Nonostante non ((("uneconomical outputs", id="uneconomical")))((("dust policies", id="dust")))abbia alcun valore, un output a valore zero può essere speso secondo
+le stesse regole di qualsiasi altro output. Tuttavia, spendere un output (usarlo
+come input in una transazione) aumenta la dimensione di una transazione,
+il che aumenta l'importo della commissione che deve essere pagata. Se il valore
+dell'output è inferiore al costo della commissione aggiuntiva, allora non ha
+senso economico spendere l'output. Tali output sono noti come
+_output non economici_.
+
+Un output a valore zero è sempre un output non economico; non
+contribuirebbe con alcun valore a una transazione che lo spende anche se il
+tasso di commissione della transazione fosse zero. Tuttavia, molti altri output con valori
+bassi possono essere non economici, anche involontariamente. Ad esempio,
+a un tasso di commissione tipico sulla rete oggi, un output potrebbe aggiungere più
+valore a una transazione di quanto costi spenderlo--ma domani, i tassi di commissione
+potrebbero aumentare e rendere l'output non economico.
+
+La necessità per i nodi completi di tenere traccia di tutti gli UTXO, come descritto in <<outpoints>>, significa che ogni UTXO rende
+leggermente più difficile eseguire un nodo completo. Per gli UTXO contenenti un valore
+significativo, c'è un incentivo a spenderli alla fine, quindi non sono un
+problema. Ma non c'è alcun incentivo per la persona che controlla un
+UTXO non economico a spenderlo mai, rendendolo potenzialmente un onere perpetuo
+per gli operatori di nodi completi. Poiché la decentralizzazione di Bitcoin
+dipende dalla volontà di molte persone di eseguire nodi completi, diverse implementazioni
+di nodi completi come Bitcoin Core scoraggiano la creazione di
+output non economici utilizzando policy che influenzano l'inoltro e il mining di
+transazioni non confermate.
+
+[role="less_space pagebreak-before"]
+Le policy contro l'inoltro o il mining di transazioni che creano nuovi
+output non economici sono chiamate policy _dust_, basate su un confronto
+metaforico tra output con valori molto piccoli e particelle con
+dimensioni molto piccole. La policy dust di Bitcoin Core è complicata e contiene
+diversi numeri arbitrari, quindi molti programmi di cui siamo a conoscenza semplicemente
+assumono che gli output con meno di 546 satoshi siano dust e non saranno
+inoltrati o minati per impostazione predefinita. Ci sono occasionalmente proposte per abbassare
+i limiti di dust, e controproposte per aumentarli, quindi incoraggiamo
+gli sviluppatori che utilizzano transazioni prefirmate o protocolli multiparty a
+verificare se la policy è cambiata dalla pubblicazione di questo libro.
+
+[TIP]
+====
+Dalla nascita di Bitcoin, ogni nodo completo ha dovuto mantenere una copia di
+ogni UTXO, ma potrebbe non essere sempre
+così. Diversi sviluppatori hanno lavorato su((("Utreexo"))) Utreexo, un progetto
+che consente ai nodi completi di memorizzare un impegno verso l'insieme di UTXO piuttosto
+che i dati stessi. Un impegno minimo potrebbe essere solo di uno o due
+kilobyte di dimensione--confrontalo con gli oltre cinque gigabyte che Bitcoin Core memorizza
+al momento della stesura.
+
+Tuttavia, Utreexo richiederà comunque che alcuni nodi memorizzino tutti i dati UTXO,
+specialmente i nodi che servono i miner e altre operazioni che necessitano di
+validare rapidamente nuovi blocchi. Ciò significa che gli output non economici possono ancora
+essere un problema per i nodi completi anche in un possibile futuro in cui la maggior parte dei nodi
+utilizzi Utreexo.
+====
+
+Le regole di policy di Bitcoin Core sul dust hanno un'eccezione: gli script di output
+che iniziano con +OP_RETURN+, chiamati _output di trasporto dati_,
+possono avere un valore di zero. L'opcode +OP_RETURN+ fa sì che lo script
+fallisca immediatamente indipendentemente da ciò che segue, quindi questi output non possono
+mai essere spesi. Ciò significa che i nodi completi non hanno bisogno di tenerne traccia,
+una caratteristica di cui Bitcoin Core approfitta per consentire agli utenti di memorizzare piccole
+quantità di dati arbitrari nella blockchain senza aumentare la dimensione
+del suo database UTXO. Poiché gli output non sono spendibili, non sono
+non economici--qualsiasi satoshi assegnato a loro diventa
+permanentemente non spendibile--quindi consentire che l'importo sia zero assicura
+che i satoshi non vengano ((("transactions", "outputs", "amount field", startref="transaction-output-amount")))((("outputs", "amount field", startref="output-transaction-amount")))((("amount field (transaction outputs)", startref="amount-field")))((("uneconomical outputs", startref="uneconomical")))((("dust policies", startref="dust")))distrutti.
+
+==== Script di Output
+
+L'((("transactions", "outputs", "output scripts", id="transaction-output-script")))((("outputs", "output scripts", id="output-transaction-script")))((("output scripts", id="output-script2")))importo dell'output è seguito da un intero compactSize che indica la
+lunghezza dello _script di output_, lo script che contiene le
+condizioni che dovranno essere soddisfatte per spendere i
+bitcoin. Secondo le regole di consenso di Bitcoin, la dimensione minima di uno script di output è zero.
+
+La dimensione massima consentita dal consenso per uno script di output varia a seconda di
+quando viene controllato. Non c'è un limite esplicito alla dimensione di uno
+script di output nell'output di una transazione, ma una transazione successiva può
+spendere solo un output precedente con uno script di 10.000 byte o
+più piccolo. Implicitamente, uno script di output può essere quasi grande quanto la
+
+transazione che lo contiene, e una transazione può essere quasi grande quanto
+il blocco che la contiene.
+
+[[anyone-can-spend]]
+[TIP]
+====
+Uno script di output con lunghezza zero può essere speso da uno script di input contenente
+++OP_TRUE++. Chiunque può creare quello script di input, il che significa che chiunque
+può spendere uno script di output vuoto. Esiste un numero essenzialmente illimitato
+di script che chiunque può spendere, e sono noti agli sviluppatori
+del protocollo Bitcoin come _anyone can spends_ (spendibili da chiunque). Gli aggiornamenti al linguaggio
+di script di Bitcoin spesso prendono uno script anyone-can-spend esistente e aggiungono
+nuovi vincoli, rendendolo spendibile solo alle nuove
+condizioni. Gli sviluppatori di applicazioni non dovrebbero mai aver bisogno di utilizzare uno
+script anyone-can-spend, ma se lo fai, ti raccomandiamo vivamente di
+annunciare a gran voce i tuoi piani agli utenti e agli sviluppatori di Bitcoin in modo che
+futuri aggiornamenti non interferiscano accidentalmente con il tuo sistema.
+====
+
+La policy di Bitcoin Core per l'inoltro e il mining delle transazioni limita efficacemente
+gli script di output a pochi modelli, ((("standard transaction outputs")))chiamati _output
+di transazione standard_. Questo è stato originariamente implementato dopo la
+scoperta di diversi bug iniziali in Bitcoin relativi al linguaggio
+Script ed è mantenuto nel moderno Bitcoin Core per supportare
+gli aggiornamenti anyone-can-spend e per incoraggiare la best practice di posizionare
+le condizioni di script nei redeem script P2SH, negli script witness segwit v0 e
+negli script leaf segwit v1 (taproot).
+
+Esamineremo ciascuno degli attuali modelli di transazione standard e
+impareremo come ((("transactions", "outputs", startref="transaction-output")))((("outputs", startref="output-transaction")))((("transactions", "outputs", "output scripts", startref="transaction-output-script")))((("outputs", "output scripts", startref="output-transaction-script")))((("output scripts", startref="output-script2")))analizzare gli script in <<c_authorization_authentication>>.
+
+[[witness_structure]]
+=== Struttura Witness
+
+In tribunale,((("transactions", "witnesses", id="transaction-witness")))((("witnesses", id="witness"))) un testimone è qualcuno che testimonia di aver visto accadere
+qualcosa di importante. I testimoni umani non sono sempre affidabili, quindi i tribunali
+hanno vari processi per interrogare i testimoni per (idealmente) accettare
+prove solo da quelli che sono affidabili.
+
+Immagina come apparirebbe un testimone per un problema matematico. Ad esempio,
+se il problema importante fosse _x + 2 == 4_ e qualcuno affermasse di
+aver assistito alla soluzione, cosa gli chiederemmo? Vorremmo una
+prova matematica che mostrasse un valore che potrebbe essere sommato con due per
+ottenere quattro. Potremmo persino omettere la necessità di una persona e usare semplicemente il
+valore proposto per _x_ come nostro testimone. Se ci venisse detto che il testimone
+era _due_, allora potremmo completare l'equazione, verificare che fosse corretta e
+decidere che il problema importante era stato risolto.
+
+Quando si spendono bitcoin, il problema importante che vogliamo risolvere è
+determinare se la spesa è stata autorizzata dalla persona o dalle persone che
+controllano quei bitcoin. Le migliaia di nodi completi che applicano
+le regole di consenso di Bitcoin non possono interrogare testimoni umani, ma possono
+accettare _testimoni_ che consistono interamente di dati per risolvere problemi
+matematici. Ad esempio, un testimone di _2_ consentirà di spendere bitcoin
+protetti dal seguente script:
+
+----
+2 OP_ADD 4 OP_EQUAL
+----
+
+Ovviamente, consentire che i tuoi bitcoin vengano spesi da chiunque possa risolvere una
+semplice equazione non sarebbe sicuro. Come vedremo in <<c_signatures>>, uno
+schema di firma digitale non falsificabile utilizza un'equazione che può essere
+risolta solo da qualcuno in possesso di determinati dati che è in grado di
+mantenere segreti. Sono in grado di fare riferimento a quei dati segreti utilizzando un identificatore
+pubblico. Quell'identificatore pubblico è ((("public keys")))((("digital signatures")))((("signatures", see="digital signatures")))chiamato _chiave pubblica_ e una
+soluzione all'equazione è chiamata _firma_.
+
+Il seguente script contiene una chiave pubblica e un opcode che richiede
+una firma corrispondente che si impegni ai dati nella transazione di spesa. Come
+il numero _2_ nel nostro semplice esempio, la firma è il nostro testimone:
+
+----
+<public key> OP_CHECKSIG
+----
+
+I testimoni, i valori utilizzati per risolvere i problemi matematici che proteggono
+i bitcoin, devono essere inclusi nelle transazioni in cui vengono utilizzati
+affinché i nodi completi possano verificarli. Nel formato di transazione legacy
+utilizzato per tutte le prime transazioni Bitcoin, le firme e altri dati sono
+posizionati nel campo script di input. Tuttavia, quando gli sviluppatori hanno iniziato a
+implementare protocolli di contratto su Bitcoin, come abbiamo visto in
+<<original_tx_replacement>>, hanno scoperto diversi problemi significativi
+con il posizionamento dei testimoni nel campo script di input.
+
+==== Dipendenze Circolari
+
+Molti ((("transactions", "witnesses", "circular dependencies", id="transaction-witness-circular")))((("witnesses", "circular dependencies", id="witness-circular")))((("circular dependencies", id="circular")))protocolli di contratto per Bitcoin coinvolgono una serie di transazioni
+che vengono firmate fuori ordine. Ad esempio, Alice e Bob vogliono
+depositare fondi in uno script che può essere speso solo con firme da
+entrambi, ma ciascuno vuole anche riavere i propri soldi se l'altra
+persona diventa non reattiva. Una soluzione semplice è firmare
+le transazioni fuori ordine:
+
+- Tx~0~ paga denaro da Alice e denaro da Bob in un output con uno
+  script che richiede firme sia da Alice che da Bob per essere speso.
+
+- Tx~1~ spende l'output precedente in due output, uno che rimborsa Alice
+  del suo denaro e uno che rimborsa Bob del suo denaro (meno una piccola quantità per
+  le commissioni di transazione).
+
+- Se Alice e Bob firmano Tx~1~ prima di firmare Tx~0~, allora entrambi sono
+  garantiti di poter ottenere un rimborso in qualsiasi momento. Il protocollo
+  non richiede che nessuno dei due si fidi dell'altro, rendendolo ((("trustless protocols")))un _protocollo
+  trustless_.
+
+Un problema con questa costruzione nel formato di transazione legacy è
+che ogni campo, incluso il campo script di input che contiene
+le firme, viene utilizzato per derivare l'identificatore di una [.keep-together]#transazione# (txid). Il
+txid per Tx~0~ è parte dell'outpoint dell'input in Tx~1~. Ciò significa
+che non c'è modo per Alice e Bob di costruire Tx~1~ finché entrambe
+le firme per Tx~0~ non sono note--ma se conoscono le firme per
+Tx~0~, uno di loro può trasmettere quella transazione prima di firmare la
+transazione di rimborso, eliminando la garanzia di un rimborso. Questa è una
+_dipendenza circolare_.
+
+==== Malleabilità della Transazione da Parte di Terzi
+
+Una serie ((("transactions", "witnesses", "third-party transaction malleability", id="transaction-witness-third-party")))((("witnesses", "third-party transaction malleability", id="witness-circular-third-party")))((("third-party transaction malleability", id="third-party")))più complessa di transazioni può talvolta eliminare una dipendenza
+circolare, ma molti protocolli incontreranno poi una nuova preoccupazione: è
+spesso possibile risolvere lo stesso script in modi diversi. Ad esempio,
+considera il nostro script semplice da <<witness_structure>>:
+
+----
+2 OP_ADD 4 OP_EQUAL
+----
+
+Possiamo far passare questo script fornendo il valore _2_ in uno script di input,
+ma ci sono diversi modi per mettere quel valore sullo stack in Bitcoin.
+Ecco solo alcuni:
+
+----
+OP_2
+OP_PUSH1 0x02
+OP_PUSH2 0x0002
+OP_PUSH3 0x000002
+...
+OP_PUSHDATA1 0x0102
+OP_PUSHDATA1 0x020002
+...
+OP_PUSHDATA2 0x000102
+OP_PUSHDATA2 0x00020002
+...
+OP_PUSHDATA4 0x0000000102
+OP_PUSHDATA4 0x000000020002
+...
+----
+
+Ogni codifica alternativa del numero _2_ in uno script di input produrrà
+una transazione leggermente diversa con un txid completamente diverso. Ogni
+versione diversa della transazione spende gli stessi input (outpoint)
+di ogni altra versione della transazione, rendendole tutte in _conflitto_
+tra loro. Solo una versione di un insieme di transazioni in conflitto
+può essere contenuta all'interno di una blockchain valida.
+
+Immagina che Alice crei una versione della transazione con +OP_2+ nello
+script di input e un output che paga Bob. Bob poi spende immediatamente quell'
+output a Carol. Chiunque sulla rete può sostituire +OP_2+ con
++OP_PUSH1 0x02+, creando un conflitto con la versione originale di Alice. Se
+quella transazione in conflitto viene confermata, allora non c'è modo di
+includere la versione originale di Alice nella stessa blockchain, il che significa
+che non c'è modo per la transazione di Bob di spendere il suo output.
+Il pagamento di Bob a Carol è stato reso non valido anche se né Alice,
+né Bob, né Carol hanno fatto qualcosa di sbagliato. Qualcuno non coinvolto nella
+transazione (una terza parte) è stato in grado di cambiare (mutare) la transazione
+di Alice, un problema chiamato _malleabilità indesiderata della transazione
+da parte di terzi_.
+
+[TIP]
+====
+Ci sono casi in cui le persone vogliono che le loro transazioni siano malleabili e
+Bitcoin fornisce diverse funzionalità per supportare ciò, in particolare gli
+hash di firma (sighash) di cui impareremo in <<sighash_types>>. Ad
+esempio, Alice può usare un sighash per consentire a Bob di aiutarla a pagare alcune
+commissioni di transazione. Questo muta la transazione di Alice ma solo in un modo
+che Alice desidera. Per questo motivo, occasionalmente prefisseremo la
+parola _indesiderata_ al termine _malleabilità della transazione_. Anche quando noi
+e altri scrittori tecnici di Bitcoin usiamo il termine più breve, stiamo quasi
+certamente parlando della variante indesiderata((("transactions", "witnesses", "third-party transaction malleability", startref="transaction-witness-third-party")))((("witnesses", "third-party transaction malleability", startref="witness-circular-third-party")))((("third-party transaction malleability", startref="third-party"))) della malleabilità.
+====
+
+==== Malleabilità della Transazione da Parte della Seconda Parte
+
+Quando il ((("transactions", "witnesses", "second-party transaction malleability", id="transaction-witness-second-party")))((("witnesses", "second-party transaction malleability", id="witness-circular-second-party")))((("second-party transaction malleability", id="second-party")))formato di transazione legacy era l'unico formato di transazione,
+gli sviluppatori hanno lavorato su proposte per minimizzare la malleabilità da parte di terzi,
+come il BIP62. Tuttavia, anche se fossero stati in grado di eliminare completamente
+la malleabilità da parte di terzi, gli utenti dei protocolli di contratto affrontavano un altro problema:
+se richiedevano una firma da qualcun altro coinvolto nel protocollo,
+quella persona poteva generare firme alternative e cambiare il txid.
+
+Ad esempio, Alice e Bob hanno depositato il loro denaro in uno script
+che richiede una firma da entrambi per essere speso. Hanno anche creato
+una transazione di rimborso che consente a ciascuno di loro di riavere i propri soldi in
+qualsiasi momento. Alice decide che vuole spendere solo una parte del
+denaro, quindi coopera con Bob per creare una catena di transazioni:
+
+- Tx~0~ include firme sia da Alice che da Bob, spendendo i suoi
+  bitcoin in due output. Il primo output spende parte del denaro di Alice;
+  il secondo output restituisce il resto dei bitcoin allo
+  script che richiede le firme di Alice e [.keep-together]#Bob#. Prima di firmare questa
+
+  transazione, creano una nuova transazione di rimborso, Tx~1~.
+
+- Tx~1~ spende il secondo output di Tx~0~ in due nuovi output, uno ad
+  Alice per la sua quota dei fondi congiunti e uno a Bob per la sua quota.
+  Alice e Bob firmano entrambi questa transazione prima di firmare Tx~0~.
+
+Non c'è alcuna dipendenza circolare qui e, se ignoriamo la malleabilità
+della transazione da parte di terzi, questo sembra che dovrebbe fornirci un
+protocollo trustless. Tuttavia, è una proprietà delle firme Bitcoin che
+il firmatario deve scegliere un grande numero casuale quando crea la propria
+firma. Scegliere un numero casuale diverso produrrà una firma diversa
+anche se tutto ciò che viene firmato rimane lo stesso. È un po'
+come quando, se fornisci una firma manoscritta per due copie dello
+stesso contratto, ciascuna di quelle firme fisiche apparirà leggermente
+diversa.
+
+Questa malleabilità delle firme significa che, se Alice cerca di trasmettere
+Tx~0~ (che contiene la firma di Bob), Bob può generare una firma alternativa
+per creare una transazione in conflitto con un txid diverso. Se
+la versione alternativa di Tx~0~ di Bob viene confermata, allora Alice non può utilizzare
+la versione prefirmata di Tx~1~ per richiedere il suo rimborso. Questo tipo di
+mutazione ((("transactions", "witnesses", "second-party transaction malleability", startref="transaction-witness-second-party")))((("witnesses", "second-party transaction malleability", startref="witness-circular-second-party")))((("second-party transaction malleability", startref="second-party")))è chiamato _malleabilità indesiderata della transazione da parte della seconda parte_.
+
+[[segwit]]
+==== Segregated Witness
+
+Già ((("transactions", "witnesses", "segregated witness", id="transaction-witness-segwit")))((("witnesses", "segregated witness", id="witness-segwit")))((("segregated witness (segwit)", id="segregated-witness-segwit")))dal https://oreil.ly/---bp[2011],
+gli sviluppatori del protocollo sapevano come risolvere i problemi di dipendenza
+circolare, malleabilità da parte di terzi e malleabilità da parte della seconda parte. L'
+idea era di evitare di includere lo script di input nel calcolo che
+produce il txid di una transazione. Ricorda che un nome astratto per i dati
+contenuti da uno script di input è un _testimone_. L'idea di separare il resto dei
+dati in una transazione dal suo testimone ai fini della generazione
+di un txid è chiamata _segregated witness_ (segwit).
+
+Il metodo ovvio per implementare segwit richiede un
+cambiamento alle regole di consenso di Bitcoin che non sarebbe compatibile con
+i nodi completi più vecchi, anche ((("hard forks")))((("forks", "hard forks")))chiamato
+un _hard fork_. Gli hard fork comportano molte sfide, come
+discuteremo ulteriormente in <<hard_forks>>.
+
+Un approccio alternativo a segwit è stato descritto alla fine del 2015. Questo
+avrebbe utilizzato un cambiamento compatibile con le versioni precedenti delle regole di consenso, ((("soft forks")))((("forks", "soft forks")))chiamato
+un _soft fork_. Compatibile con le versioni precedenti significa che i nodi completi che implementano
+il cambiamento non devono accettare alcun blocco che i nodi completi senza il cambiamento
+considererebbero non valido. Finché obbediscono a quella regola, i nodi completi più nuovi
+possono rifiutare blocchi che i nodi completi più vecchi accetterebbero, dando loro
+la capacità di applicare nuove regole di consenso (ma solo se i nodi completi più nuovi
+rappresentano il consenso economico tra gli utenti di Bitcoin--esploreremo
+i dettagli dell'aggiornamento delle regole di consenso di Bitcoin in
+<<mining>>).
+
+L'approccio soft fork di segwit si basa su script di output
+anyone-can-spend. Uno script che inizia con uno qualsiasi dei numeri da 0 a 16
+e seguito da 2 a 40 byte di dati è definito come un modello
+di script di output segwit. Il numero indica la sua versione (ad esempio, 0 è
+segwit versione 0, o _segwit v0_). I dati sono chiamati un _programma
+witness_. È anche possibile avvolgere il modello segwit in un impegno
+P2SH, ma non tratteremo questo in questo capitolo.
+
+Dal punto di vista dei nodi vecchi, questi modelli di script di output possono essere
+spesi con uno script di input vuoto. Dal punto di vista di un nuovo nodo che
+è a conoscenza delle nuove regole segwit, qualsiasi pagamento a un script di output segwit
+deve essere speso solo con uno script di input vuoto. Nota la
+differenza qui: i nodi vecchi _permettono_ uno script di input vuoto; i nodi nuovi
+_richiedono_ uno script di input vuoto.
+
+[role="less_space pagebreak-before"]
+Uno script di input vuoto impedisce ai testimoni di influenzare il txid, eliminando
+dipendenze circolari, malleabilità della transazione da parte di terzi e
+malleabilità della transazione da parte della seconda parte. Ma, senza la possibilità di inserire
+dati in uno script di input, gli utenti di modelli di script di output segwit hanno bisogno di un
+nuovo campo. Quel campo è chiamato la _struttura witness_.
+
+L'introduzione di programmi witness e della struttura witness complica Bitcoin,
+ma segue una tendenza esistente di crescente astrazione. Ricorda da
+<<ch04_keys_addresses>> che il whitepaper originale di Bitcoin descrive un sistema
+in cui i bitcoin venivano ricevuti su chiavi pubbliche (pubkeys) e spesi con
+firme (sigs). La chiave pubblica definiva chi era _autorizzato_ a spendere
+i bitcoin (chiunque controllasse la chiave privata corrispondente) e la
+firma forniva _autenticazione_ che la transazione di spesa provenisse
+da qualcuno che controllava la chiave privata. Per rendere quel sistema più
+flessibile, il rilascio iniziale di Bitcoin ha introdotto script che consentono
+ai bitcoin di essere ricevuti su script di output e spesi con script di input.
+L'esperienza successiva con i protocolli di contratto ha ispirato a consentire ai bitcoin di
+essere ricevuti su programmi witness e spesi con la struttura witness. I termini e i campi utilizzati in diverse versioni di Bitcoin((("transactions", "witnesses", "segregated witness", startref="transaction-witness-segwit")))((("witnesses", "segregated witness", startref="witness-segwit")))((("segregated witness (segwit)", startref="segregated-witness-segwit"))) sono mostrati in <<terms_used_authorization_authentication>>.
+
+++++
+<table id="terms_used_authorization_authentication">
+<caption>Termini utilizzati per i dati di autorizzazione e autenticazione in diverse parti di Bitcoin</caption>
+<thead>
+<tr>
+<th/>
+<th><p>Autorizzazione</p></th>
+<th class="right"><p>Autenticazione</p></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="fakeheader"><p><strong>Whitepaper</strong></p></td>
+<td><p>Chiave pubblica</p></td>
+
+<td class="right"><p>Firma</p></td>
+</tr>
+<tr>
+<td  class="fakeheader"><p><strong>Originale (Legacy)</strong></p></td>
+<td><p>Script di output</p></td>
+<td class="right"><p>Script di input</p></td>
+</tr>
+<tr>
+<td  class="fakeheader"><p><strong>Segwit</strong></p></td>
+<td><p>Programma witness</p></td>
+<td class="right"><p>Struttura witness</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+==== Serializzazione della Struttura Witness
+
+Simile ai((("transactions", "witnesses", "count", id="transaction-witness-count")))((("witnesses", "count", id="witness-count"))) campi input e output, la struttura witness contiene
+altri campi, quindi inizieremo con una mappa di quei byte dalla
+transazione di Alice in <<alice_tx_witness_map>>.
+
+[[alice_tx_witness_map]]
+.Una mappa di byte della struttura witness dalla transazione di Alice.
+image::images/mbc3_0605.png["Una mappa di byte del witness dalla transazione di Alice"]
+
+A differenza dei campi input e output, la struttura witness complessiva non
+inizia con alcuna indicazione del numero totale di stack witness che contiene.
+Invece, questo è implicito dal campo input--c'è uno stack
+witness per ogni input in una transazione.
+
+La struttura witness per un particolare input inizia con un conteggio del
+numero di elementi che contiene. Questi elementi sono ((("witness items")))chiamati _elementi
+witness_. Li esploreremo in dettaglio in
+<<c_authorization_authentication>>, ma per ora dobbiamo sapere che
+ogni elemento witness è prefissato da un intero compactSize che indica la sua
+dimensione.
+
+Gli input legacy non contengono elementi witness, quindi il loro stack witness
+consiste interamente in un conteggio di zero (0x00).
+
+La transazione di Alice contiene un input e un ((("transactions", "witnesses", startref="transaction-witness")))((("witnesses", startref="witness")))((("transactions", "witnesses", "count", startref="transaction-witness-count")))((("witnesses", "count", startref="witness-count")))elemento witness.
+
+[[lock_time]]
+=== Lock Time
+
+L'((("transactions", "lock time")))((("lock time")))ultimo campo in una transazione serializzata è il suo lock time. Questo
+campo faceva parte del formato di serializzazione originale di Bitcoin, ma era
+inizialmente applicato solo dalla policy di Bitcoin per scegliere quali
+transazioni minare. Il primo soft fork conosciuto di Bitcoin ha aggiunto una regola
+che, a partire dall'altezza del blocco 31.000, vietava l'inclusione di una
+transazione in un blocco a meno che non soddisfacesse una delle seguenti regole:
+
+- La transazione indica che dovrebbe essere idonea per l'inclusione in
+  qualsiasi blocco impostando il suo lock time a 0.
+
+- La transazione indica che vuole limitare in quali blocchi
+  può essere inclusa impostando il suo lock time a un valore inferiore a
+  500.000.000. In questo caso, la transazione può essere inclusa solo in un
+  blocco che ha un'altezza uguale o superiore al lock time.
+  Ad esempio, una transazione con un lock time di 123.456 può essere inclusa nel
+  blocco 123.456 o in qualsiasi blocco successivo.
+
+- La transazione indica che vuole limitare quando può essere
+  inclusa nella blockchain impostando il suo lock time a un valore di
+  500.000.000 o superiore. In questo caso, il campo viene analizzato come tempo
+  epoch (il numero di secondi dal 1970-01-01T00:00 UTC) e la
+  transazione può essere inclusa solo in un ((("median time past (MTP)")))((("MTP (median time past)")))blocco con un _median time past_
+  (MTP) maggiore del lock time. L'MTP è normalmente circa un'ora o
+  due indietro rispetto all'ora corrente. Le regole per l'MTP sono descritte in
+  <<mtp>>.
+
+[[coinbase_transactions]]
+=== Transazioni Coinbase
+
+La prima ((("transactions", "coinbase", id="transaction-coinbase2")))((("coinbase transactions", id="coinbase-transaction")))((("generation transactions")))transazione in ogni blocco è un caso speciale. La maggior parte della
+documentazione più vecchia la chiama _transazione di generazione_, ma la maggior parte della
+documentazione più recente la chiama _transazione coinbase_ (da non confondere con
+le transazioni create dalla società chiamata "Coinbase").
+
+Le transazioni coinbase sono create dal miner del blocco che
+le include e danno al miner l'opzione di richiedere qualsiasi commissione pagata dalle
+transazioni in quel blocco. Inoltre, fino al blocco 6.720.000,
+i miner possono richiedere un sussidio costituito da bitcoin che non
+sono mai stati precedentemente in circolazione, chiamato ((("block subsidy")))((("block reward")))il _sussidio del blocco_. L'importo
+totale che un miner può richiedere per un blocco--la combinazione di commissioni e
+sussidio--è chiamato la _ricompensa del blocco_.
+
+Alcune delle regole speciali per le transazioni coinbase includono:
+
+- Possono avere solo un input.
+
+- L'unico input deve avere un outpoint con un txid nullo (costituito interamente
+  da zeri) e un indice di output massimo (0xffffffff). Questo impedisce alla
+  transazione coinbase di fare riferimento a un output di transazione precedente,
+  che sarebbe (come minimo) confuso dato che la transazione coinbase
+  paga commissioni e sussidio.
+
+- Il campo che conterrebbe uno script di input in una transazione normale è
+  chiamato un _coinbase_. È questo campo che dà alla transazione coinbase
+
+  il suo nome. Il campo coinbase deve essere di almeno due byte
+  e non più lungo di 100 byte. Questo script non viene eseguito ma i limiti
+  delle transazioni legacy sul numero di operazioni di verifica della firma
+  (sigops) si applicano ad esso, quindi qualsiasi dato arbitrario inserito in esso dovrebbe essere
+  prefissato da un opcode di push dei dati. Dal soft fork del 2013 definito nel
+  BIP34, i primi byte di questo campo devono seguire regole aggiuntive
+  che descriveremo in <<duplicate_transactions>>.
+
+- La somma degli output non deve superare il valore delle commissioni raccolte
+  da tutte le transazioni in quel blocco più il sussidio. Il sussidio
+  è iniziato a 50 BTC per blocco e si dimezza ogni 210.000 blocchi
+  (circa ogni quattro anni). I valori del sussidio sono arrotondati per difetto al
+  satoshi più vicino.
+
+- Dal soft fork segwit del 2017 documentato nel BIP141, qualsiasi blocco che contiene
+  una transazione che spende un output segwit deve contenere un output alla
+  transazione coinbase che si impegna a tutte le transazioni nel
+  blocco (inclusi i loro witness). Esploreremo questo impegno in
+  <<mining>>.
+
+Una transazione coinbase può avere qualsiasi altro output che sarebbe valido in
+una transazione normale. Tuttavia, una transazione che spende uno di quegli
+output non può essere inclusa in alcun blocco fino a dopo che la transazione coinbase
+ha ricevuto 100 conferme. Questa è chiamata la
+_regola di maturità_, e ((("maturity rule")))gli output delle transazioni coinbase che non hanno ancora
+100 conferme sono chiamati _immaturi_.
+
+//TODO:stretch goal to describe the reason for the maturity rule and,
+//by extension the reason for no expiring timelocks
+
+La maggior parte del software Bitcoin non ha bisogno di gestire le transazioni coinbase,
+ma la loro natura speciale significa che occasionalmente possono essere la causa di
+problemi insoliti nel software che non è progettato per((("transactions", "coinbase", startref="transaction-coinbase2")))((("coinbase transactions", startref="coinbase-transaction"))) aspettarsele.
+
+// Useful content deleted
+// - no input amount in transactions
+// - no balances in transactions
+//   - UTXO model theory?
+// Coin selection
+// Change
+// Inability for lightweight clients to get old UTXOs
+
+=== Weight e Vbytes
+
+Ogni ((("transactions", "weights", id="transactions-weight")))((("weights (of transactions)", id="weights")))((("vbytes", id="vbytes")))blocco Bitcoin è limitato nella quantità di dati di transazione che può
+contenere, quindi la maggior parte del software Bitcoin deve essere in grado di misurare le
+transazioni che crea o elabora. L'unità di misura moderna
+per Bitcoin è chiamata _weight_. Una versione alternativa del weight è
+_vbytes_, dove quattro unità di weight equivalgono a un vbyte, fornendo un facile
+confronto con l'unità di misura originale _byte_ utilizzata nei blocchi
+Bitcoin legacy.
+
+I blocchi sono limitati a 4 milioni di weight. L'header del blocco occupa 240
+weight. Un campo aggiuntivo, il conteggio delle transazioni, utilizza 4 o
+12 weight. Tutto il weight rimanente può essere utilizzato per i dati delle transazioni.
+
+Per calcolare il weight di un particolare campo in una transazione, la dimensione
+di quel campo serializzato in byte viene moltiplicata per un fattore. Per
+calcolare il weight di una transazione, somma insieme i weight di tutti
+i suoi campi. I fattori per ciascuno dei campi in una transazione sono
+mostrati in <<weight_factors>>. Per fornire un esempio, calcoliamo anche
+il weight di ciascun campo nella transazione di esempio di questo capitolo da
+Alice a Bob.
+
+I fattori, e i campi a cui vengono applicati, sono stati scelti per
+ridurre il weight utilizzato quando si spende un UTXO. Questo aiuta a scoraggiare la
+creazione di output non economici come descritto in
+<<uneconomical_outputs>>.
+
+++++
+<table id="weight_factors">
+<caption>Fattori di weight per tutti i campi in una transazione Bitcoin</caption>
+<thead>
+<tr>
+<th><p>Campo</p></th>
+<th><p>Fattore</p></th>
+<th><p>Weight nella Tx di Alice</p></th>
+</tr> </thead>
+<tbody>
+<tr>
+<td><p>Versione</p></td>
+<td><p>4</p></td>
+<td><p>16</p></td>
+</tr>
+<tr>
+<td><p>Marker &amp; Flag</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr>
+<td><p>Conteggio Input</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+</tr>
+<tr>
+<td><p>Outpoint</p></td>
+<td><p>4</p></td>
+<td><p>144</p></td>
+</tr>
+
+<tr>
+<td><p>Script di input</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+</tr>
+<tr>
+<td><p>Sequence</p></td>
+<td><p>4</p></td>
+<td><p>16</p></td>
+</tr>
+<tr>
+<td><p>Conteggio Output</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+</tr>
+<tr>
+<td><p>Importo</p></td>
+<td><p>4</p></td>
+<td><p>64 (2 output)</p></td>
+</tr>
+<tr>
+<td><p>Script di output</p></td>
+<td><p>4</p></td>
+<td><p>232 (2 output con script diversi)</p></td>
+</tr>
+<tr>
+<td><p>Conteggio Witness</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>Elementi witness</p></td>
+<td><p>1</p></td>
+<td><p>66</p></td>
+</tr>
+<tr>
+<td><p>Lock time</p></td>
+<td><p>4</p></td>
+<td><p>16</p></td>
+</tr>
+<tr>
+<td><p><strong>Totale</strong></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><strong>569</strong></p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+[role="less_space pagebreak-before"]
+Possiamo verificare il nostro calcolo del weight ottenendo il totale per la
+transazione di Alice da Bitcoin Core:
+
+----
+$ bitcoin-cli getrawtransaction 466200308696215bbc949d5141a49a41\
+38ecdfdfaa2a8029c1f9bcecd1f96177 2 | jq .weight
+569
+----
+
+La transazione di Alice da <<alice_tx_serialized_reprint>> all'inizio di
+questo capitolo è mostrata rappresentata in unità di weight in
+<<alice_tx_weight_map>>. Puoi vedere il fattore all'opera confrontando
+la differenza di dimensione tra i vari campi nelle ((("transactions", "weights", startref="transactions-weight")))((("weights (of transactions)", startref="weights")))((("vbytes", startref="vbytes")))due immagini.
+
+[[alice_tx_weight_map]]
+.Una mappa di byte della transazione di Alice.
+image::images/mbc3_0606.png["Una mappa di weight della transazione di Alice"]
+
+[[legacy_serialization]]
+=== Serializzazione Legacy
+
+Il ((("transactions", "legacy serialization")))((("legacy serialization")))formato di serializzazione descritto in questo capitolo è utilizzato per la
+maggioranza delle nuove transazioni Bitcoin al momento della stesura di questo libro, ma
+un formato di serializzazione più vecchio è ancora utilizzato per molte transazioni. Quel
+formato più vecchio, chiamato _serializzazione legacy_, deve essere utilizzato sulla rete
+P2P di Bitcoin per qualsiasi transazione con una struttura witness vuota (che è valida solo
+se la transazione non spende alcun programma witness).
+
+La serializzazione legacy non include i campi marker, flag e struttura witness.
+
+++++
+<p class="fix_tracking2">
+In questo capitolo, abbiamo esaminato ciascuno dei campi in una transazione e
+scoperto come comunicano ai nodi completi i dettagli sui
+bitcoin da trasferire tra gli utenti. Abbiamo esaminato solo brevemente lo
+script di output, lo script di input e la struttura witness che consentono di specificare e
+soddisfare le condizioni che limitano chi può spendere quali bitcoin.
+Comprendere come costruire e utilizzare queste condizioni è essenziale per
+garantire che solo Alice possa spendere i suoi bitcoin, quindi saranno l'
+argomento del prossimo capitolo.</p>
+++++
+
+//TODO:text long section or full chapter about psbts
