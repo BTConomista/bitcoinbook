@@ -1,8 +1,9 @@
+[[ch01_intro_what_is_bitcoin]]
 == 1. Introduzione
 
 Bitcoin è un insieme di concetti e tecnologie che formano le basi di un ecosistema di moneta digitale. Le unità di valuta chiamate bitcoin sono usate per conservare e trasmettere valore tra i partecipanti al network di Bitcoin. Gli utenti Bitcoin operano tra di loro attraverso il protocollo Bitcoin principalmente tramite internet, anche se possono essere usate anche altre reti di trasporto. L'architettura a strati del protocollo Bitcoin, disponibile come software open source, è compatibile con una vasta gamma di dispositivi, dai laptop agli smartphone, rendendo la tecnologia facilmente accessibile a tutti.
 
-[TIP]
+[N.B.]
 ====
 In questo libro, l’unità di valuta è chiamata “bitcoin” (con la _b_ minuscola), mentre il sistema si chiama “Bitcoin” (con la _B_ maiuscola).
 ====
@@ -54,12 +55,12 @@ Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affid
 
 ==== 1.2.1 Una soluzione ad un problema di calcolo distribuito
 
-L'invenzione di Satoshi Nakamoto ((("Byzantine Generals&#x27; Problem")))((("distributed computing problem")))rappresenta anche una soluzione pratica e innovativa ad un problema del calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel cercare di far concordare più partecipanti, privi di un leader, su una linea d'azione comune, scambiandosi informazioni attraverso una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che utilizza il concetto di proof-of-work per raggiungere il consenso _senza un'autorità centrale fidata_, rappresenta un progresso rivoluzionario nel settore del calcolo distribuito.
+L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa ad un problema del calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel cercare di far concordare più partecipanti, privi di un leader, su una linea d'azione comune, scambiandosi informazioni attraverso una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che utilizza il concetto di proof-of-work per raggiungere il consenso _senza un'autorità centrale fidata_, rappresenta un progresso rivoluzionario nel settore del calcolo distribuito.
 
 
 === 1.3 Iniziare con Bitcoin 
 
-Bitcoin è((("Bitcoin", "wallets", see="wallets")))((("wallets", "explained"))) un protocollo che si può usare tramite un'app che lo supporta. Un "wallet Bitcoin" è l'interfaccia utente più comune per il sistema Bitcoin, proprio come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e marchi di wallet Bitcoin, proprio come esistono vari browser web (es. Chrome, Safari, Firefox). E proprio come abbiamo tutti i nostri browser preferiti, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sull'originale creato da Satoshi Nakamoto.
+Bitcoin è un protocollo che si può usare tramite un'app che lo supporta. Un "wallet Bitcoin" è l'interfaccia utente più comune per il sistema Bitcoin, proprio come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e marchi di wallet Bitcoin, proprio come esistono vari browser web (es. Chrome, Safari, Firefox). E proprio come abbiamo tutti i nostri browser preferiti, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sull'originale creato da Satoshi Nakamoto.
 
 ==== 1.3.1 Scegliere un Wallet Bitcoin
 
@@ -86,7 +87,7 @@ Un client leggero, noto anche come client di verifica semplificata dei pagamenti
 
 - Client API di Terze Parti: Un client API di terze parti è un client che interagisce con Bitcoin tramite un sistema di API di terze parti, piuttosto che collegarsi direttamente alla rete Bitcoin. Il wallet può essere memorizzato dall'utente o su server di terze parti, ma il client si affida al server remoto per fornirgli informazioni accurate e proteggere la privacy dell'utente.
 
-[TIP]
+[N.B.]
 ====
 Bitcoin è una rete peer-to-peer (P2P, potremmo tradurre in italiano con l'espressione "da pari a pari"). I full nodes sono i _peer_: ogni peer convalida personalmente tutte le transazioni confermate e può fornire al proprio utente dati con autorità. I wallet leggeri e altri software, invece, sono chiamati _client_: ogni client dipende da uno o più peer per ottenere dati validi. I client Bitcoin possono eseguire una convalida secondaria su alcuni dati ricevuti e connettersi a più peer per ridurre la dipendenza dall'integrità di un singolo peer. Tuttavia, la sicurezza di un client dipende alla fine dall'integrità dei peer a cui si collega.
 ====
@@ -101,6 +102,7 @@ Alice non è un’esperta di tecnologia e ha sentito parlare di Bitcoin solo di 
 
 Quando Alice apre l’app del wallet per la prima volta, deve selezionare l’opzione per creare un nuovo wallet Bitcoin. Il wallet scelto è un wallet non custodial, il che significa che Alice (e solo lei) ha il controllo delle sue chiavi private. Per questo motivo, Alice deve prendersi la responsabilità di fare un backup delle chiavi: perderle significherebbe perdere l’accesso ai suoi bitcoin. Per facilitare ciò, l’applicazione genera un _codice di recupero_ che può essere utilizzato per ripristinare il wallet in caso di problemi.
 
+[[recovery_code_intro]]
 === 1.6 Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin noncustodial forniscono un codice di recupero che serviranno agli utenti per il backup.
 Il codice di recupero di solito è composto da numeri, lettere o parole selezionate in modo casuale dal software, ed è usato come base per le chiavi che sono generate dal wallet.
@@ -134,7 +136,7 @@ Vedi <<esempio_codici__di_recupero>>(tabella 1.1) per alcuni esempi
 </table>
 ++++
 
-[TIP]
+[N.B.]
 ====
 Un codice di recupero è un nome che suggerisce che la frase dovrebbe essere memorizzata. Tuttavia, scriverla su carta richiede meno sforzo ed è generalmente più affidabile della memoria della maggior parte delle persone, quindi è preferibile. Un'altra denominazione alternativa è frase seed, perché fornisce l'input (seed, ovvero seme) alla funzione che genera tutte le chiavi del wallet.
 ====
@@ -166,7 +168,7 @@ volta, molti wallet richiedono spesso di verificare nuovamente che il codice di
 recupero sia stato salvato in modo sicuro. Questo può variare da un semplice avviso 
 fino alla richiesta di reinserire manualmente il codice di recupero.
 
-[WARNING]
+[ATTENZIONE]
 ====
 Anche se molti wallet legittimi ti chiedono di reinserire il tuo codice di recupero, esistono anche numerose applicazioni malware che imitano il design di un wallet, insistono affinché tu inserisca il codice di recupero e poi lo trasmettono agli sviluppatori del malware, permettendo loro di rubare i tuoi fondi.
 Questo è l’equivalente dei siti di phishing che cercano di ingannarti per ottenere la password del tuo conto bancario.
@@ -179,7 +181,7 @@ Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, 
 Alice è ora pronta a iniziare a usare il suo nuovo wallet Bitcoin. 
 L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<chiavi private>>, vedere capitolo [4.2]) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
 
-[TIP]
+[N.B.]
 ====
 Esistono diversi formati di indirizzi Bitcoin e ordini di pagamento (invoice). Gli indirizzi e gli ordini di pagamento possono essere condivisi con altri utenti Bitcoin, che potranno usarli per inviarti bitcoin direttamente nel tuo wallet.
 Puoi condividere un indirizzo o un ordine di pagamento con altre persone senza preoccuparti per la sicurezza dei tuoi bitcoin. A differenza di un numero di conto bancario, nessuno che conosca uno dei tuoi indirizzi Bitcoin può prelevare fondi dal tuo wallet: sei sempre tu a dover avviare una transazione.
@@ -192,18 +194,18 @@ Per proteggere la tua privacy, dovresti generare un nuovo ordine di pagamento co
 Alice usa il pulsante _Ricevi_, che mostra un codice QR, mostrato in <<wallet_ricevi>>(Figura 1).
 
 [role="width-50"]
-[[wallet_ricevi]]
+[[wallet_receive]]
 .Alice usa la schermata “Ricevi” sul suo wallet Bitcoin e mostra il suo indirizzo in formato codice QR.
 image::images/mbc3_0101.png["Wallet receive screen with QR code displayed.  Image derived from Bitcoin Design Guide CC-BY"]
 
 Il codice QR è il quadrato con un motivo di punti bianchi e neri mostrato sopra che funge da codice a barre, contenendo le stesse informazioni in un formato che può essere scansionato dalla fotocamera dello smartphone di Joe.
 
-[WARNING]
+[ATTENZIONE]
 ====
 Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se vuoi testare l'invio di bitcoin, considera di donarli a un'organizzazione benefica che accetta bitcoin.
 ====
 
-[[detenere_i_primi_bitcoin]]
+[[getting_first_bitcoin]]
 === 1.9 Detenere i tuoi primi Bitcoin
 Il primo compito per i nuovi utenti è acquistare alcuni bitcoin.
 
@@ -221,7 +223,7 @@ Ecco alcuni metodi per acquistare bitcoin se sei un nuovo utente:
 *Usa un exchange di criptovalute collegato al tuo conto bancario. Molti Paesi hanno ormai exchange di criptovalute che offrono un mercato per acquirenti e venditori, consentendo loro di scambiare bitcoin con valuta locale. I servizi di elencazione dei tassi di cambio, come BitcoinAverage, spesso mostrano una lista di exchange Bitcoin per ogni valuta.
 
 
-[TIP]
+[N.B.]
 ====
 Uno dei vantaggi di Bitcoin rispetto ad altri sistemi di pagamento è che, se utilizzato correttamente, offre agli utenti un livello di privacy molto più elevato. Acquistare, detenere e spendere bitcoin non richiede di divulgare informazioni sensibili o dati personali identificabili a terze parti.
 Tuttavia, quando Bitcoin interagisce con i sistemi finanziari tradizionali, come gli exchange di valute, spesso si applicano normative nazionali e internazionali. Per scambiare bitcoin con la valuta del tuo paese, di solito ti verrà richiesto di fornire un documento d’identità e informazioni bancarie.
@@ -232,7 +234,6 @@ Alice si è avvicinata a Bitcoin grazie ad un amico, quindi ha un modo semplice 
 In seguito, vedremo come compra i bitcoin dal suo amico Joe e come Joe le manda i bitcoin sul suo wallet.
 
 [[bitcoin_price]]
-
 === 1.10 Trovare il prezzo attuale di bitcoin
 Prima che Alice possa acquistare dei bitcoin da Joe, devono concordare il tasso di cambio tra bitcoin e dollari statunitensi. Questo porta a una domanda comune tra chi si avvicina per la prima volta a Bitcoin: "Chi determina il prezzo di bitcoin?" La risposta breve è che il prezzo è stabilito dai mercati.
 
