@@ -106,7 +106,7 @@ Quando Alice apre l’app del wallet per la prima volta, deve selezionare l’op
 === 1.6 Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin noncustodial forniscono un codice di recupero che serviranno agli utenti per il backup.
 Il codice di recupero di solito è composto da numeri, lettere o parole selezionate in modo casuale dal software, ed è usato come base per le chiavi che sono generate dal wallet.
-Vedi <<esempio_codici__di_recupero>>(tabella 1.1) per alcuni esempi
+Vedi <<esempio_codici__di_recupero>>(tabella 1.1) per alcuni esempi:
 
 
 
@@ -179,7 +179,7 @@ Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, 
 === 1.7 Indirizzi Bitcoin
 
 Alice è ora pronta a iniziare a usare il suo nuovo wallet Bitcoin. 
-L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<chiavi private>>, vedere capitolo [4.2]) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
+L’applicazione del wallet ha generato casualmente una chiave privata (descritta in maggior dettaglio in <<chiavi private>>, capitolo [4.2]) che verrà utilizzata per creare gli indirizzi Bitcoin collegati al suo wallet. A questo punto, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin né “registrati” in alcuna parte del sistema Bitcoin. I suoi indirizzi Bitcoin sono semplicemente numeri che corrispondono alla sua chiave privata, che lei può utilizzare per controllare l’accesso ai fondi. Gli indirizzi vengono generati in modo indipendente dal suo wallet, senza alcun riferimento o registrazione presso alcun servizio.
 
 [N.B.]
 ====
@@ -260,7 +260,7 @@ Alcuni wallet potrebbero mostrare l’importo in una denominazione diversa: 0,00
 
 Alcuni wallet potrebbero anche suggerire a Joe di inserire un'etichetta per questa transazione; se così fosse, Joe digita "Alice". Questo gli permetterà, tra settimane o mesi, di ricordare il motivo per cui ha inviato questi 0,001 bitcoin.  
 Alcuni wallet potrebbero anche chiedere a Joe di impostare una commissione di transazione (fee). A seconda del wallet e del metodo di invio della transazione, il wallet potrebbe chiedergli di inserire manualmente un tasso di commissione o mostrargli la commissione suggerita (o un tasso di commissione per byte).  
-Più alta è la commissione, più velocemente la transazione verrà confermata (vedi <<confirmations>>).
+Più alta è la commissione, più velocemente la transazione verrà confermata (vedi <<confirmations>>, [1.12]).
   
 
 [[wallet-send]]
