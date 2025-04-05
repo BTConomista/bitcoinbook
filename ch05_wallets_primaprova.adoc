@@ -11,7 +11,6 @@ di recuperare l'accesso ai loro bitcoin dopo un problema senza compromettere
 la sicurezza in tutti gli altri momenti.
 
 In
-((("wallets", "key generation", "independent", id="wallet-keygen-independent")))((("key generation", "independent", id="keygen-independent")))((("independent key generation", id="independent-keygen")))((("public key cryptography", "wallet recovery key generation", see="key generation"))) 
 questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
@@ -35,7 +34,7 @@ Per ogni chiave generata indipendentemente, l’utente avrebbe dovuto eseguire i
 
 [[Type0_wallet]]
 [role="width-60"]
-.Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database del wallet.
+.Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database wallet.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
 
 Le moderne applicazioni wallet non generano più le chiavi in modo indipendente, bensì le derivano da un singolo seed casuale attraverso un algoritmo deterministico.
@@ -76,23 +75,21 @@ e779 e742 5a63 49c8 e89d fbb0 fd97 bb73
 
 
 
-Un diagramma logico della generazione deterministica sequenziale di base delle chiavi è
-mostrato in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet hanno un
-modo più intelligente per realizzare questo che permette alle chiavi pubbliche di essere
-derivate separatamente dalle loro corrispondenti chiavi private, rendendo
-possibile memorizzare le chiavi private in modo più sicuro rispetto alle ((("wallets", "key generation", "deterministic", startref="wallet-keygen-determine")))((("key generation", "deterministic", startref="keygen-determine")))((("deterministic key generation", startref="determine-keygen")))((("hash functions", "deterministic key generation", startref="hash-determine")))chiavi pubbliche.
+Un diagramma logico della generazione deterministica sequenziale di base è mostrato in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet adottano un metodo più ingegnoso per ottenere lo stesso risultato, che consente di derivare le chiavi pubbliche separatamente dalle corrispondenti chiavi private, rendendo possibile conservare le chiavi private in modo più sicuro rispetto a quelle pubbliche.
 
 [[Type1_wallet]]
 [role="width-70"]
-.Generazione deterministica delle chiavi: una sequenza deterministica di chiavi derivate da un seed per un database del wallet.
+.Generazione deterministica delle chiavi: una sequenza deterministica di chiavi derivate da un seed per un database wallet.
 image::images/mbc3_0502.png["Deterministic Wallet"]
 
 
-[[public_child_key_derivation]]
-==== Derivazione di Chiavi Figlie Pubbliche
 
-In <<public_key_derivation>>, abbiamo appreso((("wallets", "key generation", "public child key derivation", id="wallet-keygen-public-child")))((("key generation", "public child key derivation", id="keygen-public-child")))((("public child key derivation", id="public-child-derive")))((("child key pair derivation", id="child-key-pair"))) come creare una chiave pubblica da una chiave privata
-utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni su una
+
+
+[[public_child_key_derivation]]
+==== Derivazione di Chiavi Pubbliche Figlie
+
+In <<public_key_derivation>>, abbiamo appreso come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni su una
 curva ellittica non siano intuitive, sono analoghe alle operazioni di addizione,
 sottrazione e moltiplicazione utilizzate nell'aritmetica regolare.
 In altre parole, è possibile aggiungere o sottrarre da una
