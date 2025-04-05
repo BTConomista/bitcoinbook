@@ -2,66 +2,51 @@
 [[ch05_wallets]]
 == Recupero del Wallet
 
-La creazione di coppie di chiavi private e pubbliche è una parte cruciale che permette
+La creazione di coppie di chiavi private e pubbliche è un elemento cruciale che permette
 ai wallet Bitcoin di ricevere e spendere bitcoin. Ma perdere l'accesso a una
 chiave privata può rendere impossibile per chiunque spendere i bitcoin
-ricevuti alla corrispondente chiave pubblica. Gli sviluppatori di wallet e protocolli
+associati alla corrispondente chiave pubblica. Gli sviluppatori di wallet e protocolli
 nel corso degli anni hanno lavorato per progettare sistemi che permettano agli utenti
 di recuperare l'accesso ai loro bitcoin dopo un problema senza compromettere
-la sicurezza nel resto del tempo.
+la sicurezza in tutti gli altri momenti.
 
-In((("wallets", "key generation", "independent", id="wallet-keygen-independent")))((("key generation", "independent", id="keygen-independent")))((("independent key generation", id="independent-keygen")))((("public key cryptography", "wallet recovery key generation", see="key generation"))) questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
+In
+((("wallets", "key generation", "independent", id="wallet-keygen-independent")))((("key generation", "independent", id="keygen-independent")))((("independent key generation", id="independent-keygen")))((("public key cryptography", "wallet recovery key generation", see="key generation"))) 
+questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
-Alcune soluzioni non hanno quasi nessun aspetto negativo e sono universalmente adottate dai
-wallet moderni. Raccomanderemo semplicemente queste soluzioni come migliori
-pratiche. Altre soluzioni presentano sia vantaggi che svantaggi,
-portando diversi autori di wallet a fare compromessi differenti.
+Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
+wallet moderni. Raccomanderemo queste soluzioni come migliori
+pratiche. Altre soluzioni comportano vantaggi e svantaggi, spingendo diversi sviluppatori di wallet a compiere scelte differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
 === Generazione Indipendente delle Chiavi
 
 ++++
 <p class="fix_tracking2">
-I portafogli per contanti fisici contengono quel contante,
-quindi non sorprende che molte persone credano erroneamente che
-i wallet Bitcoin contengano bitcoin. In realtà, ciò che molte persone chiamano
-wallet Bitcoin—che noi chiamiamo <em>database del wallet</em> per distinguerlo
-dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate
-ai bitcoin registrati sulla blockchain. Dimostrando ai nodi completi di Bitcoin che controlli
-le chiavi, puoi spendere i bitcoin associati.
+I portafogli per contanti fisici contengono quel contante, quindi non sorprende che molte persone pensino, erroneamente, che i wallet Bitcoin contengano bitcoin. In realtà, ciò che molti chiamano wallet Bitcoin—che noi definiamo <em>database wallet</em> per distinguerlo dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate ai bitcoin registrati sulla blockchain. Se dimostri ai full node di Bitcoin di controllare le chiavi, puoi spendere i bitcoin associati.
 </p>
 ++++
 
-I database dei wallet semplici contengono sia le chiavi pubbliche a cui i bitcoin
-vengono ricevuti sia le chiavi private che permettono di creare le firme
-necessarie per autorizzare la spesa di quei bitcoin. I database di altri wallet
-possono contenere solo chiavi pubbliche, o solo alcune delle chiavi private necessarie
-per autorizzare una transazione di spesa. Le loro applicazioni wallet producono
-le firme necessarie lavorando con strumenti esterni, come
-dispositivi di firma hardware o altri wallet in uno schema multifirma.
+I database wallet semplici contengono sia le chiavi pubbliche su cui si ricevono i bitcoin, sia le chiavi private che permettono di creare le firme necessarie per autorizzarne la spesa. I database wallet di altri tipi possono contenere solo chiavi pubbliche, oppure solo alcune delle chiavi private necessarie ad autorizzare una transazione di spesa. Le loro applicazioni wallet generano le firme necessarie collaborando con strumenti esterni, come dispositivi di firma hardware o altri wallet all’interno di uno schema multifirma.
 
-È possibile per un'applicazione wallet generare indipendentemente ciascuna delle
-chiavi del wallet che prevede di utilizzare in seguito, come illustrato in
-<<Type0_wallet>>. Tutte le prime applicazioni wallet Bitcoin facevano
-questo, ma richiedeva agli utenti di fare il backup del database del wallet ogni volta che
-generavano e distribuivano nuove chiavi, il che poteva avvenire anche ogni volta
-che generavano un nuovo indirizzo per ricevere un nuovo pagamento. Il mancato backup
-del database del wallet in tempo avrebbe portato l'utente a perdere l'accesso a
-qualsiasi fondo ricevuto su chiavi che non erano state salvate.
+Un’applicazione wallet può generare in modo indipendente ciascuna delle chiavi che intende utilizzare in seguito, come illustrato in <<Type0_wallet>>. Tutte le prime applicazioni wallet Bitcoin funzionavano in questo modo, ma richiedevano agli utenti di eseguire il backup del database wallet ogni volta che venivano generate e distribuite nuove chiavi, il che poteva accadere anche ogni volta che si generava un nuovo indirizzo per ricevere un pagamento. Il mancato backup tempestivo del database wallet poteva far perdere all’utente l’accesso a tutti i fondi ricevuti su chiavi non ancora incluse nel backup.
 
-Per ogni chiave generata indipendentemente, l'utente avrebbe dovuto fare il backup
-di circa 32 byte, più l'overhead. Alcuni utenti e applicazioni wallet hanno cercato
-di minimizzare la quantità di dati che dovevano essere salvati
-utilizzando una sola chiave. Sebbene questo possa essere sicuro, riduce gravemente
-la privacy di quell'utente e di tutte le persone con cui
-effettua transazioni. Le persone che valorizzavano la propria privacy e quella dei loro pari
-creavano nuove coppie di chiavi per ogni transazione, producendo database di wallet
-che potevano essere ragionevolmente salvati solo utilizzando supporti digitali.
+Per ogni chiave generata indipendentemente, l’utente avrebbe dovuto eseguire il backup di circa 32 byte, più l’overhead. Alcuni utenti e applicazioni wallet cercavano di ridurre al minimo la quantità di dati da sottoporre a backup utilizzando una sola chiave. Sebbene questo possa essere sicuro, riduce gravemente la privacy dell’utente e di tutte le persone con cui effettua transazioni. Le persone che tenevano alla propria privacy e a quella dei loro pari creavano nuove coppie di chiavi per ogni transazione, generando database wallet che potevano essere ragionevolmente sottoposti a backup solo tramite supporti digitali.
 
 [[Type0_wallet]]
 [role="width-60"]
 .Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database del wallet.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
+
+
+
+
+
+
+
+
+
+
 
 Le moderne applicazioni wallet non generano chiavi indipendentemente ma invece
 le derivano da un singolo seed casuale utilizzando un ((("wallets", "key generation", "independent", startref="wallet-keygen-independent")))((("key generation", "independent", startref="keygen-independent")))((("independent key generation", startref="independent-keygen")))algoritmo ripetibile (deterministico).
