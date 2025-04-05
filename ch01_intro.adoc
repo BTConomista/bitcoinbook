@@ -191,7 +191,7 @@ Per proteggere la tua privacy, dovresti generare un nuovo ordine di pagamento co
 
 === 1.8 Ricevere Bitcoin
 
-Alice usa il pulsante _Ricevi_, che mostra un codice QR, mostrato in <<wallet_ricevi>>(Figura 1).
+Alice usa il pulsante _Ricevi_, che mostra un codice QR, mostrato in <<wallet_receive>>(Figura 1).
 
 [role="width-50"]
 [[wallet_receive]]
