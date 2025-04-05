@@ -1,0 +1,1567 @@
+//FIXME:reduce difficulty / we ramp up too quick Lesmes feedback
+[[ch05_wallets]]
+== Recupero del Wallet
+
+La creazione di coppie di chiavi private e pubbliche è una parte cruciale che permette
+ai wallet Bitcoin di ricevere e spendere bitcoin. Ma perdere l'accesso a una
+chiave privata può rendere impossibile per chiunque spendere i bitcoin
+ricevuti alla corrispondente chiave pubblica. Gli sviluppatori di wallet e protocolli
+nel corso degli anni hanno lavorato per progettare sistemi che permettano agli utenti
+di recuperare l'accesso ai loro bitcoin dopo un problema senza compromettere
+la sicurezza nel resto del tempo.
+
+In((("wallets", "key generation", "independent", id="wallet-keygen-independent")))((("key generation", "independent", id="keygen-independent")))((("independent key generation", id="independent-keygen")))((("public key cryptography", "wallet recovery key generation", see="key generation"))) questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
+wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
+Alcune soluzioni non hanno quasi nessun aspetto negativo e sono universalmente adottate dai
+wallet moderni. Raccomanderemo semplicemente queste soluzioni come migliori
+pratiche. Altre soluzioni presentano sia vantaggi che svantaggi,
+portando diversi autori di wallet a fare compromessi differenti.
+In questi casi, descriveremo le varie opzioni disponibili.
+
+=== Generazione Indipendente delle Chiavi
+
+++++
+<p class="fix_tracking2">
+I portafogli per contanti fisici contengono quel contante,
+quindi non sorprende che molte persone credano erroneamente che
+i wallet Bitcoin contengano bitcoin. In realtà, ciò che molte persone chiamano
+wallet Bitcoin—che noi chiamiamo <em>database del wallet</em> per distinguerlo
+dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate
+ai bitcoin registrati sulla blockchain. Dimostrando ai nodi completi di Bitcoin che controlli
+le chiavi, puoi spendere i bitcoin associati.
+</p>
+++++
+
+I database dei wallet semplici contengono sia le chiavi pubbliche a cui i bitcoin
+vengono ricevuti sia le chiavi private che permettono di creare le firme
+necessarie per autorizzare la spesa di quei bitcoin. I database di altri wallet
+possono contenere solo chiavi pubbliche, o solo alcune delle chiavi private necessarie
+per autorizzare una transazione di spesa. Le loro applicazioni wallet producono
+le firme necessarie lavorando con strumenti esterni, come
+dispositivi di firma hardware o altri wallet in uno schema multifirma.
+
+È possibile per un'applicazione wallet generare indipendentemente ciascuna delle
+chiavi del wallet che prevede di utilizzare in seguito, come illustrato in
+<<Type0_wallet>>. Tutte le prime applicazioni wallet Bitcoin facevano
+questo, ma richiedeva agli utenti di fare il backup del database del wallet ogni volta che
+generavano e distribuivano nuove chiavi, il che poteva avvenire anche ogni volta
+che generavano un nuovo indirizzo per ricevere un nuovo pagamento. Il mancato backup
+del database del wallet in tempo avrebbe portato l'utente a perdere l'accesso a
+qualsiasi fondo ricevuto su chiavi che non erano state salvate.
+
+Per ogni chiave generata indipendentemente, l'utente avrebbe dovuto fare il backup
+di circa 32 byte, più l'overhead. Alcuni utenti e applicazioni wallet hanno cercato
+di minimizzare la quantità di dati che dovevano essere salvati
+utilizzando una sola chiave. Sebbene questo possa essere sicuro, riduce gravemente
+la privacy di quell'utente e di tutte le persone con cui
+effettua transazioni. Le persone che valorizzavano la propria privacy e quella dei loro pari
+creavano nuove coppie di chiavi per ogni transazione, producendo database di wallet
+che potevano essere ragionevolmente salvati solo utilizzando supporti digitali.
+
+[[Type0_wallet]]
+[role="width-60"]
+.Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database del wallet.
+image::images/mbc3_0501.png["Non-Deterministic Wallet"]
+
+Le moderne applicazioni wallet non generano chiavi indipendentemente ma invece
+le derivano da un singolo seed casuale utilizzando un ((("wallets", "key generation", "independent", startref="wallet-keygen-independent")))((("key generation", "independent", startref="keygen-independent")))((("independent key generation", startref="independent-keygen")))algoritmo ripetibile (deterministico).
+
+==== Generazione Deterministica delle Chiavi
+
+Una funzione di hash((("wallets", "key generation", "deterministic", id="wallet-keygen-determine")))((("key generation", "deterministic", id="keygen-determine")))((("deterministic key generation", id="determine-keygen")))((("hash functions", "deterministic key generation", id="hash-determine"))) produrrà sempre lo stesso output quando riceve lo stesso
+input, ma se l'input viene cambiato anche leggermente, l'output sarà
+diverso. Se la funzione è crittograficamente sicura, nessuno dovrebbe
+essere in grado di prevedere il nuovo output--nemmeno se conoscono il nuovo input.
+
+Questo ci permette di prendere un valore casuale e trasformarlo in un
+numero praticamente illimitato di valori apparentemente casuali. Ancora più
+utile, utilizzando successivamente la stessa funzione di hash con lo stesso ((("seeds")))input
+(chiamato _seed_) produrrà gli stessi valori apparentemente casuali:
+
+----
+# Raccogliamo un po' di entropia (casualità)
+$ dd if=/dev/random count=1 status=none | sha256sum
+f1cc3bc03ef51cb43ee7844460fa5049e779e7425a6349c8e89dfbb0fd97bb73  -
+
+# Impostiamo il nostro seed al valore casuale
+$ seed=f1cc3bc03ef51cb43ee7844460fa5049e779e7425a6349c8e89dfbb0fd97bb73
+
+# Generiamo deterministicamente valori derivati
+$ for i in {0..2} ; do echo "$seed + $i" | sha256sum ; done
+50b18e0bd9508310b8f699bad425efdf67d668cb2462b909fdb6b9bd2437beb3  -
+a965dbcd901a9e3d66af11759e64a58d0ed5c6863e901dfda43adcd5f8c744f3  -
+19580c97eb9048599f069472744e51ab2213f687d4720b0efc5bb344d624c3aa  -
+----
+
+Se utilizziamo i valori derivati come nostre chiavi private, possiamo in seguito generare
+esattamente le stesse chiavi private utilizzando il nostro valore seed con l'
+algoritmo che abbiamo usato prima. Un utente della generazione deterministica delle chiavi può
+fare il backup di ogni chiave nel proprio wallet semplicemente registrando il proprio seed e
+un riferimento all'algoritmo deterministico utilizzato. Per esempio, anche
+se Alice ha un milione di bitcoin ricevuti su un milione di diversi
+indirizzi, tutto ciò che deve salvare per recuperare in seguito l'accesso a
+quei bitcoin è:
+
+----
+f1cc 3bc0 3ef5 1cb4 3ee7 8444 60fa 5049
+e779 e742 5a63 49c8 e89d fbb0 fd97 bb73
+----
+
+Un diagramma logico della generazione deterministica sequenziale di base delle chiavi è
+mostrato in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet hanno un
+modo più intelligente per realizzare questo che permette alle chiavi pubbliche di essere
+derivate separatamente dalle loro corrispondenti chiavi private, rendendo
+possibile memorizzare le chiavi private in modo più sicuro rispetto alle ((("wallets", "key generation", "deterministic", startref="wallet-keygen-determine")))((("key generation", "deterministic", startref="keygen-determine")))((("deterministic key generation", startref="determine-keygen")))((("hash functions", "deterministic key generation", startref="hash-determine")))chiavi pubbliche.
+
+[[Type1_wallet]]
+[role="width-70"]
+.Generazione deterministica delle chiavi: una sequenza deterministica di chiavi derivate da un seed per un database del wallet.
+image::images/mbc3_0502.png["Deterministic Wallet"]
+
+
+[[public_child_key_derivation]]
+==== Derivazione di Chiavi Figlie Pubbliche
+
+In <<public_key_derivation>>, abbiamo appreso((("wallets", "key generation", "public child key derivation", id="wallet-keygen-public-child")))((("key generation", "public child key derivation", id="keygen-public-child")))((("public child key derivation", id="public-child-derive")))((("child key pair derivation", id="child-key-pair"))) come creare una chiave pubblica da una chiave privata
+utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni su una
+curva ellittica non siano intuitive, sono analoghe alle operazioni di addizione,
+sottrazione e moltiplicazione utilizzate nell'aritmetica regolare.
+In altre parole, è possibile aggiungere o sottrarre da una
+chiave pubblica, o moltiplicarla. Considera l'operazione che abbiamo usato in
+<<public_key_derivation>> per
+generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore
+(_G_):
+
+[latexmath]
+++++
+\begin{equation}
+{K = k \times G}
+\end{equation}
+++++
+
+È possibile creare una coppia di chiavi derivate, chiamata coppia di chiavi figlie, semplicemente
+aggiungendo lo stesso valore a entrambi i lati dell'equazione:
+
+////
+[latexmath]
+++++
+\begin{equation}
+K + (123 \times G) =\!\!\!= (k + 123) \times G
+\end{equation}
+++++
+////
+
+++++
+<div data-type="equation">
+<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="upper K plus left-parenthesis 123 times upper G right-parenthesis equals equals left-parenthesis k plus 123 right-parenthesis times upper G" display="block">
+  <mrow>
+    <mi>K</mi>
+    <mo>+</mo>
+    <mo>(</mo>
+    <mn>123</mn>
+    <mo>×</mo>
+    <mi>G</mi>
+    <mo>)</mo>
+    <mo>==</mo>
+    <mo>(</mo>
+    <mi>k</mi>
+    <mo>+</mo>
+    <mn>123</mn>
+    <mo>)</mo>
+    <mo>×</mo>
+    <mi>G</mi>
+  </mrow>
+</math>
+</div>
+++++
+
+
+[TIP]
+====
+Nelle equazioni di questo libro, utilizziamo un singolo segno di uguale per
+operazioni come _K_ = _k_ × _G_ dove viene calcolato il valore di una variabile.
+Utilizziamo un doppio segno di uguale per mostrare che entrambi i lati di un'
+equazione sono equivalenti, o che un'operazione dovrebbe restituire falso (non
+vero) se i due lati non sono equivalenti.
+====
+
+Una conseguenza interessante di questo è che aggiungere 123 alla chiave
+pubblica può essere fatto utilizzando interamente informazioni pubbliche. Per esempio, Alice
+genera la chiave pubblica _K_ e la dà a Bob. Bob non conosce la
+chiave privata, ma conosce la costante globale _G_, quindi può aggiungere qualsiasi
+valore alla chiave pubblica per produrre una chiave figlia pubblica derivata. Se poi
+dice ad Alice il valore che ha aggiunto alla chiave pubblica, lei può aggiungere lo
+stesso valore alla chiave privata, producendo una chiave figlia privata derivata
+che corrisponde alla chiave figlia pubblica creata da Bob.
+
+In altre parole, è possibile creare chiavi pubbliche figlie anche se non si
+sa nulla della chiave privata genitore. Il valore aggiunto a una
+chiave pubblica è ((("key tweaks")))noto come _modifica della chiave (key tweak)_. Se un algoritmo deterministico è
+utilizzato per generare le modifiche delle chiavi, allora è possibile per qualcuno
+che non conosce la chiave privata creare una sequenza essenzialmente illimitata
+di chiavi figlie pubbliche da una singola chiave genitore pubblica. La
+persona che controlla la chiave genitore privata può quindi utilizzare le stesse modifiche
+delle chiavi per creare tutte le corrispondenti chiavi figlie private.
+
+Questa tecnica è comunemente utilizzata per separare le interfacce
+delle applicazioni wallet (che non richiedono chiavi private) dalle operazioni di firma
+(che richiedono chiavi private). Per esempio, l'interfaccia di Alice
+distribuisce le sue chiavi pubbliche alle persone che vogliono pagarla. Successivamente, quando
+vuole spendere il denaro ricevuto, può fornire le modifiche delle chiavi
+che ha utilizzato((("hardware signing devices"))) a un _dispositivo di firma hardware_ (a volte chiamato in modo fuorviante
+_wallet hardware_) che memorizza in modo sicuro la sua chiave privata originale. Il
+dispositivo di firma hardware utilizza le modifiche per derivare le necessarie chiavi private figlie
+e le utilizza per firmare le transazioni, restituendo le transazioni firmate
+all'interfaccia meno sicura per la trasmissione alla rete
+Bitcoin.
+
+La derivazione di chiavi figlie pubbliche può produrre una sequenza lineare di chiavi
+simile a quella vista in precedenza in <<Type1_wallet>>, ma le moderne applicazioni wallet
+utilizzano un ulteriore trucco per fornire un albero di chiavi invece di una
+singola sequenza, come descritto nella((("wallets", "key generation", "public child key derivation", startref="wallet-keygen-public-child")))((("key generation", "public child key derivation", startref="keygen-public-child")))((("public child key derivation", startref="public-child-derive")))((("child key pair derivation", startref="child-key-pair"))) sezione seguente.
+
+[[hd_wallets]]
+==== Generazione Gerarchica Deterministica (HD) delle Chiavi (BIP32)
+
+Ogni ((("wallets", "key generation", "HD (hierarchical deterministic)")))((("key generation", "HD (hierarchical deterministic)")))((("HD (hierarchical deterministic) key generation")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032")))wallet Bitcoin moderno di cui siamo a conoscenza utilizza per impostazione predefinita
+la generazione gerarchica deterministica (HD) delle chiavi. Questo standard, definito nel
+BIP32, utilizza la generazione deterministica delle chiavi e la derivazione opzionale di chiavi figlie pubbliche
+con un algoritmo che produce un albero di chiavi.
+In questo albero, qualsiasi chiave può essere il genitore di una sequenza di chiavi figlie, e
+qualsiasi di queste chiavi figlie può essere un genitore per un'altra sequenza di
+chiavi figlie (nipoti della chiave originale). Non c'è un limite arbitrario
+sulla profondità dell'albero. Questa struttura ad albero è illustrata in
+<<Type2_wallet>>.
+
+[[Type2_wallet]]
+.Wallet HD: un albero di chiavi generate da un singolo seed.
+image::images/mbc3_0503.png["HD wallet"]
+
+La struttura ad albero può essere utilizzata per esprimere ulteriori
+significati organizzativi, come quando un ramo specifico di sottochiavi viene
+utilizzato per ricevere pagamenti in entrata e un ramo diverso viene utilizzato per
+ricevere il resto dai pagamenti in uscita. I rami di chiavi possono anche essere utilizzati
+in contesti aziendali, assegnando diversi rami a dipartimenti,
+filiali, funzioni specifiche o categorie contabili.
+
+Forniremo un'esplorazione dettagliata dei wallet HD in <<hd_wallet_details>>.
+
+==== Seed e Codici di Recupero
+
+I wallet HD((("wallets", "recovery codes", id="wallet-recovery2")))((("recovery codes", id="recovery-code2"))) sono un meccanismo molto potente per gestire molte
+chiavi tutte derivate da un singolo seed. Se il tuo database wallet
+viene mai danneggiato o perso, puoi rigenerare tutte le chiavi private
+per il tuo wallet utilizzando il tuo ((("seeds")))seed originale. Ma, se qualcun altro ottiene
+il tuo seed, può anche generare tutte le chiavi private, permettendogli
+di rubare tutti i bitcoin da un wallet a firma singola e ridurre la
+sicurezza dei bitcoin nei wallet multifirma. In questa sezione, esamineremo
+diversi _codici di recupero_, che sono destinati a rendere i backup
+più facili e sicuri.
+
+Sebbene i seed siano grandi numeri casuali, solitamente da 128 a 256 bit, la maggior parte
+dei codici di recupero utilizza parole del linguaggio umano. Gran parte della motivazione
+per l'utilizzo di parole era rendere un codice di recupero facile da ricordare. Per
+esempio, considera il codice di recupero codificato sia in esadecimale che in
+parole in <<hex_seed_vs_recovery_words>>.
+
+[[hex_seed_vs_recovery_words]]
+.Un seed codificato in esadecimale e in parole inglesi
+====
+----
+Codifica esadecimale:
+0C1E 24E5 9177 79D2 97E1 4D45 F14E 1A1A
+
+Codifica in parole:
+army van defense carry jealous true
+garbage claim echo media make crunch
+----
+====
+
+Ci possono essere casi in cui ((("memorizing recovery codes")))ricordare un codice di recupero è una caratteristica
+potente, come quando non sei in grado di trasportare beni fisici
+(come un codice di recupero scritto su carta) senza che vengano sequestrati o
+ispezionati da una parte esterna che potrebbe rubare i tuoi bitcoin. Tuttavia,
+nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
+
+- Se dimentichi il tuo codice di recupero e perdi l'accesso al tuo database
+  wallet originale, i tuoi bitcoin sono persi per sempre.
+
+- Se muori o subisci un grave infortunio, e i tuoi eredi non hanno accesso
+  al tuo database wallet originale, non saranno in grado di ereditare i tuoi
+  bitcoin.
+
+- Se qualcuno pensa che tu abbia memorizzato un codice di recupero che gli darà
+  accesso ai bitcoin, potrebbe tentare di costringerti a
+  rivelare quel codice. Al momento della stesura, il contributore di Bitcoin Jameson
+  Lopp ha
+  https://oreil.ly/aw5XM[documentato]
+  oltre 100 attacchi fisici contro presunti proprietari di bitcoin e
+  altri asset digitali, inclusi almeno tre decessi e numerosi
+  casi in cui qualcuno è stato torturato, tenuto in ostaggio o ha avuto la propria
+  famiglia minacciata.
+
+[TIP]
+====
+Anche se utilizzi un tipo di codice di recupero progettato per essere facilmente
+memorizzabile, ti incoraggiamo fortemente a considerare di scriverlo.
+====
+
+Diversi ((("wallets", "recovery codes", "types of", id="wallet-recovery-type")))((("recovery codes", "types of", id="recovery-code-type")))tipi di codici di recupero sono ampiamente utilizzati al momento della
+stesura:
+
+BIP39::
+  Il metodo ((("BIP39 recovery codes", primary-sortas="BIP039")))più popolare per generare codici di recupero negli ultimi
+  dieci anni, BIP39 comporta la generazione di una sequenza casuale di byte,
+  l'aggiunta di un checksum ad essa e la codifica dei dati in una serie di 12-24
+  parole (che possono essere localizzate nella lingua nativa dell'utente). Le
+  parole (più una passphrase opzionale) vengono elaborate attraverso una _funzione di key-stretching_,
+  e l'output viene utilizzato come seed. I codici di recupero BIP39 hanno
+  diverse carenze, che schemi successivi tentano di affrontare.
+
+Electrum v2::
+  Utilizzato nel((("Electrum v2 recovery codes"))) wallet Electrum (versione 2.0 e successive), questo codice di recupero
+  basato su parole ha diversi vantaggi rispetto a BIP39. Non si basa su un
+  elenco globale di parole che deve essere implementato da ogni versione di ogni
+  programma compatibile, inoltre i suoi codici di recupero includono un numero di versione che
+  migliora l'affidabilità e l'efficienza. Come BIP39, supporta una passphrase
+  opzionale (che Electrum chiama _estensione del seed_) e utilizza la stessa
+  funzione di key-stretching.
+
+Aezeed::
+  Utilizzato nel ((("Aezeed recovery codes")))wallet LND, questo è un altro codice di recupero basato su parole che
+  offre miglioramenti rispetto a BIP39. Include due numeri di versione: uno
+  è interno ed elimina diversi problemi con l'aggiornamento delle applicazioni
+  wallet (come il numero di versione di Electrum v2); l'altro numero di
+  versione è esterno, che può essere incrementato per modificare le proprietà
+  crittografiche sottostanti del codice di recupero.
+  Include anche un _compleanno del wallet_
+  nel codice di recupero, un riferimento alla data in cui l'utente ha creato
+  il database wallet. Questo permette a un processo di ripristino di trovare tutti i
+  fondi associati a un wallet senza scansionare l'intera
+  blockchain, il che è particolarmente utile per i client leggeri orientati alla privacy.
+  Include il supporto per cambiare la passphrase o cambiare altri
+  aspetti del codice di recupero senza dover spostare i fondi su un nuovo
+  seed--l'utente deve solo fare il backup di un nuovo codice di recupero. Uno
+  svantaggio rispetto a Electrum v2 è che, come BIP39, dipende
+  dal fatto che sia il backup che il software di recupero supportino lo stesso
+  elenco di parole.
+
+[role="less_space pagebreak-before"]
+Muun::
+  Utilizzato nel ((("Muun recovery codes")))wallet Muun, che per impostazione predefinita richiede che le transazioni
+  di spesa siano firmate da più chiavi, questo è un codice non basato su parole che
+  deve essere accompagnato da informazioni aggiuntive (che Muun attualmente
+  fornisce in un PDF). Questo codice di recupero non è correlato al seed e
+  viene invece utilizzato per decrittare le chiavi private [.keep-together]#contenute# nel PDF.
+  Sebbene questo sia scomodo rispetto ai codici di recupero BIP39, Electrum v2 e
+  Aezeed, fornisce supporto per nuove tecnologie e
+  standard che stanno diventando più comuni nei nuovi wallet, come
+  il supporto per Lightning Network (LN), i descrittori di script di output e miniscript.
+
+SLIP39::
+  Un successore ((("SLIP39 recovery codes")))di BIP39 con alcuni degli stessi autori, SLIP39 permette
+  a un singolo seed di essere distribuito utilizzando più codici di recupero che possono
+  essere memorizzati in luoghi diversi (o da persone diverse). Quando crei
+  i codici di recupero, puoi specificare quanti ne saranno necessari
+  per recuperare il seed. Per esempio, puoi creare cinque codici di recupero ma
+  richiederne solo tre per recuperare il seed. SLIP39 fornisce
+  supporto per una passphrase opzionale, dipende da un elenco globale di parole e
+  non fornisce direttamente il versionamento.
+
+[NOTE]
+====
+Un nuovo sistema((("Codex32 recovery codes"))) per distribuire codici di recupero con somiglianze a SLIP39
+è stato proposto durante la stesura di questo libro. Codex32 permette di creare
+e validare codici di recupero con nient'altro che istruzioni stampate,
+forbici, un coltello di precisione, fermacampioni e una penna--più privacy
+e qualche ora di tempo libero. In alternativa, coloro che si fidano dei computer possono creare codici di recupero
+istantaneamente utilizzando software su un dispositivo digitale. Puoi creare fino a 31
+codici di recupero da memorizzare in luoghi diversi, specificando quanti di
+essi saranno necessari per recuperare il seed. Essendo una nuova proposta,
+i dettagli su Codex32 potrebbero cambiare significativamente prima che questo libro venga
+pubblicato, quindi incoraggiamo ((("wallets", "recovery codes", "types of", startref="wallet-recovery-type")))((("recovery codes", "types of", startref="recovery-code-type")))qualsiasi lettore interessato ai codici
+di recupero distribuiti a investigare il suo https://oreil.ly/Xx_Zq[stato
+attuale].
+====
+
+.Passphrase per i Codici di Recupero
+****
+Gli schemi BIP39, ((("wallets", "recovery codes", "passphrases", id="wallet-recovery-passphrase")))((("recovery codes", "passphrases", id="recovery-code-passphrase")))((("passphrases (for recovery codes)", id="passphrase")))Electrum v2, Aezeed e SLIP39 possono essere tutti utilizzati con una
+passphrase opzionale. Se l'unico posto in cui conservi questa passphrase è nella
+tua memoria, ha gli stessi vantaggi e svantaggi della memorizzazione
+del tuo codice di recupero. Tuttavia, c'è un ulteriore insieme di compromessi
+specifici al modo in cui la passphrase viene utilizzata dal codice di recupero.
+
+Tre degli schemi (BIP39, Electrum v2 e SLIP39) non includono la passphrase opzionale nel
+checksum che utilizzano per proteggere dagli errori di inserimento dei dati. Ogni
+passphrase (incluso il non utilizzare una passphrase) risulterà nella produzione di un
+seed per un albero di chiavi BIP32, ma non saranno gli stessi alberi.
+Passphrase diverse risulteranno in chiavi diverse. Questo può essere un
+positivo o un negativo, a seconda della tua prospettiva:
+
+- Dal lato positivo, se qualcuno ottiene il tuo codice di recupero (ma non la tua
+  passphrase), vedrà un albero valido di chiavi BIP32.
+  Se ti sei preparato per questa eventualità e hai inviato alcuni bitcoin all'
+  albero senza passphrase, li ruberanno. Sebbene avere alcuni
+  dei tuoi bitcoin rubati sia normalmente una cosa negativa, può anche fornirti
+  un avviso che il tuo codice di recupero è stato compromesso,
+  permettendoti di investigare e prendere misure correttive.
+  La capacità di creare più passphrase per lo stesso codice di recupero
+  che sembrano tutte valide è un tipo di _negabilità plausibile_.
+
+- Dal lato negativo, se sei costretto a dare a un attaccante un codice di recupero
+  (con o senza passphrase) e non produce la quantità di
+  bitcoin che si aspettavano, potrebbero continuare a cercare di costringerti finché
+  non gli dai una passphrase diversa con accesso a più bitcoin.
+  Progettare per la negabilità plausibile significa che non c'è modo di dimostrare a
+  un attaccante che hai rivelato tutte le tue informazioni, quindi potrebbero
+  continuare a cercare di costringerti anche dopo che gli hai dato tutti i
+  tuoi bitcoin.
+
+- Un ulteriore aspetto negativo è la ridotta quantità di rilevamento degli errori. Se
+  inserisci una passphrase leggermente sbagliata durante il ripristino da un backup,
+  il tuo wallet non può avvisarti dell'errore. Se ti aspettavi
+  un saldo, saprai che qualcosa non va quando la tua applicazione
+  wallet ti mostra un saldo zero per l'albero di chiavi rigenerato.
+  Tuttavia, gli utenti principianti potrebbero pensare che il loro denaro sia stato perso permanentemente e fare
+  qualcosa di sciocco, come arrendersi e buttare via il loro codice di recupero.
+  Oppure, se in realtà ti aspettavi un saldo zero, potresti usare l'
+  applicazione wallet per anni dopo il tuo errore fino alla prossima volta
+  che ripristini con la passphrase corretta e vedi un saldo zero.
+  A meno che tu non riesca a capire quale errore di battitura hai fatto in precedenza, i tuoi fondi
+  sono persi.
+
+A differenza degli altri schemi, il sistema di crittografia del seed Aezeed
+autentica la sua passphrase opzionale e restituirà un errore se fornisci
+un valore errato. Questo elimina la negabilità plausibile, aggiunge
+il rilevamento degli errori e rende possibile dimostrare che la passphrase è stata
+rivelata.
+
+Molti utenti e sviluppatori non sono d'accordo su quale approccio sia migliore, con
+alcuni fortemente a favore della negabilità plausibile e altri che preferiscono la
+maggiore sicurezza che il rilevamento degli errori offre agli utenti principianti e a quelli sotto
+coercizione. Sospettiamo che il dibattito continuerà finché i codici di recupero
+continueranno ad essere ampiamente ((("wallets", "recovery codes", startref="wallet-recovery2")))((("recovery codes", startref="recovery-code2")))((("passphrases (for recovery codes)", startref="passphrase")))((("wallets", "recovery codes", "passphrases", startref="wallet-recovery-passphrase")))((("recovery codes", "passphrases", startref="recovery-code-passphrase")))utilizzati.
+****
+
+==== Backup dei Dati Non-Chiave
+
+I ((("wallets", "nonkey data, backing up", id="wallet-nonkey-backups")))((("nonkey data, backing up", id="nonkey-backups")))((("backing up", "nonkey data", id="backup-nonkey")))dati più importanti in un database wallet sono le sue chiavi private. Se
+perdi l'accesso alle chiavi private, perdi la capacità di spendere i tuoi
+bitcoin. La derivazione deterministica delle chiavi e i codici di recupero forniscono una
+soluzione ragionevolmente robusta per il backup e il recupero delle tue chiavi e
+dei bitcoin che controllano. Tuttavia, è importante considerare che
+molti database wallet memorizzano più che
+solo chiavi--memorizzano anche informazioni fornite dall'utente su ogni
+transazione che hanno inviato o ricevuto.
+
+Per esempio, quando Bob crea un nuovo indirizzo come parte dell'invio di una
+fattura ad Alice, lui ((("labels, backing up", id="label-backup")))aggiunge un'_etichetta_ all'indirizzo che genera
+in modo da poter distinguere il suo pagamento
+da altri pagamenti che riceve. Quando Alice paga l'indirizzo di Bob, lei
+etichetta la transazione come pagamento a Bob per lo stesso motivo. Alcuni wallet
+aggiungono anche altre informazioni utili alle transazioni, come il tasso di
+cambio corrente, che può essere utile per calcolare le tasse in alcune
+giurisdizioni. Queste etichette sono memorizzate interamente all'interno dei loro
+wallet--non condivise con la rete--proteggendo la loro privacy
+e mantenendo dati personali non necessari fuori dalla blockchain. Per
+un esempio, vedi <<alice_tx_labels>>.
+
+++++
+<table id="alice_tx_labels">
+<caption>Cronologia delle transazioni di Alice con ogni transazione etichettata</caption>
+<thead>
+<tr>
+<th>Data</th>
+<th>Etichetta</th>
+<th>BTC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>2023-01-01</p></td>
+<td><p>Comprato bitcoin da Joe</p></td>
+<td><p>+0.00100</p></td>
+</tr>
+<tr>
+<td><p>2023-01-02</p></td>
+<td><p>Pagato Bob per il podcast</p></td>
+<td><p>−0.00075</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+Tuttavia, poiché le etichette degli indirizzi e delle transazioni sono memorizzate solo nel
+database wallet di ciascun utente e poiché non sono deterministiche, non possono
+essere ripristinate utilizzando solo un codice di recupero. Se l'unico recupero è
+basato sul seed, allora tutto ciò che l'utente vedrà è un elenco di tempi
+approssimativi delle transazioni e importi in bitcoin. Questo può rendere piuttosto difficile
+capire come hai usato i tuoi soldi in passato. Immagina di rivedere un
+estratto conto bancario o della carta di credito di un anno fa che aveva la data e
+l'importo di ogni transazione elencati ma una voce vuota per il
+campo "descrizione".
+
+I wallet dovrebbero fornire ai loro utenti un modo conveniente per fare il backup
+dei dati delle etichette. Questo sembra ovvio, ma ci sono numerose
+applicazioni wallet ampiamente utilizzate che rendono facile creare e utilizzare
+codici di recupero ma che non forniscono alcun modo per fare il backup o ripristinare i dati
+delle etichette.
+
+Inoltre, potrebbe essere utile per le applicazioni wallet fornire un
+formato standardizzato per esportare le etichette in modo che possano essere utilizzate in altre
+applicazioni (ad esempio, software di contabilità). Uno standard per quel formato è
+proposto nel BIP329.
+
+Le applicazioni wallet che implementano protocolli aggiuntivi oltre al supporto
+Bitcoin di base potrebbero anche aver bisogno o voler memorizzare altri dati. Per esempio,
+a partire dal 2023, un numero crescente di applicazioni ha aggiunto supporto per
+l'invio e la ricezione di transazioni sulla Lightning Network (LN).
+Sebbene il protocollo LN fornisca un metodo per recuperare
+fondi in caso di perdita di dati, chiamato _backup statici dei canali_, non
+può garantire risultati. Se il nodo a cui il tuo wallet si connette si rende conto
+che hai perso dati, potrebbe essere in grado di rubarti bitcoin. Se
+perde il suo database wallet nello stesso momento in cui tu perdi il tuo database, e
+nessuno di voi ha un backup adeguato, entrambi perderete fondi.
+
+Ancora una volta, questo significa che gli utenti e le applicazioni wallet devono fare più che semplicemente fare il backup di un
+codice di recupero.
+
+Una soluzione implementata da alcune applicazioni wallet è creare frequentemente
+e automaticamente backup completi del loro database wallet
+crittografati da una delle chiavi derivate dal loro seed. Le chiavi Bitcoin devono
+essere non indovinabili e gli algoritmi di crittografia moderni sono considerati molto
+sicuri, quindi nessuno dovrebbe essere in grado di aprire il backup crittografato eccetto
+qualcuno che può generare il seed. Questo rende sicuro memorizzare il backup su
+computer non fidati come servizi di hosting cloud o anche peer
+di rete casuali.
+
+Successivamente, se il database wallet originale viene perso, l'utente può inserire il proprio
+codice di recupero nell'applicazione wallet per ripristinare il proprio seed. L'
+applicazione può quindi recuperare l'ultimo file di backup, rigenerare la
+chiave di crittografia, decrittare il backup e ripristinare tutte le etichette dell'utente
+e i dati di protocollo ((("wallets", "nonkey data, backing up", startref="wallet-nonkey-backups")))((("nonkey data, backing up", startref="nonkey-backups")))((("backing up", "nonkey data", startref="backup-nonkey")))aggiuntivi.
+
+==== Backup dei Percorsi di Derivazione delle Chiavi
+
+In un ((("wallets", "key generation", "backing up derivation paths", id="wallet-keygen-backups")))((("key generation", "backing up derivation paths", id="keygen-backups")))((("backing up", "key derivation paths", id="backup-key-derive")))albero di chiavi BIP32, ci sono circa quattro miliardi di chiavi di primo livello;
+ciascuna di queste chiavi può avere i propri quattro miliardi di figli, con
+quei figli che potenzialmente hanno ciascuno quattro miliardi di figli propri,
+e così via. Non è possibile per un'applicazione wallet generare
+nemmeno una piccola frazione di ogni possibile chiave in un albero BIP32, il che significa
+che il recupero da una perdita di dati richiede di conoscere più del semplice
+codice di recupero, l'algoritmo per ottenere il tuo seed (ad esempio, BIP39) e
+l'algoritmo di derivazione deterministica delle chiavi
+(ad esempio, BIP32)—richiede anche di conoscere quali percorsi nell'albero delle chiavi
+la tua applicazione wallet ha utilizzato per generare le chiavi specifiche che ha distribuito.
+
+Due soluzioni a questo problema sono state adottate. La prima è l'utilizzo di
+percorsi standard. Ogni volta che c'è un cambiamento relativo agli indirizzi
+che le applicazioni wallet potrebbero voler generare, qualcuno crea un BIP
+che definisce quale percorso di derivazione delle chiavi utilizzare. Per esempio, BIP44 definisce
+`m/44'/0'/0'` come il percorso da utilizzare per le chiavi negli script P2PKH (un
+indirizzo legacy). Un'applicazione wallet che implementa questo standard utilizza
+le chiavi in quel percorso sia quando viene avviata per la prima volta che dopo un
+ripristino da un codice di recupero. Chiamiamo((("implicit paths", id="implicit-path"))) questa soluzione _percorsi
+impliciti_. Diversi percorsi impliciti popolari definiti dai BIP sono mostrati in <<bip_implicit_paths>>
+
+++++
+<table id="bip_implicit_paths">
+<caption>Percorsi di script impliciti definiti da vari BIP</caption>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Script</th>
+<th>Percorso BIP32</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>BIP44</p></td>
+<td><p>P2PKH</p></td>
+<td><p><code>m/44'/0'/0'</code></p></td>
+</tr>
+<tr>
+<td><p>BIP49</p></td>
+<td><p>Nested P2WPKH</p></td>
+<td><p><code>m/49'/1'/0'</code></p></td>
+</tr>
+<tr>
+<td><p>BIP84</p></td>
+<td><p>P2WPKH</p></td>
+<td><p><code>m/84'/0'/0'</code></p></td>
+</tr>
+<tr>
+<td><p>BIP86</p></td>
+<td><p>P2TR Single-key</p></td>
+<td><p><code>m/86'/0'/0'</code></p></td>
+</tr>
+</tbody>
+[role="less_space pagebreak-before"]
+La seconda soluzione è fare il backup delle informazioni sul percorso insieme al codice di recupero,
+chiarendo quale percorso viene utilizzato con quali script. Chiamiamo((("explicit paths", id="explicit-path")))
+questo _percorsi espliciti_.
+
+Il vantaggio dei percorsi impliciti è che gli utenti non hanno bisogno di tenere traccia
+dei percorsi che utilizzano. Se l'utente inserisce il proprio codice di recupero nella
+stessa applicazione wallet che ha utilizzato in precedenza, della stessa versione o
+superiore, questa rigenererà automaticamente le chiavi per gli stessi percorsi che
+ha utilizzato in precedenza.
+
+Lo svantaggio degli script impliciti è la loro inflessibilità. Quando un
+codice di recupero viene inserito, un'applicazione wallet deve generare le chiavi
+per ogni percorso che supporta e deve scansionare la blockchain per
+le transazioni che coinvolgono quelle chiavi, altrimenti potrebbe non trovare tutte le
+transazioni di un utente. Questo è dispendioso nei wallet che supportano molte
+funzionalità, ciascuna con il proprio percorso, se l'utente ha provato solo alcune di queste
+funzionalità.
+
+Per i codici di recupero con percorsi impliciti che non includono un numero di versione,
+come BIP39 e SLIP39, una nuova versione di un'applicazione wallet che interrompe il supporto
+per un percorso più vecchio non può avvisare gli utenti durante il processo di ripristino che alcuni
+dei loro fondi potrebbero non essere trovati. Lo stesso problema si verifica al contrario se
+un utente inserisce il proprio codice di recupero in un software più vecchio: non troverà
+i percorsi più recenti ai quali l'utente potrebbe aver ricevuto fondi. I codici di recupero
+che includono informazioni sulla versione, come Electrum v2 e Aezeed, possono
+rilevare che un utente sta inserendo un codice di recupero più vecchio o più recente e
+indirizzarlo alle risorse appropriate.
+
+La conseguenza finale dei percorsi impliciti è che possono includere solo
+informazioni che sono universali (come un percorso standardizzato) o
+derivate dal seed (come le chiavi). Importanti informazioni non deterministiche
+specifiche di un certo utente non possono essere ripristinate utilizzando
+un codice di recupero. Per esempio, Alice, Bob e Carol ricevono fondi che
+possono essere spesi solo con firme da due su tre di loro. Sebbene
+Alice abbia bisogno solo della firma di Bob o di Carol per spendere, ha bisogno
+delle chiavi pubbliche di entrambi per trovare i loro fondi congiunti sulla
+blockchain. Ciò significa che ciascuno di loro deve fare il backup delle chiavi pubbliche per
+tutti e tre. Man mano che le multifirme e altri script avanzati diventano
+più comuni su Bitcoin, l'inflessibilità dei percorsi impliciti diventa più
+significativa.
+
+Il vantaggio dei percorsi espliciti è che possono descrivere esattamente quali
+chiavi dovrebbero essere utilizzate con quali script. Non c'è bisogno di supportare
+script obsoleti, non ci sono problemi di compatibilità all'indietro o in avanti,
+e qualsiasi informazione aggiuntiva (come le chiavi pubbliche di altri utenti) può essere
+inclusa direttamente. Il loro svantaggio è che richiedono agli utenti di fare il backup
+di informazioni aggiuntive insieme al loro codice di recupero. Le
+informazioni aggiuntive di solito non possono compromettere la sicurezza di un utente, quindi
+non richiedono tanta protezione quanto il codice di recupero, sebbene possano
+ridurre la loro privacy e richiedano una certa protezione.
+
+[role="less_space pagebreak-before"]
+Quasi tutte le applicazioni wallet che utilizzano percorsi espliciti al momento della
+stesura utilizzano lo standard _descrittori di script di output_ (chiamati
+_descrittori_ in breve) come specificato nei BIP 380, 381, 382, 383, 384,
+385, 386 e 389. I descrittori
+descrivono uno script e le chiavi (o i percorsi delle chiavi) da utilizzare con esso.
+Alcuni esempi di descrittori sono mostrati in <<sample_descriptors>>.
+
+++++
+<table id="sample_descriptors">
+<caption>Esempi di descrittori dalla documentazione di Bitcoin Core (con elisione)</caption>
+<thead>
+<tr>
+<th>Descrittore</th>
+<th>Spiegazione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><code>pkh(02c6…​9ee5)</code></p></td>
+<td><p>Script P2PKH per la chiave pubblica fornita</p></td>
+</tr>
+<tr>
+<td><p><code>sh(multi(2,022f…​2a01,03ac…​ccbe))</code></p></td>
+<td><p>Multifirma P2SH che richiede due firme corrispondenti a queste due chiavi</p></td>
+</tr>
+<tr>
+<td><p><code>pkh([d34db33f/44'/0'/0']xpub6ERA…​RcEL/1/*)</code></p></td>
+<td><p>Script P2PKH per il BIP32 <code>d34db33f</code> con la chiave pubblica estesa (xpub) al percorso <code>M/44'/0'/0'</code>, che è <code>xpub6ERA…​RcEL</code>, utilizzando le chiavi a <code>M/1/*</code> di quella xpub</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+
+È da tempo la tendenza per le applicazioni wallet progettate solo per
+script a firma singola utilizzare percorsi impliciti. Le applicazioni wallet
+progettate per firme multiple o altri script avanzati stanno
+sempre più adottando il supporto per percorsi espliciti utilizzando i descrittori.
+Le applicazioni che fanno entrambe le cose di solito si conformano agli standard per
+i percorsi impliciti e forniscono anche ((("wallets", "key generation", "backing up derivation paths", startref="wallet-keygen-backups")))((("key generation", "backing up derivation paths", startref="keygen-backups")))((("backing up", "key derivation paths", startref="backup-key-derive")))((("implicit paths", startref="implicit-path")))((("explicit paths", startref="explicit-path")))descrittori.
+
+=== Uno Stack Tecnologico di Wallet in Dettaglio
+
+Gli sviluppatori di wallet moderni possono scegliere tra una varietà di diverse
+tecnologie per aiutare gli utenti a creare e utilizzare backup--e nuove soluzioni
+appaiono ogni anno. Invece di entrare nei dettagli di ciascuna delle
+opzioni che abbiamo descritto in precedenza in questo capitolo, concentreremo il resto di
+questo capitolo sullo stack di tecnologie che pensiamo sia più ampiamente
+utilizzato nei wallet all'inizio del 2023:
+
+- Codici di recupero BIP39
+- Derivazione delle chiavi HD BIP32
+- Percorsi impliciti in stile BIP44
+
+Tutti questi standard esistono dal 2014 o prima, e
+non avrai problemi a trovare risorse aggiuntive per utilizzarli.
+Tuttavia, se ti senti audace, ti incoraggiamo a investigare standard
+più moderni che potrebbero fornire funzionalità o sicurezza aggiuntive.
+
+[[recovery_code_words]]
+==== Codici di Recupero BIP39
+
+I codici ((("wallets", "recovery codes", id="wallet-recovery-bip39")))((("recovery codes", id="recovery-code-bip39")))((("BIP39 recovery codes", primary-sortas="BIP039", id="bip39-recovery")))di recupero BIP39 sono sequenze
+di parole che rappresentano (codificano) un numero casuale utilizzato come seed per
+derivare un wallet deterministico. La sequenza di parole è sufficiente per
+ricreare il seed e da lì, ricreare tutte le
+chiavi derivate. Un'applicazione wallet che implementa wallet deterministici
+con un codice di recupero BIP39 mostrerà all'utente una sequenza di 12-24 parole quando
+crea un wallet per la prima volta. Quella sequenza di parole è il backup del wallet e
+può essere utilizzata per recuperare e ricreare tutte le chiavi nella stessa o in qualsiasi
+applicazione wallet compatibile. I codici di recupero rendono più facile per gli utenti
+fare il backup perché sono facili da leggere e trascrivere
+correttamente.
+
+[TIP]
+====
+I codici di recupero((("brainwallets"))) sono spesso confusi con
+i "brainwallet". Non sono la stessa cosa. La differenza principale è che un
+brainwallet consiste in parole scelte dall'utente, mentre i codici di recupero
+sono creati casualmente dal wallet e presentati all'utente. Questa
+importante differenza rende i codici di recupero molto più sicuri perché
+gli umani sono fonti molto scarse di casualità.
+====
+
+Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
+BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
+è compatibile con molte altre applicazioni wallet, anche se certamente
+non tutte.
+
+BIP39 definisce la creazione di un codice di recupero e di un seed, che
+descriviamo qui in nove passaggi. Per chiarezza, il processo è diviso in due
+parti: i passaggi da 1 a 6 sono mostrati in <<generating_recovery_words>> e
+i passaggi da 7 a 9 sono mostrati in <<recovery_to_seed>>.
+
+[[generating_recovery_words]]
+===== Generazione di un codice di recupero
+
+I codici((("wallets", "recovery codes", "generating", id="wallet-recovery-bip39-generate")))((("recovery codes", "generating", id="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", id="bip39-recovery-generate")))((("entropy", "recovery code generation", id="entropy-recovery-generate"))) di recupero sono generati automaticamente dall'applicazione wallet utilizzando il
+processo standardizzato definito in BIP39. Il wallet parte da una fonte
+di entropia, aggiunge un checksum e poi mappa l'entropia a una lista di parole:
+
+1. Crea una sequenza casuale (entropia) di 128-256 bit.
+
+2. Crea un checksum della sequenza casuale prendendo i primi
+(lunghezza-entropia/32) bit del suo hash SHA256.
+
+3. Aggiungi il checksum alla fine della sequenza casuale.
+
+4. Dividi il risultato in segmenti di lunghezza 11 bit.
+
+5. Mappa ogni valore di 11 bit a una parola dal dizionario predefinito di
+2.048 parole.
+
+6. Il codice di recupero è la sequenza di parole.
+
+<<generating_entropy_and_encoding>> mostra come l'entropia viene utilizzata per
+generare un codice di recupero BIP39.
+
+[[generating_entropy_and_encoding]]
+.Generazione di entropia e codifica come codice di recupero.
+image::images/mbc3_0504.png["Generating entropy and encoding as a recovery code"]
+
+<<table_4-5>> mostra la relazione tra la dimensione dei dati
+di entropia e la lunghezza del codice di recupero in((("wallets", "recovery codes", "generating", startref="wallet-recovery-bip39-generate")))((("recovery codes", "generating", startref="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", startref="bip39-recovery-generate")))((("entropy", "recovery code generation", startref="entropy-recovery-generate"))) parole.
+
+++++
+<table id="table_4-5">
+<caption>BIP39: entropia e lunghezza in parole</caption>
+<thead>
+<tr>
+<th>Entropia (bit)</th>
+<th>Checksum (bit)</th>
+<th>Entropia <strong>+</strong> checksum (bit)</th>
+<th>Parole del codice di recupero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>128</p></td>
+<td><p>4</p></td>
+<td><p>132</p></td>
+<td><p>12</p></td>
+</tr>
+<tr>
+<td><p>160</p></td>
+<td><p>5</p></td>
+<td><p>165</p></td>
+<td><p>15</p></td>
+</tr>
+<tr>
+<td><p>192</p></td>
+<td><p>6</p></td>
+<td><p>198</p></td>
+<td><p>18</p></td>
+</tr>
+<tr>
+<td><p>224</p></td>
+<td><p>7</p></td>
+<td><p>231</p></td>
+<td><p>21</p></td>
+</tr>
+<tr>
+<td><p>256</p></td>
+<td><p>8</p></td>
+<td><p>264</p></td>
+<td><p>24</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+[role="less_space pagebreak-before"]
+[[recovery_to_seed]]
+===== Dal codice di recupero al seed
+
+Il ((("wallets", "recovery codes", "seed generation", id="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", id="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", id="bip39-recovery-seed")))((("entropy", "seed generation", id="entropy-seed-generate")))((("seeds", "generating", id="seed-generate")))((("key-stretching functions", id="key-stretch")))codice di recupero
+rappresenta entropia con una lunghezza di 128-256 bit. L'entropia viene poi
+utilizzata per derivare un seed più lungo (512 bit) attraverso l'uso della
+https://oreil.ly/6lwbd[funzione di key-stretching PBKDF2]. Il seed prodotto viene quindi utilizzato per costruire
+un wallet deterministico e derivare le sue chiavi.
+
+La funzione di key-stretching prende due
+parametri: l'entropia e((("salt"))) un _salt_. Lo scopo di un salt in una
+funzione di key-stretching è rendere difficile costruire una tabella di lookup
+che permetta un attacco a forza bruta. Nello standard BIP39, il salt ha
+un altro scopo--permette l'introduzione di una passphrase che
+serve come fattore di sicurezza aggiuntivo che protegge il seed, come
+descriveremo più in dettaglio in <<recovery_passphrase>>.
+
+[TIP]
+====
+La funzione di key-stretching, con i suoi 2.048 cicli di hashing, rende
+leggermente più difficile attaccare a forza bruta il codice di recupero utilizzando software.
+L'hardware specializzato non è significativamente influenzato. Per un attaccante
+che deve indovinare l'intero codice di recupero di un utente, la lunghezza del codice
+(minimo 128 bit) fornisce una sicurezza più che sufficiente. Ma per
+i casi in cui un attaccante potrebbe conoscere una piccola parte del codice dell'utente,
+il key-stretching aggiunge un po' di sicurezza rallentando la velocità con cui un attaccante
+può verificare diverse combinazioni di codici di recupero. I parametri di BIP39 erano
+considerati deboli secondo gli standard moderni anche quando fu pubblicato per la prima volta
+quasi un decennio fa, sebbene ciò sia probabilmente una conseguenza dell'essere
+progettato per la compatibilità con dispositivi di firma hardware con CPU a bassa potenza.
+Alcune alternative a BIP39 utilizzano parametri di key-stretching più forti,
+come i 32.768 cicli di hashing di Aezeed utilizzando l'algoritmo
+Scrypt più complesso, anche se potrebbero non essere altrettanto convenienti da eseguire
+su dispositivi di firma hardware.
+====
+
+Il processo descritto nei passaggi da 7 a 9 continua dal processo
+descritto in precedenza in <<generating_recovery_words>>:
+
+++++
+<ol start="7">
+  <li>Il primo parametro della funzione di key-stretching PBKDF2 è l'
+  <em>entropia</em> prodotta dal passaggio 6.</li>
+
+  <li>Il secondo parametro della funzione di key-stretching PBKDF2 è un
+  <em>salt</em>. Il salt è composto dalla stringa costante
+  "<code>mnemonic</code>" concatenata con una stringa di passphrase
+  opzionale fornita dall'utente.</li>
+
+  <li>PBKDF2 estende i parametri del codice di recupero e del salt utilizzando 2.048
+  cicli di hashing con l'algoritmo HMAC-SHA512, producendo un valore di 512 bit
+  come output finale. Quel valore di 512 bit è il seed.</li>
+</ol>
+++++
+
+<<fig_5_7>> mostra come un codice di recupero viene utilizzato per generare un seed.
+
+[[fig_5_7]]
+.Dal codice di recupero al seed.
+image::images/mbc3_0505.png["From recovery code to seed"]
+
+
+Le tabelle pass:[<a data-type="xref" href="#bip39_128_no_pass"
+data-xrefstyle="select: labelnumber">#bip39_128_no_pass</a>],
+pass:[<a data-type="xref" href="#bip39_128_w_pass"
+data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
+pass:[<a data-type="xref" href="#bip39_256_no_pass"
+data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
+alcuni esempi di codici di recupero e i seed ((("key-stretching functions", startref="key-stretch")))che producono.
+
+++++
+<table id="bip39_128_no_pass">
+<caption>Codice di recupero BIP39 con entropia a 128 bit, senza passphrase, seed risultante</caption>
+<tbody>
+<tr>
+<td><p><strong>Input di entropia (128 bit)</strong></p></td>
+<td><p><code>0c1e24e5917779d297e14d45f14e1a1a</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Codice di recupero (12 parole)</strong></p></td>
+<td><p><code>army van defense carry jealous true garbage claim echo media make crunch</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Passphrase</strong></p></td>
+<td><p>(nessuna)</p></td>
+</tr>
+<tr>
+<td><p><strong>Seed (512 bit)</strong></p></td>
+<td><p><code>5b56c417303faa3fcba7e57400e120a0ca83ec5a4fc9ffba757fbe63fbd77a89a1a3be4</code>
+<code>c67196f57c39a88b76373733891bfaba16ed27a813ceed498804c0570</code></p></td>
+</tr>
+</tbody>
+</table>
+
+<table id="bip39_128_w_pass" class="pagebreak-before less_space">
+<caption>Codice di recupero BIP39 con entropia a 128 bit, con passphrase, seed risultante</caption>
+<tbody>
+<tr>
+<td><p><strong>Input di entropia (128 bit)</strong></p></td>
+<td><p><code>0c1e24e5917779d297e14d45f14e1a1a</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Codice di recupero (12 parole)</strong></p></td>
+<td><p><code>army van defense carry jealous true garbage claim echo media make crunch</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Passphrase</strong></p></td>
+<td><p>SuperDuperSecret</p></td>
+</tr>
+<tr>
+<td><p><strong>Seed (512 bit)</strong></p></td>
+<td><p><code>3b5df16df2157104cfdd22830162a5e170c0161653e3afe6c88defeefb0818c793dbb28</code>
+<code>ab3ab091897d0715861dc8a18358f80b79d49acf64142ae57037d1d54</code></p></td>
+</tr>
+</tbody>
+</table>
+<table id="bip39_256_no_pass">
+<caption>Codice di recupero BIP39 con entropia a 256 bit, senza passphrase, seed risultante</caption>
+<tbody>
+<tr>
+<td><p><strong>Input di entropia (256 bit)</strong></p></td>
+<td><p><code>2041546864449caff939d32d574753fe684d3c947c3346713dd8423e74abcf8c</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Codice di recupero (24 parole)</strong></p></td>
+<td><p><code>cake apple borrow silk endorse fitness top denial coil riot stay wolf
+luggage oxygen faint major edit measure invite love trap field dilemma oblige</code></p></td>
+</tr>
+<tr>
+<td><p><strong>Passphrase</strong></p></td>
+<td><p>(nessuna)</p></td>
+</tr>
+<tr>
+<td><p><strong>Seed (512 bit)</strong></p></td>
+<td><p><code>3269bce2674acbd188d4f120072b13b088a0ecf87c6e4cae41657a0bb78f5315b33b3</code>
+<code>a04356e53d062e55f1e0deaa082df8d487381379df848a6ad7e98798404</code></p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+
+.Quanta Entropia Ti Serve?
+****
+BIP32 permette seed da 128 a 512 bit. BIP39 accetta da 128
+a 256 bit di entropia; Electrum v2 accetta 132 bit di entropia; Aezeed
+accetta 128 bit di entropia; SLIP39 accetta 128 o 256 bit.
+La variazione in questi numeri rende poco chiaro quanta entropia sia necessaria
+per la sicurezza. Cercheremo di demistificare questo aspetto.
+
+Le chiavi private estese BIP32 consistono in una chiave a 256 bit e un codice di catena
+a 256 bit, per un totale di 512 bit. Ciò significa che c'è un massimo di 2^512^
+diverse possibili chiavi private estese. Se inizi con più di
+512 bit di entropia, otterrai comunque una chiave privata estesa contenente
+512 bit di entropia--quindi non ha senso usare più di 512 bit
+anche se uno degli standard che abbiamo menzionato lo permettesse.
+
+Tuttavia, anche se ci sono 2^512^ diverse chiavi private estese,
+ci sono solo (leggermente meno di) 2^256^ chiavi private regolari--e sono
+queste chiavi private che effettivamente proteggono i tuoi bitcoin. Ciò significa che, se
+usi più di 256 bit di entropia per il tuo seed, otterrai comunque chiavi private
+contenenti solo 256 bit di entropia. Potrebbero esserci futuri
+protocolli relativi a Bitcoin in cui l'entropia extra nelle chiavi estese
+fornisce sicurezza extra, ma attualmente non è questo il caso.
+
+La forza di sicurezza di una chiave pubblica Bitcoin è di 128 bit. Un attaccante
+con un computer classico (l'unico tipo che può essere utilizzato per un
+attacco pratico al momento della stesura) avrebbe bisogno di eseguire circa 2^128^
+operazioni sulla curva ellittica di Bitcoin per trovare una chiave privata
+per la chiave pubblica di un altro utente. L'implicazione di una forza di sicurezza
+di 128 bit è che non c'è un apparente beneficio nell'utilizzare più di 128
+bit di entropia (anche se devi assicurarti che le tue chiavi private generate
+chiavi sono selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
+private).
+
+C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
+del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
+maggiore è l'entropia, più difficile sarà per loro scoprire la parte
+del codice che non hanno visto. Per esempio, se un attaccante vede metà di un
+codice a 128 bit (64 bit), è plausibile che sarà in grado di forzare
+brutalmente i restanti 64 bit. Se vede metà di un codice a 256 bit (128
+bit), non è plausibile che possa forzare brutalmente l'altra metà. Non
+raccomandiamo di fare affidamento su questa difesa--o mantieni i tuoi codici di recupero
+molto sicuri o usa un metodo come SLIP39 che ti permette di distribuire il tuo
+codice di recupero in più luoghi senza fare affidamento sulla sicurezza di
+un singolo codice.
+
+A partire dal 2023, la maggior parte dei wallet moderni genera 128 bit di entropia per i loro
+codici di recupero (o un valore vicino a 128, come((("wallets", "recovery codes", "seed generation", startref="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", startref="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", startref="bip39-recovery-seed")))((("entropy", "seed generation", startref="entropy-seed-generate")))((("seeds", "generating", startref="seed-generate"))) i 132 bit di Electrum v2).
+****
+
+[[recovery_passphrase]]
+===== Passphrase opzionale in BIP39
+
+Lo((("wallets", "recovery codes", "passphrases", id="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", id="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", id="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", id="passphrase-optional"))) standard BIP39 permette l'uso di una passphrase
+opzionale nella derivazione del seed. Se non viene utilizzata alcuna passphrase, il
+codice di recupero viene esteso con un salt costituito dalla stringa costante
++"mnemonic"+, producendo un seed specifico di 512 bit da qualsiasi codice di recupero dato.
+Se viene utilizzata una passphrase, la funzione di estensione produce un seed _diverso_
+dallo stesso codice di recupero. In effetti, dato un singolo codice di recupero, ogni
+possibile passphrase porta a un seed diverso. Essenzialmente, non c'è
+passphrase "sbagliata". Tutte le passphrase sono valide e tutte portano a
+seed diversi, formando un vasto insieme di possibili wallet non inizializzati.
+L'insieme di possibili wallet è così grande (2^512^) che non c'è
+possibilità pratica di forzare brutalmente o indovinare accidentalmente uno che
+è in uso.
+
+[TIP]
+====
+Non ci sono passphrase "sbagliate" in BIP39. Ogni passphrase porta a
+qualche wallet, che a meno che non sia stato utilizzato in precedenza sarà vuoto.
+====
+
+La passphrase opzionale crea due importanti caratteristiche:
+
+- Un secondo fattore (qualcosa memorizzato) che rende un codice di recupero inutile da
+  solo, proteggendo i codici di recupero dalla compromissione da parte di un ladro occasionale. Per
+  la protezione da un ladro esperto di tecnologia, avrai bisogno di utilizzare una passphrase molto forte.
+
+- Una forma di negabilità plausibile o "wallet sotto coercizione", dove una passphrase scelta
+  porta a un wallet con una piccola quantità di fondi utilizzati per
+  distrarre un attaccante dal wallet "reale" che contiene la maggioranza
+  dei fondi.
+
+È importante notare che l'uso di una passphrase introduce anche il rischio di perdita:
+
+* Se il proprietario del wallet è incapacitato o morto e nessun altro conosce la passphrase, il seed è inutile e tutti i fondi memorizzati nel wallet sono persi per sempre.
+
+* Al contrario, se il proprietario fa il backup della passphrase nello stesso luogo del seed, vanifica lo scopo di un secondo((("wallets", "recovery codes", startref="wallet-recovery-bip39")))((("recovery codes", startref="recovery-code-bip39")))((("BIP39 recovery codes", primary-sortas="BIP039", startref="bip39-recovery")))((("wallets", "recovery codes", "passphrases", startref="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", startref="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", startref="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", startref="passphrase-optional"))) fattore.
+
+++++
+<p class="fix_tracking2">
+Mentre le passphrase sono molto utili, dovrebbero essere utilizzate solo in
+combinazione con un processo attentamente pianificato per il backup e il recupero,
+considerando la possibilità di sopravvivere al proprietario e permettere alla sua
+famiglia di recuperare il patrimonio in criptovaluta.
+</p>
+++++
+
+[[hd_wallet_details]]
+==== Creazione di un Wallet HD dal Seed
+
+I wallet HD ((("wallets", "key generation", "HD (hierarchical deterministic)", id="wallet-keygen-hd")))((("key generation", "HD (hierarchical deterministic)", id="keygen-hd")))((("HD (hierarchical deterministic) key generation", id="hd-keygen")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032", id="bip32")))((("seeds", "HD wallet creation", id="seed-hdwallet")))sono creati da un singolo ((("root seeds")))_seed radice_, che è un
+numero casuale di 128, 256 o 512 bit. Più comunemente, questo seed viene
+generato o decrittato da un codice di recupero come dettagliato nella sezione precedente.
+
+Ogni chiave nel wallet HD è deterministicamente derivata da questo seed
+radice, il che rende possibile ricreare l'intero wallet HD da
+quel seed in qualsiasi wallet HD compatibile. Questo rende facile fare il backup,
+ripristinare, esportare e importare wallet HD contenenti migliaia o anche
+milioni di chiavi semplicemente trasferendo solo il codice di recupero da cui il seed
+radice è derivato. Il processo di creazione delle chiavi master e del codice di catena master per un wallet HD
+è mostrato in <<HDWalletFromSeed>>.
+
+[[HDWalletFromSeed]]
+.Creazione di chiavi master e codice di catena da un seed radice.
+image::images/mbc3_0506.png["HDWalletFromRootSeed"]
+
+Il seed radice viene inserito nell'algoritmo HMAC-SHA512 e l'hash
+risultante viene utilizzato per creare una _chiave privata master_ (_m_) e un _codice di catena
+master_ (_c_).
+
+La chiave privata master (_m_) genera quindi una corrispondente chiave pubblica
+master (_M_) utilizzando il normale processo di moltiplicazione della curva ellittica _m_ × _G_
+che abbiamo visto in <<public_key_derivation>>.
+
+Il codice di catena master (_c_) viene utilizzato per introdurre entropia nella funzione che
+crea chiavi figlie da chiavi genitore, come vedremo nella prossima sezione.
+
+===== Derivazione di chiavi figlie private
+
+I wallet HD ((("key generation", "HD (hierarchical deterministic)", "private child key derivation", id="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", id="hd-keygen-private-child")))((("private child key derivation", id="private-child")))((("child key pair derivation", "private keys", id="child-key-pair-private")))utilizzano una funzione di _derivazione di chiavi figlie_ (CKD)
+per derivare chiavi figlie da chiavi genitore.
+
+Le funzioni di derivazione di chiavi figlie si basano su una funzione di hash unidirezionale
+che [.keep-together]#combina:#
+
+* Una chiave privata o pubblica genitore (chiave non compressa)
+* Un seed chiamato codice di catena (256 bit)
+* Un numero di indice (32 bit)
+
+Il codice di catena viene utilizzato per introdurre dati casuali deterministici nel
+processo, in modo che conoscere l'indice e una chiave figlia non sia sufficiente per
+derivare altre chiavi figlie. Conoscere una chiave figlia non rende possibile
+trovare i suoi fratelli a meno che non si abbia anche il codice di catena. Il
+codice di catena seed iniziale (alla radice dell'albero) è creato dal seed, mentre
+i codici di catena figli successivi sono derivati da ciascun codice di catena genitore.
+
+Questi tre elementi (chiave genitore, codice di catena e indice) sono combinati e
+sottoposti a hash per generare chiavi figlie, come segue.
+
+La chiave pubblica genitore, il codice di catena e il numero di indice sono combinati e
+sottoposti a hash con l'algoritmo HMAC-SHA512 per produrre un hash di 512 bit. Questo
+hash di 512 bit è diviso in due metà di 256 bit. I 256 bit della metà destra
+dell'hash diventano il codice di catena per il figlio. I 256 bit della metà sinistra
+dell'hash vengono aggiunti alla chiave privata genitore per produrre la
+chiave privata figlia. In <<CKDpriv>>, vediamo questo illustrato con l'
+indice impostato a 0 per produrre il figlio "zero" (primo per indice) del
+genitore.
+
+[[CKDpriv]]
+.Estensione di una chiave privata genitore per creare una chiave privata figlia.
+image::images/mbc3_0507.png["ChildPrivateDerivation"]
+
+Cambiando l'indice possiamo estendere il genitore e creare gli altri
+figli nella sequenza (ad esempio, Figlio 0, Figlio 1, Figlio 2, ecc.). Ogni
+chiave genitore può avere 2.147.483.647 (2^31^) figli (2^31^ è la metà dell'
+intero intervallo di 2^32^ disponibile perché l'altra metà è riservata per un
+tipo speciale di derivazione di cui parleremo più avanti in questo capitolo).
+
+Ripetendo il processo un livello più in basso nell'albero, ogni figlio può a sua volta
+diventare un genitore e creare i propri figli, in un numero infinito di
+generazioni.
+
+===== Utilizzo di chiavi figlie derivate
+
+Le chiavi private figlie sono indistinguibili dalle chiavi non deterministiche (casuali).
+Poiché la funzione di derivazione è una funzione unidirezionale, la chiave
+figlia non può essere utilizzata per trovare la chiave genitore. La chiave figlia non può anche
+essere utilizzata per trovare eventuali fratelli. Se hai l'n-esimo figlio, non puoi trovare
+i suoi fratelli, come il figlio n-1 o il figlio n+1, o qualsiasi
+altro figlio che fa parte della sequenza. Solo la chiave genitore e
+il codice di catena possono derivare tutti i figli. Senza il codice di catena del figlio,
+la chiave figlia non può essere utilizzata per derivare nemmeno nipoti. Hai
+bisogno sia della chiave privata figlia che del codice di catena figlia per iniziare un nuovo
+ramo e derivare nipoti.
+
+Quindi a cosa può servire la chiave privata figlia da sola? Può essere utilizzata
+per creare una chiave pubblica e un indirizzo Bitcoin. Quindi, può essere utilizzata per firmare
+transazioni per spendere qualsiasi cosa pagata a quell'indirizzo.
+
+[TIP]
+====
+Una chiave privata figlia, la corrispondente chiave pubblica e l'indirizzo
+Bitcoin sono tutti indistinguibili da chiavi e indirizzi creati
+casualmente. Il fatto che facciano parte di una sequenza non è visibile
+al di fuori della funzione del wallet HD che li ha creati. Una volta creati, funzionano
+esattamente((("key generation", "HD (hierarchical deterministic)", "private child key derivation", startref="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", startref="hd-keygen-private-child")))((("private child key derivation", startref="private-child")))((("child key pair derivation", "private keys", startref="child-key-pair-private"))) come chiavi "normali".
+====
+
+===== Chiavi estese
+
+Come
+abbiamo visto ((("key generation", "HD (hierarchical deterministic)", "extended keys", id="keygen-hd-extend")))((("HD (hierarchical deterministic) key generation", "extended keys", "explained", id="hd-keygen-extend")))((("extended keys", "explained", id="extend-key")))in precedenza, la funzione di derivazione delle chiavi può essere utilizzata per creare
+figli a qualsiasi livello dell'albero, basandosi sui tre input: una chiave, un
+codice di catena e l'indice del figlio desiderato. I due ingredienti essenziali
+sono la chiave e il codice di catena, e combinati questi sono chiamati una
+_chiave estesa_. Il termine "chiave estesa" potrebbe anche essere pensato come
+"chiave estensibile" perché tale chiave può essere utilizzata per derivare figli.
+
+Le chiavi estese sono memorizzate e rappresentate semplicemente come la concatenazione
+della chiave e del codice di catena. Ci
+sono due tipi di chiavi estese. Una chiave privata estesa è la
+combinazione di una chiave privata e un codice di catena e può essere utilizzata per derivare
+chiavi private figlie (e da esse, chiavi pubbliche figlie). Una chiave
+pubblica estesa è una chiave pubblica e un codice di catena, che può essere utilizzata per creare
+chiavi pubbliche figlie (_solo pubbliche_), come descritto in
+<<public_key_derivation>>.
+
+Pensa a una chiave estesa come alla radice di un ramo nella struttura ad albero
+del wallet HD. Con la radice del ramo, puoi derivare il resto
+del ramo. La chiave privata estesa può creare un ramo completo,
+mentre la chiave pubblica estesa può creare _solo_ un ramo di chiavi
+pubbliche.
+
+Le chiavi estese sono codificate utilizzando base58check, per esportare e importare facilmente
+tra diversi wallet compatibili con BIP32. La codifica
+base58check per le chiavi estese utilizza un numero di versione speciale che risulta nel
+prefisso "xprv" e "xpub" quando codificato in caratteri base58 per renderli
+facilmente riconoscibili. Poiché la chiave estesa contiene molti più
+byte rispetto agli indirizzi regolari,
+è anche molto più lungo di altre stringhe codificate in base58check che abbiamo
+visto in precedenza.
+
+Ecco un esempio di una chiave _privata_ estesa, codificata in base58check:
+
+----
+xprv9tyUQV64JT5qs3RSTJkXCWKMyUgoQp7F3hA1xzG6ZGu6u6Q9VMNjGr67Lctvy5P8oyaYAL9CA
+WrUE9i6GoNMKUga5biW6Hx4tws2six3b9c
+----
+
+Ecco la corrispondente chiave _pubblica_ estesa, codificata in base58check:
+
+----
+xpub67xpozcx8pe95XVuZLHXZeG6XWXHpGq6Qv5cmNfi7cS5mtjJ2tgypeQbBs2UAR6KECeeMVKZBP
+LrtJunSDMstweyLXhRgPxdp14sk9tJPW9
+----
+
+[role="less_space pagebreak-before"]
+[[public__child_key_derivation]]
+===== Derivazione di chiavi figlie pubbliche
+
+Come
+menzionato in precedenza, ((("key generation", "HD (hierarchical deterministic)", "public child key derivation", id="keygen-hd-public-child")))((("HD (hierarchical deterministic) key generation", "public child key derivation", id="hd-keygen-public-child")))((("public child key derivation", id="public-child")))((("child key pair derivation", "public keys", id="child-key-pair-public")))una caratteristica molto utile dei wallet HD è la
+capacità di derivare chiavi figlie pubbliche da chiavi genitore pubbliche _senza_
+avere le chiavi private. Questo ci dà due modi per derivare una chiave pubblica figlia:
+o dalla chiave privata figlia o direttamente dalla chiave
+pubblica genitore.
+
+Una chiave pubblica estesa può essere utilizzata, quindi, per derivare tutte le
+chiavi _pubbliche_ (e solo le chiavi pubbliche) in quel ramo della struttura
+del wallet HD.
+
+Questa scorciatoia può essere utilizzata per creare implementazioni che utilizzano solo chiavi pubbliche
+dove un server o un'applicazione ha una copia di una chiave
+pubblica estesa e nessuna chiave privata. Quel tipo di implementazione può
+produrre un numero infinito di chiavi pubbliche e indirizzi Bitcoin ma
+non può spendere nessuno dei soldi inviati a quegli indirizzi. Nel frattempo, su
+un altro server più sicuro, la chiave privata estesa può derivare tutte le
+chiavi private corrispondenti per firmare transazioni e spendere il denaro.
+
+Un'applicazione comune di questa soluzione è installare una chiave pubblica estesa
+su un server web che serve un'applicazione di e-commerce. Il server web
+può utilizzare la funzione di derivazione della chiave pubblica per creare un nuovo indirizzo
+Bitcoin per ogni transazione (ad esempio, per il carrello di un cliente). Il
+server web non avrà alcuna chiave privata che potrebbe essere vulnerabile al
+furto. Senza i wallet HD, l'unico modo per fare questo è generare
+migliaia di indirizzi Bitcoin su un server sicuro separato e poi
+precaricarli sul server di e-commerce. Quell'approccio è ingombrante e
+richiede una manutenzione costante per garantire che il server di e-commerce
+non "esaurisca" le chiavi.
+
+.Attenzione al Gap
+****
+Una ((("gap limit", id="gap-limit")))chiave pubblica estesa può generare circa 4 miliardi di chiavi
+figlie dirette, molte più di quante qualsiasi negozio o applicazione dovrebbe mai aver bisogno.
+Tuttavia, richiederebbe anche a un'applicazione wallet un tempo irragionevole
+per generare tutti i 4 miliardi di chiavi e scansionare la blockchain per
+transazioni che coinvolgono quelle chiavi. Per questo motivo, la maggior parte dei wallet
+genera solo poche chiavi alla volta, scansiona i pagamenti che coinvolgono quelle chiavi,
+e genera chiavi aggiuntive nella sequenza man mano che le chiavi precedenti vengono utilizzate.
+Per esempio, il wallet di Alice genera 100 chiavi. Quando vede un pagamento
+alla prima chiave, genera la 101esima chiave.
+
+A volte un'applicazione wallet distribuirà una chiave a qualcuno che
+in seguito decide di non pagare, creando un gap nella catena di chiavi. Va bene finché
+il wallet ha già generato chiavi dopo il gap in modo che
+trovi pagamenti successivi e continui a generare più chiavi. Il numero massimo
+di chiavi non utilizzate di fila che possono non ricevere un pagamento
+senza causare problemi è chiamato _limite di gap_.
+
+Quando un'applicazione wallet ha distribuito tutte le chiavi fino al suo limite
+di gap e nessuna di quelle chiavi ha ricevuto un pagamento, ha tre
+opzioni su come gestire future richieste di nuove chiavi:
+
+[role="less_space pagebreak-before"]
+1. Può rifiutare le richieste, impedendole di ricevere ulteriori
+pagamenti. Questa è ovviamente un'opzione sgradevole, anche se è la
+più semplice da implementare.
+
+2. Può generare nuove chiavi oltre il suo limite di gap. Questo assicura che
+ogni persona che richiede di pagare ottenga una chiave unica, prevenendo il riutilizzo
+degli indirizzi e migliorando la privacy. Tuttavia, se il wallet deve essere
+ripristinato da un codice di recupero, o se il proprietario del wallet sta utilizzando altro
+software caricato con la stessa chiave pubblica estesa, quegli altri wallet
+non vedranno alcun pagamento ricevuto dopo il gap esteso.
+
+3. Può distribuire chiavi che ha precedentemente distribuito, garantendo un ripristino
+fluido ma potenzialmente riducendo la privacy del proprietario del wallet e
+delle persone con cui effettua transazioni.
+
+Sistemi di produzione open source per commercianti online, come BTCPay
+Server, tentano di evitare questo problema utilizzando limiti di gap molto grandi e
+limitando la velocità con cui generano fatture. Altre soluzioni sono state
+proposte, come
+chiedere al wallet del pagatore di costruire (ma non trasmettere) una
+transazione che paga un indirizzo possibilmente riutilizzato prima di ricevere un indirizzo
+fresco per la transazione effettiva. Tuttavia, queste altre soluzioni non
+sono state utilizzate in produzione al momento della((("gap limit", startref="gap-limit"))) stesura.
+****
+
+Un'altra applicazione comune di questa soluzione è per
+dispositivi di firma cold-storage o hardware. In quello scenario, la chiave
+privata estesa può essere memorizzata su un wallet di carta o un dispositivo hardware, mentre
+la chiave pubblica estesa può essere mantenuta online. L'
+utente può creare indirizzi "di ricezione" a volontà, mentre le chiavi private
+sono conservate in modo sicuro offline. Per spendere i fondi, l'utente può utilizzare la chiave
+privata estesa su un'applicazione wallet software offline o
+il dispositivo di firma hardware. <<CKDpub>> illustra il
+meccanismo per estendere una chiave pubblica genitore per derivare chiavi pubbliche ((("wallets", "key generation", "HD (hierarchical deterministic)", startref="wallet-keygen-hd")))((("key generation", "HD (hierarchical deterministic)", startref="keygen-hd")))((("HD (hierarchical deterministic) key generation", startref="hd-keygen")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032", startref="bip32")))((("seeds", "HD wallet creation", startref="seed-hdwallet")))((("key generation", "HD (hierarchical deterministic)", "public child key derivation", startref="keygen-hd-public-child")))((("HD (hierarchical deterministic) key generation", "public child key derivation", startref="hd-keygen-public-child")))((("public child key derivation", startref="public-child")))((("child key pair derivation", "public keys", startref="child-key-pair-public")))figlie.
+
+[[CKDpub]]
+.Estensione di una chiave pubblica genitore per creare una chiave pubblica figlia.
+image::images/mbc3_0508.png["ChildPublicDerivation"]
+
+==== Utilizzo di una Chiave Pubblica Estesa su un Negozio Web
+
+Vediamo ((("key generation", "HD (hierarchical deterministic)", "extended keys", id="keygen-hd-extend-webstore")))((("HD (hierarchical deterministic) key generation", "extended keys", "web store example", id="hd-keygen-extend-webstore")))((("extended keys", "web store example", id="extend-key-webstore")))((("web store example (extended keys)", id="webstore-extend-key")))come vengono utilizzati i wallet HD esaminando
+il negozio web di Gabriel.
+
+Gabriel ha inizialmente impostato il suo negozio web come hobby, basato su una semplice pagina
+WordPress ospitata. Il suo negozio era piuttosto basilare con solo alcune pagine e un
+modulo d'ordine con un singolo indirizzo Bitcoin.
+
+Gabriel ha utilizzato il primo indirizzo Bitcoin generato dal suo wallet regolare come
+indirizzo Bitcoin principale per il suo negozio.
+I clienti inviavano un ordine utilizzando il modulo e inviavano il pagamento all'
+indirizzo Bitcoin pubblicato di Gabriel, attivando un'email con i dettagli dell'ordine
+per Gabriel da elaborare. Con solo pochi ordini ogni settimana, questo
+sistema funzionava abbastanza bene, anche se indeboliva la privacy di
+Gabriel, dei suoi clienti e delle persone che pagava.
+
+Tuttavia, il piccolo negozio web è diventato piuttosto di successo e ha attratto molti
+ordini dalla comunità locale. Presto, Gabriel è stato sopraffatto. Con tutti
+gli ordini che pagavano lo stesso indirizzo, è diventato difficile abbinare correttamente
+ordini e transazioni, specialmente quando più ordini per lo
+stesso importo arrivavano vicini tra loro.
+
+Gli unici metadati che sono scelti dal ricevente di una tipica transazione
+Bitcoin sono l'importo e l'indirizzo di pagamento. Non c'è un campo per il soggetto
+o il messaggio che può essere utilizzato per contenere un numero di fattura identificativo unico.
+
+Il wallet HD di Gabriel offre una soluzione molto migliore attraverso la capacità di
+derivare chiavi figlie pubbliche senza conoscere le chiavi private. Gabriel può
+caricare una chiave pubblica estesa (xpub) sul suo sito web, che può essere utilizzata per
+derivare un indirizzo unico per ogni ordine cliente. L'indirizzo unico
+migliora immediatamente la privacy e dà anche a ogni ordine un identificatore
+unico che può essere utilizzato per tracciare quali fatture sono state pagate.
+
+L'utilizzo del wallet HD permette a Gabriel di spendere i
+fondi dalla sua applicazione wallet personale, ma la xpub caricata sul sito web può solo
+generare indirizzi e ricevere fondi. Questa caratteristica dei wallet HD è una
+grande funzionalità di sicurezza. Il sito web di Gabriel non contiene alcuna chiave
+privata e quindi qualsiasi attacco ad esso può rubare solo i fondi che Gabriel
+avrebbe ricevuto in futuro, non qualsiasi fondo che ha ricevuto in passato.
+
+Per esportare la xpub dal suo dispositivo di firma hardware Trezor, Gabriel utilizza
+l'applicazione wallet web-based Trezor. Il dispositivo Trezor deve essere collegato
+affinché le chiavi pubbliche possano essere esportate. Nota che la maggior parte dei dispositivi di firma hardware non
+esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
+
+Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
+come il diffusamente utilizzato BTCPay Server open source.
+
+===== Derivazione di chiavi figlie indurite
+
+La ((("private child key derivation", "hardened derivation", id="private-child-harden")))((("child key pair derivation", "hardened derivation", id="child-key-pair-harden")))((("hardened child key derivation", id="harden-child-key")))capacità di derivare un ramo
+di chiavi pubbliche da una xpub è molto utile, ma comporta un
+potenziale rischio. L'accesso a una xpub non dà accesso alle chiavi private
+figlie. Tuttavia, poiché la xpub contiene il codice di catena, se una chiave
+privata figlia è conosciuta, o in qualche modo divulgata, può essere utilizzata con il codice di
+catena per derivare tutte le altre chiavi private figlie. Una singola chiave
+privata figlia divulgata, insieme a un codice di catena genitore, rivela tutte le chiavi private
+di tutti i figli. Peggio ancora, la chiave privata figlia insieme a un
+codice di catena genitore può essere utilizzata per dedurre la chiave privata genitore.
+
+Per contrastare questo rischio, i wallet HD forniscono una funzione di derivazione alternativa
+chiamata _derivazione indurita_, che rompe la relazione tra
+chiave pubblica genitore e codice di catena figlio. La funzione di derivazione indurita
+utilizza la chiave privata genitore per derivare il codice di catena figlio, invece della
+chiave pubblica genitore. Questo crea un "firewall" nella sequenza genitore/figlio,
+con un codice di catena che non può essere utilizzato per compromettere una chiave
+privata genitore o fratello. La funzione di derivazione indurita sembra quasi
+identica alla normale derivazione di chiavi private figlie, eccetto che la
+chiave privata genitore viene utilizzata come input alla funzione di hash, invece della
+chiave pubblica genitore, come mostrato nel diagramma in <<CKDprime>>.
+
+[[CKDprime]]
+.Derivazione indurita di una chiave figlia; omette la chiave pubblica genitore.
+image::images/mbc3_0509.png["ChildHardPrivateDerivation"]
+
+
+Quando viene utilizzata la funzione di derivazione privata indurita, la
+chiave privata figlia risultante e il codice di catena sono completamente diversi da ciò che
+risulterebbe dalla funzione di derivazione normale. Il "ramo" risultante
+di chiavi può essere utilizzato per produrre chiavi pubbliche estese che non
+sono vulnerabili perché il codice di catena che contengono non può essere sfruttato per
+rivelare alcuna chiave privata per i loro fratelli o genitori. La derivazione indurita viene quindi utilizzata per creare
+un "gap" nell'albero sopra il livello in cui vengono utilizzate le chiavi pubbliche estese.
+
+In termini semplici, se vuoi utilizzare la comodità di una xpub per derivare
+rami di chiavi pubbliche, senza esporti al rischio di un
+codice di catena divulgato, dovresti derivarlo da un genitore indurito piuttosto
+che da un genitore normale. Come migliore pratica, i figli di livello 1 delle
+chiavi master sono sempre derivati attraverso la derivazione indurita per
+prevenire la compromissione delle chiavi master.
+
+===== Numeri di indice per la derivazione normale e indurita
+
+Il numero di indice ((("index numbers for hardened derivation")))utilizzato nella funzione di derivazione è un intero a 32 bit. Per
+distinguere facilmente tra chiavi create attraverso la funzione di derivazione
+normale rispetto alle chiavi derivate attraverso la derivazione indurita, questo numero di indice
+è diviso in due intervalli. I numeri di indice tra 0 e
+2^31^ &#x2013; 1 (da 0x0 a 0x7FFFFFFF) sono utilizzati _solo_ per la derivazione
+normale. I numeri di indice tra 2^31^ e 2^32^ &#x2013; 1 (da 0x80000000
+a 0xFFFFFFFF) sono utilizzati _solo_ per la derivazione indurita. Pertanto, se
+il numero di indice è inferiore a 2^31^, il figlio è normale, mentre se il
+numero di indice è uguale o superiore a 2^31^, il figlio è indurito.
+
+Per rendere il numero di indice più facile da leggere e visualizzare, il numero di indice
+per i figli induriti viene visualizzato a partire da zero, ma con un simbolo
+primo. La prima chiave figlia normale viene quindi visualizzata come 0, mentre
+il primo figlio indurito (indice 0x80000000) viene visualizzato come 0++&#x27;++.
+In una sequenza quindi, la seconda chiave indurita avrebbe indice 0x80000001
+e verrebbe visualizzata come 1++&#x27;++, e così via. Quando vedi un
+indice di wallet HD i++&#x27;++, significa 2^31^+i. Nel testo ASCII regolare, il
+simbolo primo è sostituito con un apostrofo singolo o con la
+lettera _h_. Per situazioni, come nei descrittori di script di output, dove
+il testo può essere utilizzato in una shell o in un altro contesto in cui un apostrofo singolo
+ha un significato speciale, si ((("private child key derivation", "hardened derivation", startref="private-child-harden")))((("child key pair derivation", "hardened derivation", startref="child-key-pair-harden")))((("hardened child key derivation", startref="harden-child-key")))raccomanda l'uso della lettera _h_.
+
+===== Identificatore di chiave del wallet HD (percorso)
+
+Le chiavi in ((("path references in HD wallets")))((("key generation", "HD (hierarchical deterministic)", "path references")))((("HD (hierarchical deterministic) key generation", "path references")))un wallet HD sono
+identificate utilizzando una convenzione di denominazione a "percorso", con ogni livello dell'albero
+separato da un carattere barra (/) (vedi <<table_4-8>>). Le chiavi private
+derivate dalla chiave privata master iniziano con "m." Le chiavi pubbliche derivate
+dalla chiave pubblica master iniziano con "M." Pertanto, la prima chiave
+privata figlia della chiave privata master è m/0. La prima chiave pubblica figlia
+è M/0. Il secondo nipote del primo figlio è m/0/1, e così via.
+
+L'"ascendenza" di una chiave si legge da destra a sinistra, fino a raggiungere la
+chiave master da cui è stata derivata. Per esempio, l'identificatore m/x/y/z
+descrive la chiave che è il z-esimo figlio della chiave m/x/y, che è il y-esimo
+figlio della chiave m/x, che è il x-esimo figlio di m.
+
+++++
+<table id="table_4-8" class="pagebreak-before less_space">
+<caption>Esempi di percorsi di wallet HD</caption>
+<thead>
+<tr>
+<th>Percorso HD</th>
+<th>Chiave descritta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>m/0</p></td>
+<td><p>La prima (0) chiave privata figlia dalla chiave privata master (m)</p></td>
+</tr>
+<tr>
+<td><p>m/0/0</p></td>
+<td><p>La prima chiave privata nipote dal primo figlio (m/0)</p></td>
+</tr>
+<tr>
+<td><p>m/0'/0</p></td>
+<td><p>La prima chiave privata nipote normale dal primo figlio <em>indurito</em> (m/0')</p></td>
+</tr>
+<tr>
+<td><p>m/1/0</p></td>
+<td><p>La prima chiave privata nipote dal secondo figlio (m/1)</p></td>
+</tr>
+<tr>
+<td><p>M/23/17/0/0</p></td>
+<td><p>La prima chiave pubblica pronipote dal primo bisnipote dal 18° nipote dal 24° figlio</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+===== Navigazione nella struttura ad albero del wallet HD
+
+La((("tree structure in HD wallets", id="tree-hd-wallet")))((("key generation", "HD (hierarchical deterministic)", "tree structure", id="keygen-hd-tree")))((("HD (hierarchical deterministic) key generation", "tree structure", id="hd-keygen-tree"))) struttura ad albero del wallet HD offre una flessibilità enorme. Ogni chiave
+estesa genitore può avere 4 miliardi di figli: 2 miliardi di figli normali e
+2 miliardi di figli induriti. Ciascuno di questi figli può avere altri 4
+miliardi di figli, e così via. L'albero può essere profondo quanto vuoi, con
+un numero infinito di generazioni. Con tutta questa flessibilità, tuttavia,
+diventa piuttosto difficile navigare in questo albero infinito. È
+particolarmente difficile trasferire wallet HD tra implementazioni
+perché le possibilità di organizzazione interna in rami e
+sottorami sono infinite.
+
+Due BIP offrono una soluzione a questa complessità creando alcuni standard
+proposti per la struttura degli alberi dei wallet HD. ((("BIP43 HD wallet tree structure", primary-sortas="BIP043")))BIP43 propone l'uso
+del primo indice figlio indurito come identificatore speciale che indica
+lo "scopo" della struttura ad albero. Basandosi su BIP43, un wallet HD
+dovrebbe utilizzare solo un ramo di livello 1 dell'albero, con il numero di indice
+che identifica la struttura e lo spazio dei nomi del resto dell'albero definendone
+lo scopo. Per esempio, un wallet HD che utilizza solo il ramo
+m/i++&#x27;++/ è inteso a significare uno scopo specifico, e quello
+scopo è identificato dal numero di indice "i."
+
+Estendendo quella specifica, ((("BIP44 HD wallet tree structure", primary-sortas="BIP044", id="bip44")))BIP44 propone una struttura multi-account
+come numero di "scopo" +44'+ sotto BIP43. Tutti i wallet HD che seguono la
+struttura BIP44 sono identificati dal fatto che utilizzano solo un
+ramo dell'albero: m/44++'++/.
+
+BIP44 specifica la struttura come costituita da cinque livelli predefiniti dell'albero:
+
+-----
+m / purpose' / coin_type' / account' / change / address_index
+-----
+
+
+Il "purpose" di primo livello è sempre impostato a ++44'++. Il "coin_type"
+di secondo livello specifica il tipo di criptovaluta, permettendo
+wallet HD multi-valuta dove ogni valuta ha il proprio sottoalbero sotto
+il secondo livello. Bitcoin è m/44++&apos;++/0++&apos;++ e Bitcoin Testnet è m/44++&apos;++/1++&apos;++.
+
+Il terzo livello dell'albero è "account", che permette agli utenti di
+suddividere i loro wallet in sotto-account logici separati per
+scopi contabili o organizzativi. Per esempio, un wallet HD potrebbe
+contenere due "account" Bitcoin: m/44++&#x27;++/0++&#x27;++/0++&#x27;++
+e m/44++&#x27;++/0++&#x27;++/1++&#x27;++. Ogni account è la radice del
+proprio sottoalbero.
+
+Al
+quarto livello, "change", un wallet HD ha due sottoalberi, uno per creare
+indirizzi di ricezione e uno per creare indirizzi di resto. Nota che
+mentre i livelli precedenti utilizzavano la derivazione indurita, questo livello utilizza
+la derivazione normale. Questo è per permettere a questo livello dell'albero di esportare
+chiavi pubbliche estese per l'uso in un ambiente non sicuro. Gli indirizzi
+utilizzabili sono derivati dal wallet HD come figli del quarto livello,
+rendendo il quinto livello dell'albero l'"address_index". Per esempio, il
+terzo indirizzo di ricezione per i pagamenti nell'account principale
+sarebbe M/44++&#x27;++/0++&#x27;++/0++&#x27;++/0/2. <<table_4-9>> mostra
+alcuni altri esempi.
+
+++++
+<table id="table_4-9">
+<caption>Esempi di struttura del wallet HD BIP44</caption>
+<thead>
+<tr>
+<th>Percorso HD</th>
+<th>Chiave descritta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>M/44<code>'</code>/0<code>'</code>/0<code>'</code>/0/2</p></td>
+<td><p>La terza chiave pubblica di ricezione per l'account Bitcoin principale</p></td>
+</tr>
+<tr>
+<td><p>M/44<code>'</code>/0<code>'</code>/3<code>'</code>/1/14</p></td>
+<td><p>La quindicesima chiave pubblica di indirizzo di resto per il quarto account Bitcoin</p></td>
+</tr>
+<tr>
+<td><p>m/44<code>'</code>/2<code>'</code>/0<code>'</code>/0/1</p></td>
+<td><p>La seconda chiave privata nell'account principale di Litecoin, per firmare transazioni</p></td>
+</tr>
+</tbody>
+</table>
+++++
+
+Molte persone ((("BIP44 HD wallet tree structure", primary-sortas="BIP044", startref="bip44")))si concentrano sulla protezione dei loro bitcoin contro il furto e altri
+attacchi, ma una delle principali cause di bitcoin persi--forse _la_
+principale causa--è la perdita di dati. Se le chiavi e altri dati essenziali
+necessari per spendere i tuoi bitcoin vengono persi, quei bitcoin saranno per sempre
+non spendibili. Nessuno può recuperarli per te. In questo capitolo,
+abbiamo esaminato i sistemi che le moderne applicazioni wallet utilizzano per aiutarti
+a prevenire la perdita di quei dati. Ricorda, tuttavia, che sta a te
+utilizzare effettivamente i sistemi disponibili per fare buoni backup e ((("key generation", "HD (hierarchical deterministic)", "extended keys", startref="keygen-hd-extend-webstore")))((("HD (hierarchical deterministic) key generation", "extended keys", "web store example", startref="hd-keygen-extend-webstore")))((("extended keys", "web store example", startref="extend-key-webstore")))((("web store example (extended keys)", startref="webstore-extend-key")))((("tree structure in HD wallets", startref="tree-hd-wallet")))((("key generation", "HD (hierarchical deterministic)", "tree structure", startref="keygen-hd-tree")))((("HD (hierarchical deterministic) key generation", "tree structure", startref="hd-keygen-tree")))testarli
+regolarmente.
