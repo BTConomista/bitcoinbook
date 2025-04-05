@@ -10,7 +10,7 @@ developers over the years have worked to design systems that allow users
 to recover access to their bitcoins after a problem without compromising
 security the rest of the time.
 
-In((("wallets", "key generation", "independent", id="wallet-keygen-independent")))((("key generation", "independent", id="keygen-independent")))((("independent key generation", id="independent-keygen")))((("public key cryptography", "wallet recovery key generation", see="key generation"))) this chapter, we'll examine some of the different methods employed by
+In this chapter, we'll examine some of the different methods employed by
 wallets to prevent the loss of data from becoming a loss of money.
 Some solutions have almost no downsides and are universally adopted by
 modern wallets.  We'll simply recommend those solutions as best
@@ -64,19 +64,19 @@ that could only reasonably be backed up using digital media.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
 
 Modern wallet applications don't independently generate keys but instead
-derive them from a single random seed using a ((("wallets", "key generation", "independent", startref="wallet-keygen-independent")))((("key generation", "independent", startref="keygen-independent")))((("independent key generation", startref="independent-keygen")))repeatable (deterministic)
+derive them from a single random seed using a 
 algorithm.
 
 ==== Deterministic Key Generation
 
-A hash function((("wallets", "key generation", "deterministic", id="wallet-keygen-determine")))((("key generation", "deterministic", id="keygen-determine")))((("deterministic key generation", id="determine-keygen")))((("hash functions", "deterministic key generation", id="hash-determine"))) will always produce the same output when given the same
+A hash function will always produce the same output when given the same
 input, but if the input is changed even slightly, the output will be
 different.  If the function is cryptographically secure, nobody should
 be able to predict the new output--not even if they know the new input.
 
 This allows us to take one random value and transform it into a
 practically unlimited number of seemingly random values.  Even more
-useful, later using the same hash function with the same ((("seeds")))input
+useful, later using the same hash function with the same input
 (called a _seed_) will produce the same seemingly random values:
 
 ----
@@ -112,7 +112,7 @@ A logical diagram of basic sequential deterministic key generation is
 shown in <<Type1_wallet>>.  However, modern wallet applications have a
 more clever way of accomplishing this that allows public keys to be
 derived separately from their corresponding private keys, making it
-possible to store private keys more securely than ((("wallets", "key generation", "deterministic", startref="wallet-keygen-determine")))((("key generation", "deterministic", startref="keygen-determine")))((("deterministic key generation", startref="determine-keygen")))((("hash functions", "deterministic key generation", startref="hash-determine")))public keys.
+possible to store private keys more securely than public keys.
 
 [[Type1_wallet]]
 [role="width-70"]
@@ -123,7 +123,7 @@ image::images/mbc3_0502.png["Deterministic Wallet"]
 [[public_child_key_derivation]]
 ==== Public Child Key Derivation
 
-In <<public_key_derivation>>, we learned((("wallets", "key generation", "public child key derivation", id="wallet-keygen-public-child")))((("key generation", "public child key derivation", id="keygen-public-child")))((("public child key derivation", id="public-child-derive")))((("child key pair derivation", id="child-key-pair"))) how to create a public key from a private key
+In <<public_key_derivation>>, we learned how to create a public key from a private key
 using elliptic curve cryptography (ECC).  Although operations on an
 elliptic curve are not intuitive, they are analogous to the addition,
 subtraction, and multiplication operations used in regular
@@ -197,7 +197,7 @@ that corresponds to the public child key Bob created.
 
 In other words, it's possible to create child public keys even if you
 don't know anything about the parent private key.  The value added to a
-public key is ((("key tweaks")))known as a _key tweak._  If a deterministic algorithm is
+public key is known as a _key tweak._  If a deterministic algorithm is
 used for generating the key tweaks, then it's possible for someone
 who doesn't know the private key to create an essentially unlimited
 sequence of public child keys from a single public parent key. The
@@ -209,7 +209,7 @@ frontends (which don't require private keys) from signing operations
 (which do require private keys).  For example, Alice's frontend
 distributes her public keys to people wanting to pay her.  Later, when
 she wants to spend the received money, she can provide the key tweaks
-she used((("hardware signing devices"))) to a _hardware signing device_ (sometimes confusingly called a
+she used to a _hardware signing device_ (sometimes confusingly called a
 _hardware wallet_) that securely stores her original private key.  The
 hardware signer uses the tweaks to derive the necessary child private
 keys and uses them to sign the transactions, returning the signed
@@ -219,12 +219,12 @@ network.
 Public child key derivation can produce a linear sequence of keys
 similar to the previously seen <<Type1_wallet>>, but modern wallet
 applications use one more trick to provide a tree of keys instead a
-single sequence, as described in the((("wallets", "key generation", "public child key derivation", startref="wallet-keygen-public-child")))((("key generation", "public child key derivation", startref="keygen-public-child")))((("public child key derivation", startref="public-child-derive")))((("child key pair derivation", startref="child-key-pair"))) following section.
+single sequence, as described in the following section.
 
 [[hd_wallets]]
 ==== Hierarchical Deterministic (HD) Key Generation (BIP32)
 
-Every ((("wallets", "key generation", "HD (hierarchical deterministic)")))((("key generation", "HD (hierarchical deterministic)")))((("HD (hierarchical deterministic) key generation")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032")))modern Bitcoin wallet of which we're aware uses hierarchical
+Every modern Bitcoin wallet of which we're aware uses hierarchical
 deterministic (HD) key generation by default.  This standard, defined in
 BIP32, uses deterministic key generation and optional public child key
 derivation with an algorithm that produces a tree of keys.
@@ -249,10 +249,10 @@ We'll provide a detailed exploration of HD wallets in <<hd_wallet_details>>.
 
 ==== Seeds and Recovery Codes
 
-HD wallets((("wallets", "recovery codes", id="wallet-recovery2")))((("recovery codes", id="recovery-code2"))) are a very powerful mechanism for managing many
+HD wallets are a very powerful mechanism for managing many
 keys all derived from a single seed.  If your wallet database
 is ever corrupted or lost, you can regenerate all of the private keys
-for your wallet using your ((("seeds")))original seed.  But, if someone else gets
+for your wallet using your original seed.  But, if someone else gets
 your seed, they can also generate all of the private keys, allowing them
 to steal all of the bitcoins from a single-sig wallet and reduce the
 security of bitcoins in multisignature wallets.  In this section, we'll
@@ -278,7 +278,7 @@ garbage claim echo media make crunch
 ----
 ====
 
-There may be cases where ((("memorizing recovery codes")))remembering a recovery code is a powerful
+There may be cases where remembering a recovery code is a powerful
 feature, such as when you are unable to transport physical belongings
 (like a recovery code written on paper) without them being seized or
 inspected by an outside party that might steal your bitcoins.  However,
@@ -307,11 +307,11 @@ Even if you use a type of recovery code that was designed for easy
 memorization, we very strongly encourage you to consider writing it down.
 ====
 
-Several ((("wallets", "recovery codes", "types of", id="wallet-recovery-type")))((("recovery codes", "types of", id="recovery-code-type")))different types of recovery codes are in wide use as of this
+Several different types of recovery codes are in wide use as of this
 writing:
 
 BIP39::
-  The most ((("BIP39 recovery codes", primary-sortas="BIP039")))popular method for generating recovery codes for the
+  The most popular method for generating recovery codes for the
   past decade, BIP39 involves generating a random sequence of bytes,
   adding a checksum to it, and encoding the data into a series of 12 to
   24 words (which may be localized to a user's native language).  The
@@ -320,7 +320,7 @@ BIP39::
   several shortcomings, which later schemes attempt to address.
 
 Electrum v2::
-  Used in((("Electrum v2 recovery codes"))) the Electrum wallet (version 2.0 and above), this word-based
+  Used in the Electrum wallet (version 2.0 and above), this word-based
   recovery code has several advantages over BIP39.  It doesn't rely on a
   global word list that must be implemented by every version of every
   compatible program, plus its recovery codes include a version number that
@@ -329,7 +329,7 @@ Electrum v2::
   key-stretching function.
 
 Aezeed::
-  Used in ((("Aezeed recovery codes")))the LND wallet, this is another word-based recovery code that
+  Used in the LND wallet, this is another word-based recovery code that
   offers improvements over BIP39.  It includes two version numbers: one
   is internal and eliminates several issues with upgrading wallet
   applications (like Electrum v2's version number); the other version
@@ -349,7 +349,7 @@ Aezeed::
 
 [role="less_space pagebreak-before"]
 Muun::
-  Used in ((("Muun recovery codes")))the Muun wallet, which defaults to requiring spending
+  Used in the Muun wallet, which defaults to requiring spending
   transactions be signed by multiple keys, this is a nonword code that
   must be accompanied by additional information (which Muun currently
   provides in a PDF).  This recovery code is unrelated to the seed and
@@ -360,7 +360,7 @@ Muun::
   Lightning Network (LN) support, output script descriptors, and miniscript.
 
 SLIP39::
-  A successor ((("SLIP39 recovery codes")))to BIP39 with some of the same authors, SLIP39 allows
+  A successor to BIP39 with some of the same authors, SLIP39 allows
   a single seed to be distributed using multiple recovery codes that can
   be stored in different places (or by different people).  When you
   create the recovery codes, you can specify how many will be required
@@ -371,7 +371,7 @@ SLIP39::
 
 [NOTE]
 ====
-A new system((("Codex32 recovery codes"))) for distributing recovery codes with similarities to SLIP39
+A new system for distributing recovery codes with similarities to SLIP39
 was proposed during the writing of this book.  Codex32 allows creating
 and validating recovery codes with nothing except printed instructions,
 scissors, a precision knife, brass fasteners, and a pen--plus privacy
@@ -380,14 +380,14 @@ instantly using software on a digital device.  You can create up to 31
 recovery codes to be stored in different places, specifying how many of
 them will be required in order to recover the seed.  As a new proposal,
 details about Codex32 may change significantly before this book is
-published, so we encourage ((("wallets", "recovery codes", "types of", startref="wallet-recovery-type")))((("recovery codes", "types of", startref="recovery-code-type")))any readers interested in distributed
+published, so we encourage any readers interested in distributed
 recovery codes to investigate its https://oreil.ly/Xx_Zq[current
 status].
 ====
 
 .Recovery Code Passphrases
 ****
-The BIP39, ((("wallets", "recovery codes", "passphrases", id="wallet-recovery-passphrase")))((("recovery codes", "passphrases", id="recovery-code-passphrase")))((("passphrases (for recovery codes)", id="passphrase")))Electrum v2, Aezeed, and SLIP39 schemes may all be used with an
+The BIP39, Electrum v2, Aezeed, and SLIP39 schemes may all be used with an
 optional passphrase.  If the only place you keep this passphrase is in
 your memory, it has the same advantages and disadvantages as memorizing
 your recovery code.  However, there's a further set of trade-offs
@@ -442,12 +442,12 @@ Many users and developers disagree on which approach is better, with
 some strongly in favor of plausible deniability and others preferring the
 increased safety that error detection gives novice users and those under
 duress.  We suspect the debate will continue for as long as recovery
-codes continue to be widely ((("wallets", "recovery codes", startref="wallet-recovery2")))((("recovery codes", startref="recovery-code2")))((("passphrases (for recovery codes)", startref="passphrase")))((("wallets", "recovery codes", "passphrases", startref="wallet-recovery-passphrase")))((("recovery codes", "passphrases", startref="recovery-code-passphrase")))used.
+codes continue to be widely used.
 ****
 
 ==== Backing Up Nonkey Data
 
-The ((("wallets", "nonkey data, backing up", id="wallet-nonkey-backups")))((("nonkey data, backing up", id="nonkey-backups")))((("backing up", "nonkey data", id="backup-nonkey")))most important data in a wallet database is its private keys.  If
+The most important data in a wallet database is its private keys.  If
 you lose access to the private keys, you lose the ability to spend your
 bitcoins.  Deterministic key derivation and recovery codes provide a
 reasonably robust solution for backing up and recovering your keys and
@@ -457,7 +457,7 @@ just keys--they also store user-provided information about every
 transaction they sent or received.
 
 For example, when Bob creates a new address as part of sending an
-invoice to Alice, he ((("labels, backing up", id="label-backup")))adds a _label_ to the address he generates
+invoice to Alice, he adds a _label_ to the address he generates
 so that he can distinguish her payment
 from other payments he receives.  When Alice pays Bob's address, she
 labels the transaction as paying Bob for the same reason.  Some wallets
@@ -541,11 +541,11 @@ Later, if the original wallet database is lost, the user can enter their
 recovery code into the wallet application to restore their seed.  The
 application can then retrieve the latest backup file, regenerate the
 encryption key, decrypt the backup, and restore all of the user's labels
-and additional ((("wallets", "nonkey data, backing up", startref="wallet-nonkey-backups")))((("nonkey data, backing up", startref="nonkey-backups")))((("backing up", "nonkey data", startref="backup-nonkey")))protocol data.
+and additional protocol data.
 
 ==== Backing Up Key Derivation Paths
 
-In a ((("wallets", "key generation", "backing up derivation paths", id="wallet-keygen-backups")))((("key generation", "backing up derivation paths", id="keygen-backups")))((("backing up", "key derivation paths", id="backup-key-derive")))BIP32 tree of keys, there are approximately four billion first-level
+In a BIP32 tree of keys, there are approximately four billion first-level
 keys; each of those keys can have its own four billion children, with
 those children each potentially having four billion children of their
 own, and so on.  It's not possible for a wallet application to generate
@@ -563,7 +563,7 @@ defining what key derivation path to use.  For example, BIP44 defines
 `m/44'/0'/0'` as the path to use for keys in P2PKH scripts (a
 legacy address).  A wallet application implementing this standard uses
 the keys in that path both when it is first started and after a
-restoration from a recovery code.  We call((("implicit paths", id="implicit-path"))) this solution _implicit
+restoration from a recovery code.  We call this solution _implicit
 paths_. Several popular implicit paths defined by BIPs are shown in <<bip_implicit_paths>>
 
 ++++
@@ -603,7 +603,7 @@ paths_. Several popular implicit paths defined by BIPs are shown in <<bip_implic
 
 [role="less_space pagebreak-before"]
 The second solution is to back up the path information with the recovery
-code, making it clear which path is used with which scripts.  We ((("explicit paths", id="explicit-path")))call
+code, making it clear which path is used with which scripts.  We call
 this _explicit paths_.
 
 The advantage of implicit paths is that users don't need to keep a record
@@ -693,7 +693,7 @@ single signature scripts to use implicit paths.  Wallet applications
 designed for multiple signatures or other advanced scripts are
 increasingly adopting support for explicit paths using descriptors.
 Applications that do both will usually conform to the standards for
-implicit paths and also provide ((("wallets", "key generation", "backing up derivation paths", startref="wallet-keygen-backups")))((("key generation", "backing up derivation paths", startref="keygen-backups")))((("backing up", "key derivation paths", startref="backup-key-derive")))((("implicit paths", startref="implicit-path")))((("explicit paths", startref="explicit-path")))descriptors.
+implicit paths and also provide descriptors.
 
 === A Wallet Technology Stack in Detail
 
@@ -716,7 +716,7 @@ modern standards that may provide additional features or safety.
 [[recovery_code_words]]
 ==== BIP39 Recovery Codes
 
-BIP39 ((("wallets", "recovery codes", id="wallet-recovery-bip39")))((("recovery codes", id="recovery-code-bip39")))((("BIP39 recovery codes", primary-sortas="BIP039", id="bip39-recovery")))recovery codes are word
+BIP39 recovery codes are word
 sequences that represent (encode) a random number used as a seed to
 derive a deterministic wallet. The sequence of words is sufficient to
 re-create the seed and from there, re-create all the
@@ -730,7 +730,7 @@ transcribe.
 
 [TIP]
 ====
-Recovery codes((("brainwallets"))) are often confused with
+Recovery codes are often confused with
 "brainwallets." They are not the same. The primary difference is that a
 brainwallet consists of words chosen by the user, whereas recovery codes
 are created randomly by the wallet and presented to the user. This
@@ -751,7 +751,7 @@ steps 7 through 9 are shown in <<recovery_to_seed>>.
 [[generating_recovery_words]]
 ===== Generating a recovery code
 
-Recovery((("wallets", "recovery codes", "generating", id="wallet-recovery-bip39-generate")))((("recovery codes", "generating", id="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", id="bip39-recovery-generate")))((("entropy", "recovery code generation", id="entropy-recovery-generate"))) codes are generated automatically by the wallet application using the
+Recovery codes are generated automatically by the wallet application using the
 standardized process defined in BIP39. The wallet starts from a source
 of entropy, adds a checksum, and then maps the entropy to a word list:
 
@@ -777,7 +777,7 @@ generate a BIP39 recovery code.
 image::images/mbc3_0504.png["Generating entropy and encoding as a recovery code"]
 
 <<table_4-5>> shows the relationship between the size of the entropy
-data and the length of recovery code in((("wallets", "recovery codes", "generating", startref="wallet-recovery-bip39-generate")))((("recovery codes", "generating", startref="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", startref="bip39-recovery-generate")))((("entropy", "recovery code generation", startref="entropy-recovery-generate"))) words.
+data and the length of recovery code in words.
 
 ++++
 <table id="table_4-5">
@@ -829,14 +829,14 @@ data and the length of recovery code in((("wallets", "recovery codes", "generati
 [[recovery_to_seed]]
 ===== From recovery code to seed
 
-The ((("wallets", "recovery codes", "seed generation", id="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", id="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", id="bip39-recovery-seed")))((("entropy", "seed generation", id="entropy-seed-generate")))((("seeds", "generating", id="seed-generate")))((("key-stretching functions", id="key-stretch")))recovery code
+The recovery code
 represents entropy with a length of 128 to 256 bits. The entropy is then
 used to derive a longer (512-bit) seed through the use of the
 https://oreil.ly/6lwbd[key-stretching function PBKDF2]. The seed produced is then used to build
 a deterministic wallet and derive its keys.
 
 The key-stretching function takes two
-parameters: the entropy and((("salt"))) a _salt_. The purpose of a salt in a
+parameters: the entropy and a _salt_. The purpose of a salt in a
 key-stretching function is to make it difficult to build a lookup table
 enabling a brute-force attack. In the BIP39 standard, the salt has
 another purpose--it allows the introduction of a passphrase that
@@ -1014,13 +1014,13 @@ recovery code across multiple locations without relying on the safety of
 any individual code.
 
 As of 2023, most modern wallets generate 128 bits of entropy for their
-recovery codes (or a value near 128, such as((("wallets", "recovery codes", "seed generation", startref="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", startref="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", startref="bip39-recovery-seed")))((("entropy", "seed generation", startref="entropy-seed-generate")))((("seeds", "generating", startref="seed-generate"))) Electrum v2's 132 bits).
+recovery codes (or a value near 128, such as Electrum v2's 132 bits).
 ****
 
 [[recovery_passphrase]]
 ===== Optional passphrase in BIP39
 
-The((("wallets", "recovery codes", "passphrases", id="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", id="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", id="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", id="passphrase-optional"))) BIP39 standard allows the use of an optional
+The BIP39 standard allows the use of an optional
 passphrase in the derivation of the seed. If no passphrase is used, the
 recovery code is stretched with a salt consisting of the constant string
 +"mnemonic"+, producing a specific 512-bit seed from any given recovery code.
@@ -1055,7 +1055,7 @@ It's important to note that the use of a passphrase also introduces the risk of 
 
 * If the wallet owner is incapacitated or dead and no one else knows the passphrase, the seed is useless and all the funds stored in the wallet are lost forever.
 
-* Conversely, if the owner backs up the passphrase in the same place as the seed, it defeats the purpose of a second((("wallets", "recovery codes", startref="wallet-recovery-bip39")))((("recovery codes", startref="recovery-code-bip39")))((("BIP39 recovery codes", primary-sortas="BIP039", startref="bip39-recovery")))((("wallets", "recovery codes", "passphrases", startref="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", startref="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", startref="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", startref="passphrase-optional"))) factor.
+* Conversely, if the owner backs up the passphrase in the same place as the seed, it defeats the purpose of a second factor.
 
 ++++
 <p class="fix_tracking2">
@@ -1069,7 +1069,7 @@ her family to recover the cryptocurrency estate.
 [[hd_wallet_details]]
 ==== Creating an HD Wallet from the Seed
 
-HD wallets ((("wallets", "key generation", "HD (hierarchical deterministic)", id="wallet-keygen-hd")))((("key generation", "HD (hierarchical deterministic)", id="keygen-hd")))((("HD (hierarchical deterministic) key generation", id="hd-keygen")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032", id="bip32")))((("seeds", "HD wallet creation", id="seed-hdwallet")))are created from a ((("root seeds")))single _root seed_, which is a
+HD wallets single _root seed_, which is a
 128-, 256-, or 512-bit random number. Most commonly, this seed is
 generated by or decrypted from a recovery code as detailed in the previous section.
 
@@ -1098,7 +1098,7 @@ creates child keys from parent keys, as we will see in the next section.
 
 ===== Private child key derivation
 
-HD wallets ((("key generation", "HD (hierarchical deterministic)", "private child key derivation", id="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", id="hd-keygen-private-child")))((("private child key derivation", id="private-child")))((("child key pair derivation", "private keys", id="child-key-pair-private")))use a _child key derivation_ (CKD)
+HD wallets use a _child key derivation_ (CKD)
 function to derive child keys from parent keys.
 
 The child key derivation functions are based on a one-way hash function
@@ -1164,13 +1164,13 @@ A child private key, the corresponding public key, and the Bitcoin
 address are all indistinguishable from keys and addresses created
 randomly. The fact that they are part of a sequence is not visible
 outside of the HD wallet function that created them. Once created, they
-operate exactly((("key generation", "HD (hierarchical deterministic)", "private child key derivation", startref="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", startref="hd-keygen-private-child")))((("private child key derivation", startref="private-child")))((("child key pair derivation", "private keys", startref="child-key-pair-private"))) as "normal" keys.
+operate exactly as "normal" keys.
 ====
 
 ===== Extended keys
 
 As
-we saw ((("key generation", "HD (hierarchical deterministic)", "extended keys", id="keygen-hd-extend")))((("HD (hierarchical deterministic) key generation", "extended keys", "explained", id="hd-keygen-extend")))((("extended keys", "explained", id="extend-key")))earlier, the key derivation function can be used to create
+we saw earlier, the key derivation function can be used to create
 children at any level of the tree, based on the three inputs: a key, a
 chain code, and the index of the desired child. The two essential
 ingredients are the key and chain code, and combined these are called an
@@ -1220,7 +1220,7 @@ LrtJunSDMstweyLXhRgPxdp14sk9tJPW9
 ===== Public child key derivation
 
 As
-mentioned  previously, ((("key generation", "HD (hierarchical deterministic)", "public child key derivation", id="keygen-hd-public-child")))((("HD (hierarchical deterministic) key generation", "public child key derivation", id="hd-keygen-public-child")))((("public child key derivation", id="public-child")))((("child key pair derivation", "public keys", id="child-key-pair-public")))a very useful characteristic of HD wallets is the
+mentioned  previously, a very useful characteristic of HD wallets is the
 ability to derive public child keys from public parent keys _without_
 having the private keys. This gives us two ways to derive a child public
 key: either from the child private key or directly from the parent
@@ -1251,7 +1251,7 @@ doesn't "run out" of keys.
 
 .Mind the Gap
 ****
-An ((("gap limit", id="gap-limit")))extended public key can generate approximately 4 billion direct
+An extended public key can generate approximately 4 billion direct
 child keys, far more than any store or application should ever need.
 However, it would also take a wallet application an unreasonable amount
 of time to generate all 4 billion keys and scan the blockchain for
@@ -1295,7 +1295,7 @@ been proposed, such as
 asking the spender's wallet to construct (but not broadcast) a
 transaction paying a possibly reused address before they receive a fresh
 address for the actual transaction.  However, these other solutions have
-not been used in production as of this((("gap limit", startref="gap-limit"))) writing.
+not been used in production as of this writing.
 ****
 
 Another common application of this solution is for
@@ -1306,7 +1306,7 @@ user can create "receive" addresses at will, while the private keys are
 safely stored offline. To spend the funds, the user can use the extended
 private key on an offline software wallet application or
 the hardware signing device. <<CKDpub>> illustrates the
-mechanism for extending a parent public key to derive child ((("wallets", "key generation", "HD (hierarchical deterministic)", startref="wallet-keygen-hd")))((("key generation", "HD (hierarchical deterministic)", startref="keygen-hd")))((("HD (hierarchical deterministic) key generation", startref="hd-keygen")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032", startref="bip32")))((("seeds", "HD wallet creation", startref="seed-hdwallet")))((("key generation", "HD (hierarchical deterministic)", "public child key derivation", startref="keygen-hd-public-child")))((("HD (hierarchical deterministic) key generation", "public child key derivation", startref="hd-keygen-public-child")))((("public child key derivation", startref="public-child")))((("child key pair derivation", "public keys", startref="child-key-pair-public")))public keys.
+mechanism for extending a parent public key to derive child public keys.
 
 [[CKDpub]]
 .Extending a parent public key to create a child public key.
@@ -1314,7 +1314,7 @@ image::images/mbc3_0508.png["ChildPublicDerivation"]
 
 ==== Using an Extended Public Key on a Web Store
 
-Let's see ((("key generation", "HD (hierarchical deterministic)", "extended keys", id="keygen-hd-extend-webstore")))((("HD (hierarchical deterministic) key generation", "extended keys", "web store example", id="hd-keygen-extend-webstore")))((("extended keys", "web store example", id="extend-key-webstore")))((("web store example (extended keys)", id="webstore-extend-key")))how HD wallets are used by looking at
+Let's see how HD wallets are used by looking at
 Gabriel's web store.
 
 Gabriel first set up his web store as a hobby, based on a simple hosted
@@ -1363,7 +1363,7 @@ software, such as the widely used open source BTCPay Server.
 
 ===== Hardened child key derivation
 
-The ((("private child key derivation", "hardened derivation", id="private-child-harden")))((("child key pair derivation", "hardened derivation", id="child-key-pair-harden")))((("hardened child key derivation", id="harden-child-key")))ability to derive a branch
+The ability to derive a branch
 of public keys from an xpub is very useful, but it comes with a
 potential risk. Access to an xpub does not give access to child private
 keys. However, because the xpub contains the chain code, if a child
@@ -1406,7 +1406,7 @@ prevent compromise of the master keys.
 
 ===== Index numbers for normal and hardened derivation
 
-The index number ((("index numbers for hardened derivation")))used in the derivation function is a 32-bit integer. To
+The index number used in the derivation function is a 32-bit integer. To
 easily distinguish between keys created through the normal derivation
 function versus keys derived through hardened derivation, this index
 number is split into two ranges. Index numbers between 0 and
@@ -1426,11 +1426,11 @@ wallet index i++&#x27;++, that means 2^31^+i.  In regular ASCII text, the
 prime symbol is substituted with either a single apostrophe or the
 letter _h_.  For situations, such as in output script descriptors, where
 text may be used in a shell or other context where a single apostrophe
-has special meaning, using the letter _h_ is ((("private child key derivation", "hardened derivation", startref="private-child-harden")))((("child key pair derivation", "hardened derivation", startref="child-key-pair-harden")))((("hardened child key derivation", startref="harden-child-key")))recommended.
+has special meaning, using the letter _h_ is recommended.
 
 ===== HD wallet key identifier (path)
 
-Keys in ((("path references in HD wallets")))((("key generation", "HD (hierarchical deterministic)", "path references")))((("HD (hierarchical deterministic) key generation", "path references")))an HD wallet are
+Keys in an HD wallet are
 identified using a "path" naming convention, with each level of the tree
 separated by a slash (/) character (see <<table_4-8>>). Private keys
 derived from the master private key start with "m." Public keys derived
@@ -1479,7 +1479,7 @@ child of key m/x, which is the x-th child of m.
 
 ===== Navigating the HD wallet tree structure
 
-The((("tree structure in HD wallets", id="tree-hd-wallet")))((("key generation", "HD (hierarchical deterministic)", "tree structure", id="keygen-hd-tree")))((("HD (hierarchical deterministic) key generation", "tree structure", id="hd-keygen-tree"))) HD wallet tree structure offers tremendous flexibility. Each parent
+The HD wallet tree structure offers tremendous flexibility. Each parent
 extended key can have 4 billion children: 2 billion normal children and
 2 billion hardened children. Each of those children can have another 4
 billion children, and so on. The tree can be as deep as you want, with
@@ -1490,7 +1490,7 @@ because the possibilities for internal organization into branches and
 subbranches are endless.
 
 Two BIPs offer a solution to this complexity by creating some proposed
-standards for the structure of HD wallet trees. ((("BIP43 HD wallet tree structure", primary-sortas="BIP043")))BIP43 proposes the use
+standards for the structure of HD wallet trees. BIP43 proposes the use
 of the first hardened child index as a special identifier that signifies
 the "purpose" of the tree structure. Based on BIP43, an HD wallet
 should use only one level-1 branch of the tree, with the index number
@@ -1499,7 +1499,7 @@ defining its purpose. For example, an HD wallet using only branch
 m/i++&#x27;++/ is intended to signify a specific purpose, and that
 purpose is identified by index number "i."
 
-Extending that specification, ((("BIP44 HD wallet tree structure", primary-sortas="BIP044", id="bip44")))BIP44 proposes a multiaccount structure
+Extending that specification, BIP44 proposes a multiaccount structure
 as "purpose" number +44'+ under BIP43. All HD wallets following the
 BIP44 structure are identified by the fact that they only used one
 branch of the tree: m/44++'++/.
@@ -1561,12 +1561,12 @@ a few more examples.
 </table>
 ++++
 
-Many people ((("BIP44 HD wallet tree structure", primary-sortas="BIP044", startref="bip44")))focus on securing their bitcoins against theft and other
+Many people focus on securing their bitcoins against theft and other
 attacks, but one of the leading causes of lost bitcoins--perhaps _the_
 leading cause--is data loss.  If the keys and other essential data
 required to spend your bitcoins is lost, those bitcoins will forever be
 unspendable.  Nobody can get them back for you.  In this chapter, we
 looked at the systems that modern wallet applications use to help you
 prevent losing that data.  Remember, however, that it's up to you to
-actually use the systems available to make good backups and ((("key generation", "HD (hierarchical deterministic)", "extended keys", startref="keygen-hd-extend-webstore")))((("HD (hierarchical deterministic) key generation", "extended keys", "web store example", startref="hd-keygen-extend-webstore")))((("extended keys", "web store example", startref="extend-key-webstore")))((("web store example (extended keys)", startref="webstore-extend-key")))((("tree structure in HD wallets", startref="tree-hd-wallet")))((("key generation", "HD (hierarchical deterministic)", "tree structure", startref="keygen-hd-tree")))((("HD (hierarchical deterministic) key generation", "tree structure", startref="hd-keygen-tree")))regularly
+actually use the systems available to make good backups and regularly
 test them.
