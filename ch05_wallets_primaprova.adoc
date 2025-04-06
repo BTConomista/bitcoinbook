@@ -68,13 +68,6 @@ f1cc 3bc0 3ef5 1cb4 3ee7 8444 60fa 5049
 e779 e742 5a63 49c8 e89d fbb0 fd97 bb73
 ----
 
-
-
-
-
-
-
-
 Un diagramma logico della generazione deterministica sequenziale di base è mostrato in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet adottano un metodo più ingegnoso per ottenere lo stesso risultato, che consente di derivare le chiavi pubbliche separatamente dalle corrispondenti chiavi private, rendendo possibile conservare le chiavi private in modo più sicuro rispetto a quelle pubbliche.
 
 [[Type1_wallet]]
@@ -82,21 +75,10 @@ Un diagramma logico della generazione deterministica sequenziale di base è most
 .Generazione deterministica delle chiavi: una sequenza deterministica di chiavi derivate da un seed per un database wallet.
 image::images/mbc3_0502.png["Deterministic Wallet"]
 
-
-
-
-
 [[public_child_key_derivation]]
 ==== Derivazione di Chiavi Pubbliche Figlie
 
-In <<public_key_derivation>>, abbiamo appreso come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni su una
-curva ellittica non siano intuitive, sono analoghe alle operazioni di addizione,
-sottrazione e moltiplicazione utilizzate nell'aritmetica regolare.
-In altre parole, è possibile aggiungere o sottrarre da una
-chiave pubblica, o moltiplicarla. Considera l'operazione che abbiamo usato in
-<<public_key_derivation>> per
-generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore
-(_G_):
+In <<public_key_derivation>>, abbiamo visto come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni sulle curve ellittiche non siano intuitive, sono analoghe all’addizione, sottrazione e moltiplicazione dell’aritmetica tradizionale. In altre parole, è possibile sommare, sottrarre o moltiplicare una chiave pubblica. Considera l'operazione che abbiamo usato in <<public_key_derivation>> per generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore (_G_):
 
 [latexmath]
 ++++
@@ -105,8 +87,7 @@ generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il pu
 \end{equation}
 ++++
 
-È possibile creare una coppia di chiavi derivate, chiamata coppia di chiavi figlie, semplicemente
-aggiungendo lo stesso valore a entrambi i lati dell'equazione:
+È possibile generare una coppia di chiavi derivate, chiamata coppia figlia, semplicemente sommando lo stesso valore a entrambi i lati dell’equazione:
 
 ////
 [latexmath]
@@ -117,74 +98,26 @@ K + (123 \times G) =\!\!\!= (k + 123) \times G
 ++++
 ////
 
-++++
-<div data-type="equation">
-<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="upper K plus left-parenthesis 123 times upper G right-parenthesis equals equals left-parenthesis k plus 123 right-parenthesis times upper G" display="block">
-  <mrow>
-    <mi>K</mi>
-    <mo>+</mo>
-    <mo>(</mo>
-    <mn>123</mn>
-    <mo>×</mo>
-    <mi>G</mi>
-    <mo>)</mo>
-    <mo>==</mo>
-    <mo>(</mo>
-    <mi>k</mi>
-    <mo>+</mo>
-    <mn>123</mn>
-    <mo>)</mo>
-    <mo>×</mo>
-    <mi>G</mi>
-  </mrow>
-</math>
-</div>
-++++
+++++ 
+
+K + ( 123 × G ) == ( k + 123 ) × G 
+
+++++ 
 
 
 [TIP]
 ====
 Nelle equazioni di questo libro, utilizziamo un singolo segno di uguale per
-operazioni come _K_ = _k_ × _G_ dove viene calcolato il valore di una variabile.
-Utilizziamo un doppio segno di uguale per mostrare che entrambi i lati di un'
-equazione sono equivalenti, o che un'operazione dovrebbe restituire falso (non
-vero) se i due lati non sono equivalenti.
+operazioni come _K_ = _k_ × _G_ in cui si assegna un valore a una variabile. Usiamo invece il doppio segno di uguale per indicare che i due lati di un’equazione sono equivalenti, oppure per stabilire che un’operazione debba restituire false (anziché true) se i due lati non sono equivalenti.
 ====
 
-Una conseguenza interessante di questo è che aggiungere 123 alla chiave
-pubblica può essere fatto utilizzando interamente informazioni pubbliche. Per esempio, Alice
-genera la chiave pubblica _K_ e la dà a Bob. Bob non conosce la
-chiave privata, ma conosce la costante globale _G_, quindi può aggiungere qualsiasi
-valore alla chiave pubblica per produrre una chiave figlia pubblica derivata. Se poi
-dice ad Alice il valore che ha aggiunto alla chiave pubblica, lei può aggiungere lo
-stesso valore alla chiave privata, producendo una chiave figlia privata derivata
-che corrisponde alla chiave figlia pubblica creata da Bob.
+Una conseguenza interessante di questo meccanismo è che aggiungere 123 alla chiave pubblica è possibile utilizzando esclusivamente informazioni pubbliche. Per esempio, Alice genera la chiave pubblica _K_ e la fornisce a Bob. Bob non conosce la chiave privata, ma conosce la costante globale _G_, quindi può aggiungere qualsiasi valore alla chiave pubblica per produrre una chiave pubblica figlia. Se poi comunica ad Alice il valore che ha aggiunto, lei può sommare lo stesso valore alla chiave privata, ottenendo una chiave privata figlia che corrisponde alla chiave pubblica figlia generata da Bob.
 
-In altre parole, è possibile creare chiavi pubbliche figlie anche se non si
-sa nulla della chiave privata genitore. Il valore aggiunto a una
-chiave pubblica è noto come _modifica della chiave (key tweak)_. Se un algoritmo deterministico è
-utilizzato per generare le modifiche delle chiavi, allora è possibile per qualcuno
-che non conosce la chiave privata creare una sequenza essenzialmente illimitata
-di chiavi figlie pubbliche da una singola chiave genitore pubblica. La
-persona che controlla la chiave genitore privata può quindi utilizzare le stesse modifiche
-delle chiavi per creare tutte le corrispondenti chiavi figlie private.
+In altre parole, è possibile creare chiavi pubbliche figlie anche senza conoscere nulla della chiave privata genitore. Il valore aggiunto a una chiave pubblica è noto come _key tweak_ (modifica applicata alla chiave). Se si utilizza un algoritmo deterministico per generare i key tweak, allora chi non conosce la chiave privata può creare una sequenza praticamente illimitata di chiavi pubbliche figlie a partire da una singola chiave pubblica genitore. La persona che controlla la chiave privata genitore può quindi usare gli stessi key tweak per generare tutte le corrispondenti chiavi private figlie.
 
-Questa tecnica è comunemente utilizzata per separare le interfacce
-delle applicazioni wallet (che non richiedono chiavi private) dalle operazioni di firma
-(che richiedono chiavi private). Per esempio, l'interfaccia di Alice
-distribuisce le sue chiavi pubbliche alle persone che vogliono pagarla. Successivamente, quando
-vuole spendere il denaro ricevuto, può fornire le modifiche delle chiavi
-che ha utilizzato a un _dispositivo di firma hardware_ (a volte chiamato in modo fuorviante
-_wallet hardware_) che memorizza in modo sicuro la sua chiave privata originale. Il
-dispositivo di firma hardware utilizza le modifiche per derivare le necessarie chiavi private figlie
-e le utilizza per firmare le transazioni, restituendo le transazioni firmate
-all'interfaccia meno sicura per la trasmissione alla rete
-Bitcoin.
+Questa tecnica è comunemente utilizzata per separare il frontend dell’applicazione wallet (cioè la parte che interagisce con l’utente e non richiede l’accesso alle chiavi private) dalle operazioni di firma (che invece richiedono le chiavi private). Per esempio, il frontend di Alice distribuisce le sue chiavi pubbliche alle persone che vogliono pagarla. Successivamente, quando vuole spendere il denaro ricevuto, può fornire i key tweak che ha utilizzato a un dispositivo di firma hardware (a volte chiamato, in modo fuorviante, _hardware wallet_) che conserva in modo sicuro la sua chiave privata originale. Il dispositivo di firma utilizza i key tweak per derivare le necessarie chiavi private figlie e firmare le transazioni, restituendole al frontend meno sicuro, che le trasmette alla rete Bitcoin.
 
-La derivazione di chiavi figlie pubbliche può produrre una sequenza lineare di chiavi
-simile a quella vista in precedenza in <<Type1_wallet>>, ma le moderne applicazioni wallet
-utilizzano un ulteriore trucco per fornire un albero di chiavi invece di una
-singola sequenza, come descritto nella sezione seguente.
+La derivazione di chiavi pubbliche figlie può produrre una sequenza lineare di chiavi, simile a quella vista in precedenza in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet adottano un’ulteriore tecnica che consente di organizzare le chiavi in una struttura a forma di albero, anziché come una singola sequenza, come descritto nella sezione seguente.
 
 [[hd_wallets]]
 ==== Generazione Gerarchica Deterministica (HD) delle Chiavi (BIP32)
@@ -203,16 +136,17 @@ sulla profondità dell'albero. Questa struttura ad albero è illustrata in
 .Wallet HD: un albero di chiavi generate da un singolo seed.
 image::images/mbc3_0503.png["HD wallet"]
 
-La struttura ad albero può essere utilizzata per esprimere ulteriori
-significati organizzativi, come quando un ramo specifico di sottochiavi viene
-utilizzato per ricevere pagamenti in entrata e un ramo diverso viene utilizzato per
-ricevere il resto dai pagamenti in uscita. I rami di chiavi possono anche essere utilizzati
-in contesti aziendali, assegnando diversi rami a dipartimenti,
-filiali, funzioni specifiche o categorie contabili.
+La struttura ad albero può essere utilizzata per scopi organizzativi più avanzati, ad esempio quando un ramo specifico di chiavi figlie viene utilizzato per ricevere pagamenti in entrata e un altro ramo distinto per ricevere il resto derivante da transazioni in uscita. Anche in ambito aziendale è possibile utilizzare rami separati, assegnandoli a dipartimenti, filiali, funzioni specifiche o categorie contabili.
 
-Forniremo un'esplorazione dettagliata dei wallet HD in <<hd_wallet_details>>.
+Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 
 ==== Seed e Codici di Recupero
+
+
+
+
+
+
 
 I wallet HD sono un meccanismo molto potente per gestire molte
 chiavi tutte derivate da un singolo seed. Se il tuo database wallet
