@@ -141,31 +141,20 @@ La struttura ad albero può essere utilizzata per scopi organizzativi più avanz
 Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 
 ==== Seed e Codici di Recupero
+I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a compromettere la sicurezza dei bitcoin conservati in wallet multifirma.
+In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere i backup più semplici e sicuri.
+
+Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di uso comune. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
+Per esempio, considera il codice di recupero rappresentato sia in esadecimale che in forma di parole, in <<hex_seed_vs_recovery_words>>.
 
 
 
 
 
 
-
-I wallet HD sono un meccanismo molto potente per gestire molte
-chiavi tutte derivate da un singolo seed. Se il tuo database wallet
-viene mai danneggiato o perso, puoi rigenerare tutte le chiavi private
-per il tuo wallet utilizzando il tuo seed originale. Ma, se qualcun altro ottiene
-il tuo seed, può anche generare tutte le chiavi private, permettendogli
-di rubare tutti i bitcoin da un wallet a firma singola e ridurre la
-sicurezza dei bitcoin nei wallet multifirma. In questa sezione, esamineremo
-diversi _codici di recupero_, che sono destinati a rendere i backup
-più facili e sicuri.
-
-Sebbene i seed siano grandi numeri casuali, solitamente da 128 a 256 bit, la maggior parte
-dei codici di recupero utilizza parole del linguaggio umano. Gran parte della motivazione
-per l'utilizzo di parole era rendere un codice di recupero facile da ricordare. Per
-esempio, considera il codice di recupero codificato sia in esadecimale che in
-parole in <<hex_seed_vs_recovery_words>>.
 
 [[hex_seed_vs_recovery_words]]
-.Un seed codificato in esadecimale e in parole inglesi
+.Un seed codificato in esadecimale e in forma di parole (in inglese)
 ====
 ----
 Codifica esadecimale:
@@ -177,28 +166,15 @@ garbage claim echo media make crunch
 ----
 ====
 
-Ci possono essere casi in cui ricordare un codice di recupero è una caratteristica
-potente, come quando non sei in grado di trasportare beni fisici
-(come un codice di recupero scritto su carta) senza che vengano sequestrati o
-ispezionati da una parte esterna che potrebbe rubare i tuoi bitcoin. Tuttavia,
-nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
+Ci sono situazioni in cui ricordare un codice di recupero può rappresentare un grande vantaggio, ad esempio quando non puoi trasportare supporti fisici (come un codice di recupero scritto su carta) senza il rischio che vengano sequestrati o ispezionati da terzi che potrebbero rubare i tuoi bitcoin. Tuttavia, nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
 
-- Se dimentichi il tuo codice di recupero e perdi l'accesso al tuo database
-  wallet originale, i tuoi bitcoin sono persi per sempre.
+- Se dimentichi il tuo codice di recupero e perdi l’accesso al tuo database wallet originale, non potrai più recuperare i tuoi bitcoin: saranno persi per sempre.
 
-- Se muori o subisci un grave infortunio, e i tuoi eredi non hanno accesso
-  al tuo database wallet originale, non saranno in grado di ereditare i tuoi
-  bitcoin.
+- Se muori o subisci una grave lesione e i tuoi eredi non hanno accesso al tuo database wallet originale, non potranno ereditare i tuoi bitcoin.
 
-- Se qualcuno pensa che tu abbia memorizzato un codice di recupero che gli darà
-  accesso ai bitcoin, potrebbe tentare di costringerti a
-  rivelare quel codice. Al momento della stesura, il contributore di Bitcoin Jameson
-  Lopp ha
+- Se qualcuno sospetta che tu abbia memorizzato un codice di recupero che consente l’accesso ai bitcoin, potrebbe cercare di obbligarti a rivelarlo. Al momento in cui scriviamo, il contributore di Bitcoin Jameson Lopp ha
   https://oreil.ly/aw5XM[documentato]
-  oltre 100 attacchi fisici contro presunti proprietari di bitcoin e
-  altri asset digitali, inclusi almeno tre decessi e numerosi
-  casi in cui qualcuno è stato torturato, tenuto in ostaggio o ha avuto la propria
-  famiglia minacciata.
+oltre 100 attacchi fisici contro presunti proprietari di bitcoin e altri asset digitali, inclusi almeno tre decessi e numerosi casi in cui le vittime sono state torturate, tenute in ostaggio o hanno subito minacce alla propria famiglia.
 
 [TIP]
 ====
