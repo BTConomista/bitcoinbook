@@ -6,7 +6,7 @@ A differenza del contante, i bitcoin non esistono né in forma fisica né come d
 
 Consideriamo invece come Alice potrebbe trasferire a Bob la proprietà di un appezzamento di terreno. Non può fisicamente sollevare il terreno e consegnarlo a Bob. Esiste invece un registro (solitamente tenuto da un ente governativo locale) che descrive il terreno di proprietà di Alice. Alice trasferisce quel terreno a Bob convincendo l'ente responsabile ad aggiornare il registro per attestare che Bob è ora il nuovo proprietario.
 
-Bitcoin funziona in modo analogo. Su ogni nodo completo Bitcoin esiste un database che registra quali bitcoin controlla Alice. Alice paga Bob convincendo i nodi completi ad aggiornare il proprio database, indicando che alcuni dei bitcoin di Alice sono ora sotto il controllo di Bob. I dati che Alice utilizza per convincere i nodi completi ad aggiornare i loro database costituiscono una _transazione_. Questo processo avviene senza utilizzare direttamente le identità di Alice o Bob, come vedremo in <<c_authorization_authentication>>.
+Bitcoin funziona in modo analogo. Su ogni full node di Bitcoin esiste un database che registra quali bitcoin controlla Alice. Alice paga Bob convincendo i full node ad aggiornare il proprio database, indicando che alcuni dei bitcoin di Alice sono ora sotto il controllo di Bob. I dati che Alice utilizza per convincere i nodi completi ad aggiornare i loro database costituiscono una _transazione_. Questo processo avviene senza utilizzare direttamente le identità di Alice o Bob, come vedremo in <<c_authorization_authentication>>.
 
 In questo capitolo analizzeremo nel dettaglio una transazione Bitcoin ed esamineremo ciascuna delle sue componenti per capire come permettono il trasferimento di valore in modo estremamente versatile e incredibilmente affidabile.
 
@@ -32,7 +32,14 @@ e739df2f899c49dc267c0ad280aca6dab0d2fa2b42a45182fc83e81713010000
 ----
 ====
 
+
+
+
 Il formato di serializzazione di Bitcoin Core è particolare perché è quello utilizzato per creare impegni vincolanti (commitment) relativi alle transazioni e per propagarle attraverso la rete P2P di Bitcoin. Tuttavia, i programmi possono utilizzare un formato differente, a patto che trasmettano la stessa identica serie di dati. Ciononostante, il formato di Bitcoin Core è ragionevolmente compatto per i dati che veicola e semplice da elaborare (parsing), motivo per cui molti altri programmi Bitcoin adottano questo formato.
+
+
+
+
 
 [TIP]
 ====
@@ -66,16 +73,19 @@ Se si implementa un protocollo che utilizza transazioni pre-firmate, è necessar
 
 Al momento della stesura di questo testo, è in fase di ampia discussione una proposta per iniziare a utilizzare le transazioni di versione 3. Tale proposta non mira a modificare le regole di consenso, ma soltanto la policy utilizzata dai nodi completi Bitcoin per l'inoltro (relay) delle transazioni. Secondo questa proposta, le transazioni di versione 3 sarebbero soggette a vincoli aggiuntivi volti a prevenire determinati attacchi di tipo Denial of Service (DoS), che approfondiremo nella sezione <<transaction_pinning>>.
 
-=== Marker e Flag (Formato Esteso)
+=== Marker esteso e Flag
 
-I due campi successivi ((("transactions", "extended serialization format")))((("extended serialization format")))((("BIP144 extended serialization format"))) della transazione serializzata d'esempio sono stati aggiunti nell'ambito del soft fork Segregated Witness (SegWit), che ha modificato le regole di consenso di Bitcoin. Le regole sono state modificate conformemente ai BIP 141 e 143, ma il _formato di serializzazione esteso_ è definito nel BIP144.
+I due campi successivi della transazione serializzata d'esempio sono stati aggiunti nell'ambito del soft fork Segregated Witness (SegWit), che ha modificato le regole di consenso di Bitcoin. Le regole sono state modificate conformemente ai BIP 141 e 143, ma il _formato di serializzazione esteso_ è definito nel BIP144.
 
 [role="less_space pagebreak-before"]
 Se la transazione include una struttura dati witness (descritta in <<witness_structure>>), il campo marker deve essere zero (0x00) e il campo flag deve essere non-zero. Nell'attuale protocollo P2P, il flag dovrebbe sempre valere uno (0x01); valori alternativi per il flag sono riservati a futuri aggiornamenti del protocollo.
 
 Se la transazione non necessita di uno stack witness, i campi marker e flag non devono essere presenti. Ciò garantisce la compatibilità con il formato di serializzazione originale delle transazioni Bitcoin, ora denominato _serializzazione legacy_. Per i dettagli, si veda <<legacy_serialization>>.
 
-Nella ((("transactions", "legacy serialization")))((("legacy serialization")))serializzazione legacy, il byte del marker sarebbe stato interpretato come il numero di input (zero). Poiché una transazione non può avere zero input, il marker segnala ai software moderni che è in uso il formato di serializzazione esteso. Il campo flag fornisce un'indicazione analoga e, inoltre, semplifica eventuali futuri aggiornamenti del formato di serializzazione.
+Nella serializzazione legacy, il byte del marker sarebbe stato interpretato come il numero di input (zero). Poiché una transazione non può avere zero input, il marker segnala ai software moderni che si sta usando il formato di serializzazione esteso. Il campo flag fornisce un'indicazione analoga e, inoltre, semplifica eventuali futuri aggiornamenti del formato di serializzazione.
+
+
+
 
 [[inputs]]
 === Input
