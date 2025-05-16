@@ -1,0 +1,122 @@
+[[ch02_bitcoin_overview]]
+== Come funziona Bitcoin
+
+Il sistema Bitcoin, a differenza dei tradizionali sistemi bancari e di pagamento, non richiede fiducia in terze parti. Anziché affidarsi a un'autorità centrale fidata, in Bitcoin ogni utente può utilizzare un software in esecuzione sul proprio computer per verificare il corretto funzionamento di ogni aspetto del sistema. In questo capitolo, esamineremo Bitcoin da un punto di vista generale, tracciando il percorso di una singola transazione attraverso il sistema e osservando come viene registrata sulla blockchain, il registro distribuito di tutte le transazioni. I capitoli successivi approfondiranno la tecnologia alla base delle transazioni, della rete e del mining.
+
+==== Panoramica su Bitcoin
+
+<p class="fix_tracking">
+Il sistema Bitcoin è composto da utenti con wallet contenenti chiavi, transazioni che si propagano attraverso la rete e miner che producono (tramite calcolo competitivo) la blockchain di consenso, ovvero il registro ufficiale di tutte le transazioni.
+</p>
+
+<p class="fix_tracking2">
+Ogni esempio in questo capitolo si basa su una transazione realmente avvenuta sulla rete Bitcoin, simulando le interazioni tra più utenti che si scambiano fondi da un wallet all'altro. Mentre tracciamo una transazione attraverso la rete Bitcoin fino alla sua registrazione sulla blockchain, utilizzeremo un sito <em>blockchain explorer</em> per visualizzare ogni passaggio. Un blockchain explorer è un'applicazione web che opera come un motore di ricerca per Bitcoin, permettendo di cercare indirizzi, transazioni e blocchi, e di vedere le relazioni e i flussi tra questi elementi.
+</p>
+++++
+
+Tra i blockchain explorer più popolari figurano:
+
+* https://blockstream.info[Blockstream Explorer]
+* https://mempool.space[Mempool.Space]
+* https://live.blockcypher.com[BlockCypher Explorer]
+
+Ciascuno di essi è dotato di una funzione di ricerca che permette di inserire un indirizzo Bitcoin, l'hash di una transazione, il numero di un blocco o l'hash di un blocco per recuperare le informazioni corrispondenti dalla rete Bitcoin. Per ogni esempio di transazione o blocco, forniremo un URL affinché tu possa consultarlo direttamente e analizzarlo nel dettaglio.
+
+[[block-explorer-privacy]]
+.Avvertenza sulla Privacy dei Blockchain Explorer
+[WARNING]
+====
+La ricerca di informazioni su un blockchain explorer potrebbe rivelare al suo gestore il tuo interesse per tali informazioni, consentendogli di associarle al tuo indirizzo IP, ai dettagli del tuo browser, alle ricerche precedenti o ad altre informazioni personali identificabili. Se consulti le transazioni illustrate in questo libro, il gestore del blockchain explorer potrebbe supporre che tu stia imparando il funzionamento di Bitcoin, il che, di per sé, non dovrebbe rappresentare un problema. Tuttavia, se cerchi le tue transazioni personali, il gestore potrebbe essere in grado di stimare quanti bitcoin hai ricevuto, speso e possiedi attualmente.
+====
+
+
+
+
+=== Comprare da un negozio online
+
+Alice, introdotta nel capitolo precedente, è una nuova utente che ha appena acquisito i suoi primi bitcoin. In <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe per scambiare denaro contante con bitcoin. Da allora, Alice ha acquistato altri bitcoin. Ora Alice effettuerà la sua prima transazione di spesa, acquistando l'accesso a un episodio podcast premium dal negozio online di Bob.
+
+Il negozio online di Bob ha recentemente iniziato ad accettare pagamenti in bitcoin, aggiungendo un'opzione Bitcoin al suo sito web. I prezzi nel negozio di Bob sono indicati nella valuta locale (dollari statunitensi), ma al momento del pagamento i clienti possono scegliere se pagare in dollari o in bitcoin.
+
+Alice trova l'episodio del podcast che desidera acquistare e procede alla pagina di checkout. Al momento del pagamento, ad Alice viene offerta l'opzione di pagare con bitcoin, oltre alle consuete opzioni. Il carrello visualizza il prezzo in dollari statunitensi e anche in bitcoin (BTC), al tasso di cambio prevalente di Bitcoin.
+
+Il sistema di e-commerce di Bob creerà automaticamente un codice QR contenente una _fattura_ (Codice QR della fattura.).
+
+.Codice QR della fattura
+image::images/qr-code.png[]
+
+A differenza di un codice QR che contiene semplicemente un indirizzo Bitcoin di destinazione, questa fattura è un URI codificato in QR che contiene un indirizzo di destinazione, un importo di pagamento e una descrizione. Ciò consente a un'applicazione wallet Bitcoin di precompilare le informazioni utilizzate для inviare il pagamento, mostrando contemporaneamente una descrizione leggibile dall'utente. Puoi scansionare il codice QR con un'applicazione wallet Bitcoin per vedere cosa vedrebbe Alice:
+
+Il codice QR della fattura codifica il seguente URI, definito nel BIP21:
+
+[source,text]
+----
+bitcoin:bc1qk2g6u8p4qm2s2lh3gts5cpt2mrv5skcuu7u3e4?amount=0.01577764&
+label=Bob%27s%20Store&
+message=Purchase%20at%20Bob%27s%20Store
+----
+
+Componenti dell'URI
+
+Un indirizzo Bitcoin: "bc1qk2g6u8p4qm2s2lh3gts5cpt2mrv5skcuu7u3e4"
+L'importo del pagamento: "0.01577764"
+Un'etichetta per l'indirizzo del destinatario: "Bob's Store"
+Una descrizione per il pagamento: "Acquisto presso Bob's Store"
+
+[TIP]
+====
+Prova a scansionarlo con il tuo wallet per vedere l'indirizzo e l'importo, ma NON INVIARE DENARO.
+====
+
+Alice utilizza il suo smartphone per scansionare il codice a barre visualizzato. Il suo smartphone mostra un pagamento per l'importo corretto a Bob's Store e lei seleziona Invia per autorizzare il pagamento. Entro pochi secondi (all'incirca lo stesso tempo di un'autorizzazione con carta di credito), Bob vede la transazione sul registratore di cassa.
+
+[NOTE]
+====
+La rete Bitcoin può effettuare transazioni con valori frazionari, ad esempio da millibitcoin (1/1000 di bitcoin) fino a 1/100.000.000 di bitcoin, noto come satoshi. Questo libro utilizza le stesse regole di pluralizzazione usate per i dollari e altre valute tradizionali quando si parla di importi superiori a un bitcoin e quando si utilizza la notazione decimale, come "10 bitcoin" o "0,001 bitcoin". Le stesse regole si applicano anche ad altre unità contabili di bitcoin, come millibitcoin e satoshi.
+====
+
+Puoi utilizzare un blockchain explorer per esaminare i dati della blockchain, come il pagamento effettuato a Bob nella <<transaction_alice_to_bob>> di Alice.
+
+Nelle sezioni seguenti, esamineremo questa transazione più in dettaglio. Vedremo come il wallet di Alice l'ha costruita, come è stata propagata attraverso la rete, come è stata verificata e, infine, come Bob può spendere tale importo in transazioni successive.
+
+In termini semplici, una transazione comunica alla rete che il proprietario di determinati bitcoin ha autorizzato il trasferimento di quel valore a un altro proprietario. Il nuovo proprietario può ora spendere i bitcoin creando un'altra transazione che autorizza il trasferimento a un altro proprietario, e così via, in una catena di proprietà.
+
+
+
+
+==== Input e Output delle Transazioni
+
+Le transazioni sono come righe in un registro contabile a partita doppia. Ogni transazione contiene uno o più _input_, che rappresentano i fondi spesi. Dall'altra parte della transazione, ci sono uno o più _output_, che ricevono i fondi. La somma degli input e quella degli output non necessariamente coincidono. Al contrario, la somma degli output è leggermente inferiore a quella degli input e la differenza rappresenta una _commissione di transazione_ implicita, ovvero un piccolo pagamento incassato dal miner che include la transazione nella blockchain. Una transazione Bitcoin è illustrata come una registrazione contabile in <<fig_double_entry_bookkeeping>>.
+
+La transazione contiene anche la prova di proprietà per ogni importo di bitcoin (input) il cui valore viene speso, sotto forma di una firma digitale del proprietario, che può essere validata autonomamente da chiunque. In termini Bitcoin, "spendere" significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario, identificato da un indirizzo Bitcoin.
+
+.Transazione come registrazione a partita doppia
+image::images/tx-double-entry.png[]
+
+Il pagamento di Alice al negozio di Bob utilizza l'output di una transazione precedente come input. Nel capitolo precedente, Alice aveva ricevuto bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<fig_tx_chain>>.
+
+La Tx1 ha inviato 0,001 bitcoin (100.000 satoshi) a un output bloccato dalla chiave di Alice. La sua nuova transazione verso il negozio di Bob (Tx2) fa riferimento all'output precedente come input. Nell'illustrazione, mostriamo questo riferimento usando una freccia ed etichettando l'input come "Tx1:0". In una transazione reale, il riferimento è l'identificatore di transazione a 32 byte (txid) della transazione con cui Alice ha ricevuto il denaro da Joe. Il numero "0" indica che si tratta del primo output (indice 0) di quella transazione. Una transazione può avere più output, ciascuno con un proprio indice (0, 1, 2, ecc.).
+
+.Catena di transazioni, dove l'output di una transazione è l'input della successiva
+image::images/tx-chain.png[]
+
+La transazione di Alice include anche un secondo output, noto come _resto_ (change). Poiché Alice aveva solo un output da 0,001 BTC dalla transazione di Joe e voleva pagare solo 0,00015 BTC a Bob, aveva bisogno di ricevere il resto. Questo funziona in modo simile a come si riceve il resto in contanti. Se vuoi comprare qualcosa che costa 5€ e hai solo una banconota da 20€, dai la banconota da 20€ al negoziante e ricevi 15€ di resto. Allo stesso modo, il wallet di Alice crea una transazione che spende l'intero importo di 0,001 BTC. Un output va a Bob (0,00015 BTC) e un altro output, il resto, torna ad Alice (0,00085 BTC). Infine, per includere la transazione nella blockchain, Alice deve pagare una commissione di transazione. Nessuno vuole pagare commissioni elevate, quindi i wallet cercano di includere commissioni ragionevoli. In questo caso, Alice ha pagato 0,00000078 BTC (78 satoshi), che all'epoca valevano meno di un centesimo di dollaro USA. Il wallet di Alice calcola automaticamente la commissione. Il resto non è 0,00085 BTC, ma 0,00084922 BTC, e la commissione di transazione è 0,00000078 BTC.
+
+La transazione risultante, che spende l'output di Joe e crea due nuovi output, uno per Bob e uno di resto per Alice, è mostrata in <<transaction_alice_to_bob>>.
+
+[[transaction_alice_to_bob]]
+.La transazione di Alice a Bob (Tx2)
+image::images/alice-tx2.png[]
+
+Puoi esaminare questa transazione su un blockchain explorer usando il suo identificatore:
+
+https://blockstream.info/tx/2a59feb32873a8dea51f9dde31116701461843506f50d603fed211f3203a45d7[2a59feb32873a8dea51f9dde31116701461843506f50d603fed211f3203a45d7]
+
+Le transazioni spostano valore da input a output. Un input è un riferimento a un output di una transazione precedente (spesso abbreviato come UTXO), che mostra da dove proviene il valore. Il wallet di Alice ha una collezione di UTXO che può utilizzare per effettuare un pagamento. In questo caso, il wallet di Alice ha utilizzato un singolo UTXO come input per il pagamento a Bob. Quando Alice spende quell'UTXO, la sua firma digitale viene presentata nell'input, rendendo valido l'input. L'input deve soddisfare esattamente i requisiti di spesa stabiliti nell'UTXO a cui fa riferimento.
+
+Un output contiene uno script che definisce le condizioni necessarie per spenderlo in futuro. Nella maggior parte dei casi, l'output include uno script che pagherà a un indirizzo Bitcoin specifico. Ciò significa che il proprietario della chiave privata corrispondente a quell'indirizzo pubblico può firmare una transazione futura per spendere questo output. L'output della transazione di Alice a Bob contiene uno script che assegna il valore all'indirizzo di Bob. Di conseguenza, Bob ora ha questo UTXO disponibile per essere speso in una transazione futura. Alice riceve anche un UTXO come resto, che può spendere in futuro.
+
+Una transazione è una struttura dati che codifica un trasferimento di valore tra partecipanti al sistema Bitcoin. Ogni transazione viene trasmessa alla rete Bitcoin, verificata da ogni nodo Bitcoin completo, e infine inclusa in un blocco che viene aggiunto alla blockchain.
+
+Ora che abbiamo esaminato gli elementi di base di una transazione Bitcoin, vediamo come il wallet di Alice ha costruito questa transazione.
+
