@@ -43,7 +43,7 @@ Le moderne applicazioni wallet non generano più le chiavi in modo indipendente,
 
 Una funzione di hash produrrà sempre lo stesso output a parità di input, ma se l’input viene modificato anche solo leggermente, l’output sarà diverso. Se la funzione è crittograficamente sicura, nessuno dovrebbe essere in grado di prevedere il nuovo output—nemmeno se conosce il nuovo input.
 
- Questo ci permette di prendere un valore casuale e trasformarlo in un numero praticamente illimitato di valori apparentemente casuali. Ancora più utile, usare in seguito la stessa funzione di hash con lo stesso input (chiamato _seed_) genererà nuovamente gli stessi valori.
+Questo ci permette di prendere un valore casuale e trasformarlo in un numero praticamente illimitato di valori apparentemente casuali. Ancora più utile, usare in seguito la stessa funzione di hash con lo stesso input (chiamato _seed_) genererà nuovamente gli stessi valori.
 
 ----
 # Collect some entropy (randomness)
