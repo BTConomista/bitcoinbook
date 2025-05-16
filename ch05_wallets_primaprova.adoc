@@ -473,6 +473,10 @@ impliciti_. Diversi percorsi impliciti popolari definiti dai BIP sono mostrati i
 <td><p><code>m/86'/0'/0'</code></p></td>
 </tr>
 </tbody>
+</table>
+++++
+
+
 [role="less_space pagebreak-before"]
 La seconda soluzione è fare il backup delle informazioni sul percorso insieme al codice di recupero,
 chiarendo quale percorso viene utilizzato con quali script. Chiamiamo
