@@ -164,3 +164,84 @@ Una volta individuato l'output precedente, il nodo completo ne estrae diverse in
 
 *   La prova che l'output precedente esista nella blockchain (o sia noto come transazione non confermata) e che nessun'altra transazione lo abbia già speso. Una delle regole di consenso di Bitcoin, infatti, proibisce che un output venga speso più di una volta all'interno di una blockchain valida.
 
+[[internal_and_display_order]]
+.Ordini di Byte Interni e di Visualizzazione
+****
+Bitcoin utilizza l'output delle funzioni di hash, denominati _digest_, in vari modi. I digest forniscono identificatori univoci per blocchi e transazioni; vengono utilizzati per creare impegni crittografici (commitment) per indirizzi, blocchi, transazioni, firme e altro ancora; inoltre, i digest vengono elaborati iterativamente nella funzione di proof-of-work di Bitcoin. In alcuni casi, i digest degli hash vengono mostrati agli utenti in un ordine di byte ma utilizzati internamente in un ordine differente, generando confusione. Ad esempio, consideriamo il txid dell'output precedente dall'outpoint nella nostra transazione di esempio:
+
+----
+eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a
+----
+
+Se proviamo a utilizzare questo txid per recuperare la transazione tramite Bitcoin Core, otteniamo un errore e dobbiamo invertire l'ordine dei byte:
+
+----
+$ bitcoin-cli getrawtransaction \
+  eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a
+error code: -5
+error message:
+No such mempool or blockchain transaction. 
+Use gettransaction for wallet transactions.
+
+$ echo eb3ae38f27191aa5f3850dc9cad00492b88b72404f9da135698679268041c54a \
+  | fold -w2 | tac | tr -d "\n"
+4ac541802679866935a19d4f40728bb89204d0cac90d85f3a51a19278fe33aeb
+
+$ bitcoin-cli getrawtransaction \
+  4ac541802679866935a19d4f40728bb89204d0cac90d85f3a51a19278fe33aeb
+02000000000101c25ae90c9f3d40cc1fc509ecfd54b06e35450702...
+----
+
+Questo comportamento anomalo è probabilmente una conseguenza non intenzionale di una [decisione di progettazione nel software Bitcoin originale](https://oreil.ly/01JH2). In pratica, ciò significa che gli sviluppatori di software Bitcoin devono ricordarsi di invertire l'ordine dei byte negli identificatori di transazioni e blocchi quando li mostrano agli utenti.
+
+In questo libro, utilizziamo il termine _ordine di byte interno_ per i dati che appaiono all'interno di transazioni e blocchi, mentre utilizziamo _ordine di byte di visualizzazione_ per il formato mostrato agli utenti. Un'altra terminologia comune è _ordine di byte little-endian_ per la versione interna e _ordine di byte big-endian_ per la versione di visualizzazione.
+****
+
+==== Script di Input
+
+Il campo script di input è un residuo del formato di transazione legacy. L'input della nostra transazione di esempio spende un output segwit nativo che non richiede alcun dato nello script di input, pertanto il prefisso di lunghezza per lo script di input è impostato a zero (0x00).
+
+Per un esempio di script di input con prefisso di lunghezza che spende un output legacy, utilizziamo uno tratto da una transazione arbitraria nel blocco più recente al momento della stesura:
+
+----
+6b483045022100a6cc4e8cd0847951a71fad3bc9b14f24d44ba59d19094e0a8c
+fa2580bb664b020220366060ea8203d766722ed0a02d1599b99d3c95b97dab8e
+41d3e4d3fe33a5706201210369e03e2c91f0badec46c9c903d9e9edae67c167b
+9ef9b550356ee791c9a40896
+----
+
+Il prefisso di lunghezza è un intero senza segno in formato compactSize che indica la lunghezza del campo script di input serializzato. In questo caso, si tratta di un singolo byte (0x6b) che indica che lo script di input è lungo 107 byte. Analizzeremo in dettaglio l'interpretazione e l'utilizzo degli script nel capitolo <<c_authorization_authentication>>.
+
+[[sequence]]
+==== Sequence
+
+Gli ultimi quattro byte di un input costituiscono il suo numero di _sequence_. L'uso e il significato di questo campo sono cambiati nel corso del tempo.
+
+[[original_tx_replacement]]
+===== Sostituzione di transazioni basata su sequence (implementazione originale)
+
+Il campo sequence era originariamente concepito per consentire la creazione di molteplici versioni della stessa transazione, dove le versioni successive sostituivano quelle precedenti come candidate alla conferma. Il numero di sequence teneva traccia della versione della transazione.
+
+Ad esempio, immaginiamo che Alice e Bob vogliano scommettere su una partita a carte. Iniziano entrambi firmando una transazione che deposita del denaro in un output con uno script che richiede le firme di entrambi per essere speso, uno script _multisignature_ (o _multisig_ in breve). Questa è chiamata _transazione di setup_. Successivamente, creano una transazione che spende quell'output:
+
+- La prima versione della transazione, con nSequence 0 (0x00000000), restituisce ad Alice e Bob il denaro che hanno inizialmente depositato. Questa è chiamata _transazione di rimborso_. Nessuno dei due trasmette la transazione di rimborso in questa fase. Ne hanno bisogno solo in caso di problemi.
+
+- Alice vince il primo round del gioco di carte, quindi la seconda versione della transazione, con sequence 1, aumenta la quantità di denaro assegnata ad Alice e diminuisce la quota di Bob. Entrambi firmano la transazione aggiornata. Anche in questo caso, non hanno bisogno di trasmettere questa versione della transazione a meno che non si verifichi un problema.
+
+- Bob vince il secondo round, quindi il sequence viene incrementato a 2, la quota di Alice viene diminuita e quella di Bob aumentata. Firmano nuovamente ma non trasmettono.
+
+- Dopo molti altri round in cui il sequence viene incrementato, i fondi ridistribuiti e la transazione risultante firmata ma non trasmessa, decidono di finalizzare la transazione. Creando una transazione con il saldo finale dei fondi, impostano il sequence al suo valore massimo (0xffffffff), finalizzando la transazione. Trasmettono questa versione della transazione, che viene inoltrata attraverso la rete e infine confermata dai miner.
+
+Possiamo osservare le regole di sostituzione basate su sequence in azione considerando scenari alternativi:
+
+- Immaginiamo che Alice trasmetta la transazione finale, con un sequence di 0xffffffff, e poi Bob trasmetta una delle transazioni precedenti in cui il suo saldo era più alto. Poiché la versione della transazione di Bob ha un numero di sequence inferiore, i nodi completi che utilizzano il codice Bitcoin originale non la inoltreranno ai miner, e i miner che utilizzano anch'essi il codice originale non la includeranno nei blocchi.
+
+- In un altro scenario, immaginiamo che Bob trasmetta una versione precedente della transazione pochi secondi prima che Alice trasmetta la versione finale. I nodi inoltreranno la versione di Bob e i miner tenteranno di includerla in un blocco, ma quando arriverà la versione di Alice con il suo numero di sequence più alto, i nodi la inoltreranno anch'essa e i miner che utilizzano il codice Bitcoin originale cercheranno di includere quest'ultima invece della versione di Bob. A meno che Bob non sia stato fortunato e un blocco sia stato scoperto prima dell'arrivo della versione di Alice, sarà la versione di Alice ad essere confermata.
+
+Questo tipo di protocollo è ciò che oggi chiamiamo un _canale di pagamento_ (payment channel). Il creatore di Bitcoin, in un'email a lui attribuita, chiamò queste _transazioni ad alta frequenza_ e descrisse una serie di funzionalità aggiunte al protocollo per supportarle. Più avanti esamineremo diverse di queste altre funzionalità e scopriremo come le versioni moderne dei canali di pagamento vengano sempre più utilizzate in Bitcoin oggi.
+
+I canali di pagamento basati esclusivamente sul sequence presentavano alcuni problemi. Il primo era che le regole per sostituire una transazione con sequence inferiore con una con sequence superiore erano solo una questione di policy del software. Non c'era alcun incentivo diretto per i miner a preferire una versione della transazione rispetto a un'altra. Il secondo problema era che la prima persona a inviare la propria transazione poteva essere fortunata e vederla confermata anche se non era la transazione con il sequence più alto. Un protocollo di sicurezza che fallisce una piccola percentuale di volte a causa della sfortuna non è un protocollo molto efficace.
+
+Il terzo problema era la possibilità di sostituire una versione di una transazione con una diversa un numero illimitato di volte. Ogni sostituzione avrebbe consumato la larghezza di banda di tutti i nodi completi di inoltro nella rete. Ad esempio, al momento della stesura, ci sono circa 50.000 nodi completi di inoltro; un attaccante che creasse 1.000 transazioni sostitutive al minuto, ciascuna di 200 byte, utilizzerebbe circa 20 KB della propria larghezza di banda personale ma circa 10 GB di larghezza di banda della rete di nodi completi ogni minuto. A parte il costo della propria larghezza di banda di 20 KB/minuto e l'occasionale commissione quando una transazione venisse confermata, l'attaccante non dovrebbe sostenere alcun costo per l'enorme carico imposto agli operatori di nodi completi.
+
+Per eliminare il rischio di questo attacco, il tipo originale di sostituzione delle transazioni basata su sequence è stato disabilitato in una versione iniziale del software Bitcoin. Per diversi anni, i nodi completi Bitcoin non avrebbero permesso che una transazione non confermata contenente un particolare input (come indicato dal suo outpoint) fosse sostituita da una transazione diversa contenente lo stesso input. Tuttavia, questa situazione non è durata per sempre.
