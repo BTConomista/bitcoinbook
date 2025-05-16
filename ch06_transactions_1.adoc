@@ -6,7 +6,7 @@ A differenza del contante, i bitcoin non esistono né in forma fisica né come d
 
 Consideriamo invece come Alice potrebbe trasferire a Bob la proprietà di un appezzamento di terreno. Non può fisicamente sollevare il terreno e consegnarlo a Bob. Esiste invece un registro (solitamente tenuto da un ente governativo locale) che descrive il terreno di proprietà di Alice. Alice trasferisce quel terreno a Bob convincendo l'ente responsabile ad aggiornare il registro per attestare che Bob è ora il nuovo proprietario.
 
-Bitcoin funziona in modo analogo. Su ogni nodo completo Bitcoin esiste un database che registra quali bitcoin controlla Alice. Alice paga Bob convincendo i nodi completi ad aggiornare il proprio database, indicando che alcuni dei bitcoin di Alice sono ora sotto il controllo di Bob. I dati che Alice utilizza per convincere i nodi completi ad aggiornare i loro database costituiscono una _transazione_. Questo processo avviene senza utilizzare direttamente le identità di Alice o Bob, come vedremo in <<c_authorization_authentication>>.
+Bitcoin funziona in modo analogo. Su ogni nodo completo Bitcoin esiste un database che indica che Alice controlla un certo numero di bitcoin. Alice paga Bob convincendo i nodi completi ad aggiornare il proprio database, indicando che alcuni dei bitcoin di Alice sono ora sotto il controllo di Bob. I dati che Alice utilizza per convincere i nodi completi ad aggiornare i loro database costituiscono una _transazione_. Questo processo avviene senza utilizzare direttamente le identità di Alice o Bob, come vedremo in <<c_authorization_authentication>>.
 
 In questo capitolo analizzeremo nel dettaglio una transazione Bitcoin ed esamineremo ciascuna delle sue componenti per capire come permettono il trasferimento di valore in modo estremamente versatile e incredibilmente affidabile.
 
@@ -16,7 +16,7 @@ In questo capitolo analizzeremo nel dettaglio una transazione Bitcoin ed esamine
 In <<exploring_and_decoding_transactions>>, abbiamo utilizzato Bitcoin Core con l'opzione `txindex` abilitata per recuperare una copia del pagamento di Alice a Bob. Recuperiamo ancora una volta la transazione che contiene quel pagamento, come mostrato in <<alice_tx_serialized_reprint>>.
 
 [[alice_tx_serialized_reprint]]
-.Transazione serializzata di Alice
+.Alice's serialized transaction
 ====
 ----
 $ bitcoin-cli getrawtransaction 466200308696215bbc949d5141a49a41\
@@ -32,12 +32,16 @@ e739df2f899c49dc267c0ad280aca6dab0d2fa2b42a45182fc83e81713010000
 ----
 ====
 
-Il formato di serializzazione di Bitcoin Core è particolare perché è quello utilizzato per creare impegni vincolanti (commitment) relativi alle transazioni e per propagarle attraverso la rete P2P di Bitcoin. Tuttavia, i programmi possono utilizzare un formato differente, a patto che trasmettano la stessa identica serie di dati. Ciononostante, il formato di Bitcoin Core è ragionevolmente compatto per i dati che veicola e semplice da elaborare (parsing), motivo per cui molti altri programmi Bitcoin adottano questo formato.
+
+Il formato di serializzazione di Bitcoin Core è speciale perché è il formato usato per per generare impegni crittografici sulle transazioni e per trasmetterle attraverso la rete P2P di Bitcoin. In altri contesti, tuttavia, i programmi possono usare un formato diverso, purché trasmettano tutti gli stessi dati. Il formato di Bitcoin Core, però, è ragionevolmente compatto per i dati che trasmette e semplice da decodificare, quindi molti altri programmi Bitcoin utilizzano questo formato.
 
 [TIP]
 ====
-L'unico altro formato di serializzazione delle transazioni di ampia diffusione di cui siamo a conoscenza è il formato Partially Signed Bitcoin Transaction (PSBT), documentato nei BIP 174 e 370 (con estensioni descritte in altri BIP). Il formato PSBT consente a un programma non attendibile (*untrusted*) di produrre un *template* di transazione che può essere verificato e completato da programmi attendibili (*trusted*, come i dispositivi hardware di firma) che possiedono le chiavi private necessarie o altri dati sensibili per popolare il template. A tal fine, il formato PSBT permette di memorizzare una quantità significativa di metadati relativi a una transazione, rendendolo molto meno compatto rispetto al formato di serializzazione standard. Questo libro non entra nei dettagli del PSBT, ma lo consigliamo vivamente agli sviluppatori di wallet che prevedono di supportare la firma multi-chiave.
+L’unico altro formato di serializzazione delle transazioni largamente utilizzato di cui siamo a conoscenza è il formato Partially Signed Bitcoin Transaction (PSBT), documentato nei BIP 174 e 370 (con estensioni descritte in altri BIP). Il formato PSBT consente a un programma non fidato di creare un modello di transazione che può essere verificato e completato da programmi fidati (come i dispositivi hardware di firma) che possiedono le chiavi private necessarie o altri dati sensibili per compilare il modello. A tal fine, PSBT permette di memorizzare una quantità significativa di metadati relativi a una transazione, rendendolo molto meno compatto rispetto al formato di serializzazione standard. Questo libro non entra nei dettagli del PSBT, ma lo raccomandiamo fortemente agli sviluppatori di wallet che prevedono di supportare la firma multi-chiave.
 ====
+
+
+
 
 La transazione mostrata in formato esadecimale in <<alice_tx_serialized_reprint>> è riprodotta come mappa di byte in <<alice_tx_byte_map>>. Si noti che sono necessari 64 caratteri esadecimali per visualizzare 32 byte. Questa mappa illustra solo i campi di primo livello. Esamineremo ciascuno di essi nell'ordine in cui compaiono nella transazione, descrivendo anche eventuali campi aggiuntivi in essi contenuti.
 
