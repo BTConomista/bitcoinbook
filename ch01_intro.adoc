@@ -1,6 +1,6 @@
 [role="pagenumrestart"]
 [[ch01_intro_what_is_bitcoin]]
-== 1. Introduzione
+== Introduzione
 
 Bitcoin è un insieme di concetti e tecnologie che formano le basi di un ecosistema di moneta digitale. Le unità di valuta chiamate bitcoin sono usate per conservare e trasmettere valore tra i partecipanti al _network_ (rete) di Bitcoin. Gli utenti Bitcoin operano tra di loro attraverso il protocollo Bitcoin principalmente tramite internet, anche se possono essere usate anche altre reti. L'architettura a strati del protocollo Bitcoin, disponibile come software open source, è compatibile con una vasta gamma di dispositivi, dai laptop agli smartphone, rendendo la tecnologia facilmente accessibile a tutti.
 
@@ -15,6 +15,14 @@ A differenza delle valute tradizionali, Bitcoin è interamente virtuale. Non esi
 
 Bitcoin è un sistema peer-to-peer distribuito. Pertanto, non esiste un server centrale o un punto di controllo. Le unità di bitcoin vengono create attraverso un processo chiamato "mining," che consiste nell'eseguire ripetutamente un'operazione computazionale che fa riferimento a un elenco di transazioni Bitcoin recenti. Qualsiasi partecipante alla rete Bitcoin può operare come miner, usando i propri dispositivi informatici per contribuire a garantire la sicurezza delle transazioni. In media, ogni 10 minuti, un miner di Bitcoin può aggiungere sicurezza alle transazioni precedenti e viene ricompensato sia con nuovi bitcoin sia con le commissioni, d'ora in poi fees, pagate dalle transazioni recenti. In sostanza, il mining di Bitcoin decentralizza le funzioni di una banca centrale relative all'emissione di valuta e alla compensazione, e rende superflua la necessità di una banca centrale.
 
+//-- Math for following paragraph --
+//total_btc = 0
+//for i in range(0, 10_000_000):
+//  total_btc += (50 /  (2**int(i/210000)) )
+//  if total_btc / 21e6 > 0.99:
+//     print(i)
+//     break
+
 Il protocollo Bitcoin include algoritmi integrati che regolano la funzione di mining in tutta la rete. La difficoltà del compito computazionale che i miner devono eseguire viene regolata dinamicamente, in modo che, in media, qualcuno riesca a completarlo ogni 10 minuti, indipendentemente dal numero di miner (e dalla potenza di calcolo) che stanno competendo in quel momento. Inoltre, il protocollo riduce periodicamente il numero di nuovi bitcoin creati, limitando il totale dei bitcoin che verranno mai emessi a una quantità fissa appena inferiore a 21 milioni di monete. Il risultato è che il numero di bitcoin in circolazione segue una curva facilmente prevedibile, in cui la metà dei bitcoin rimanenti viene aggiunta alla circolazione ogni quattro anni. Al blocco 1.411.200 circa, previsto intorno al 2035, sarà stato emesso il 99% di tutti i bitcoin che potranno mai esistere. A causa del tasso di emissione decrescente di Bitcoin, nel lungo termine la valuta Bitcoin è deflazionistica. Inoltre, nessuno può obbligarti ad accettare bitcoin creati in più rispetto a quelli previsti.
 
 Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-peer e di un'innovazione nel campo del calcolo distribuito. Bitcoin si basa su decenni di ricerche in crittografia e sistemi distribuiti e incorpora almeno quattro innovazioni chiave, unite in una combinazione unica e potente. Bitcoin si compone di:
@@ -24,12 +32,12 @@ Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-p
 - Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
 - Un meccanismo per raggiungere un consenso decentralizzato globale sulla validità della blockchain (algoritmo di proof-of-work)
 
-Come sviluppatore, vedo (Andreas vede, nds) Bitcoin come una sorta di "denaro di internet", una rete per propagare valore e garantire la proprietà di beni digitali attraverso il calcolo distribuito. C'è molto di più in Bitcoin di quanto possa sembrare a prima vista.
+Come sviluppatore, vedo (Andreas vede, nds) Bitcoin come una sorta di "denaro di internet", una rete per propagare valore e garantire la proprietà di beni digitali attraverso il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
 
-In questo capitolo inizieremo spiegando alcuni dei concetti e termini principali, ottenendo il software necessario e utilizzando Bitcoin per transazioni semplici. Nei capitoli seguenti, inizieremo a svelare gli strati di tecnologia che rendono possibile Bitcoin e vedremo come funzionano la rete e il protocollo Bitcoin.
+In questo capitolo inizieremo spiegando alcuni dei termini e concetti principali, vedremo come scaricare il software necessario e come usare Bitcoin per effettuare transazioni semplici. Nei capitoli seguenti, inizieremo a svelare gli strati di tecnologia che rendono possibile Bitcoin e vedremo come funzionano la rete e il protocollo Bitcoin.
 
-=== 1.1 Monete Digitali Prima di Bitcoin
-
+.Monete Digitali Prima di Bitcoin
+****
 
 L'emergere di una moneta digitale valida è strettamente legato agli sviluppi della crittografia. Questo non sorprende, se si considerano le sfide fondamentali legate alla rappresentazione digitale del valore scambiabile con beni e servizi.
 Tre domande essenziali che chiunque accetti denaro digitale deve porsi sono:
@@ -43,27 +51,28 @@ Gli emittenti di denaro cartaceo sono costantemente impegnati nella lotta alla c
 Quando la crittografia ha iniziato a diventare più accessibile e compresa verso la fine degli anni '80, molti ricercatori hanno iniziato a tentare di utilizzarla per creare valute digitali. Questi primi progetti di valute digitali emettevano denaro digitale, solitamente garantito da una valuta nazionale o da metalli preziosi come l'oro.
 
 Sebbene queste prime valute digitali funzionassero, erano centralizzate e, di conseguenza, vulnerabili agli attacchi di governi e hacker. Le valute digitali iniziali utilizzavano un centro di smistamento centrale per regolare tutte le transazioni a intervalli regolari, proprio come un sistema bancario tradizionale. Sfortunatamente, nella maggior parte dei casi, queste nuove valute digitali furono prese di mira da governi preoccupati e alla fine eliminate attraverso procedimenti legali. Alcune fallirono in modo spettacolare quando la società madre fallì improvvisamente.
-Per essere robuste contro l'intervento di antagonisti, siano essi governi legittimi o elementi criminali, era necessaria una valuta digitale decentralizzata, in grado di evitare un unico punto di attacco. Bitcoin è un sistema di questo tipo, decentralizzato per design, e privo di qualsiasi autorità centrale o punto di controllo che possa essere attaccato o corrotto.
+Per essere robuste contro l'intervento di antagonisti, siano essi governi legittimi o elementi criminali, era necessaria una valuta digitale _decentralizzata_, in grado di evitare un unico punto di attacco. Bitcoin è un sistema di questo tipo, decentralizzato per natura, e privo di qualsiasi autorità centrale o punto di controllo che possa essere attaccato o corrotto.
 
+=== La Storia di Bitcoin
 
-=== 1.2 Storia di Bitcoin
+Bitcoin è stato descritto per la prima volta nel 2008 con la pubblicazione di un documento intitolato "Bitcoin: A Peer-to-Peer Electronic Cash System", scritto sotto lo pseudonimo di Satoshi Nakamoto (vedi appendice A). Nakamoto ha combinato diverse invenzioni precedenti, come le firme digitali e Hashcash, per creare un sistema di moneta elettronica completamente decentralizzato che non dipende da un'autorità centrale per l'emissione di valuta, la regolamentazione o la validazione delle transazioni. Un'innovazione chiave è stata l'uso di un sistema di calcolo distribuito (chiamato algoritmo di "proof-of-work") per condurre una sorta di lotteria globale ogni 10 minuti, in media, permettendo alla rete decentralizzata di raggiungere un _consenso_ sullo stato delle transazioni. Questo risolve elegantemente il problema della doppia spesa (double-spend), in cui un'unità di valuta può essere spesa due volte. In precedenza, il problema della doppia spesa era una debolezza delle valute digitali e veniva affrontato facendo passare tutte le transazioni attraverso un centro di smistamento centrale.
 
-Bitcoin è stato descritto per la prima volta nel 2008 con la pubblicazione di un documento intitolato "Bitcoin: A Peer-to-Peer Electronic Cash System", scritto sotto lo pseudonimo di Satoshi Nakamoto (vedi appendice A). Nakamoto ha combinato diverse invenzioni precedenti, come le firme digitali e Hashcash, per creare un sistema di moneta elettronica completamente decentralizzato che non dipende da un'autorità centrale per l'emissione di valuta, la validazione o la validazione delle transazioni. Un'innovazione chiave è stata l'uso di un sistema di calcolo distribuito (chiamato algoritmo di "proof-of-work") per condurre una sorta di lotteria globale ogni 10 minuti, in media, permettendo alla rete decentralizzata di raggiungere un _consenso_ sullo stato delle transazioni. Questo risolve elegantemente il problema della doppia spesa (double-spend), in cui un'unità di valuta può essere spesa due volte. In precedenza, il problema del double-spend era una debolezza delle valute digitali e veniva affrontato facendo passare tutte le transazioni attraverso un centro di smistamento centrale.
-
-La rete Bitcoin è nata nel 2009, basandosi su un'implementazione iniziale pubblicata da Nakamoto e successivamente migliorata da numerosi programmatori. Nel tempo, il numero e la potenza delle macchine impegnate nel mining, l'algoritmo di proof-of-work che garantisce la sicurezza e la resilienza di Bitcoin, sono cresciuti in modo esponenziale. Oggi, la capacità computazionale complessiva di queste macchine supera quella di tutti i supercomputer più potenti del mondo messi insieme.
+La rete Bitcoin è nata nel 2009, basandosi inizialmente su un documento pubblicato da Nakamoto e successivamente migliorato da numerosi programmatori. Nel tempo, il numero e la potenza delle macchine impegnate nel mining, l'algoritmo di proof-of-work che garantisce la sicurezza e la resilienza di Bitcoin, sono cresciuti in modo esponenziale. Oggi, la capacità computazionale complessiva di queste macchine supera quella di tutti i supercomputer più potenti del mondo messi insieme.
 
 Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affidando lo sviluppo del codice e della rete a una comunità di volontari attiva e dinamica. L'identità di Nakamoto, che potrebbe essere una singola persona o un gruppo, rimane ancora un mistero. Tuttavia, né lui né nessun altro ha il controllo esclusivo sul sistema Bitcoin, che si basa su principi matematici trasparenti, codice open source e il consenso dei partecipanti. Questa invenzione rivoluzionaria ha già dato vita a nuove discipline scientifiche nei campi del calcolo distribuito, dell'economia e dell'econometria.
 
-==== 1.2.1 Una soluzione ad un problema di calcolo distribuito
+==== Una soluzione ad un problema di calcolo distribuito
 
 L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa ad un problema del calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel cercare di far concordare più partecipanti, privi di un leader, su una linea d'azione comune, scambiandosi informazioni attraverso una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che utilizza il concetto di proof-of-work per raggiungere il consenso _senza un'autorità centrale fidata_, rappresenta un progresso rivoluzionario nel settore del calcolo distribuito.
 
 
-=== 1.3 Iniziare con Bitcoin 
+=== Iniziare con Bitcoin 
 
-Bitcoin è un protocollo che si può usare tramite un'app che lo supporta. Un "wallet Bitcoin" è l'interfaccia utente più comune per il sistema Bitcoin, proprio come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e marchi di wallet Bitcoin, proprio come esistono vari browser web (es. Chrome, Safari, Firefox). E proprio come abbiamo tutti i nostri browser preferiti, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sull'originale creato da Satoshi Nakamoto.
+Bitcoin è un protocollo che si può usare tramite un'app che lo supporta. Un wallet Bitcoin è l'interfaccia utente più comune per il sistema Bitcoin, proprio come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e versioni di wallet Bitcoin, proprio come esistono diversi browser (es. Chrome, Safari, Firefox). E proprio come abbiamo tutti i nostri browser preferiti, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sul documento originale creato da Satoshi Nakamoto.
 
-==== 1.3.1 Scegliere un Wallet Bitcoin
+==== Scegliere un Wallet Bitcoin
+
+
 
 I wallet Bitcoin sono tra le applicazioni più attivamente sviluppate nell'ecosistema Bitcoin. C'è una forte competizione, e mentre probabilmente un nuovo wallet è in fase di sviluppo proprio ora, molti wallet creati l'anno scorso non sono più mantenuti attivamente. Molti wallet si concentrano su piattaforme o usi specifici, e alcuni sono più adatti per i principianti, mentre altri sono ricchi di funzionalità per utenti avanzati. La scelta di un wallet è molto soggettiva e dipende dall'uso e dall'esperienza dell'utente. Pertanto, sarebbe inutile consigliare un marchio o wallet specifico. Tuttavia, possiamo classificare i wallet Bitcoin in base alla piattaforma e alla funzione, fornendo maggiore chiarezza su tutti i tipi di wallet che esistono. È utile provare diversi wallet fino a trovare quello che meglio si adatta alle proprie esigenze.
 
