@@ -51,6 +51,8 @@ Quando la crittografia divenne più accessibile e meglio compresa verso la fine 
 
 Pur funzionando, queste prime valute digitali erano centralizzate e quindi vulnerabili ad attacchi di governi e hacker. Si affidavano a un ente di smistamento centrale per regolare tutte le transazioni a intervalli regolari, similarmente a un sistema bancario tradizionale. Sfortunatamente, nella maggior parte dei casi, queste nuove valute digitali furono bersagliate da governi preoccupati e infine soppresse tramite azioni legali. Alcune fallirono rovinosamente con il crollo improvviso della società emittente.
 Per resistere all'intervento di antagonisti – governi legittimi o criminali che fossero – serviva una valuta digitale _decentralizzata_, che evitasse un singolo punto debole. Bitcoin è un sistema di questo tipo, decentralizzato per sua natura e privo di qualsiasi autorità centrale o punto di controllo che possa essere attaccato o corrotto.
+****
+
 
 === La Storia di Bitcoin
 
@@ -60,9 +62,10 @@ La rete Bitcoin nacque nel 2009, basandosi inizialmente sul documento di Nakamot
 
 Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affidando lo sviluppo del codice e della rete a una comunità di volontari attiva e dinamica. L'identità di Nakamoto, che potrebbe essere una singola persona o un gruppo, rimane ancora un mistero. Tuttavia, né lui né nessun altro ha il controllo esclusivo sul sistema Bitcoin, che si basa su principi matematici trasparenti, codice open source e il consenso dei partecipanti. Questa invenzione rivoluzionaria ha già dato vita a nuove discipline scientifiche nei campi del calcolo distribuito, dell'economia e dell'econometria.
 
-==== Una soluzione ad un problema di calcolo distribuito
-
+.Una soluzione ad un problema di calcolo distribuito
+****
 L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa a un problema di calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel far sì che più partecipanti, senza un leader, concordino una linea d'azione comune scambiandosi informazioni su una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che usa l'algoritmo di _proof-of-work_ per raggiungere il consenso _senza un'autorità centrale fidata_, è un progresso rivoluzionario nel settore del calcolo distribuito.
+****
 
 === Iniziare con Bitcoin 
 
@@ -107,7 +110,7 @@ Alice non è un'esperta di tecnologia e ha scoperto Bitcoin solo di recente graz
 
 Al primo avvio dell'app, Alice seleziona l'opzione per creare un nuovo wallet Bitcoin. Il wallet scelto è di tipo non-custodial, il che significa che Alice (e solo lei) detiene il controllo delle proprie chiavi private. Di conseguenza, Alice deve assumersi la responsabilità del backup delle chiavi: la loro perdita comporterebbe l'impossibilità di accedere ai propri bitcoin. Per agevolare questa operazione, l'applicazione genera un _codice di recupero_ utilizzabile per ripristinare il wallet in caso di necessità.
 
-[[recovery_code_sample]]
+[[recovery_code_intro]]
 === Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin non-custodial fornisce un codice di recupero che l'utente utilizzerà per il backup.
 Il codice di recupero è tipicamente composto da numeri, lettere o parole generate casualmente dal software, e funge da "seme" (seed) per la generazione di tutte le chiavi del wallet.
