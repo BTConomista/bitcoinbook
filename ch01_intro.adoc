@@ -110,11 +110,13 @@ Alice non è un'esperta di tecnologia e ha scoperto Bitcoin solo di recente graz
 
 Al primo avvio dell'app, Alice seleziona l'opzione per creare un nuovo wallet Bitcoin. Il wallet scelto è di tipo non-custodial, il che significa che Alice (e solo lei) detiene il controllo delle proprie chiavi private. Di conseguenza, Alice deve assumersi la responsabilità del backup delle chiavi: la loro perdita comporterebbe l'impossibilità di accedere ai propri bitcoin. Per agevolare questa operazione, l'applicazione genera un _codice di recupero_ utilizzabile per ripristinare il wallet in caso di necessità.
 
+
 [[recovery_code_intro]]
 === Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin non-custodial fornisce un codice di recupero che l'utente utilizzerà per il backup.
 Il codice di recupero è tipicamente composto da numeri, lettere o parole generate casualmente dal software, e funge da "seme" (seed) per la generazione di tutte le chiavi del wallet.
 Vedi <<recovery_code_sample>>(tabella 1.1) per alcuni esempi:
+
 
 ++++
 <table id="recovery_code_sample">
