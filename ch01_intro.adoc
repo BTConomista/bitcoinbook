@@ -9,7 +9,7 @@ Bitcoin è un insieme di concetti e tecnologie che gettano le basi per un ecosis
 In questo libro, l’unità di valuta è chiamata “bitcoin” (con la _b_ minuscola), mentre il sistema si chiama “Bitcoin” (con la _B_ maiuscola).
 ====
 
-Gli utenti possono trasferire bitcoin sulla rete Bitcoin per compiere praticamente qualsiasi operazione realizzabile con le valute convenzionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni, o erogare prestiti. I bitcoin si possono acquistare, vendere e scambiare con altre valute pressoappositi cambi di valuta, i cosiddetti _exchange_. Molti ritengono Bitcoin la forma di denaro perfetta per Internet, grazie alla sua velocità, sicurezza e natura priva di confini.
+Gli utenti possono trasferire bitcoin sulla rete Bitcoin per compiere praticamente qualsiasi operazione realizzabile con le valute convenzionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni, o erogare prestiti. I bitcoin si possono acquistare, vendere e scambiare con altre valute presso appositi cambi di valuta, i cosiddetti _exchange_. Molti ritengono Bitcoin la forma di denaro perfetta per Internet, grazie alla sua velocità, sicurezza e natura priva di confini.
 
 A differenza delle valute tradizionali, Bitcoin è interamente virtuale. Non ci sono monete fisiche, né singole unità di valuta digitali. Il concetto di "moneta" è implicito nelle transazioni che trasferiscono valore da chi paga a chi riceve. Gli utenti di Bitcoin detengono chiavi che consentono loro di dimostrare la proprietà dei propri bitcoin sulla rete. Con queste chiavi, possono firmare transazioni per sbloccare il valore e spenderlo, trasferendolo a un nuovo proprietario. Spesso le chiavi sono custodite in un _wallet_ (portafoglio) digitale installato sul computer o sullo smartphone dell'utente. Il possesso della chiave necessaria per firmare una transazione è l'unico requisito per spendere bitcoin, il che conferisce a ogni utente il pieno controllo dei propri bitcoin.
 
@@ -32,7 +32,7 @@ Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-p
 - Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
 - Un meccanismo per raggiungere un consenso decentralizzato globale sulla validità della blockchain (algoritmo di proof-of-work)
 
-Come sviluppatore, vedo (Andreas vede, nds) Bitcoin come una sorta di "denaro di Internet", una rete per propagare valore e tutelare la proprietà di beni digitali mediante il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
+Come sviluppatore, Andreas vede Bitcoin come una sorta di "denaro di Internet", una rete per propagare valore e tutelare la proprietà di beni digitali mediante il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
 
 In questo capitolo introduttivo, spiegheremo alcuni termini e concetti fondamentali, illustreremo come scaricare il software necessario e come usare Bitcoin per semplici transazioni. Nei capitoli seguenti, inizieremo a svelare gli strati tecnologici che rendono Bitcoin possibile ed esamineremo come funzionano la sua rete e il suo protocollo.
 
