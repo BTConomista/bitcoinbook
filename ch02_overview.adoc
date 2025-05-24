@@ -27,14 +27,8 @@ Ognuno di questi strumenti dispone di una funzione di ricerca che consente di in
 .Block Explorer Privacy Warning
 [WARNING]
 ====
-Searching information on a block explorer may disclose to its operator
-that you're interested in that information, allowing them to associate
-it with your IP address, browser details, past searches, or other
-identifiable information.  If you look up the transactions in this book,
-the operator of the block explorer might guess that you're learning
-about Bitcoin, which shouldn't be a problem.  But if you look up your
-own transactions, the operator may be able to guess how many bitcoins
-you've received, spent, and currently own.
+Cercare informazioni su un block explorer può rivelare al suo gestore che sei interessato a quei dati, permettendogli di collegarli al tuo indirizzo IP, ai dettagli del tuo browser, alle ricerche effettuate in passato o ad altre informazioni identificative. Se consulti le transazioni riportate in questo libro, l'operatore del block explorer potrebbe intuire che stai imparando qualcosa su Bitcoin, il che non dovrebbe essere un problema. Ma se controlli le tue transazioni personali, l'operatore potrebbe riuscire a dedurre quanti bitcoin hai ricevuto, speso e quanti ne possiedi in questo momento.
+
 ====
 
 [[spending_bitcoin]]
@@ -76,12 +70,15 @@ A description for the payment: "Purchase at Bob's Store"
 
 [TIP]
 ====
-Try to scan this with your wallet to see
-the address and amount but DO NOT SEND MONEY.
+Prova a scansionare questo con il tuo wallet per visualizzare l'indirizzo e l'importo, MA NON INVIARE SOLDI.
 ====
 
 Alice usa il suo smartphone per scansionare il codice a barre visualizzato. Sullo schermo del suo smartphone compare un ordine di pagamento per l'importo corretto destinato a +Bob's Store+ e lei seleziona Invia per autorizzarlo.
 Nel giro di pochi secondi (più o meno lo stesso tempo necessario per l'autorizzazione di una carta di credito), Bob vede la transazione registrata nel sistema.
+
+
+
+
 
 [NOTE]
 ====
