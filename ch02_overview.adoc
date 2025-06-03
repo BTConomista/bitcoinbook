@@ -229,7 +229,7 @@ Infine, per fare in modo che la transazione venga elaborata dalla rete in tempi 
 [[transaction-alice-url]]
 [TIP]
 ====
-View the https://oreil.ly/GwBq1[transaction from Alice to Bob's Store].
+Visualizza la https://oreil.ly/GwBq1[transazione di Alice al negozio di Bob].
 ====
 
 ==== Aggiungere la Transazione alla Blockchain
