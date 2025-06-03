@@ -82,15 +82,14 @@ Nel giro di pochi secondi (più o meno lo stesso tempo necessario per l'autorizz
 
 [NOTE]
 ====
-The
-Bitcoin network can transact in fractional values, e.g., from
-millibitcoin (1/1000th of a bitcoin) down to 1/100,000,000th of a
-bitcoin, which is known as a satoshi.  This book uses the same
-pluralization rules used for dollars and other traditional currencies
-when talking about amounts greater than one bitcoin and when using
-decimal notation, such as "10 bitcoins" or "0.001 bitcoins."  The same
-rules also apply to other bitcoin bookkeeping units, such as
-millibitcoins and satoshis.
+La rete Bitcoin può gestire transazioni anche in valori frazionari, ad
+esempio dal millibitcoin (1/1000 di bitcoin) fino a 1/100.000.000 di
+bitcoin, noto come *satoshi*. Questo libro utilizza le stesse regole di
+plurale adottate per il dollaro e per le altre valute tradizionali
+quando ci si riferisce a importi superiori a un bitcoin e quando si usa
+la notazione decimale, come "10 bitcoin" o "0,001 bitcoin". Le stesse
+regole valgono anche per le altre unità contabili di bitcoin, come i
+millibitcoin e i satoshi.
 ====
 
 Si può usare un blockchain explorer per esaminare i dati presenti sulla blockcahin, come la https://oreil.ly/hAeyh[transazione] effettuata da Alice.
