@@ -284,9 +284,7 @@ Ciò significa che i miner hanno una scelta. Possono collaborare con Alice per c
 
 [TIP]
 ====
-Puoi vedere il blocco che include il
-You can see the block that includes
-https://oreil.ly/7v_lH[pagamento di Alice].
+Puoi vedere il blocco che include il https://oreil.ly/7v_lH[pagamento di Alice].
 ====
 
 Circa 19 minuti dopo la trasmissione del blocco contenente la transazione di Alice, un nuovo blocco viene minato da un altro miner. Dato che questo nuovo blocco si basa sul blocco che conteneva la transazione di Alice (fornendo così due conferme), adesso la transazione di Alice può essere modificata soltanto se vengono minati due blocchi alternativi — più un nuovo blocco costruito sopra di essi — per un totale di tre blocchi da minare, qualora Alice volesse riprendersi il denaro inviato a Bob.
