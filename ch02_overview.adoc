@@ -294,7 +294,7 @@ In <<block-alice1>>, possiamo vedere il blocco che contiene la transazione di Al
 Per convenzione, qualunque blocco con più di sei conferme viene considerato molto difficile da modificare, poiché richiederebbe un’enorme quantità di calcolo per ricalcolare sei blocchi (più un nuovo blocco). Esamineremo il processo di “mining” e il modo in cui incrementa la fiducia in maniera più approfondita in <<mining>>.
 
 [[block-alice1]]
-.Alice's transaction included in a block.
+.La transazione di Alice inclusa in un blocco.
 image::images/mbc3_0207.png["Alice's transaction included in a block"]
 
 [role="less_space pagebreak-before"]
@@ -305,7 +305,7 @@ Ora che la transazione di Alice è stata incorporata nella blockchain come parte
 Bob può ora spendere l’output derivante da questa e da altre transazioni. Ad esempio, Bob può pagare un appaltatore o un fornitore trasferendo il valore dal pagamento di Alice per il podcast a questi nuovi destinatari. Man mano che Bob spende i pagamenti ricevuti da Alice e da altri clienti, estende la catena di transazioni. Supponiamo che Bob paghi il suo web designer, Gopesh, per una nuova pagina del sito. A questo punto la catena di transazioni si presenterà come mostrato in <<block-alice2>>.
 
 [[block-alice2]]
-.Alice's transaction as part of a transaction chain from Joe to Gopesh.
+.La transazione di Alice come parte di una catena da Joe a Gopesh.
 image::images/mbc3_0208.png["Alice's transaction as part of a transaction chain"]
 
 In questo capitolo, abbiamo visto come le transazioni creino una catena che trasferisce valore da un proprietario all’altro. Abbiamo anche seguito la transazione di Alice dal momento in cui è stata creata nel suo wallet, passando attraverso la rete Bitcoin, fino ai miner che l’hanno registrata sulla blockchain. Nel resto di questo libro, esamineremo nel dettaglio le tecnologie specifiche che stanno dietro a wallet, indirizzi, firme, transazioni, al network e, infine, al mining.
