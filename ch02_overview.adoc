@@ -135,7 +135,7 @@ La Tx2 di Alice contiene due nuovi output: uno paga 75.000 satoshi per il podcas
    |       |         |   |       |        |    |       |        |
    +-------+---------+   +-------+--------+    +-------+--------+
         Fee꞉ (unknown)           Fee꞉ 5,000            Fee꞉ 8,000
-@enddittaa
+@endditaa
 ////
 
 [[transaction-chain]]
@@ -152,7 +152,6 @@ Le transazioni Bitcoin serializzate, ossia il formato con cui il software le inv
 Oltre a uno o più output che pagano il destinatario dei bitcoin, molte transazioni includono anche un output che restituisce bitcoin a chi effettua il pagamento: questo si chiama output di _resto_ (change output).
 
 Ciò avviene perché gli input delle transazioni, proprio come le banconote, non possono essere spesi parzialmente. Se in un negozio compri un oggetto da 5 dollari, ma usi una banconota da 20 dollari per pagarlo, ti aspetti di ricevere 15 dollari di resto. Lo stesso concetto si applica agli input delle transazioni Bitcoin. Se acquistassi qualcosa al costo di 5 bitcoin ma avessi a disposizione soltanto un input da 20 bitcoin, invieresti un output da 5 bitcoin al venditore e un output da 15 bitcoin di resto a te stesso (senza contare la commissione della transazione).
-Le transazioni possono essere immaginate come delle righe in un registro contabile a partita doppia. Ogni transazione è composta da due parti principali: gli *input* e gli *output*. Gli *input* rappresentano i fondi che qualcuno possiede e intende spendere; in pratica, indicano da dove provengono i soldi utilizzati nella transazione. Gli *output*, invece, sono i destinatari dei fondi, ovvero coloro che riceveranno i soldi inviati. Di solito, la somma totale degli output è leggermente inferiore alla somma degli input, e questa differenza rappresenta una *commissione di transazione* implicita, ovvero un piccolo importo incassato dal miner che include la transazione nella blockchain. Una transazione Bitcoin è rappresentata come una voce del registro contabile nella figura <<transaction-double-entry>>.
 Nel protocollo Bitcoin, non c’è alcuna differenza tra un output di resto (e l’indirizzo a cui viene inviato, definito _indirizzo di resto_, o change address) e un output di pagamento.
 
 È importante sottolineare che l’indirizzo di resto (change address) non deve necessariamente coincidere con l’indirizzo di input e, per motivi di privacy, spesso corrisponde a un nuovo indirizzo generato dal wallet del proprietario. In circostanze ideali, i due diversi utilizzi degli output ricorrono entrambi a indirizzi mai visti prima e appaiono identici, impedendo così a terze parti di stabilire quali output siano di resto e quali di pagamento. Tuttavia, a scopo illustrativo, abbiamo aggiunto un’ombreggiatura agli output di resto in <<transaction-chain>>.
