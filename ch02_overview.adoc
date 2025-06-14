@@ -24,7 +24,7 @@ Tra i blockchain explorer più popolari ci sono:
 Ognuno di questi strumenti dispone di una funzione di ricerca che consente di inserire un indirizzo Bitcoin, un hash di transazione, un numero di blocco o un hash di blocco per recuperare le informazioni corrispondenti dalla rete Bitcoin. Per ogni esempio di transazione o blocco, forniremo un URL che ti permetterà di visualizzarlo direttamente e studiarlo dettagliatamente.
 
 [[block-explorer-privacy]]
-.Occhio alla privacy quando usi i block explorer
+.Attenzione alla privacy quando usi i block explorer
 [WARNING]
 ====
 Cercare informazioni su un block explorer può rivelare al suo gestore che sei interessato a quei dati, permettendogli di collegarli al tuo indirizzo IP, ai dettagli del tuo browser, alle ricerche effettuate in passato o ad altre informazioni identificative. Se consulti le transazioni riportate in questo libro, l'operatore del block explorer potrebbe intuire che stai imparando qualcosa su Bitcoin, il che non dovrebbe essere un problema. Ma se controlli le tue transazioni personali, l'operatore potrebbe riuscire a dedurre quanti bitcoin hai ricevuto, speso e quanti ne possiedi in questo momento.
