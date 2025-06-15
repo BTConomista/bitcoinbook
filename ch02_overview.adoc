@@ -152,7 +152,7 @@ Le transazioni Bitcoin serializzate, ossia il formato con cui il software le inv
 Oltre agli output che pagano il destinatario, molte transazioni prevedono un output di _resto_ che restituisce bitcoin a chi effettua il pagamento.
 
 Ciò accade perché gli input delle transazioni, proprio come le banconote, non possono essere spesi parzialmente. Se compri un oggetto da 5 dollari ma paghi con una banconota da 20, ti aspetti 15 dollari di resto. Lo stesso vale per gli input Bitcoin: se vuoi spendere 5 bitcoin ma disponi solo di un input da 20, invierai 5 bitcoin al venditore e 15 di resto a te stesso, al netto della commissione di transazione.
-Nel protocollo Bitcoin non c'è differenza tra un output di resto (e l'indirizzo a cui viene inviato, chiamato _change address_) e un output di pagamento.
+Nel protocollo Bitcoin non c'è differenza tra un output di resto (e l'indirizzo a cui viene inviato, è chiamato _change address_, cioè indirizzo di resto) e un output di pagamento.
 
 Per motivi di privacy il change address non coincide quasi mai con l'indirizzo di input e in genere è un nuovo indirizzo generato dal wallet. In situazioni ideali entrambi gli output usano indirizzi mai visti prima e risultano indistinguibili, impedendo di stabilire quali siano di resto e quali di pagamento. A scopo illustrativo abbiamo evidenziato gli output di resto in <<transaction-chain>>.
 
@@ -222,7 +222,7 @@ Poiché la transazione contiene tutte le informazioni necessarie, non importa co
 
 ===== Come si propaga
 
-I nodi della rete peer-to-peer sono programmi che possiedono la logica e i dati necessari a verificare la correttezza di ogni nuova transazione. Le connessioni tra i peer sono spesso rappresentate come archi in un grafo, e per questo i peer di Bitcoin vengono chiamati "nodi di verifica completa" o, più semplicemente, full node.
+I nodi della rete peer-to-peer sono programmi che possiedono la logica e i dati necessari a verificare la correttezza di ogni nuova transazione. Le connessioni tra i peer sono spesso rappresentate come archi in un grafo, e per questo i peer di Bitcoin vengono chiamati "nodi di verifica completa" o, più semplicemente, full nodes.
 
 Il wallet di Alice può inviare la nuova transazione a qualsiasi nodo Bitcoin, con qualsiasi tipo di connessione: cablata, WiFi, mobile e così via. Può anche passarla ad altri programmi, come un block explorer, che la inoltreranno a un nodo. Non è necessario che il wallet di Alice sia collegato direttamente a quello di Bob o che usino la stessa connessione internet, anche se sarebbe possibile. Qualunque nodo che riceva per la prima volta una transazione valida la inoltrerà a tutti i nodi a cui è collegato, secondo la tecnica detta _gossiping_ (passaparola). In questo modo la transazione si diffonde rapidamente, raggiungendo la maggior parte dei nodi in pochi secondi.
 
@@ -249,7 +249,7 @@ Il mining bilancia costi e ricompense. Consuma elettricità per risolvere un pro
 
 Il mining funziona come una lotteria decentralizzata. Ogni miner crea il proprio biglietto generando un _blocco candidato_ con le transazioni che intende minare e alcuni campi di dati aggiuntivi.
 Il miner applica al blocco candidato una funzione di _hash_ che mescola i dati producendo un risultato del tutto diverso. A parità di input l'output è sempre lo stesso, ma basta cambiare di poco l'input perché il risultato sia imprevedibile.
-Se l'hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. All'epoca di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte la funzione di hash, prima di trovare la combinazione vincente.
+Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. All'epoca di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte la funzione di hash, prima di trovare la combinazione vincente.
 
 Quando si trova la combinazione vincente, chiunque può verificare il blocco eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti algoritmo _proof of work_ (PoW), ovvero algoritmo di _prova di lavoro_.
