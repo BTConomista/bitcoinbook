@@ -2,7 +2,7 @@
 [[ch01_intro_what_is_bitcoin]]
 == Introduzione
 
-Bitcoin è un insieme di concetti e tecnologie che gettano le basi per un ecosistema di moneta digitale. Le unità di questa valuta, chiamate bitcoin, sono usate per conservare e trasmettere valore tra i partecipanti al _network_ (rete) di Bitcoin. Gli utenti Bitcoin interagiscono tra loro tramite il protocollo Bitcoin, principalmente attraverso Internet, anche se è possibile utilizzare altre reti. L'architettura stratificata del protocollo Bitcoin, disponibile come software open source, è compatibile con un'ampia gamma di dispositivi, dai computer portatili agli smartphone, rendendo così la tecnologia facilmente accessibile.
+Bitcoin è un insieme di concetti e di tecnologie che gettano le basi per un ecosistema di moneta digitale. Le unità di questa valuta, chiamate bitcoin, sono usate per conservare e trasmettere valore tra i partecipanti al _network_ (rete) di Bitcoin. Gli utenti Bitcoin interagiscono tra loro tramite il protocollo Bitcoin, principalmente attraverso Internet, anche se è possibile utilizzare altre reti. L'architettura stratificata del protocollo Bitcoin, disponibile come software open source, è compatibile con un'ampia gamma di dispositivi, dai computer portatili agli smartphone, rendendo così la tecnologia facilmente accessibile.
 
 [TIP]
 ====
