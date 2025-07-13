@@ -147,12 +147,6 @@ In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere 
 Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di uso comune. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
 Per esempio, considera il codice di recupero rappresentato sia in esadecimale che in forma di parole, in <<hex_seed_vs_recovery_words>>.
 
-
-
-
-
-
-
 [[hex_seed_vs_recovery_words]]
 .Un seed codificato in esadecimale e in forma di parole (in inglese)
 ====
