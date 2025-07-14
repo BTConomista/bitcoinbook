@@ -814,7 +814,7 @@ Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolki
 Le sezioni seguenti elencano alcune tra le migliori librerie, client e toolkit, suddivisi per linguaggio di programmazione.
 
 ==== C/C++
-https://oreil.ly/BdOwl[Bitcoin Core] :: L'implementazione di riferimento di Bitcoin
+https://oreil.ly/BdOwl[Bitcoin Core] :: La versione di riferimento di Bitcoin
 
 ==== JavaScript
 https://bcoin.io[bcoin]:: Un full node progettato per essere modulare e scalabile, con supporto API
@@ -822,23 +822,23 @@ https://bitcore.io[Bitcore] :: Un full node con API e libreria, realizzato da Bi
 https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in JavaScript, per node.js e browser
 
 ==== Java
-https://bitcoinj.github.io[bitcoinj]:: A Java full-node client library
+https://bitcoinj.github.io[bitcoinj]:: Una libreria Java per client full node
 
 ==== Python
-https://oreil.ly/xn_rg[python-bitcoinlib]::  A Python bitcoin library, consensus library, and node by Peter Todd
-https://oreil.ly/wcpXP[pycoin]:: A Python bitcoin library by Richard Kiss
+https://oreil.ly/xn_rg[python-bitcoinlib]::  Una libreria Bitcoin in Python, una libreria per il consenso e un full node sviluppati da Peter Todd
+https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppati da Richard Kiss
 
 ==== Go
-https://oreil.ly/h5MEI[btcd]:: A Go language, full-node Bitcoin client
+https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio Go
 
 ==== Rust
-https://oreil.ly/me6gf[rust-bitcoin]:: Rust bitcoin library for serialization, parsing, and API calls
+https://oreil.ly/me6gf[rust-bitcoin]:: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l'analisi dei dati e le chiamate API
 
 ==== Scala
-https://bitcoin-s.org[bitcoin-s]:: A Bitcoin implementation in Scala
+https://bitcoin-s.org[bitcoin-s]:: Una versione di Bitcoin sviluppata in Scala
 
 ==== C#
-https://oreil.ly/Qfjgq[NBitcoin]:: Comprehensive bitcoin library for the .NET framework
+https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il framework .NET
 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
