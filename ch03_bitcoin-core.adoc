@@ -814,12 +814,12 @@ Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolki
 Le sezioni seguenti elencano alcune tra le migliori librerie, client e toolkit, suddivisi per linguaggio di programmazione.
 
 ==== C/C++
-https://oreil.ly/BdOwl[Bitcoin Core] :: The reference implementation of Bitcoin
+https://oreil.ly/BdOwl[Bitcoin Core] :: L'implementazione di riferimento di Bitcoin
 
 ==== JavaScript
-https://bcoin.io[bcoin]:: A modular and scalable full-node implementation with API
-https://bitcore.io[Bitcore] :: Full node, API, and library by Bitpay
-https://oreil.ly/4iqf2[BitcoinJS] :: A pure JavaScript Bitcoin library for node.js and browsers
+https://bcoin.io[bcoin]:: Un full node progettato per essere modulare e scalabile, con supporto API
+https://bitcore.io[Bitcore] :: Un full node con API e libreria, realizzato da Bitpay
+https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in JavaScript, per node.js e browser
 
 ==== Java
 https://bitcoinj.github.io[bitcoinj]:: A Java full-node client library
