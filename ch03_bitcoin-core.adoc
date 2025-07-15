@@ -2,15 +2,15 @@
 
 == Bitcoin Core: L'implementazione di riferimento
 
-Le persone sono disposte ad accettare denaro in cambio di beni e servizi solo se hanno la certezza di poterlo utilizzare in futuro. Poiché il denaro contraffatto o svalutato inaspettatamente potrebbe non essere accettato, chiunque riceva bitcoin ha un forte incentivo a verificare che la rete non presenti problemi. Il sistema Bitcoin è stato progettato per consentire al software in esecuzione sul proprio computer di prevenire contraffazioni, svalutazioni e altre criticità. Questo software è chiamato _nodo di validazione completo_ (o _full node_), poiché verifica ogni transazione confermata rispetto a tutte le regole del sistema. I full node, o semplicemente _nodi completi_, forniscono anche strumenti e dati utili per comprendere il funzionamento di Bitcoin e monitorare l'attività della rete.
+Le persone sono disposte ad accettare denaro in cambio di beni e servizi solo se hanno la certezza di poterlo utilizzare in futuro. Poiché il denaro contraffatto o svalutato inaspettatamente potrebbe non essere accettato, chiunque riceva bitcoin ha un forte incentivo a verificare che la rete non presenti problemi. Il sistema Bitcoin è stato progettato per consentire al software in esecuzione sul proprio computer di prevenire contraffazioni, svalutazioni e altre criticità. Questo software è chiamato _nodo di verifica completa_ (o _full node_), poiché verifica ogni transazione confermata rispetto a tutte le regole del sistema. I full node, o semplicemente _nodi completi_, forniscono anche strumenti e dati utili per comprendere il funzionamento di Bitcoin e monitorare l'attività della rete.
 
-In questo capitolo, installeremo Bitcoin Core, l'implementazione di riferimento utilizzata dalla maggior parte degli operatori di full node sin dagli albori della rete Bitcoin. Successivamente, analizzeremo blocchi, transazioni e altri dati provenienti dal nostro nodo. Tali dati sono autorevoli non perché un'entità centrale li abbia approvati, ma perché il nostro nodo li ha verificati in modo indipendente. Nel resto del libro, continueremo a utilizzare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
+In questo capitolo, installeremo Bitcoin Core, l'implementazione preferita dalla maggior parte degli operatori di full node sin dagli albori della rete Bitcoin. Successivamente, analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo. Tali dati sono autorevoli non perché un'entità centrale li abbia approvati, ma perché il tuo nodo li ha verificati in modo indipendente. Nel resto del libro, continueremo a utilizzare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
 === Da Bitcoin a Bitcoin Core
 
 Bitcoin è un progetto _open source_: il suo codice sorgente è disponibile con una licenza aperta (MIT), scaricabile gratuitamente e utilizzabile per qualsiasi scopo. Bitcoin è sviluppato da una comunità aperta di volontari. Inizialmente, questa comunità era composta unicamente da Satoshi Nakamoto. Nel 2023, il codice sorgente di Bitcoin contava oltre 1.000 contributori, con circa una dozzina di sviluppatori impegnati a tempo pieno e diverse decine di collaboratori part-time. Chiunque può contribuire al codice, te compreso!
 
-Quando Satoshi Nakamoto creò Bitcoin, il software era già in gran parte completato, ancor prima della pubblicazione del white paper (disponibile in <<satoshi_whitepaper>>). Satoshi voleva assicurarsi che l'implementazione funzionasse correttamente prima di renderla pubblica. Quella prima implementazione, nota semplicemente come "Bitcoin", è stata profondamente modificata e migliorata nel tempo, evolvendosi in quello che oggi conosciamo come _Bitcoin Core_, per distinguerla da altre implementazioni. Bitcoin Core è l'_implementazione di riferimento_ del sistema Bitcoin: definisce lo standard con cui ogni parte della tecnologia dovrebbe essere implementata. Bitcoin Core implementa tutti gli aspetti di Bitcoin, inclusi i wallet, un motore di validazione per transazioni e blocchi, strumenti per la costruzione di blocchi e tutti i moderni componenti della comunicazione peer-to-peer.
+Quando Satoshi Nakamoto creò Bitcoin, il software era già in gran parte completato, ancor prima della pubblicazione del whitepaper (puoi leggerlo in <<satoshi_whitepaper>>). Satoshi voleva assicurarsi che l'implementazione funzionasse correttamente prima di renderla pubblica. Quella prima implementazione, nota semplicemente come "Bitcoin", è stata profondamente modificata e migliorata nel tempo, evolvendosi in quello che oggi conosciamo come _Bitcoin Core_, per distinguerla da altre implementazioni. Bitcoin Core è l'_implementazione di riferimento_ del sistema Bitcoin: definisce lo standard con cui ogni parte della tecnologia dovrebbe essere implementata. Bitcoin Core implementa tutti gli aspetti di Bitcoin, inclusi i wallet, un motore di validazione per transazioni e blocchi, strumenti per la costruzione di blocchi e tutti i moderni componenti della comunicazione peer-to-peer.
 
 <<bitcoin_core_architecture>> mostra l'architettura di Bitcoin Core.
 
@@ -18,7 +18,7 @@ Quando Satoshi Nakamoto creò Bitcoin, il software era già in gran parte comple
 .Architettura di Bitcoin Core (Fonte: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
-Sebbene Bitcoin Core sia l'implementazione di riferimento per molti componenti fondamentali del sistema, il white paper di Bitcoin descrive solo alcuni degli elementi iniziali del progetto. La maggior parte degli aggiornamenti significativi, a partire dal 2011, è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso del libro, faremo riferimento a queste specifiche utilizzando il loro numero di identificazione; ad esempio, il BIP 9 descrive un meccanismo impiegato per diversi importanti aggiornamenti di Bitcoin.
+Sebbene Bitcoin Core sia l'implementazione di riferimento per molti componenti fondamentali del sistema, il white paper di Bitcoin descrive solo alcuni degli elementi iniziali del progetto. La maggior parte degli aggiornamenti più rilevanti dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso del libro, faremo riferimento a queste specifiche utilizzando il loro numero di identificazione; ad esempio, il BIP 9 descrive un meccanismo impiegato per diversi importanti aggiornamenti di Bitcoin.
 
 === Ambiente di sviluppo Bitcoin
 
@@ -29,6 +29,8 @@ Se sei uno sviluppatore, è fondamentale configurare un ambiente di sviluppo che
 === Compilare Bitcoin Core dal codice sorgente
 
 Il codice sorgente di Bitcoin Core può essere scaricato come file ZIP o clonando il repository GitHub. Visita la https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file ZIP del codice sorgente. In alternativa, puoi utilizzare il comando `git` per creare una copia locale del repository dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin].
+
+
 
 
 [SUGGERIMENTO]
