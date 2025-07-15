@@ -432,7 +432,7 @@ che definisce quale percorso di derivazione delle chiavi utilizzare. Per esempio
 `m/44'/0'/0'` come il percorso da utilizzare per le chiavi negli script P2PKH (un
 indirizzo legacy). Un'applicazione wallet che implementa questo standard utilizza
 le chiavi in quel percorso sia quando viene avviata per la prima volta che dopo un
-ripristino da un codice di recupero. Chiamiamo((("implicit paths", id="implicit-path"))) questa soluzione _percorsi
+ripristino da un codice di recupero. Chiamiamo questa soluzione _percorsi
 impliciti_. Diversi percorsi impliciti popolari definiti dai BIP sono mostrati in <<bip_implicit_paths>>
 
 ++++
@@ -600,7 +600,7 @@ correttamente.
 
 [TIP]
 ====
-I codici di recupero((("brainwallets"))) sono spesso confusi con
+I codici di recupero sono spesso confusi con
 i "brainwallet". Non sono la stessa cosa. La differenza principale è che un
 brainwallet consiste in parole scelte dall'utente, mentre i codici di recupero
 sono creati casualmente dal wallet e presentati all'utente. Questa
@@ -621,7 +621,7 @@ i passaggi da 7 a 9 sono mostrati in <<recovery_to_seed>>.
 [[generating_recovery_words]]
 ===== Generazione di un codice di recupero
 
-I codici((("wallets", "recovery codes", "generating", id="wallet-recovery-bip39-generate")))((("recovery codes", "generating", id="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", id="bip39-recovery-generate")))((("entropy", "recovery code generation", id="entropy-recovery-generate"))) di recupero sono generati automaticamente dall'applicazione wallet utilizzando il
+I codici di recupero sono generati automaticamente dall'applicazione wallet utilizzando il
 processo standardizzato definito in BIP39. Il wallet parte da una fonte
 di entropia, aggiunge un checksum e poi mappa l'entropia a una lista di parole:
 
@@ -647,7 +647,7 @@ generare un codice di recupero BIP39.
 image::images/mbc3_0504.png["Generating entropy and encoding as a recovery code"]
 
 <<table_4-5>> mostra la relazione tra la dimensione dei dati
-di entropia e la lunghezza del codice di recupero in((("wallets", "recovery codes", "generating", startref="wallet-recovery-bip39-generate")))((("recovery codes", "generating", startref="recovery-code-bip39-generate")))((("BIP39 recovery codes", "generating", primary-sortas="BIP039", startref="bip39-recovery-generate")))((("entropy", "recovery code generation", startref="entropy-recovery-generate"))) parole.
+di entropia e la lunghezza del codice di recupero in parole.
 
 ++++
 <table id="table_4-5">
@@ -699,14 +699,14 @@ di entropia e la lunghezza del codice di recupero in((("wallets", "recovery code
 [[recovery_to_seed]]
 ===== Dal codice di recupero al seed
 
-Il ((("wallets", "recovery codes", "seed generation", id="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", id="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", id="bip39-recovery-seed")))((("entropy", "seed generation", id="entropy-seed-generate")))((("seeds", "generating", id="seed-generate")))((("key-stretching functions", id="key-stretch")))codice di recupero
+Il codice di recupero
 rappresenta entropia con una lunghezza di 128-256 bit. L'entropia viene poi
 utilizzata per derivare un seed più lungo (512 bit) attraverso l'uso della
 https://oreil.ly/6lwbd[funzione di key-stretching PBKDF2]. Il seed prodotto viene quindi utilizzato per costruire
 un wallet deterministico e derivare le sue chiavi.
 
 La funzione di key-stretching prende due
-parametri: l'entropia e((("salt"))) un _salt_. Lo scopo di un salt in una
+parametri: l'entropia e un _salt_. Lo scopo di un salt in una
 funzione di key-stretching è rendere difficile costruire una tabella di lookup
 che permetta un attacco a forza bruta. Nello standard BIP39, il salt ha
 un altro scopo--permette l'introduzione di una passphrase che
@@ -764,7 +764,7 @@ pass:[<a data-type="xref" href="#bip39_128_w_pass"
 data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
 pass:[<a data-type="xref" href="#bip39_256_no_pass"
 data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
-alcuni esempi di codici di recupero e i seed ((("key-stretching functions", startref="key-stretch")))che producono.
+alcuni esempi di codici di recupero e i seed (((che producono.
 
 ++++
 <table id="bip39_128_no_pass">
@@ -884,13 +884,13 @@ codice di recupero in più luoghi senza fare affidamento sulla sicurezza di
 un singolo codice.
 
 A partire dal 2023, la maggior parte dei wallet moderni genera 128 bit di entropia per i loro
-codici di recupero (o un valore vicino a 128, come((("wallets", "recovery codes", "seed generation", startref="wallet-recovery-bip39-seed")))((("recovery codes", "seed generation", startref="recovery-code-bip39-seed")))((("BIP39 recovery codes", "seed generation", primary-sortas="BIP039", startref="bip39-recovery-seed")))((("entropy", "seed generation", startref="entropy-seed-generate")))((("seeds", "generating", startref="seed-generate"))) i 132 bit di Electrum v2).
+codici di recupero (o un valore vicino a 128, come i 132 bit di Electrum v2).
 ****
 
 [[recovery_passphrase]]
 ===== Passphrase opzionale in BIP39
 
-Lo((("wallets", "recovery codes", "passphrases", id="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", id="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", id="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", id="passphrase-optional"))) standard BIP39 permette l'uso di una passphrase
+Lo standard BIP39 permette l'uso di una passphrase
 opzionale nella derivazione del seed. Se non viene utilizzata alcuna passphrase, il
 codice di recupero viene esteso con un salt costituito dalla stringa costante
 +"mnemonic"+, producendo un seed specifico di 512 bit da qualsiasi codice di recupero dato.
@@ -924,7 +924,7 @@ La passphrase opzionale crea due importanti caratteristiche:
 
 * Se il proprietario del wallet è incapacitato o morto e nessun altro conosce la passphrase, il seed è inutile e tutti i fondi memorizzati nel wallet sono persi per sempre.
 
-* Al contrario, se il proprietario fa il backup della passphrase nello stesso luogo del seed, vanifica lo scopo di un secondo((("wallets", "recovery codes", startref="wallet-recovery-bip39")))((("recovery codes", startref="recovery-code-bip39")))((("BIP39 recovery codes", primary-sortas="BIP039", startref="bip39-recovery")))((("wallets", "recovery codes", "passphrases", startref="wallet-recovery-bip39-passphrase")))((("recovery codes", "passphrases", startref="recovery-code-bip39-passphrase")))((("BIP39 recovery codes", "passphrases", primary-sortas="BIP039", startref="bip39-recovery-passphrase")))((("passphrases (for recovery codes)", startref="passphrase-optional"))) fattore.
+* Al contrario, se il proprietario fa il backup della passphrase nello stesso luogo del seed, vanifica lo scopo di un secondo fattore.
 
 ++++
 <p class="fix_tracking2">
@@ -938,7 +938,7 @@ famiglia di recuperare il patrimonio in criptovaluta.
 [[hd_wallet_details]]
 ==== Creazione di un Wallet HD dal Seed
 
-I wallet HD ((("wallets", "key generation", "HD (hierarchical deterministic)", id="wallet-keygen-hd")))((("key generation", "HD (hierarchical deterministic)", id="keygen-hd")))((("HD (hierarchical deterministic) key generation", id="hd-keygen")))((("BIP32 HD (hierarchical deterministic) key generation", primary-sortas="BIP032", id="bip32")))((("seeds", "HD wallet creation", id="seed-hdwallet")))sono creati da un singolo ((("root seeds")))_seed radice_, che è un
+I wallet HD sono creati da un singolo _seed radice_, che è un
 numero casuale di 128, 256 o 512 bit. Più comunemente, questo seed viene
 generato o decrittato da un codice di recupero come dettagliato nella sezione precedente.
 
@@ -967,7 +967,7 @@ crea chiavi figlie da chiavi genitore, come vedremo nella prossima sezione.
 
 ===== Derivazione di chiavi figlie private
 
-I wallet HD ((("key generation", "HD (hierarchical deterministic)", "private child key derivation", id="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", id="hd-keygen-private-child")))((("private child key derivation", id="private-child")))((("child key pair derivation", "private keys", id="child-key-pair-private")))utilizzano una funzione di _derivazione di chiavi figlie_ (CKD)
+I wallet HD utilizzano una funzione di _derivazione di chiavi figlie_ (CKD)
 per derivare chiavi figlie da chiavi genitore.
 
 Le funzioni di derivazione di chiavi figlie si basano su una funzione di hash unidirezionale
@@ -1033,13 +1033,13 @@ Una chiave privata figlia, la corrispondente chiave pubblica e l'indirizzo
 Bitcoin sono tutti indistinguibili da chiavi e indirizzi creati
 casualmente. Il fatto che facciano parte di una sequenza non è visibile
 al di fuori della funzione del wallet HD che li ha creati. Una volta creati, funzionano
-esattamente((("key generation", "HD (hierarchical deterministic)", "private child key derivation", startref="keygen-hd-private-child")))((("HD (hierarchical deterministic) key generation", "private child key derivation", startref="hd-keygen-private-child")))((("private child key derivation", startref="private-child")))((("child key pair derivation", "private keys", startref="child-key-pair-private"))) come chiavi "normali".
+esattamente come chiavi "normali".
 ====
 
 ===== Chiavi estese
 
 Come
-abbiamo visto ((("key generation", "HD (hierarchical deterministic)", "extended keys", id="keygen-hd-extend")))((("HD (hierarchical deterministic) key generation", "extended keys", "explained", id="hd-keygen-extend")))((("extended keys", "explained", id="extend-key")))in precedenza, la funzione di derivazione delle chiavi può essere utilizzata per creare
+abbiamo visto in precedenza, la funzione di derivazione delle chiavi può essere utilizzata per creare
 figli a qualsiasi livello dell'albero, basandosi sui tre input: una chiave, un
 codice di catena e l'indice del figlio desiderato. I due ingredienti essenziali
 sono la chiave e il codice di catena, e combinati questi sono chiamati una
@@ -1089,7 +1089,7 @@ LrtJunSDMstweyLXhRgPxdp14sk9tJPW9
 ===== Derivazione di chiavi figlie pubbliche
 
 Come
-menzionato in precedenza, ((("key generation", "HD (hierarchical deterministic)", "public child key derivation", id="keygen-hd-public-child")))((("HD (hierarchical deterministic) key generation", "public child key derivation", id="hd-keygen-public-child")))((("public child key derivation", id="public-child")))((("child key pair derivation", "public keys", id="child-key-pair-public")))una caratteristica molto utile dei wallet HD è la
+menzionato in precedenza, una caratteristica molto utile dei wallet HD è la
 capacità di derivare chiavi figlie pubbliche da chiavi genitore pubbliche _senza_
 avere le chiavi private. Questo ci dà due modi per derivare una chiave pubblica figlia:
 o dalla chiave privata figlia o direttamente dalla chiave
@@ -1120,7 +1120,7 @@ non "esaurisca" le chiavi.
 
 .Attenzione al Gap
 ****
-Una ((("gap limit", id="gap-limit")))chiave pubblica estesa può generare circa 4 miliardi di chiavi
+Una chiave pubblica estesa può generare circa 4 miliardi di chiavi
 figlie dirette, molte più di quante qualsiasi negozio o applicazione dovrebbe mai aver bisogno.
 Tuttavia, richiederebbe anche a un'applicazione wallet un tempo irragionevole
 per generare tutti i 4 miliardi di chiavi e scansionare la blockchain per
@@ -1164,7 +1164,7 @@ proposte, come
 chiedere al wallet del pagatore di costruire (ma non trasmettere) una
 transazione che paga un indirizzo possibilmente riutilizzato prima di ricevere un indirizzo
 fresco per la transazione effettiva. Tuttavia, queste altre soluzioni non
-sono state utilizzate in produzione al momento della((("gap limit", startref="gap-limit"))) stesura.
+sono state utilizzate in produzione al momento della stesura.
 ****
 
 Un'altra applicazione comune di questa soluzione è per
