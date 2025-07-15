@@ -9,7 +9,7 @@ Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiu
 .Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
 image::images/mbc3_aain01.png["Transaction chain from original Bitcoin paper"]
 
-Il destinatario, come Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (come Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e lei utilizza la corrispondente chiave privata per generare la sua firma.
+Il destinatario, in questo caso Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e ora lei utilizza la corrispondente chiave privata per generare la sua firma.
 I full node possono verificare che la firma di Alice si riferisca all'output di una funzione di hash, che a sua volta lega la transazione alla chiave pubblica di Bob e ad altri dettagli della transazione.
 
 In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme e le funzioni di hash. Successivamente, utilizzeremo tutti questi elementi insieme per descrivere gli indirizzi utilizzati dal software Bitcoin moderno.
@@ -21,7 +21,8 @@ Da allora, sono state scoperte diverse funzioni matematiche adatte a creare sist
 Sulla base di queste funzioni matematiche, la crittografia permette la creazione di firme digitali non falsificabili.
 Bitcoin utilizza la somma di punti su curva ellittica e la moltiplicazione scalare su curva ellittica come base per la sua crittografia.
 
-In Bitcoin, possiamo usare la crittografia a chiave pubblica per creare una coppia di chiavi che controlla l’accesso ai bitcoin. La coppia di chiavi è composta da una chiave privata e una chiave pubblica derivata dalla chiave privata. La chiave pubblica viene utilizzata per ricevere fondi, mentre la chiave privata serve a firmare le transazioni per spendere quei fondi.
+Nel protocollo Bitcoin, si utilizza la crittografia a chiave pubblica per generare una coppia di chiavi crittografiche che definisce chi può spendere determinati bitcoin.
+La coppia di chiavi è composta da una chiave privata e una chiave pubblica derivata dalla chiave privata. La chiave pubblica viene utilizzata per ricevere fondi, mentre la chiave privata serve a firmare le transazioni per spendere quei fondi.
 
 Esiste una relazione matematica tra la chiave privata e la chiave pubblica che permette di utilizzare la chiave privata per generare firme sui messaggi. Queste firme possono essere verificate utilizzando la chiave pubblica, senza che la chiave privata venga rivelata.
 
@@ -41,9 +42,11 @@ Una chiave privata può essere applicata a una transazione per produrre una firm
 Questa proprietà della crittografia asimmetrica consente a chiunque di verificare ogni firma su ogni transazione, garantendo al contempo che solo i proprietari delle chiavi private possano generare firme valide.
 ****
 
+
+
 [[chiavi_private]]
 ==== 4.2 Chiavi private
-Una chiave privata è semplicemente un numero scelto in modo casuale. Il controllo della chiave privata è la base del controllo dell'utente su tutti i fondi associati alla corrispondente chiave pubblica di Bitcoin.
+Una chiave privata è semplicemente un numero scelto in modo casuale. Il controllo della chiave privata è la base del controllo dell'utente su tutti i fondi associati alla corrispondente chiave pubblica.
 La chiave privata viene utilizzata per creare firme digitali, che servono a spendere i bitcoin dimostrando il controllo dei fondi utilizzati in una transazione.
 La chiave privata deve rimanere segreta in ogni momento, perché rivelarla a terzi equivale a dare loro il pieno controllo dei bitcoin protetti da quella chiave.
 Inoltre, bisogna fare il backup della chiave privata ed essa deve essere protetta da eventuali perdite accidentali. Se una chiave privata viene smarrita, non può essere recuperata e i fondi ad essa associati saranno persi per sempre.
@@ -64,13 +67,8 @@ Se il risultato è inferiore a _n_, allora abbiamo generato una chiave privata v
 
 [WARNING]
 ====
-Do not write your own code to create a random
-number or use a "simple" random number generator offered by your
-programming language. Use a cryptographically secure pseudorandom number
-generator (CSPRNG) with a seed from a source of sufficient entropy.
-Study the documentation of the random number generator library you
-choose to make sure it is cryptographically secure. Correct
-implementation of the CSPRNG is critical to the security of the keys.
+Non usare codice personalizzato per generare numeri casuali, né utilizzare un 'semplice' generatore di numeri casuali offerto dal linguaggio di programmazione. Usa invece un generatore pseudocasuale crittograficamente sicuro (CSPRNG,"cryptographically secure pseudorandom number
+generator"), inizializzato con un seed proveniente da una fonte con sufficiente entropia. Studia attentamente la documentazione della libreria che scegli per assicurarti che il generatore sia effettivamente sicuro dal punto di vista crittografico. Una corretta implementazione del CSPRNG è fondamentale per la sicurezza delle chiavi.
 ====
 
 Di seguito è mostrata una chiave privata generata casualmente (_k_), rappresentata in formato esadecimale (256 bit visualizzati come 64 cifre esadecimali, ognuna delle quali rappresenta 4 bit):
@@ -81,10 +79,9 @@ Di seguito è mostrata una chiave privata generata casualmente (_k_), rappresent
 
 [TIP]
 ====
-The size of Bitcoin's private key space (2^256^) is an unfathomably
-large number. It is approximately 10^77^ in decimal. For comparison, the
-visible universe is estimated to contain 10^80^ atoms.
+Nella rete Bitcoin, il numero di chiavi private possibili è così enorme — 2^256^ — da risultare quasi impossibile da immaginare. In decimale è circa 10^77^. Tanto per capirci: in tutto l’universo visibile si stima che ci siano circa 10^80^ atomi.
 ====
+
 
 [[elliptic_curve]]
 ==== La crittografia a Curve Ellittiche spiegata
