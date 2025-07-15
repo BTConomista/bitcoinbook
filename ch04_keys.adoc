@@ -17,7 +17,7 @@ In questo capitolo esamineremo le chiavi pubbliche, le chiavi private, le firme 
 === 4.1 Crittografia a Chiave Pubblica
 
 La crittografia a chiave pubblica è stata inventata negli anni '70 ed è la base matematica della sicurezza informatica moderna.
-Da allora, sono state scoperte diverse funzioni matematiche adatte, come l’elevazione a potenza di numeri primi e la moltiplicazione scalare su curva ellittica. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
+Da allora, sono state scoperte diverse funzioni matematiche adatte a creare sistemi crittografici sicuri, come l’elevazione a potenza di numeri primi e la moltiplicazione scalare su curva ellittica. Queste funzioni matematiche sono facili da calcolare in una direzione ma praticamente impossibili da invertire con i computer e gli algoritmi attualmente disponibili.
 Sulla base di queste funzioni matematiche, la crittografia permette la creazione di firme digitali non falsificabili.
 Bitcoin utilizza la somma di punti su curva ellittica e la moltiplicazione scalare su curva ellittica come base per la sua crittografia.
 
