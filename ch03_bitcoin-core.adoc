@@ -35,12 +35,12 @@ Il codice sorgente di Bitcoin Core può essere scaricato come file ZIP o clonand
 
 [SUGGERIMENTO]
 ====
-In molti esempi di questo capitolo, utilizzeremo l'interfaccia a riga di comando del sistema operativo (nota anche come "shell"), accessibile tramite un'applicazione "terminale". La shell mostrerà un prompt, tu digiterai un comando e la shell risponderà con del testo, per poi visualizzare nuovamente un prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi che seguono lo indicheremo con il simbolo `$`.
+In molti esempi di questo capitolo, utilizzeremo l'interfaccia a riga di comando del sistema operativo (nota anche come "shell"), accessibile tramite un'applicazione "terminale". La shell mostrerà un prompt, tu digiterai un comando e la shell risponderà con del testo, per poi visualizzare nuovamente un prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi che seguono lo indicheremo con il simbolo +$+.
 
-Quando negli esempi vedi del testo dopo il simbolo `$`, non digitare il simbolo stesso, ma scrivi direttamente il comando che lo segue e premi Invio per eseguirlo. Le righe sottostanti a ogni comando mostrano le risposte del sistema operativo. Quando vedrai nuovamente il simbolo `$`, saprai che si tratta di un nuovo comando e potrai ripetere la procedura.
+Quando negli esempi vedi del testo dopo il simbolo +$+, non digitare il simbolo stesso, ma scrivi direttamente il comando che lo segue e premi Invio per eseguirlo. Le righe sottostanti a ogni comando mostrano le risposte del sistema operativo. Quando vedrai nuovamente il simbolo +$+, saprai che si tratta di un nuovo comando e potrai ripetere la procedura.
 ====
 
-Qui, utilizziamo il comando `git` per creare una copia locale ("clone") del codice sorgente:
+Qui, utilizziamo il comando +git+ per creare una copia locale ("clone") del codice sorgente:
 
 ----
 $ git clone https://github.com/bitcoin/bitcoin.git
@@ -55,10 +55,10 @@ Resolving deltas: 100% (175649/175649), done.
 
 [TIP]
 ====
-Git è il sistema di controllo di versione distribuito più utilizzato, uno strumento essenziale per qualsiasi sviluppatore di software. Potrebbe essere necessario installare il comando `git` o un'interfaccia grafica per Git sul tuo sistema operativo, se non è già presente.
+Git è il sistema di controllo di versione distribuito più utilizzato, uno strumento essenziale per qualsiasi sviluppatore di software. Potrebbe essere necessario installare il comando +git+ o un'interfaccia grafica per Git sul tuo sistema operativo, se non è già presente.
 ====
 
-Al termine dell'operazione di clonazione, avrai una copia locale completa del repository del codice sorgente nella cartella _bitcoin_. Accedi a questa cartella con il comando `cd`:
+Al termine dell'operazione di clonazione eseguita da Git, avrai una copia locale completa del repository del codice sorgente nella cartella _bitcoin_. Accedi a questa cartella con il comando +cd+:
 
 ----
 $ cd bitcoin
@@ -66,7 +66,7 @@ $ cd bitcoin
 
 ==== Selezionare una Versione di Bitcoin Core
 
-Per impostazione predefinita, la copia locale del repository è sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare, è consigliabile selezionare una versione specifica tramite un _tag_ di release. Questo comando sincronizza la copia locale con una versione precisa del codice, contrassegnata da un'etichetta (tag). Gli sviluppatori utilizzano i tag per versionare il software. Per visualizzare i tag disponibili, utilizza il comando `git tag`:
+Per impostazione predefinita, la copia locale del repository è sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, è consigliabile selezionare una versione specifica tramite un _tag_ di release. Questo comando sincronizza la copia locale con una versione precisa del codice, contrassegnata da un'etichetta (tag). Gli sviluppatori utilizzano i tag per versionare il software. Per visualizzare i tag disponibili, utilizza il comando +git tag+:
 
 ----
 $ git tag
@@ -81,7 +81,7 @@ v0.12.0rc2
 ...
 ----
 
-L'elenco dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, le versioni _candidate al rilascio_ (destinate ai test) sono identificate dal suffisso "rc", mentre le versioni stabili, adatte all'uso in produzione, non hanno alcun suffisso. Dall'elenco, seleziona la versione stabile più recente (al momento della scrittura, la v24.0.1). Per sincronizzare il codice locale con questa versione, utilizza il comando `git checkout`:
+L'elenco dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, le versioni _candidate al rilascio_ (destinate ai test) sono identificate dal suffisso "rc", mentre le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso. Dall'elenco, seleziona la versione stabile più recente (al momento della scrittura, la v24.0.1). Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
 $ git checkout v24.0.1
@@ -94,7 +94,7 @@ state without impacting any branches by switching back to a branch.
 HEAD is now at b3f866a8d Merge bitcoin/bitcoin#26647: 24.0.1 final changes
 ----
 
-Per verificare di aver selezionato la versione corretta, esegui il comando `git status`:
+Per verificare di aver selezionato la versione corretta, esegui il comando +git status+:
 
 ----
 HEAD detached at v24.0.1
@@ -105,11 +105,11 @@ nothing to commit, working tree clean
 
 Il codice sorgente include una documentazione dettagliata, consultabile in diversi file. Ti consigliamo di leggere la documentazione principale, contenuta nel file _README.md_ nella directory _bitcoin_.
 
-In questo capitolo, compileremo il demone di Bitcoin Core (server), noto come `bitcoind` su Linux e altri sistemi Unix. Per istruzioni dettagliate sulla compilazione del client a riga di comando `bitcoind` per la tua piattaforma, consulta il file _doc/build-unix.md_.
+In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux e altri sistemi Unix. Per istruzioni dettagliate sulla compilazione del client a riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
 
 Per altre piattaforme, puoi trovare istruzioni specifiche nella directory _doc_; ad esempio, _build-windows.md_ contiene le indicazioni per Windows. Al momento della stesura, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
 
-Prima di procedere, esamina attentamente i prerequisiti per la compilazione, elencati nella prima parte della documentazione. Questi includono librerie e pacchetti che devono essere installati sul tuo sistema. Se un prerequisito è mancante, il processo di compilazione si interromperà con un errore. In tal caso, sarà sufficiente installare il componente mancante e riavviare la compilazione. Una volta verificato che tutti i prerequisiti siano soddisfatti, puoi avviare il processo generando gli script di build con il comando _autogen.sh_:
+Prima di procedere, esamina attentamente i prerequisiti per la compilazione, elencati nella prima parte della documentazione sulla build. Questi includono librerie e pacchetti che devono essere installati sul tuo sistema prima di iniziare a compilare Bitcoin Core. Se un prerequisito è mancante, il processo di compilazione si interromperà con un errore. In tal caso, sarà sufficiente installare il componente mancante e riavviare la compilazione dal punto in cui l'avevi lasciata. Una volta verificato che tutti i prerequisiti siano soddisfatti, puoi avviare il processo generando gli script di build con il comando _autogen.sh_:
 
 ----
 $ ./autogen.sh
@@ -122,7 +122,7 @@ src/Makefile.am: installing 'build-aux/depcomp'
 parallel-tests: installing 'build-aux/test-driver'
 ----
 
-Lo script _autogen.sh_ genera una serie di script di configurazione automatica che analizzano il sistema per determinare le impostazioni corrette e verificare la presenza di tutte le librerie necessarie alla compilazione. Il più importante di questi script è `configure`, che offre diverse opzioni per personalizzare il processo. Per visualizzare le opzioni disponibili, utilizza il flag `--help`:
+Lo script _autogen.sh_ genera una serie di script di configurazione automatica che analizzano il tuo sistema per determinare le impostazioni corrette e verificare la presenza di tutte le librerie necessarie alla compilazione. Il più importante di questi script è +configure+, che offre diverse opzioni per personalizzare il processo di compilazione. Per visualizzare le opzioni disponibili, utilizza il flag +--help+:
 
 ----
 $ ./configure --help
@@ -140,27 +140,27 @@ Optional Features:
 ...
 ----
 
-Lo script `configure` ti permette di abilitare o disabilitare funzionalità specifiche di `bitcoind` tramite i flag `--enable-FEATURE` e `--disable-FEATURE`, dove `FEATURE` va sostituito con il nome della funzionalità, come indicato nell'output di aiuto. In questo capitolo, compileremo il client `bitcoind` con le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminare le opzioni disponibili per comprendere quali componenti opzionali sono inclusi. Se ti trovi in un ambiente accademico, come un laboratorio informatico, potresti dover installare le applicazioni nella tua directory home, utilizzando l'opzione `--prefix=$HOME`.
-
-Ecco alcune opzioni utili per modificare il comportamento predefinito dello script `configure`:
+Lo script +configure+ ti permette di abilitare o disabilitare funzionalità specifiche di `bitcoind` tramite i flag +--enable-FEATURE+ e +--disable-FEATURE+, in cui pass:[<span
+class="keep-together"><code>FEATURE</code></span>] va sostituito con il nome della funzionalità, come indicato nell'output di aiuto. In questo capitolo, compileremo il client +bitcoind+ con le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminare le opzioni disponibili per comprendere quali componenti opzionali sono inclusi. Se ti trovi in un ambiente accademico, come un laboratorio informatico, potresti dover installare le applicazioni nella tua directory home, utilizzando l'opzione +--prefix=$HOME+.
+Ecco alcune opzioni utili per modificare il comportamento predefinito dello script +configure+:
 
 ++++
 <dl>
 <dt><code>--prefix=$HOME</code></dt>
-<dd><p>Sovrascrive la directory di installazione predefinita (<em>/usr/local/</em>) per l'eseguibile. Utilizza <code>$HOME</code> per installare tutto nella tua directory home o in un percorso diverso.</p></dd>
+<dd><p>This overrides the default installation location (which is <em>/usr/local/</em>) for the resulting executable. Use <code>$HOME</code> to put everything in your home directory, or a different path.</p></dd>
 
 <dt><code>--disable-wallet</code></dt>
-<dd><p>Disabilita l'implementazione del wallet di riferimento.</p></dd>
+<dd><p>This is used to disable the reference wallet implementation.</p></dd>
 
 <dt><code>--with-incompatible-bdb</code></dt>
-<dd><p>Se stai compilando un wallet, consente l'uso di una versione incompatibile della libreria Berkeley DB.</p></dd>
+<dd><p>If you are building a wallet, allow the use of an incompatible version of the Berkeley DB library.</p></dd>
 
 <dt><code>--with-gui=no</code></dt>
-<dd><p>Non compila l'interfaccia grafica utente, che richiede la libreria Qt. Questa opzione compila solo il server e il client a riga di comando di Bitcoin Core.</p></dd>
+<dd><p>Don't build the graphical user interface, which requires the Qt library. This builds server and command-line Bitcoin Core only.</p></dd>
 </dl>
 ++++
 
-Successivamente, esegui lo script `configure` per individuare automaticamente le librerie necessarie e creare uno script di build personalizzato per il tuo sistema:
+Successivamente, esegui lo script +configure+ per individuare automaticamente tutte le librerie necessarie e creare uno script di build personalizzato per il tuo sistema:
 
 ----
 $ ./configure
@@ -173,6 +173,8 @@ checking for a BSD-compatible install... /usr/bin/install -c
 [many pages of configuration tests follow]
 ...
 ----
+
+
 
 Se il processo si conclude con successo, il comando `configure` genererà gli script di build personalizzati, pronti per compilare `bitcoind`. In caso di librerie mancanti o altri errori, il comando si interromperà segnalando il problema. Se ciò accade, è probabile che manchi una libreria necessaria o che una versione sia incompatibile. Rivedi la documentazione di compilazione, assicurati di aver installato tutti i prerequisiti e riesegui `configure`.
 
