@@ -1,0 +1,340 @@
+[[ch03_bitcoin_client]]
+== Bitcoin Core: L'implementazione di riferimento
+
+La gente accetta denaro in cambio di beni e servizi solo se è convinta di poterlo spendere in futuro. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere accettato in futuro; perciò chiunque riceva bitcoin ha un forte incentivo a verificare che non ci siano problemi nella rete. Il sistema Bitcoin è stato progettato affinché il software in esecuzione sul computer locale possa prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), forniscono inoltre strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
+
+In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché quel nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
+
+=== Da Bitcoin a Bitcoin Core
+
+Bitcoin è un progetto _open source_ e il codice sorgente è disponibile con una licenza aperta (MIT), scaricabile gratuitamente e utilizzabile per qualsiasi scopo. Oltre ad essere open source, Bitcoin è sviluppato da una comunità aperta di volontari. Inizialmente questa comunità era composta soltanto da Satoshi Nakamoto. Nel 2023 il codice sorgente di Bitcoin contava oltre 1.000 contributori, con circa una dozzina di sviluppatori che lavorano al codice quasi a tempo pieno e diverse decine di altri che contribuiscono part‑time. Chiunque può contribuire al codice—compreso te!
+
+Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte completato prima della pubblicazione del whitepaper (puoi leggerlo in < >). Satoshi voleva assicurarsi che l'implementazione funzionasse correttamente prima di pubblicare il documento che lo descriveva. Quella prima implementazione, nota semplicemente come “Bitcoin”, è stata pesantemente modificata e migliorata nel tempo. È evoluta in ciò che oggi chiamiamo _Bitcoin Core_, per distinguerla da altre implementazioni. Bitcoin Core è l'_implementazione di riferimento_ del sistema Bitcoin, il che significa che fornisce un riferimento per come ogni parte della tecnologia dovrebbe essere implementata. Bitcoin Core implementa tutti gli aspetti di Bitcoin, compresi wallet, un motore di validazione di transazioni e blocchi, strumenti per la costruzione di blocchi, e tutte le parti moderne della comunicazione peer‑to‑peer di Bitcoin.
+
+< > mostra l'architettura di Bitcoin Core.
+
+[[bitcoin_core_architecture]]
+.Architettura di Bitcoin Core (Source: Eric Lombrozo).
+image::images/mbc3_0301.png["Bitcoin Core Architecture"]
+
+Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del progetto. La maggior parte degli aggiornamenti più importanti dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiamo a queste specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
+
+=== Ambiente di sviluppo Bitcoin
+
+Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventa troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
+
+[[compiling_core]]
+=== Compilare Bitcoin Core dal codice sorgente
+
+Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla https://oreil.ly/BdOwl[GitHub di Bitcoin].
+
+[TIP]
+====
+In molti degli esempi di questo capitolo, useremo l'interfaccia a riga di comando del sistema operativo (nota anche come “shell”), accessibile tramite un'applicazione “terminale”. La shell mostrerà un prompt, digiterai un comando e la shell risponderà con del testo e un nuovo prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi seguenti lo indicheremo con il simbolo +$+. Negli esempi, quando vedi del testo dopo il simbolo +$+, non digitare il simbolo +$+ ma digita il comando che segue immediatamente, poi premi kbd:[Enter] per eseguire il comando. Negli esempi, le righe sotto ogni comando sono le risposte del sistema operativo a quel comando. Quando vedi il prossimo prefisso +$+, saprai che è un nuovo comando e dovresti ripetere il processo.
+====
+
+Qui utilizziamo il comando +git+ per creare una copia locale (“clone”) del codice sorgente:
+
+----
+$ git clone https://github.com/bitcoin/bitcoin.git
+Cloning into 'bitcoin'...
+remote: Enumerating objects: 245912, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 245912 (delta 1), reused 2 (delta 1), pack‑reused 245909
+Receiving objects: 100% (245912/245912), 217.74 MiB | 13.05 MiB/s, done.
+Resolving deltas: 100% (175649/175649), done.
+----
+
+[TIP]
+====
+Git è il sistema di controllo versione distribuito più utilizzato, una parte essenziale del toolkit di qualsiasi sviluppatore software. Potresti dover installare il comando +git+, o un'interfaccia grafica per Git, sul tuo sistema operativo se non lo hai già.
+====
+
+Quando l'operazione di clonazione Git è completata, avrai una copia locale completa del repository del codice sorgente nella directory _bitcoin_. Spostati in questa directory utilizzando il comando +cd+:
+
+----
+$ cd bitcoin
+----
+
+==== Selezionare una versione di Bitcoin Core
+
+Per impostazione predefinita, la copia locale sarà sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, seleziona una versione specifica facendo il checkout di un _tag_ di release. Questo sincronizzerà la copia locale con uno snapshot specifico del repository del codice identificato da un tag. I tag sono utilizzati dagli sviluppatori per contrassegnare release specifiche del codice in base al numero di versione. Per prima cosa, per trovare i tag disponibili, utilizziamo il comando +git tag+:
+
+----
+$ git tag
+v0.1.5
+v0.1.6test1
+v0.10.0
+...
+v0.11.2
+v0.11.2rc1
+v0.12.0rc1
+v0.12.0rc2
+...
+----
+
+La lista dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, i _release candidate_, che sono destinati ai test, hanno il suffisso “rc”. Le release stabili che possono essere eseguite sui sistemi di produzione non hanno suffisso. Dalla lista precedente, seleziona la versione release più alta, che al momento della scrittura era v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
+
+----
+$ git checkout v24.0.1
+Note: switching to 'v24.0.1'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+HEAD is now at b3f866a8d Merge bitcoin/bitcoin#26647: 24.0.1 final changes
+----
+
+Puoi confermare di avere la versione desiderata “checked out” eseguendo il comando +git status+:
+
+----
+HEAD detached at v24.0.1
+nothing to commit, working tree clean
+----
+
+==== Configurare la build di Bitcoin Core
+
+Il codice sorgente include documentazione, che può essere trovata in diversi file. Esamina la documentazione principale situata in _README.md_ nella directory _bitcoin_. In questo capitolo costruiremo il daemon di Bitcoin Core (server), noto anche come +bitcoind+ su Linux (un sistema simile a Unix). Esamina le istruzioni per compilare il daemon +bitcoind+ in _doc/build-unix.md_.
+
+Prima di poter compilare, devi prima creare gli script di build eseguendo lo script +autogen.sh+:
+
+----
+$ ./autogen.sh
+----
+
+Successivamente, configuri il processo di build utilizzando lo script +configure+. Questo script ti consente di abilitare o disabilitare certe funzionalità di Bitcoin Core. Per un elenco completo delle funzionalità, esegui +./configure --help+.
+
+In questo caso, configureremo la build senza l'interfaccia grafica utente, poiché intendiamo eseguire Bitcoin Core come server (daemon) dalla riga di comando. Istruiamo anche lo script configure a non eseguire alcun controllo del database relativo al wallet durante la verifica, il che può accelerare il download iniziale dei blocchi. Infine, gli chiediamo di abilitare la funzionalità di notifica degli eventi ZeroMQ (ZMQ), che utilizzeremo più avanti in questo capitolo:
+
+----
+$ ./configure --without-gui --with-incompatible-bdb --enable-zmq
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread‑safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking dependency style of g++... gcc3
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for lib-bdb-5.3... no
+checking for lib-bdb-4.8... no
+checking for BDB... no
+checking for Berkeley DB C++ headers... no
+checking for Berkeley DB... no
+configure: error: Found no Berkeley DB headers
+----
+
+==== Risolvere le dipendenze di build
+
+Come puoi vedere, lo script +configure+ testa tutte le librerie software e gli strumenti necessari per compilare Bitcoin Core. Questi sono chiamati _dipendenze_. Se una dipendenza manca, lo script +configure+ uscirà con un errore. In questo caso, lo script non è riuscito a trovare la libreria Berkeley DB, che è necessaria per la funzionalità del wallet.
+
+Bitcoin Core ha diverse dipendenze, che sono esse stesse progetti software open source. Per compilare Bitcoin Core, devi prima installare queste dipendenze. Lo script +configure+ verificherà la loro presenza e si fermerà se qualcuna manca. Le principali dipendenze sono:
+
+Boost::
+    Una libreria C++, versione 1.65.0 o successiva
+
+libevent::
+    Una libreria I/O asincrona basata su eventi
+
+Berkeley DB::
+    Una libreria di database key-value, per la funzionalità del wallet
+
+ZeroMQ (opzionale)::
+    Una libreria di messaggistica, per le notifiche degli eventi
+
+Su una distribuzione Linux basata su Debian, come Ubuntu, puoi installare queste dipendenze con un singolo comando:
+
+----
+$ sudo apt-get install build-essential libtool autotools-dev automake pkg-config \
+  libssl-dev libevent-dev bsdmainutils python3 libboost-all-dev
+----
+
+Per il supporto del wallet, devi anche installare Berkeley DB v4.8. Questo può essere complicato su alcuni sistemi, perché la maggior parte delle distribuzioni Linux ha versioni più recenti di Berkeley DB. Bitcoin Core utilizza la versione 4.8 per la compatibilità del wallet con le versioni precedenti di Bitcoin Core. Per installare Berkeley DB v4.8, potrebbe essere necessario compilarla dal codice sorgente o utilizzare un repository di pacchetti speciale. Su Ubuntu, puoi utilizzare il PPA (Personal Package Archive) di Bitcoin per installare questa versione specifica:
+
+[source,console]
+----
+$ sudo add-apt-repository ppa:bitcoin/bitcoin
+$ sudo apt-get update
+$ sudo apt-get install libdb4.8-dev libdb4.8++-dev
+----
+
+Se vuoi utilizzare la funzionalità ZeroMQ (ZMQ), dovrai installare la libreria +libzmq+:
+
+----
+$ sudo apt-get install libzmq3-dev
+----
+
+Una volta installate tutte le dipendenze necessarie, esegui nuovamente lo script +./configure+. Se si completa senza errori, stamperà un riassunto della configurazione, come questo:
+
+----
+Options used to compile and link:
+  with wallet = yes
+  with gui = no
+  with zmq = yes
+  with test = yes
+  with bench = yes
+  with upnp = yes
+  use asm = yes
+
+  target os = linux
+  build os =
+
+  CC = gcc
+  CFLAGS = -g -O2
+  CPPFLAGS = -DHAVE_CONFIG_H
+  CXX = g++
+  CXXFLAGS = -g -O2 -std=c++17
+  LDFLAGS =
+  LIBS = -lpthread
+----
+
+==== Compilare +bitcoind+
+
+Successivamente, compilerai il codice sorgente, un processo che può richiedere fino a un'ora per completarsi, a seconda della velocità della CPU e della memoria disponibile (RAM). Durante il processo di compilazione, vedrai molti messaggi scorrere, che sono i comandi eseguiti dal tool +make+.
+
+Per iniziare la compilazione, digita +make+:
+
+----
+$ make
+Making all in src
+make[1]: Entering directory '/home/user/bitcoin/src'
+  CXX      libbitcoin_common_a-chainparams.o
+  CXX      libbitcoin_common_a-util.o
+  ...
+  CXXLD    bitcoind
+make[1]: Leaving directory '/home/user/bitcoin/src'
+...
+----
+
+Se tutto va bene, Bitcoin Core è ora compilato. I programmi eseguibili risultanti si trovano nella sottodirectory _bitcoin/src_. I programmi principali che utilizzeremo sono:
+
++bitcoind+::
+    Il server Bitcoin Core (daemon)
+
++bitcoin-cli+::
+    Il client dell'interfaccia a riga di comando (CLI) di Bitcoin Core, che può essere utilizzato per controllare il daemon
+
++bitcoin-tx+::
+    Uno strumento per le transazioni, per creare e analizzare transazioni
+
+Opzionalmente, esegui i test per assicurarti che la build funzioni correttamente:
+
+----
+$ make check
+...
+Test suite summary
+==================
+# TOTAL: 100
+# PASS:  100
+# SKIP:  0
+# XFAIL: 0
+# XPASS: 0
+# ERROR: 0
+==================
+...
+----
+
+Infine, installa gli eseguibili in una directory di sistema, come _/usr/local/bin_, così possono essere eseguiti da qualsiasi posizione:
+
+----
+$ sudo make install
+----
+
+=== Eseguire un nodo Bitcoin Core
+
+Una volta compilato e installato Bitcoin Core, sei pronto per eseguirlo. Eseguirai un _full node_, il che significa che scaricherà l'intera blockchain di Bitcoin (attualmente diverse centinaia di gigabyte) e convaliderà completamente ogni blocco e transazione. Questo processo può richiedere diversi giorni o anche settimane, a seconda della velocità della tua connessione internet e delle prestazioni della CPU. Durante questo tempo, il tuo nodo si sincronizzerà con la rete. Devi lasciarlo funzionare senza interruzioni. Puoi fermarlo e riavviarlo, e riprenderà da dove si è fermato, ma è meglio lasciare che completi il download iniziale dei blocchi (IBD) in una volta sola.
+
+Prima di avviare il nodo, dovresti creare un file di configurazione per controllarne il funzionamento. Il file di configurazione si chiama _bitcoin.conf_ e si trova nella directory dei dati di Bitcoin. Per impostazione predefinita, questa è _~/.bitcoin/_ su Linux. Puoi anche specificare una directory dei dati diversa con l'opzione +-datadir+.
+
+Crea la directory dei dati di Bitcoin:
+
+----
+$ mkdir ~/.bitcoin
+----
+
+Ora, crea il file di configurazione in quella directory. Puoi utilizzare qualsiasi editor di testo. Qui utilizziamo +nano+:
+
+----
+$ nano ~/.bitcoin/bitcoin.conf
+----
+
+Aggiungi le seguenti righe al file di configurazione:
+
+----
+rpcuser=bitcoinrpc
+rpcpassword=CAMBIA_QUESTO
+
+rpcallowip=127.0.0.1
+
+# Abilita le notifiche ZMQ
+zmqpubrawblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:28333
+----
+
+Questo file di configurazione imposta l'interfaccia Remote Procedure Call (RPC), che ti consente di interagire con il nodo dalla riga di comando o da altri programmi. +rpcuser+ e +rpcpassword+ sono utilizzati per l'autenticazione. Scegli una password forte e casuale per +rpcpassword+. L'impostazione +rpcallowip+ limita le connessioni RPC alla tua macchina locale (localhost), per sicurezza.
+
+[ATTENZIONE]
+====
+Non utilizzare la password di esempio mostrata qui. Scegli una password forte e casuale per +rpcpassword+. Se esponi la porta RPC a internet, una password debole potrebbe consentire a un attaccante di prendere il controllo del tuo nodo e rubare i tuoi bitcoin.
+====
+
+Il file di configurazione abilita anche le notifiche ZMQ, che utilizzeremo più avanti in questo capitolo per ottenere aggiornamenti in tempo reale dalla rete.
+
+Ora sei pronto per avviare il nodo Bitcoin Core. Esegui il comando +bitcoind+:
+
+----
+$ bitcoind -daemon
+Bitcoin Core starting
+----
+
+L'opzione +-daemon+ dice a +bitcoind+ di funzionare in background come processo server. Puoi vedere lo stato del nodo guardando il file di log di debug, _debug.log_, nella directory dei dati di Bitcoin. Utilizza il comando +tail -f+ per guardare il file di log in tempo reale:
+
+----
+$ tail -f ~/.bitcoin/debug.log
+2023-01-01T12:00:00Z Pre-allocating up to 465 MiB for block/undo files.
+2023-01-01T12:00:00Z UpdateTip: new best=000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f height=0 version=0x00000001 log2_work=32.000014 tx=1 date='2009-01-03T18:15:05Z' progress=0.000000 cache=0.0MiB(1txo)
+2023-01-01T12:00:01Z UpdateTip: new best=00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048 height=1 version=0x00000001 log2_work=38.000048 tx=2 date='2009-01-09T02:54:25Z' progress=0.000000 cache=0.0MiB(2txo)
+...
+----
+
+Il nodo è ora in esecuzione e si sta sincronizzando con la rete. Puoi interagire con esso utilizzando lo strumento a riga di comando +bitcoin-cli+. Ad esempio, per ottenere informazioni generali sullo stato del nodo, esegui:
+
+----
+$ bitcoin-cli getblockchaininfo
+{
+  "chain": "main",
+  "blocks": 277316,
+  "headers": 770000,
+  "bestblockhash": "000000000000000005f33b135c6e7814e4165a2941dc8b5bd65c342342af3898",
+  "difficulty": 3.89624344151399e+12,
+  "mediantime": 1388185032,
+  "verificationprogress": 0.08333333333333333,
+  "initialblockdownload": true,
+  "chainwork": "0000000000000000000000000000000000000000000000000000000000000000",
+  "size_on_disk": 171382338,
+  "pruned": false,
+  "warnings": ""
+}
+----
+
+Il comando +getblockchaininfo+ restituisce un oggetto JSON con informazioni sulla blockchain, come il numero di blocchi, la difficoltà attuale e il progresso di verifica. Il campo +verificationprogress+ mostra quanto della blockchain è stata scaricata e convalidata. Il campo +initialblockdownload+ è +true+ fino a quando il nodo non è completamente sincronizzato.
+
+Mentre il nodo si sta sincronizzando, puoi comunque utilizzarlo per esplorare la blockchain, ma vedrai solo i dati che sono stati scaricati finora. Aspetta fino a quando +initialblockdownload+ è +false+ prima di poter considerare il nodo completamente sincronizzato.
