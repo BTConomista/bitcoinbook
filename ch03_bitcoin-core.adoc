@@ -23,18 +23,18 @@ Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte par
 
 Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventa troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
 
+[[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
-Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla pagina https://oreil.ly/hNOgl[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla https://oreil.ly/BdOwl[GitHub di Bitcoin].
+Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla https://oreil.ly/BdOwl[GitHub di Bitcoin].
 
-[SUGGERIMENTO]
+[TIP]
 ====
 In molti degli esempi di questo capitolo, useremo l'interfaccia a riga di comando del sistema operativo (nota anche come "shell"), accessibile tramite un'applicazione "terminale". La shell mostrerà un prompt, tu digiterai un comando e la shell risponderà con del testo e un nuovo prompt per il comando successivo. Il prompt potrebbe apparire diverso sul tuo sistema, ma negli esempi seguenti lo indicheremo con il simbolo +$+. Negli esempi, quando vedi del testo dopo il simbolo +$+, non digitare il simbolo +$+ ma digita il comando che segue immediatamente, poi premi kbd:[Enter] per eseguire il comando. Negli esempi, le righe sotto ogni comando sono le risposte del sistema operativo a quel comando. Quando vedi il prossimo prefisso +$+, saprai che è un nuovo comando e dovresti ripetere il processo.
 ====
 
 Qui, utilizziamo il comando +git+ per creare una copia locale ("clone") del codice sorgente:
 
-[source,console]
 ----
 $ git clone https://github.com/bitcoin/bitcoin.git
 Cloning into 'bitcoin'...
@@ -46,23 +46,21 @@ Receiving objects: 100% (245912/245912), 217.74 MiB | 13.05 MiB/s, done.
 Resolving deltas: 100% (175649/175649), done.
 ----
 
-[SUGGERIMENTO]
+[TIP]
 ====
 Git è il sistema di controllo versione distribuito più utilizzato, una parte essenziale del toolkit di qualsiasi sviluppatore software. Potresti dover installare il comando +git+, o un'interfaccia grafica per Git, sul tuo sistema operativo se non lo hai già.
 ====
 
 Quando l'operazione di clonazione Git è completata, avrai una copia locale completa del repository del codice sorgente nella directory _bitcoin_. Spostati in questa directory utilizzando il comando +cd+:
 
-[source,console]
 ----
 $ cd bitcoin
 ----
 
-==== Selezionare una release di Bitcoin Core
+==== Selezionare una versione di Bitcoin Core
 
-Per impostazione predefinita, la copia locale sarà sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, seleziona una versione specifica facendo il checkout di un _tag_ di release. Questo sincronizzerà la copia locale con uno snapshot specifico del repository del codice identificato da un tag. I tag sono utilizzati dagli sviluppatori per contrassegnare release specifiche del codice per numero di versione. Prima, per trovare i tag disponibili, utilizziamo il comando +git tag+:
+Per impostazione predefinita, la copia locale sarà sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, seleziona una versione specifica facendo il checkout di un _tag_ di release. Questo sincronizzerà la copia locale con uno snapshot specifico del repository del codice identificato da un tag. I tag sono utilizzati dagli sviluppatori per contrassegnare release specifiche del codice in base al numero di versione. Per prima cosa, per trovare i tag disponibili, utilizziamo il comando +git tag+:
 
-[source,console]
 ----
 $ git tag
 v0.1.5
@@ -76,9 +74,12 @@ v0.12.0rc2
 ...
 ----
 
+
+
+
 La lista dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, i _release candidate_, che sono destinati ai test, hanno il suffisso "rc". Le release stabili che possono essere eseguite sui sistemi di produzione non hanno suffisso. Dalla lista precedente, seleziona la versione release più alta, che al momento della scrittura era v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
-[source,console]
+
 ----
 $ git checkout v24.0.1
 Note: switching to 'v24.0.1'.
@@ -92,7 +93,6 @@ HEAD is now at b3f866a8d Merge bitcoin/bitcoin#26647: 24.0.1 final changes
 
 Puoi confermare di avere la versione desiderata "checked out" eseguendo il comando +git status+:
 
-[source,console]
 ----
 HEAD detached at v24.0.1
 nothing to commit, working tree clean
@@ -103,7 +103,7 @@ Il codice sorgente include documentazione, che può essere trovata in diversi fi
 
 Prima di poter compilare, devi prima creare gli script di build eseguendo lo script +autogen.sh+:
 
-[source,console]
+
 ----
 $ ./autogen.sh
 ----
@@ -112,7 +112,7 @@ Successivamente, configuri il processo di build utilizzando lo script +configure
 
 In questo caso, configureremo la build senza l'interfaccia grafica utente, poiché intendiamo eseguire Bitcoin Core come server (daemon) dalla riga di comando. Istruiamo anche lo script configure a non eseguire alcun controllo del database relativo al wallet durante la verifica, il che può accelerare il download iniziale dei blocchi. Infine, gli chiediamo di abilitare la funzionalità di notifica degli eventi ZeroMQ (ZMQ), che utilizzeremo più avanti in questo capitolo:
 
-[source,console]
+
 ----
 $ ./configure --without-gui --with-incompatible-bdb --enable-zmq
 checking for a BSD-compatible install... /usr/bin/install -c
@@ -167,7 +167,6 @@ ZeroMQ (opzionale)::
 
 Su una distribuzione Linux basata su Debian, come Ubuntu, puoi installare queste dipendenze con un singolo comando:
 
-[source,console]
 ----
 $ sudo apt-get install build-essential libtool autotools-dev automake pkg-config \ 
   libssl-dev libevent-dev bsdmainutils python3 libboost-all-dev
@@ -184,14 +183,14 @@ $ sudo apt-get install libdb4.8-dev libdb4.8++-dev
 
 Se vuoi utilizzare la funzionalità ZeroMQ (ZMQ), dovrai installare la libreria +libzmq+:
 
-[source,console]
+
 ----
 $ sudo apt-get install libzmq3-dev
 ----
 
 Una volta installate tutte le dipendenze necessarie, esegui nuovamente lo script +./configure+. Se si completa senza errori, stamperà un riassunto della configurazione, come questo:
 
-[source,console]
+
 ----
 Options used to compile and link:
   with wallet = yes
@@ -219,7 +218,6 @@ Successivamente, compilerai il codice sorgente, un processo che può richiedere 
 
 Per iniziare la compilazione, digita +make+:
 
-[source,console]
 ----
 $ make
 Making all in src
@@ -245,7 +243,6 @@ Se tutto va bene, Bitcoin Core è ora compilato. I programmi eseguibili risultan
 
 Opzionalmente, esegui i test per assicurarti che la build funzioni correttamente:
 
-[source,console]
 ----
 $ make check
 ...
@@ -263,7 +260,6 @@ Test suite summary
 
 Infine, installa gli eseguibili in una directory di sistema, come _/usr/local/bin_, così possono essere eseguiti da qualsiasi posizione:
 
-[source,console]
 ----
 $ sudo make install
 ----
@@ -276,21 +272,18 @@ Prima di avviare il tuo nodo, dovresti creare un file di configurazione per cont
 
 Crea la directory dei dati di Bitcoin:
 
-[source,console]
 ----
 $ mkdir ~/.bitcoin
 ----
 
 Ora, crea il file di configurazione in quella directory. Puoi utilizzare qualsiasi editor di testo. Qui, utilizziamo +nano+:
 
-[source,console]
 ----
 $ nano ~/.bitcoin/bitcoin.conf
 ----
 
 Aggiungi le seguenti righe al file di configurazione:
 
-[source,config]
 ----
 rpcuser=bitcoinrpc
 rpcpassword=CAMBIA_QUESTO
@@ -313,7 +306,6 @@ Il file di configurazione abilita anche le notifiche ZMQ, che utilizzeremo più 
 
 Ora, sei pronto per avviare il tuo nodo Bitcoin Core. Esegui il comando +bitcoind+:
 
-[source,console]
 ----
 $ bitcoind -daemon
 Bitcoin Core starting
@@ -321,7 +313,6 @@ Bitcoin Core starting
 
 L'opzione +-daemon+ dice a +bitcoind+ di funzionare in background come processo server. Puoi vedere lo stato del tuo nodo guardando il file di log di debug, _debug.log_, nella directory dei dati di Bitcoin. Utilizza il comando +tail -f+ per guardare il file di log in tempo reale:
 
-[source,console]
 ----
 $ tail -f ~/.bitcoin/debug.log
 2023-01-01T12:00:00Z Pre-allocating up to 465 MiB for block/undo files.
@@ -332,7 +323,6 @@ $ tail -f ~/.bitcoin/debug.log
 
 Il tuo nodo è ora in esecuzione e si sta sincronizzando con la rete. Puoi interagire con esso utilizzando lo strumento a riga di comando +bitcoin-cli+. Ad esempio, per ottenere informazioni generali sullo stato del tuo nodo, esegui:
 
-[source,console]
 ----
 $ bitcoin-cli getblockchaininfo
 {
@@ -368,7 +358,6 @@ Per utilizzare l'API, devi conoscere il nome utente e la password RPC che hai im
 
 Prima, scriviamo un semplice script Python per connettersi al nodo Bitcoin Core e ottenere le stesse informazioni del comando +getblockchaininfo+. Crea un file chiamato _rpc_example.py_ e aggiungi il seguente codice:
 
-[source,python]
 ----
 import requests
 import json
@@ -402,7 +391,6 @@ print(response.json())
 
 Sostituisci +CAMBIA_QUESTO+ con la password forte che hai scelto per il tuo file _bitcoin.conf_. Poi, esegui lo script dalla riga di comando:
 
-[source,console]
 ----
 $ python rpc_example.py
 {'result': {'chain': 'main', 'blocks': 277316, ...}, 'error': None, 'id': 0}
@@ -418,7 +406,6 @@ Proviamo un altro esempio. Questa volta, otterremo i dettagli del primo blocco B
 
 Modifica lo script _rpc_example.py_ per chiamare il metodo +getblock+ con questo hash:
 
-[source,python]
 ----
 # Chiama il metodo getblock
 payload = json.dumps({
@@ -431,7 +418,6 @@ payload = json.dumps({
 
 Esegui nuovamente lo script:
 
-[source,console]
 ----
 $ python rpc_example.py
 {'result': {'hash': '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f', 'confirmations': 770001, ...}, 'error': None, 'id': 0}
@@ -449,7 +435,6 @@ Possiamo utilizzare il metodo +getrawtransaction+ per ottenere i dati grezzi del
 
 Modifica lo script _rpc_example.py_ come segue:
 
-[source,python]
 ----
 # Ottieni i dati grezzi della transazione
 payload = json.dumps({
@@ -477,7 +462,6 @@ print(json.dumps(decoded_tx, indent=4))
 
 Esegui lo script:
 
-[source,console]
 ----
 $ python rpc_example.py
 {
@@ -524,14 +508,12 @@ Scrivere richieste JSON-RPC grezze può essere noioso. Fortunatamente, ci sono d
 
 Prima, installa la libreria utilizzando +pip+:
 
-[source,console]
 ----
 $ pip install python-bitcoinlib
 ----
 
 Ora, riscriviamo l'esempio precedente utilizzando +python-bitcoinlib+. Crea un file chiamato _rpc_lib_example.py_ e aggiungi il seguente codice:
 
-[source,python]
 ----
 from bitcoin.rpc import RawProxy
 
@@ -568,14 +550,12 @@ Oltre all'interfaccia RPC, Bitcoin Core può anche fornire notifiche in tempo re
 
 Per utilizzare ZMQ, devi abilitarlo nel tuo file _bitcoin.conf_, come abbiamo fatto prima. Devi anche installare la libreria Python +pyzmq+:
 
-[source,console]
 ----
 $ pip install pyzmq
 ----
 
 Ora, puoi scrivere uno script Python per iscriverti alle notifiche ZMQ. Crea un file chiamato _zmq_example.py_ e aggiungi il seguente codice:
 
-[source,python]
 ----
 import zmq
 import binascii
@@ -611,7 +591,6 @@ Questo script si connette al publisher ZMQ sulla porta 28332 e si iscrive alle n
 
 Esegui lo script dalla riga di comando:
 
-[source,console]
 ----
 $ python zmq_example.py
 In attesa di nuovi blocchi...
@@ -619,7 +598,6 @@ In attesa di nuovi blocchi...
 
 Lo script ora aspetterà nuovi blocchi. Quando viene trovato un nuovo blocco, vedrai un output come questo:
 
-[source,console]
 ----
 Topic: rawblock, Sequence: 12345
 Body: 0100000000000000000000000000000000000000000000000000000000000000...
@@ -645,7 +623,6 @@ In questo capitolo, abbiamo installato e configurato Bitcoin Core, l'implementaz
 [[rpc_example]]
 .Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API
 ====
-[source,python]
 ----
 include::code/rpc_example.py[]
 ----
@@ -666,7 +643,6 @@ Per ogni output, mostriamo l'indirizzo del destinatario e il valore. Ricordiamo 
 [[rpc_transaction]]
 .Retrieving a transaction and iterating its outputs
 ====
-[source,python]
 ----
 include::code/rpc_transaction.py[]
 ----
@@ -687,7 +663,6 @@ In <<rpc_block>>, iniziamo recuperando un blocco e poi estraiamo tutte le transa
 [[rpc_block]]
 .Retrieving a block and adding all the transaction outputs
 ====
-[source,python]
 ----
 include::code/rpc_block.py[]
 ----
