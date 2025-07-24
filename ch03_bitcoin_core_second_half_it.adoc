@@ -1,0 +1,371 @@
+Il comando +getblockchaininfo+ restituisce un oggetto JSON con varie informazioni sulla blockchain, come l’altezza della catena (numero di blocchi), l’attuale livello di difficoltà e lo stato di avanzamento della sincronizzazione. Il campo +verificationprogress+ indica la frazione di blockchain che è stata scaricata e verificata. Il campo +initialblockdownload+ rimane impostato su +true+ finché il nodo non ha completato la sincronizzazione.
+
+Durante la sincronizzazione puoi comunque utilizzare il tuo nodo per esplorare la blockchain, ma vedrai soltanto i dati già scaricati. Considera il tuo nodo completamente sincronizzato solo quando +initialblockdownload+ restituisce +false+.
+
+=== L’API (Application Programming Interface) di Bitcoin Core
+
+Il comando +bitcoin-cli+ è soltanto uno dei modi per interagire con il tuo nodo Bitcoin Core. Il nodo espone anche un’interfaccia programmabile (API) che permette di scrivere programmi in grado di dialogare con la rete Bitcoin. Questa API è basata su JSON‑RPC: puoi quindi richiamare le funzioni inviando al server RPC del nodo richieste formattate in JSON.
+
+[NOTA]
+====
+L’API di Bitcoin Core è estesa e ben documentata. Puoi trovare la documentazione completa dell’API sul https://bitcoincore.org/en/doc/[sito web della documentazione di Bitcoin Core]. In questo libro copriremo solo un piccolo sottoinsieme delle chiamate API disponibili.
+====
+
+Per utilizzare l’API devi conoscere il nome utente e la password RPC che hai configurato nel file _bitcoin.conf_. È quindi possibile utilizzare qualsiasi linguaggio di programmazione che supporti HTTP e JSON per effettuare chiamate all’API. Negli esempi seguenti useremo Python, un linguaggio molto diffuso per scripting e sviluppo web.
+
+Per cominciare, scriviamo un semplice script Python che si connetta al nodo Bitcoin Core e recuperi le stesse informazioni fornite dal comando +getblockchaininfo+. Crea un file chiamato _rpc_example.py_ e aggiungi il codice seguente:
+
+----
+import requests
+import json
+
+# Configura la connessione RPC
+rpc_user = 'bitcoinrpc'
+rpc_password = 'CAMBIA_QUESTO'
+rpc_host = '127.0.0.1'
+rpc_port = 8332
+
+# Crea l'URL RPC
+rpc_url = f"http://{rpc_user}:{rpc_password}@{rpc_host}:{rpc_port}/"
+
+# Prepara la richiesta JSON-RPC
+headers = {'content-type': 'application/json'}
+
+# Chiama il metodo getblockchaininfo
+payload = json.dumps({
+    "method": "getblockchaininfo",
+    "params": [],
+    "jsonrpc": "2.0",
+    "id": 0,
+})
+
+# Invia la richiesta e ottieni la risposta
+response = requests.post(rpc_url, headers=headers, data=payload)
+
+# Stampa la risposta
+print(response.json())
+----
+
+Sostituisci +CAMBIA_QUESTO+ con la password robusta che hai scelto nel file _bitcoin.conf_. Quindi esegui lo script dalla riga di comando:
+
+----
+$ python rpc_example.py
+{'result': {'chain': 'main', 'blocks': 277316, ...}, 'error': None, 'id': 0}
+----
+
+L’output è un oggetto JSON contenente il risultato della chiamata API. Il campo +result+ include le stesse informazioni restituite dal comando +getblockchaininfo+.
+
+Questo esempio illustra i principi di base dell’utilizzo dell’API di Bitcoin Core. Puoi invocare qualsiasi metodo API modificando il campo +method+ nella richiesta JSON. Ad esempio, per ottenere informazioni su un blocco specifico, è possibile usare il metodo +getblock+ passando l’hash del blocco come parametro.
+
+Proviamo con un altro esempio: recupereremo i dettagli del primo blocco di Bitcoin, noto come _genesis block_. Per farlo ci serve il suo hash, che è:
+
++000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f+
+
+Modifica lo script _rpc_example.py_ per chiamare il metodo +getblock+ con questo hash:
+
+----
+# Chiama il metodo getblock
+payload = json.dumps({
+    "method": "getblock",
+    "params": ["000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"],
+    "jsonrpc": "2.0",
+    "id": 0,
+})
+----
+
+Esegui nuovamente lo script:
+
+----
+$ python rpc_example.py
+{'result': {'hash': '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f', 'confirmations': 770001, ...}, 'error': None, 'id': 0}
+----
+
+L’output mostra i dettagli del blocco genesis, compresi il suo hash, il numero di conferme e le transazioni in esso contenute.
+
+==== Esplorare e decodificare transazioni
+
+Le transazioni sono l’elemento fondamentale del sistema Bitcoin: sono strutture dati che trasferiscono valore tra gli utenti. Usiamo l’API per esplorarne una. Prenderemo la prima transazione mai eseguita, cioè la transazione coinbase del blocco genesis. Il suo ID transazione (txid) è:
+
++4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b+
+
+Possiamo usare il metodo +getrawtransaction+ per recuperare i dati grezzi della transazione sotto forma di stringa esadecimale. Quindi utilizziamo il metodo +decoderawtransaction+ per decodificare quella stringa in un oggetto JSON leggibile.
+
+Modifica lo script _rpc_example.py_ come segue:
+
+----
+# Ottieni i dati grezzi della transazione
+payload = json.dumps({
+    "method": "getrawtransaction",
+    "params": ["4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"],
+    "jsonrpc": "2.0",
+    "id": 0,
+})
+response = requests.post(rpc_url, headers=headers, data=payload)
+raw_tx = response.json()['result']
+
+# Decodifica la transazione grezza
+payload = json.dumps({
+    "method": "decoderawtransaction",
+    "params": [raw_tx],
+    "jsonrpc": "2.0",
+    "id": 0,
+})
+response = requests.post(rpc_url, headers=headers, data=payload)
+decoded_tx = response.json()['result']
+
+# Stampa la transazione decodificata
+print(json.dumps(decoded_tx, indent=4))
+----
+
+Esegui lo script:
+
+----
+$ python rpc_example.py
+{
+    "txid": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
+    "hash": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
+    "version": 1,
+    "size": 204,
+    "vsize": 204,
+    "weight": 816,
+    "locktime": 0,
+    "vin": [
+        {
+            "coinbase": "04ffff001d0104455468652054696d65732030332f4a616e2f4a616e2f2009204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73",
+            "sequence": 4294967295
+        }
+    ],
+    "vout": [
+        {
+            "value": 50.00000000,
+            "n": 0,
+            "scriptPubKey": {
+                "asm": "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f OP_CHECKSIG",
+                "hex": "4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f51ac",
+                "reqSigs": 1,
+                "type": "pubkey",
+                "addresses": [
+                    "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+                ]
+            }
+        }
+    ]
+}
+----
+
+La transazione decodificata rivela la sua struttura, includendo gli input (+vin+) e gli output (+vout+). In una transazione coinbase la sezione +vin+ è particolare e contiene un campo +coinbase+ con dati arbitrari. Nel blocco genesis questo campo contiene il famoso messaggio di Satoshi Nakamoto:
+
+"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
+
+Il campo +vout+ mostra che questa transazione ha generato un unico output da 50 bitcoin, inviato all’indirizzo +1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa+. Si tratta del primo indirizzo Bitcoin mai creato.
+
+==== Utilizzare l’API di Bitcoin Core con librerie Python
+
+Scrivere richieste JSON‑RPC a mano può essere noioso. Fortunatamente esistono diverse librerie Python che semplificano l’interazione con l’API di Bitcoin Core. Una di queste è +python-bitcoinlib+, che useremo negli esempi seguenti.
+
+Per prima cosa installa la libreria usando +pip+:
+
+----
+$ pip install python-bitcoinlib
+----
+
+Ora riscriviamo l’esempio precedente utilizzando +python-bitcoinlib+. Crea un file chiamato _rpc_lib_example.py_ e inserisci il seguente codice:
+
+----
+from bitcoin.rpc import RawProxy
+
+# Crea una connessione al nodo Bitcoin Core locale
+p = RawProxy()
+
+# Ottieni l'hash del blocco 277316
+blockhash = p.getblockhash(277316)
+
+# Recupera il blocco tramite il suo hash
+block = p.getblock(blockhash)
+
+# Ottieni la prima transazione nel blocco
+txid = block['tx'][0]
+
+# Ottieni i dati grezzi della transazione
+raw_tx = p.getrawtransaction(txid)
+
+# Decodifica la transazione grezza
+decoded_tx = p.decoderawtransaction(raw_tx)
+
+# Stampa la transazione decodificata
+import json
+print(json.dumps(decoded_tx, indent=4))
+----
+
+La libreria +python-bitcoinlib+ mette a disposizione la classe +RawProxy+, che gestisce per te la connessione RPC e la serializzazione JSON. Puoi invocare i metodi API direttamente sull’istanza di +RawProxy+ e la libreria si occuperà del resto.
+
+Questo codice svolge la stessa funzione dell’esempio precedente ma è molto più pulito e facile da leggere. Ottiene l’hash del blocco 277316, quindi recupera il blocco, prende la prima transazione e infine la decodifica e la stampa.
+
+==== Ottenere notifiche in tempo reale con ZMQ
+
+Oltre all’interfaccia RPC, Bitcoin Core può fornire notifiche in tempo reale sugli eventi di rete tramite la libreria di messaggistica ZeroMQ (ZMQ). Questo è utile per le applicazioni che devono reagire rapidamente a nuovi blocchi e transazioni.
+
+Per utilizzare ZMQ, occorre abilitarlo nel file _bitcoin.conf_, come abbiamo fatto prima, e installare la libreria Python +pyzmq+:
+
+----
+$ pip install pyzmq
+----
+
+Ora, puoi scrivere uno script Python per iscriverti alle notifiche ZMQ. Crea un file chiamato _zmq_example.py_ e aggiungi il seguente codice:
+
+----
+import zmq
+import binascii
+
+# Crea un contesto ZMQ
+context = zmq.Context()
+
+# Crea un socket ZMQ
+socket = context.socket(zmq.SUB)
+
+# Connettiti al publisher ZMQ di Bitcoin Core
+socket.connect("tcp://127.0.0.1:28332")
+
+# Iscriviti alle notifiche di blocchi grezzi
+socket.setsockopt_string(zmq.SUBSCRIBE, "rawblock")
+
+print("In attesa di nuovi blocchi...")
+
+while True:
+    # Ricevi un messaggio
+    msg = socket.recv_multipart()
+
+    # Spacchetta il messaggio
+    topic = msg[0].decode('utf-8')
+    body = binascii.hexlify(msg[1]).decode('utf-8')
+    sequence = int.from_bytes(msg[2], 'little')
+
+    print(f"Topic: {topic}, Sequence: {sequence}")
+    print(f"Body: {body[:64]}...")
+----
+
+Questo script si connette al publisher ZMQ sulla porta 28332 e si iscrive alle notifiche +rawblock+. Quando il tuo nodo riceve un nuovo blocco, pubblicherà un messaggio con topic +rawblock+ e con il corpo contenente i dati grezzi del blocco. Lo script mostrerà quindi il topic, il numero di sequenza e i primi 64 caratteri del corpo del blocco.
+
+Esegui lo script dalla riga di comando:
+
+----
+$ python zmq_example.py
+In attesa di nuovi blocchi...
+----
+
+Lo script rimarrà in attesa di nuovi blocchi. Quando verrà trovato un nuovo blocco, visualizzerai un output simile al seguente:
+
+----
+Topic: rawblock, Sequence: 12345
+Body: 0100000000000000000000000000000000000000000000000000000000000000...
+----
+
+Puoi anche iscriverti alle notifiche +rawtx+ sulla porta 28333 per ottenere aggiornamenti in tempo reale sulle nuove transazioni.
+
+=== Argomenti avanzati
+
+In questo capitolo abbiamo solo sfiorato le possibilità offerte da Bitcoin Core. Esistono molti altri argomenti avanzati da esplorare, tra cui:
+
+* Creare e firmare transazioni
+* Gestire un wallet
+* Minare blocchi (nella rete di test)
+* Partecipare alla rete peer‑to‑peer
+
+Affronteremo alcuni di questi argomenti nei prossimi capitoli. Per ora possiedi una solida base per lavorare con Bitcoin Core e con la rete Bitcoin.
+
+=== Riepilogo
+
+In questo capitolo abbiamo installato e configurato Bitcoin Core, l’implementazione di riferimento del sistema Bitcoin. Abbiamo visto come eseguire un nodo completo, sincronizzarlo con la rete e interagirvi usando la riga di comando e l’API JSON‑RPC. Abbiamo inoltre esaminato come usare librerie Python per semplificare l’accesso all’API e come ricevere notifiche in tempo reale con ZMQ. Ora disponi degli strumenti e delle conoscenze necessari per esplorare la blockchain di Bitcoin e costruire le tue applicazioni.
+
+[[rpc_example]]
+.Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API
+====
+----
+include::code/rpc_example.py[]
+----
+====
+
+Eseguendolo, otteniamo il seguente risultato:
+
+----
+$ python rpc_example.py
+773973
+----
+
+Questo ci dice quanti blocchi sono presenti nella blockchain memorizzata dal nostro nodo locale di Bitcoin Core. Anche se non è un risultato particolarmente impressionante, dimostra l’uso di base della libreria come interfaccia semplificata all’API JSON‑RPC di Bitcoin Core.
+
+Proseguiamo utilizzando le chiamate +getrawtransaction+ e +decodetransaction+ per recuperare i dettagli del pagamento di Alice a Bob. In <<rpc_transaction>> recuperiamo la transazione di Alice ed elenchiamo gli output della transazione. Per ciascun output mostriamo l’indirizzo del destinatario e l’importo. Ricordiamo che la transazione di Alice prevedeva un output per il pagamento a Bob e un output di resto destinato a lei stessa.
+
+[[rpc_transaction]]
+.Retrieving a transaction and iterating its outputs
+====
+----
+include::code/rpc_transaction.py[]
+----
+====
+
+Eseguendo questo codice, otteniamo:
+
+----
+$ python rpc_transaction.py
+bc1p8dqa4wjvnt890qmfws83te0v3qxzsfu7ul63kp7u56w8qc0qwp5qv995qn 0.00020000
+bc1qwafvze0200nh9vkq4jmlf4sy0tn0ga5w0zpkpg 0.00075000
+----
+
+Entrambi gli esempi precedenti sono abbastanza semplici. Non è necessario scrivere un programma per eseguirli: potresti ottenere gli stessi risultati usando direttamente l’helper +bitcoin-cli+. Il prossimo esempio, tuttavia, richiede diverse centinaia di chiamate RPC e dimostra con maggiore chiarezza i vantaggi di un’interfaccia programmabile.
+
+In <<rpc_block>> cominciamo recuperando un blocco e poi estraiamo tutte le transazioni in esso contenute utilizzando i rispettivi ID di transazione. Analizziamo quindi gli output di ogni transazione e sommiamo i relativi valori.
+
+[[rpc_block]]
+.Retrieving a block and adding all the transaction outputs
+====
+----
+include::code/rpc_block.py[]
+----
+====
+
+Eseguendo questo codice, otteniamo:
+
+----
+$ python rpc_block.py
+
+Total value in block:  10322.07722534
+----
+
+Il nostro codice di esempio calcola che il valore totale movimentato in questo blocco è di 10.322,07722534 BTC (inclusi 25 BTC di ricompensa e 0,0909 BTC di commissioni). Confronta questo valore con quello riportato da un block explorer cercando per hash o per altezza del blocco. Alcuni block explorer mostrano il valore totale escludendo sia la ricompensa sia le commissioni: prova a notare la differenza.
+
+[[alt_libraries]]
+=== Client, librerie e toolkit alternativi
+
+Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolkit e persino implementazioni complete di nodi. Sono realizzati in vari linguaggi di programmazione, offrendo agli sviluppatori un’interfaccia nativa nel linguaggio che preferiscono.
+
+==== C/C++
+https://oreil.ly/BdOwl[Bitcoin Core] :: La versione di riferimento di Bitcoin
+
+==== JavaScript
+https://bcoin.io[bcoin] :: Un full node progettato per essere modulare e scalabile, con supporto API
+https://bitcore.io[Bitcore] :: Un full node con API e libreria, realizzato da Bitpay
+https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in JavaScript, per Node.js e browser
+
+==== Java
+https://bitcoinj.github.io[bitcoinj] :: Una libreria Java per client full node
+
+==== Python
+https://oreil.ly/xn_rg[python-bitcoinlib] :: una libreria Bitcoin in Python con supporto al consenso e un full node sviluppata da Peter Todd
+https://oreil.ly/wcpXP[pycoin] :: Una libreria Bitcoin in Python sviluppata da Richard Kiss
+
+==== Go
+https://oreil.ly/h5MEI[btcd] :: Un client Bitcoin full node scritto in Go
+
+==== Rust
+https://oreil.ly/me6gf[rust-bitcoin] :: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l’analisi dei dati e le chiamate API
+
+==== Scala
+https://bitcoin-s.org[bitcoin-s] :: Una versione di Bitcoin sviluppata in Scala
+
+==== C#
+https://oreil.ly/Qfjgq[NBitcoin] :: Una libreria Bitcoin completa pensata per il framework .NET
+
+Molte altre librerie sono disponibili per una vasta gamma di linguaggi di programmazione e ne continuano a nascere di nuove.
+
+Se hai seguito le istruzioni di questo capitolo, ora dovresti avere Bitcoin Core in esecuzione e aver iniziato a esplorare la rete e la blockchain con il tuo nodo completo. Da questo momento in poi puoi fare affidamento su un software sotto il tuo pieno controllo (eseguito su un computer che controlli tu) per verificare che i bitcoin ricevuti rispettino tutte le regole del protocollo, senza dipendere da alcuna autorità esterna. Nei prossimi capitoli approfondiremo queste regole e vedremo come il tuo nodo e il tuo wallet le sfruttino per proteggere i tuoi fondi, tutelare la tua privacy e rendere più comodo l’invio e la ricezione delle transazioni.
