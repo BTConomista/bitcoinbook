@@ -53,7 +53,6 @@ Pur funzionando, queste prime valute digitali erano centralizzate e quindi vulne
 Per resistere all'intervento di antagonisti – governi legittimi o criminali che fossero – serviva una valuta digitale _decentralizzata_, che evitasse un singolo punto debole. Bitcoin è un sistema di questo tipo, decentralizzato per sua natura e privo di qualsiasi autorità centrale o punto di controllo che possa essere attaccato o corrotto.
 ****
 
-
 === La Storia di Bitcoin
 
 Bitcoin è stato descritto per la prima volta nel 2008 con la pubblicazione di un documento intitolato "Bitcoin: A Peer-to-Peer Electronic Cash System"footnote:[https://oreil.ly/KUaBM["Bitcoin: A Peer-to-Peer Electronic Cash System"],
