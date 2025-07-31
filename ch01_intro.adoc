@@ -74,18 +74,18 @@ Bitcoin è un protocollo che si può usare tramite un'apposita applicazione. Un 
 ==== Scegliere un Wallet Bitcoin
 I wallet Bitcoin sono tra le applicazioni più attivamente sviluppate nell'ecosistema Bitcoin. La competizione è forte: mentre nuovi wallet vengono continuamente sviluppati, molti di quelli creati l'anno precedente non ricevono più manutenzione attiva. Numerosi wallet sono progettati per piattaforme o usi specifici; alcuni si rivolgono ai principianti, altri offrono funzionalità avanzate per utenti esperti. La scelta di un wallet è altamente soggettiva e dipende dall'utilizzo previsto e dall'esperienza dell'utente. Risulta quindi superfluo consigliare un marchio o un wallet specifico. Tuttavia, è possibile classificare i wallet Bitcoin in base alla piattaforma e alle funzionalità, offrendo così un quadro più chiaro delle tipologie esistenti. È consigliabile provare diversi wallet fino a individuare quello più adatto alle proprie necessità.
 
-==== Tipi di wallet Bitcoin
+===== Tipi di wallet Bitcoin
 I wallet Bitcoin possono essere classificati come segue, in base alla piattaforma:
 
-- Wallet desktop: I wallet desktop sono stati i primi tipi di wallet Bitcoin creati come implementazione di riferimento. Molti utenti utilizzano wallet desktop per le funzionalità, l'autonomia e il controllo che offrono. Tuttavia, l'esecuzione su sistemi operativi di uso generale come Windows e macOS ha alcuni svantaggi di sicurezza, poiché queste piattaforme sono spesso insicure e mal configurate.
+- Wallet desktop: I wallet desktop sono stati il primo tipo di wallet Bitcoin, nato come implementazione di riferimento. Molti utenti utilizzano wallet desktop per le funzionalità, l'autonomia e il controllo che offrono. Tuttavia, l'esecuzione su sistemi operativi di uso generale come Windows e macOS ha alcuni svantaggi di sicurezza, poiché queste piattaforme sono spesso insicure o mal configurate.
 
-- Wallet mobile: I wallet per mobile rappresentano la tipologia più comune di wallet Bitcoin. Operando su sistemi operativi per smartphone quali iOS di Apple e Android, questi wallet costituiscono spesso una scelta eccellente per i neofiti. Molti sono progettati per la semplicità e la facilità d'uso, ma esistono anche versioni avanzate per utenti esperti. Per evitare il download e l'archiviazione di grandi quantità di dati, la maggior parte dei wallet mobili recupera informazioni da server remoti; ciò, tuttavia, può ridurre la privacy, poiché condivide con terze parti informazioni sugli indirizzi Bitcoin e i relativi saldi.
+- Wallet mobile: I wallet per mobile rappresentano la tipologia più comune di wallet Bitcoin. Operando su sistemi operativi per smartphone quali iOS di Apple e Android, questi wallet costituiscono spesso una scelta eccellente per i neofiti. Molti sono progettati per la semplicità e la facilità d'uso, ma esistono anche versioni avanzate per utenti esperti. Per evitare di scaricare e archiviare grandi quantità di dati, la maggior parte dei wallet mobili recupera informazioni da server remoti; ciò, tuttavia, può ridurre la privacy, poiché condivide con terze parti informazioni sugli indirizzi Bitcoin e i relativi saldi.
 
 - Wallet web: I wallet web sono accessibili tramite browser e archiviano i dati del wallet dell'utente su server di terze parti. Il funzionamento è simile a quello della webmail, poiché si dipende interamente da un server terzo. Alcuni di questi servizi eseguono codice lato client direttamente nel browser dell'utente, il quale mantiene così il controllo delle proprie chiavi Bitcoin; tuttavia, la dipendenza dal server di terze parti può comunque compromettere la privacy. La maggior parte dei wallet web, comunque, assume il controllo delle chiavi Bitcoin dell'utente in cambio di una maggiore semplicità d'uso. Si sconsiglia di conservare ingenti quantità di bitcoin su sistemi gestiti da terzi.
 
-- Dispositivi di firma hardware: I dispositivi di firma hardware sono apparecchi specializzati che memorizzano le chiavi e firmano le transazioni mediante hardware e firmware dedicati. Generalmente si collegano a un wallet desktop, mobile o web tramite cavo USB, tecnologia NFC (Near Field Communication) o mediante la scansione di codici QR con una fotocamera. Poiché gestiscono tutte le operazioni relative a Bitcoin sull'hardware specializzato, questi dispositivi sono meno esposti a numerosi tipi di attacchi. Sebbene spesso definiti "hardware wallet", questa denominazione non è del tutto precisa: per inviare e ricevere transazioni, devono essere abbinati a un software wallet completo. La sicurezza e la privacy offerte da quest'ultimo sono cruciali nel determinare il livello di protezione effettivo per l'utente del dispositivo hardware.
+- Dispositivi di firma hardware: I dispositivi di firma hardware sono apparecchi specializzati che memorizzano le chiavi e firmano le transazioni mediante hardware e firmware dedicati. Generalmente si collegano a un wallet desktop, mobile o web tramite cavo USB, tecnologia NFC (Near Field Communication) o mediante la scansione di codici QR con una fotocamera. Poiché gestiscono tutte le operazioni relative a Bitcoin sull'hardware specializzato, questi dispositivi sono meno esposti a numerosi tipi di attacchi. Sebbene spesso definiti "hardware wallet", questa denominazione non è del tutto precisa: per inviare e ricevere transazioni, devono essere abbinati a un wallet software completo. La sicurezza e la privacy offerte da quest'ultimo sono cruciali nel determinare il livello di protezione effettivo per l'utente del dispositivo hardware.
 
-==== Client Full Node contro Client Leggero
+===== Client Full Node contro Client Leggero
 Un altro modo per classificare i wallet Bitcoin è in base al loro grado di autonomia e a come interagiscono con la rete Bitcoin:
 
 - Client full node: Un client full node (o "nodo completo") è un programma che scarica e verifica l'intera cronologia delle transazioni Bitcoin (cioè, ogni singola transazione mai avvenuta sulla rete). Questi nodi possono anche conservare una copia di tutte le transazioni validate e condividerla con altri programmi Bitcoin, sia sullo stesso computer sia attraverso internet. Per funzionare, un full node richiede risorse informatiche considerevoli (paragonabili, per volume di dati, allo streaming quotidiano di un'ora di video), ma in cambio offre all'utente il massimo livello di autonomia e sicurezza.
@@ -97,22 +97,22 @@ Un client leggero, noto anche come client SPV (dall'inglese Simple Payment Verif
 
 [TIP]
 ====
-Bitcoin è una rete peer-to-peer (P2P), cioè una rete "paritaria" dove i partecipanti comunicano direttamente tra loro. I full node sono i veri e propri _peer_ (pari) di questa rete: ognuno verifica in autonomia tutte le transazioni e fornisce al proprio utente informazioni dirette e affidabili. I wallet leggeri e altri software simili, invece, agiscono come _client_: dipendono da uno o più full node (i peer) per ottenere informazioni sulla rete. Sebbene i client possano effettuare alcune verifiche sui dati ricevuti e connettersi a più peer per una maggiore sicurezza (ad esempio, per controllare che forniscano tutti la stessa informazione), la loro sicurezza e affidabilità dipendono fondamentalmente dall'onestà dei peer a cui si collegano.
+Bitcoin è una rete peer-to-peer (P2P), cioè una rete "paritaria" nella quale i partecipanti comunicano direttamente tra loro. I full node sono i veri e propri _peer_ (pari) di questa rete: ognuno verifica in autonomia tutte le transazioni e fornisce al proprio utente informazioni dirette e affidabili. I wallet leggeri e altri software simili, invece, agiscono come _client_: dipendono da uno o più full node (i peer) per ottenere informazioni sulla rete. Sebbene i client possano effettuare alcune verifiche sui dati ricevuti e connettersi a più peer per una maggiore sicurezza (ad esempio, per controllare che forniscano tutti la stessa informazione), la loro sicurezza e affidabilità dipendono fondamentalmente dall'onestà dei peer a cui si collegano.
 ====
 
-=== Chi controlla le chiavi
+===== Chi controlla le chiavi
 Un aspetto cruciale da considerare è _chi controlla le chiavi_. Come vedremo nei capitoli seguenti, l'accesso ai bitcoin è gestito mediante "chiavi private", paragonabili a PIN estremamente lunghi. Chi controlla in modo esclusivo tali chiavi private, detiene il pieno controllo sui propri bitcoin. Viceversa, se non si ha il controllo delle chiavi private, i propri bitcoin sono di fatto gestiti da una terza parte che li custodisce per conto dell'utente. I software per la gestione delle chiavi si dividono principalmente in due categorie: i _wallet non-custodial_ (quindi auto-custoditi), dove sei tu, l'utente, a controllare direttamente le tue chiavi private, e i _servizi custodial_ (assimilabili a conti di deposito), dove affidi il controllo delle tue chiavi – e quindi dei tuoi bitcoin – a una terza parte (il depositario o custode). Per enfatizzare questo concetto, Andreas Antonopoulos ha coniato la frase: _"Chiavi tue, bitcoin tuoi. Chiavi non tue, bitcoin non tuoi."_
 
-Sulla base di questa distinzione, i wallet Bitcoin si possono raggruppare in alcune categorie principali. Le tre tipologie più diffuse sono: i wallet desktop full node (in cui l'utente controlla le chiavi private), i wallet "leggeri" per smartphone (anch'essi con controllo utente delle chiavi) e i conti web gestiti da terzi (dove l'utente non controlla le chiavi). I confini tra queste categorie possono talvolta sfumare, dato che un software può operare su più piattaforme e interagire con la rete in modi differenti.
+Sulla base di questa distinzione, i wallet Bitcoin si possono raggruppare in alcune categorie principali. Le tre tipologie più diffuse sono: i wallet desktop full node (in cui l'utente controlla le chiavi private), i wallet "leggeri" per smartphone (anch'essi con controllo da parte dell'utente delle chiavi) e i conti web gestiti da terzi (dove l'utente non controlla le chiavi). I confini tra queste categorie possono talvolta sfumare, dato che un software può operare su più piattaforme e interagire con la rete in modi differenti.
 
-=== Avvio rapido
+==== Avvio rapido
 Alice non è un'esperta di tecnologia e ha scoperto Bitcoin solo di recente grazie al suo amico Joe. Durante una festa, Joe ha illustrato con entusiasmo Bitcoin ai presenti, con tanto di dimostrazione pratica. Alice, incuriosita, gli ha chiesto come iniziare. Joe le ha consigliato un wallet per smartphone, ideale per i principianti, indicandole alcuni dei suoi preferiti. Alice ha quindi scaricato e installato sul suo telefono uno dei wallet suggeriti.
 
 Al primo avvio dell'app, Alice seleziona l'opzione per creare un nuovo wallet Bitcoin. Il wallet scelto è di tipo non-custodial, il che significa che Alice (e solo lei) detiene il controllo delle proprie chiavi private. Di conseguenza, Alice deve assumersi la responsabilità del backup delle chiavi: la loro perdita comporterebbe l'impossibilità di accedere ai propri bitcoin. Per agevolare questa operazione, l'applicazione genera un _codice di recupero_ utilizzabile per ripristinare il wallet in caso di necessità.
 
 
 [[recovery_code_intro]]
-=== Codici di Recupero
+==== Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin non-custodial fornisce un codice di recupero che l'utente utilizzerà per il backup.
 Il codice di recupero è tipicamente composto da numeri, lettere o parole generate casualmente dal software, e funge da "seme" (seed) per la generazione di tutte le chiavi del wallet.
 Vedi <<recovery_code_sample>>(tabella 1.1) per alcuni esempi:
@@ -149,6 +149,8 @@ Vedi <<recovery_code_sample>>(tabella 1.1) per alcuni esempi:
 Il termine "codice di recupero" (o frase di recupero, o ancora frase mnemonica ) potrebbe far pensare che vada memorizzato. In realtà, è molto più sicuro e pratico scriverlo su carta e conservarlo con cura, piuttosto che affidarsi esclusivamente alla memoria. Questa sequenza di parole è anche nota come _seed phrase_ (frase seed), perché funge da "seme" iniziale da cui vengono generate tutte le chiavi private (e quindi tutti gli indirizzi) del wallet.
 ====
 
+
+
 Se dovesse succedere qualcosa al wallet di Alice, potrebbe reinstallare il software e inserire il codice di recupero per ripristinare il database del wallet, che include tutte le transazioni onchain inviate o ricevute.
 Tuttavia, il solo codice di recupero non ripristina eventuali dati aggiuntivi inseriti da Alice nel wallet, come le etichette associate a specifici indirizzi o transazioni. 
 Sebbene la perdita di questi metadati non sia grave come quella dei fondi, può comunque rappresentare un disagio. Immagina di dover consultare un vecchio 
@@ -168,7 +170,7 @@ Nella maggior parte delle applicazioni wallet, il codice di recupero viene richi
 Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, consulta un esperto per assicurarti di non essere vittima di un attacco di phishing.
 ====
 
-=== Indirizzi Bitcoin
+==== Indirizzi Bitcoin
 
 Alice è ora pronta per utilizzare il suo nuovo wallet Bitcoin. 
 L'applicazione del wallet ha generato casualmente una chiave privata (descritta in dettaglio in <<private_keys>>), che sarà utilizzata per creare gli indirizzi bitcoin associati al suo wallet. In questa fase, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin, né sono "registrati" da alcuna entità del sistema. I suoi indirizzi Bitcoin sono semplicemente numeri derivati dalla sua chiave privata, mediante la quale Alice può controllare l'accesso ai fondi. Gli indirizzi sono generati autonomamente dal suo wallet, senza alcun riferimento o registrazione presso servizi esterni.
