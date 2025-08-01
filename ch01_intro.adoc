@@ -149,8 +149,6 @@ Vedi <<recovery_code_sample>>(tabella 1.1) per alcuni esempi:
 Il termine "codice di recupero" (o frase di recupero, o ancora frase mnemonica ) potrebbe far pensare che vada memorizzato. In realtà, è molto più sicuro e pratico scriverlo su carta e conservarlo con cura, piuttosto che affidarsi esclusivamente alla memoria. Questa sequenza di parole è anche nota come _seed phrase_ (frase seed), perché funge da "seme" iniziale da cui vengono generate tutte le chiavi private (e quindi tutti gli indirizzi) del wallet.
 ====
 
-
-
 Se dovesse succedere qualcosa al wallet di Alice, potrebbe reinstallare il software e inserire il codice di recupero per ripristinare il database del wallet, che include tutte le transazioni onchain inviate o ricevute.
 Tuttavia, il solo codice di recupero non ripristina eventuali dati aggiuntivi inseriti da Alice nel wallet, come le etichette associate a specifici indirizzi o transazioni. 
 Sebbene la perdita di questi metadati non sia grave come quella dei fondi, può comunque rappresentare un disagio. Immagina di dover consultare un vecchio 
@@ -158,7 +156,7 @@ estratto conto bancario o della carta di credito e di trovare i nomi di tutti i
 soggetti a cui hai effettuato pagamenti (o da cui hai ricevuto pagamenti) cancellati. 
 Per prevenire la perdita dei metadati, molti wallet offrono funzionalità di backup supplementari oltre al codice di recupero.
 
-Per alcuni wallet, specialmente quelli che gestiscono transazioni _offchain_ (cioè, transazioni che avvengono al di fuori della blockchain principale di Bitcoin, come sulla Lightning Network), questa funzionalità di backup aggiuntiva è oggi persino più cruciale. Le transazioni offchain possono offrire vantaggi come costi ridotti e maggiore privacy. Tuttavia, la seed phrase, che ripristina le chiavi basate sui dati della blockchain principale (onchain), da sola potrebbe non essere sufficiente per recuperare i fondi coinvolti in queste transazioni offchain. Per questo motivo, per i wallet che supportano pagamenti offchain, è assolutamente fondamentale eseguire backup regolari e completi dell'intero database del wallet, secondo le procedure indicate dal software stesso, oltre a conservare in sicurezza il codice di recupero.
+Per alcuni wallet, specialmente quelli che gestiscono transazioni _offchain_ (cioè, transazioni che avvengono al di fuori della blockchain principale di Bitcoin, come su Lightning Network), questa funzionalità di backup aggiuntiva è oggi persino più cruciale. Le transazioni offchain possono offrire vantaggi come costi ridotti e maggiore privacy. Tuttavia, la seed phrase, che ripristina le chiavi basate sui dati della blockchain principale (onchain), da sola potrebbe non essere sufficiente per recuperare i fondi coinvolti in queste transazioni offchain. Per questo motivo, per i wallet che supportano pagamenti offchain, è assolutamente fondamentale eseguire backup regolari e completi dell'intero database del wallet, secondo le procedure indicate dal software stesso, oltre a conservare in sicurezza il codice di recupero.
 
 Va notato che, ricevendo fondi su un nuovo wallet mobile per la prima volta, molti wallet richiedono di confermare l'avvenuto salvataggio del codice di 
 recupero. Questa verifica può variare da un semplice promemoria alla richiesta di reinserire manualmente il codice.
@@ -173,18 +171,18 @@ Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, 
 ==== Indirizzi Bitcoin
 
 Alice è ora pronta per utilizzare il suo nuovo wallet Bitcoin. 
-L'applicazione del wallet ha generato casualmente una chiave privata (descritta in dettaglio in <<private_keys>>), che sarà utilizzata per creare gli indirizzi bitcoin associati al suo wallet. In questa fase, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin, né sono "registrati" da alcuna entità del sistema. I suoi indirizzi Bitcoin sono semplicemente numeri derivati dalla sua chiave privata, mediante la quale Alice può controllare l'accesso ai fondi. Gli indirizzi sono generati autonomamente dal suo wallet, senza alcun riferimento o registrazione presso servizi esterni.
+L'applicazione del wallet ha generato casualmente una chiave privata (descritta in dettaglio in <<private_keys>>), che sarà utilizzata per creare gli indirizzi Bitcoin associati al suo wallet. In questa fase, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin, né sono "registrati" da alcuna entità del sistema. I suoi indirizzi Bitcoin sono semplicemente numeri derivati dalla sua chiave privata, mediante la quale Alice può controllare l'accesso ai fondi. Gli indirizzi sono generati autonomamente dal suo wallet, senza alcun riferimento o registrazione presso servizi esterni.
 
 [TIP]
 ====
-Esistono diversi formati per gli indirizzi Bitcoin e per le richieste di pagamento (invoice). Indirizzi e richieste di pagamento possono essere condivisi con altri utenti Bitcoin, i quali potranno utilizzarli per inviare bitcoin direttamente al wallet del destinatario.
+Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (invoice). Indirizzi e richieste di pagamento possono essere condivisi con altri utenti Bitcoin, i quali potranno utilizzarli per inviare bitcoin direttamente al wallet del destinatario.
 È possibile condividere un indirizzo o una richiesta di pagamento con altri senza compromettere la sicurezza dei propri bitcoin. A differenza di un numero di conto bancario, nessuno che conosca un indirizzo Bitcoin altrui può prelevare fondi da quel wallet: solo il proprietario può avviare una transazione in uscita.
-È importante notare che, sebbene condividere un indirizzo non permetta ad altri di spendere i tuoi bitcoin, può avere implicazioni per la tua privacy. Se fornisci lo stesso indirizzo a più persone, queste potrebbero essere in grado di vedere i pagamenti che ricevi da altri su quell'indirizzo. Inoltre, tutte le transazioni sulla blockchain Bitcoin sono pubbliche. Se un indirizzo viene collegato alla tua identità, chiunque può potenzialmente tracciare tutti i pagamenti inviati e ricevuti da quell'indirizzo. Per massimizzare la privacy, la maggior parte dei wallet moderni aiuta a generare un nuovo indirizzo Bitcoin per ogni transazione che ricevi. È una buona pratica utilizzare questa funzionalità per ogni pagamento.
+È importante notare che, sebbene condividere un indirizzo non permetta ad altri di spendere i tuoi bitcoin, può avere implicazioni per la tua privacy. Se fornisci lo stesso indirizzo a più persone, queste potrebbero essere in grado di vedere i pagamenti che ricevi da altri su quell'indirizzo. Inoltre, tutte le transazioni sulla blockchain Bitcoin sono pubbliche. Se un indirizzo viene collegato alla tua identità, chiunque può potenzialmente tracciare tutti i pagamenti inviati e ricevuti da quell'indirizzo. Per massimizzare la privacy, è una buona pratica generare un nuovo indirizzo Bitcoin per ogni transazione che ricevi.
 ====
 
-=== Ricevere Bitcoin
+==== Ricevere Bitcoin
 
-Alice preme il pulsante _Ricevi_, che visualizza un codice QR (si veda la <<wallet_receive>>, Figura 1).
+Alice preme il pulsante _Ricevi_, che fa visualizzare un codice QR (si veda la <<wallet_receive>>, Figura 1).
 
 [role="width-50"]
 [[wallet_receive]]
@@ -198,8 +196,11 @@ Il codice QR, quel quadrato con un motivo di punti bianchi e neri mostrato nella
 Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se vuoi testare l'invio di bitcoin, considera di donarli a un'organizzazione benefica che accetta bitcoin.
 ====
 
+
+
+
 [[getting_first_bitcoin]]
-=== Detenere i tuoi primi Bitcoin
+==== Detenere i tuoi primi Bitcoin
 Il primo passo per chi inizia con Bitcoin è solitamente quello di acquistare una piccola quantità di bitcoin. È importante capire subito che le transazioni Bitcoin sono irreversibili. Una volta inviati, i bitcoin non possono essere richiamati indietro, a differenza di quanto avviene con molti sistemi di pagamento tradizionali (come carte di credito, PayPal, ecc.). Questa irreversibilità comporta un rischio per chi vende bitcoin: un acquirente disonesto potrebbe pagare con un metodo tradizionale, ricevere i bitcoin, e poi annullare il pagamento. Per proteggersi da questo rischio, i venditori di bitcoin che accettano pagamenti tradizionali spesso richiedono procedure di verifica dell'identità e della solvibilità dell'acquirente, che possono richiedere tempo (giorni o settimane).
 
 
