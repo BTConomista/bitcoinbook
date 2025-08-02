@@ -208,7 +208,7 @@ Ecco alcuni metodi per acquistare bitcoin se sei un nuovo utente:
 
 *Da un amico o conoscente: Se conosci qualcuno che già possiede bitcoin, puoi acquistarli direttamente da lui/lei. È spesso il metodo più semplice e diretto per iniziare. Un modo per incontrare persone con bitcoin è partecipare a un meetup Bitcoin locale elencato su pass:[<a href="https://meetup.com" class="orm:hideurl">Meetup.com</a>].
 
-*Guadagnandoli: Puoi offrire tuoi beni o servizi in cambio di bitcoin. Ad esempio, se sei un programmatore, puoi farti pagare in bitcoin per un lavoro. Se hai un negozio, puoi accettare bitcoin dai clienti.
+*Guadagnandoli: Puoi offrire beni o servizi in cambio di bitcoin. Ad esempio, se sei un programmatore, puoi farti pagare in bitcoin per un lavoro. Se hai un negozio, puoi accettare bitcoin dai clienti.
 
 *Tramite un ATM Bitcoin: Sono sportelli automatici simili a quelli bancari, ma specifici per criptovalute. Puoi inserire denaro contante e l'ATM invierà l'equivalente in bitcoin direttamente al tuo wallet.
 
@@ -223,28 +223,28 @@ Alice si è avvicinata a Bitcoin tramite un amico, il che le offre un modo sempl
 Vedremo a breve come acquista i bitcoin da Joe e come lui glieli invia al suo wallet.
 
 [[bitcoin_price]]
-=== Trovare il prezzo attuale di bitcoin
-Prima che Alice acquisti bitcoin da Joe, devono mettersi d'accordo su un prezzo, ovvero stabilire un tasso di cambio tra bitcoin e dollari USA. Questo porta a una domanda comune: "Da cosa dipende il prezzo del bitcoin?" La risposta semplice è: dal mercato.
+==== Trovare il prezzo attuale di bitcoin
+Prima che Alice acquisti bitcoin da Joe, devono mettersi d'accordo sul prezzo, ovvero stabilire un tasso di cambio tra bitcoin e dollari USA. Questo porta a una domanda comune: "Da cosa dipende il prezzo del bitcoin?" La risposta semplice è: dal mercato.
 
 Come molte valute tradizionali (Euro, Dollaro, Yen), anche Bitcoin ha un tasso di cambio che varia continuamente. Il suo valore rispetto ad altre valute (ad esempio, quanti dollari servono per comprare un bitcoin) è determinato dall'incontro della domanda (chi vuole comprare) e dell'offerta (chi vuole vendere) sui vari mercati (_exchange_) dove viene scambiato. Su ogni _exchange_, il prezzo del bitcoin in una data valuta (es. dollari USA) è semplicemente il prezzo dell'ultima transazione avvenuta su quella piattaforma. Poiché le transazioni avvengono continuamente, il prezzo può cambiare rapidamente, anche più volte al secondo. Per avere un'idea del prezzo "medio" o "di riferimento", esistono siti web e app che aggregano i dati dalle principali piattaforme di scambio. Calcolano una media dei prezzi, spesso ponderata per i volumi di scambio (cioè, dando più peso agli _exchange_ con più transazioni), e forniscono un tasso di cambio indicativo per coppie di valute come BTC/USD (bitcoin contro dollaro USA).
 
 Sono disponibili centinaia di applicazioni e siti web che mostrano il tasso di cambio aggiornato.
 Ecco alcuni dei più popolari:
 
-- https://bitcoinaverage.com[Bitcoin Average]:: A site that provides a simple view of the volume-weighted average for each currency.
-- https://coincap.io[CoinCap]:: A service listing the market capitalization and exchange rates of hundreds of cryptocurrencies, including bitcoins.
-- https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: A reference rate that can be used for institutional and contractual reference, provided as part of investment data feeds by the CME.
+https://bitcoinaverage.com[Bitcoin Average]:: A site that provides a simple view of the volume-weighted average for each currency.
+https://coincap.io[CoinCap]:: A service listing the market capitalization and exchange rates of hundreds of cryptocurrencies, including bitcoins.
+https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: A reference rate that can be used for institutional and contractual reference, provided as part of investment data feeds by the CME.
 
 Molti wallet Bitcoin includono anche una funzione per mostrare il valore dei bitcoin detenuti convertito automaticamente nella tua valuta locale.
 
 [[sending_receiving]]
-=== Inviare e ricevere bitcoin
+==== Inviare e ricevere bitcoin
 Alice decide di acquistare 0,001 bitcoin. Dopo aver verificato il tasso di cambio con Joe, gli consegna l'equivalente in contanti, apre l'app del suo wallet mobile e seleziona l'opzione _Ricevi_.
-A questo punto, l'app visualizza un codice QR che rappresenta il primo indirizzo Bitcoin di Alice.
+A questo punto, l'app fa visualizzare un codice QR che rappresenta il primo indirizzo Bitcoin di Alice.
 
 Joe, a sua volta, seleziona _Invia_ sul suo wallet mobile, attivando lo scanner di codici QR. Ciò gli permette di scansionare il codice con la fotocamera dello smartphone, evitando di digitare manualmente il lungo indirizzo Bitcoin di Alice.
 
-Joe ha ora impostato l'indirizzo Bitcoin di Alice come destinatario. Inserisce quindi l'importo di 0,001 bitcoin (BTC) (si veda la <<wallet-send>>, Figura 2).
+Joe ha ora impostato l'indirizzo Bitcoin di Alice come destinatario. Inserisce quindi l'importo di 0,001 bitcoin (BTC) (si veda la <<wallet-send>> Figura 2).
 Alcuni wallet potrebbero visualizzare l'importo in diverse denominazioni: 0,001 BTC equivale a 1 millibitcoin (mBTC) o 100.000 satoshi (sats).
 
 Il wallet potrebbe anche suggerire a Joe di aggiungere un'etichetta alla transazione; in tal caso, Joe digita "Alice". Questo gli consentirà, anche a distanza di settimane o mesi, di ricordare il motivo di questo invio di 0,001 bitcoin.  
