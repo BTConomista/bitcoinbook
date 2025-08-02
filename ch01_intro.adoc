@@ -196,9 +196,6 @@ Il codice QR, quel quadrato con un motivo di punti bianchi e neri mostrato nella
 Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se vuoi testare l'invio di bitcoin, considera di donarli a un'organizzazione benefica che accetta bitcoin.
 ====
 
-
-
-
 [[getting_first_bitcoin]]
 ==== Detenere i tuoi primi Bitcoin
 Il primo passo per chi inizia con Bitcoin è solitamente quello di acquistare una piccola quantità di bitcoin. È importante capire subito che le transazioni Bitcoin sono irreversibili. Una volta inviati, i bitcoin non possono essere richiamati indietro, a differenza di quanto avviene con molti sistemi di pagamento tradizionali (come carte di credito, PayPal, ecc.). Questa irreversibilità comporta un rischio per chi vende bitcoin: un acquirente disonesto potrebbe pagare con un metodo tradizionale, ricevere i bitcoin, e poi annullare il pagamento. Per proteggersi da questo rischio, i venditori di bitcoin che accettano pagamenti tradizionali spesso richiedono procedure di verifica dell'identità e della solvibilità dell'acquirente, che possono richiedere tempo (giorni o settimane).
