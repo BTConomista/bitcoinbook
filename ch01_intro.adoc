@@ -197,7 +197,7 @@ Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se
 ====
 
 [[getting_first_bitcoin]]
-==== Detenere i tuoi primi Bitcoin
+==== Detenere i tuoi primi bitcoin
 Il primo passo per chi inizia con Bitcoin è solitamente quello di acquistare una piccola quantità di bitcoin. È importante capire subito che le transazioni Bitcoin sono irreversibili. Una volta inviati, i bitcoin non possono essere richiamati indietro, a differenza di quanto avviene con molti sistemi di pagamento tradizionali (come carte di credito, PayPal, ecc.). Questa irreversibilità comporta un rischio per chi vende bitcoin: un acquirente disonesto potrebbe pagare con un metodo tradizionale, ricevere i bitcoin, e poi annullare il pagamento. Per proteggersi da questo rischio, i venditori di bitcoin che accettano pagamenti tradizionali spesso richiedono procedure di verifica dell'identità e della solvibilità dell'acquirente, che possono richiedere tempo (giorni o settimane).
 
 
@@ -220,7 +220,7 @@ Alice si è avvicinata a Bitcoin tramite un amico, il che le offre un modo sempl
 Vedremo a breve come acquista i bitcoin da Joe e come lui glieli invia al suo wallet.
 
 [[bitcoin_price]]
-==== Trovare il prezzo attuale di bitcoin
+==== Trovare il prezzo attuale dei bitcoin
 Prima che Alice acquisti bitcoin da Joe, devono mettersi d'accordo sul prezzo, ovvero stabilire un tasso di cambio tra bitcoin e dollari USA. Questo porta a una domanda comune: "Da cosa dipende il prezzo del bitcoin?" La risposta semplice è: dal mercato.
 
 Come molte valute tradizionali (Euro, Dollaro, Yen), anche Bitcoin ha un tasso di cambio che varia continuamente. Il suo valore rispetto ad altre valute (ad esempio, quanti dollari servono per comprare un bitcoin) è determinato dall'incontro della domanda (chi vuole comprare) e dell'offerta (chi vuole vendere) sui vari mercati (_exchange_) dove viene scambiato. Su ogni _exchange_, il prezzo del bitcoin in una data valuta (es. dollari USA) è semplicemente il prezzo dell'ultima transazione avvenuta su quella piattaforma. Poiché le transazioni avvengono continuamente, il prezzo può cambiare rapidamente, anche più volte al secondo. Per avere un'idea del prezzo "medio" o "di riferimento", esistono siti web e app che aggregano i dati dalle principali piattaforme di scambio. Calcolano una media dei prezzi, spesso ponderata per i volumi di scambio (cioè, dando più peso agli _exchange_ con più transazioni), e forniscono un tasso di cambio indicativo per coppie di valute come BTC/USD (bitcoin contro dollaro USA).
