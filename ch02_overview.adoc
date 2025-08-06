@@ -8,7 +8,7 @@ A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non dipend
 
 ++++
 <p class="fix_tracking">
-Il sistema Bitcoin è formato da utenti con wallet che custodiscono chiavi, da transazioni che si diffondono nella rete e da miner che, tramite un calcolo competitivo, costruiscono la blockchain di consenso, ossia il registro ufficiale di tutte le transazioni.
+La rete Bitcoin è formata da utenti con wallet che custodiscono chiavi, da transazioni che si diffondono nella rete e da miner che, tramite un calcolo competitivo, costruiscono la blockchain di consenso, ossia il registro ufficiale di tutte le transazioni.
 </p>
 
 <p class="fix_tracking2">
@@ -96,14 +96,11 @@ Nei paragrafi successivi approfondiremo questa transazione: vedremo come il wall
 === Transazioni Bitcoin
 Una transazione comunica alla rete che il proprietario di certi bitcoin ha autorizzato il trasferimento di quel valore a un altro. Il nuovo proprietario potrà a sua volta spenderli creando un'altra transazione diretta a un nuovo destinatario, e così via in una catena di proprietà.
 
-
-
-
 ==== Input e Output di una Transazione
 
-Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione è formata da due elementi principali: gli _input_ e gli _output_. Gli input indicano i fondi posseduti e da dove provengono, mentre gli output sono i destinatari che li riceveranno. Di solito la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione_ incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come voce di registro.
+Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione include uno o più input, che spendono fondi, e uno o più output, che li ricevono. Di norma, la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione_ incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come registrazione in un libro mastro basato sul metodo della partita doppia.
 
-La transazione contiene anche una prova di proprietà per ogni quantità di bitcoin spesa. Questa prova è una firma digitale del proprietario, che chiunque può verificare autonomamente. Nel sistema Bitcoin, spendere significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario identificato da un indirizzo Bitcoin.
+La transazione contiene anche una prova di proprietà per ogni quantità di bitcoin spesa. Questa prova è una firma digitale del proprietario, che chiunque può verificare autonomamente. Nella rete Bitcoin, spendere significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario identificato da un indirizzo Bitcoin.
 
 
 [[transaction-double-entry]]
@@ -112,7 +109,10 @@ image::images/mbc3_0202.png["Transaction Double-Entry"]
 
 ==== Catene di Transazioni
 
-Il pagamento di Alice al negozio di Bob utilizza come input l'output di una transazione precedente. Nel capitolo precedente Alice aveva ricevuto bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<transaction-chain>>.
+Il pagamento di Alice al negozio di Bob utilizza l'output di una transazione precedente come input. Nel capitolo precedente Alice aveva ricevuto bitcoin dal suo amico Joe in cambio di contanti. Abbiamo etichettato quella transazione come _Transazione 1_ (Tx1) in <<transaction-chain>>.
+
+
+
 
 La Tx1 ha inviato 0,001 bitcoin (100.000 satoshi) a un output bloccato con la chiave di Alice. La nuova transazione diretta al negozio di Bob (Tx2) spende proprio quell'output. Nella figura una freccia etichetta l'input come "Tx1:0". In una transazione reale questo riferimento sarebbe l'identificatore della transazione (txid), un valore di 32 byte con cui Alice ha ricevuto il denaro da Joe. L'indicazione ":0" specifica la posizione esatta dell'output in cui Alice ha ricevuto i bitcoin: in questo caso il primo output, posizione 0.
 
