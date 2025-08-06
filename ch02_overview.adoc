@@ -3,7 +3,6 @@
 
 A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non dipende da intermediari. Ogni utente può eseguire il software sul proprio computer e verificare in autonomia che il sistema funzioni correttamente, senza ricorrere a un'autorità centrale. In questo capitolo esamineremo Bitcoin in termini generali seguendo una transazione e vedendo come viene registrata sulla blockchain, il registro distribuito di tutte le operazioni. Nei capitoli successivi analizzeremo nel dettaglio transazioni, rete e mining.
 
-
 === Panoramica su Bitcoin
 
 ++++
