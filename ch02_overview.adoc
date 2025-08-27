@@ -247,11 +247,10 @@ Il mining funziona come una lotteria decentralizzata. Ogni miner può creare il 
 Il miner applica al blocco candidato un apposito algoritmo (funzione di _hash_) che mescola i dati producendo un output del tutto diverso dall'input. Questo hash produrrà sempre lo stesso output per un dato input, ma basta cambiare di poco l'input perché il risultato sia imprevedibile.
 Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
 
-
-
-
-Quando si trova la combinazione vincente, chiunque può verificare il blocco eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
+Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti algoritmo _proof of work_ (PoW), ovvero algoritmo di _prova di lavoro_.
+
+
 
 Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con commissioni più alte e secondo altri criteri. Appena ricevono il blocco precedente, i miner iniziano subito a creare un nuovo blocco candidato collegato al precedente, lo riempiono di transazioni e calcolano il PoW per quel blocco.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia al proprio indirizzo la ricompensa del blocco e tutte le commissioni. Se trova la soluzione valida incasserà la ricompensa quando il blocco verrà aggiunto alla blockchain e la transazione diventerà spendibile.
