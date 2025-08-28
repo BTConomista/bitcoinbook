@@ -255,13 +255,23 @@ Ogni miner inserisce nel blocco candidato una transazione speciale che invia la 
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
 I miners che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
 
+La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non confermate. Un full node l'ha poi validata e inserita in un blocco candidato.
+Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volta dal wallet di Alice, un miner trova la soluzione per il blocco e la annuncia alla rete. Dopo che ciascuno degli altri miner convalida il blocco vincente, questi avviano una nuova lotteria per generare il blocco successivo.
+
+Il blocco vincente contenente la transazione di Alice entra così a far parte della blockchain. Quel blocco viene conteggiato come una  _conferma_ di quella transazione. Dopo che il blocco contenente la transazione di Alice si è propagato nella rete, creare un blocco alternativo con una versione diversa della transazione (ad esempio una transazione che non paga Bob) richiederebbe la stessa quantità di lavoro che serve a tutti i miner di Bitcoin per creare un blocco interamente nuovo.
+Quando esistono blocchi alternativi, i full node scelgono la catena con il maggior lavoro complessivo (PoW), detta _best blockchain_. Perché l'intera rete accetti un blocco alternativo occorrerebbe minarne un altro sopra di esso.
 
 
-La transazione di Alice, propagata nella rete, è finita nel pool delle transazioni non verificate. Un full node l'ha quindi validata e inserita in un blocco candidato.
-Circa cinque minuti dopo un miner trova la soluzione valida e la comunica alla rete. Dopo che ogni miner ha validato il blocco vincente, essi avviano immediatamente una nuova lotteria per generare il prossimo blocco.
 
-Il blocco vincente con la transazione di Alice entra così a far parte della blockchain. Ogni blocco che include la transazione conta come una _conferma_ di quel pagamento. Una volta propagato quel blocco, per sostituirlo con una versione diversa (ad esempio una transazione che non paga Bob) servirebbe lo stesso lavoro necessario per creare un nuovo blocco da zero. Quando esistono blocchi alternativi, i full node scelgono la catena con il maggior lavoro complessivo (PoW), detta _best blockchain_. Perché l'intera rete accetti un blocco alternativo occorrerebbe minarne un altro sopra di esso.
-In teoria i miner potrebbero collaborare con Alice per creare una versione alternativa della transazione che non paghi Bob, magari in cambio di parte del denaro. Ma dovrebbero produrre due nuovi blocchi, mentre i miner onesti ne generano uno solo e incassano tutte le commissioni oltre alla ricompensa del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
+​Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. ​Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
+
+[TIP]
+====
+You can see the block that includes
+https://oreil.ly/7v_lH[Alice's transaction].
+====
+
+
 
 Circa 19 minuti dopo un altro miner produce un nuovo blocco. Poiché questo si basa su quello contenente la transazione di Alice (fornendo così due conferme), ora la transazione potrebbe essere modificata solo minando due blocchi alternativi e un terzo blocco sopra di essi, per un totale di tre blocchi qualora Alice volesse riprendersi il denaro inviato a Bob.
 Ogni blocco estratto sopra quello con la transazione di Alice costituisce una conferma in più. Con l'accumularsi dei blocchi diventa sempre più arduo annullare la transazione, e Bob può sentirsi sempre più sicuro del pagamento ricevuto.
