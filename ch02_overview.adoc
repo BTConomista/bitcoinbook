@@ -274,9 +274,7 @@ https://oreil.ly/7v_lH[Alice's transaction].
 Circa 19 minuti dopo la trasmissione del blocco contenente la transazione di Alice, un nuovo blocco viene minato da un altro miner. Poiché questo nuovo blocco è costruito sopra a quello che conteneva la transazione di Alice (fornendo alla transazione di Alice due conferme), la sua transazione ora può essere modificata soltanto se vengono minati due blocchi alternativi — più un nuovo blocco costruito sopra di essi — per un totale di tre blocchi che dovrebbero essere minati affinché Alice si riprenda il denaro inviato a Bob.
 ​Ogni blocco minato sopra a quello contenente la transazione di Alice conta come una conferma aggiuntiva. Man mano che i blocchi si accumulano uno sopra l'altro, diventa più difficile annullare la transazione, dando così a Bob sempre più fiducia nella sicurezza del pagamento di Alice.
 
-
-
-In <<block-alice1>> è visibile il blocco che contiene la transazione di Alice. Sotto di esso si susseguono centinaia di migliaia di blocchi collegati in una catena fino al blocco n.0, il _genesis block_. Con il passare del tempo, man mano che cresce l'"altezza" dei nuovi blocchi, aumenta anche la difficoltà di calcolo dell'intera catena.
+In <<block-alice1>> possiamo vedere il blocco che contiene la transazione di Alice. Sotto di esso si susseguono centinaia di migliaia di blocchi collegati in una catena di blocchi (blockchain) fino al blocco #0, il _genesis block_. Con il passare del tempo, man mano che cresce l'"altezza" (height) dei nuovi blocchi, aumenta anche la difficoltà di calcolo dell'intera catena.
 Per convenzione, un blocco con più di sei conferme è ritenuto molto difficile da modificare perché bisognerebbe ricalcolare sei blocchi più uno nuovo. Approfondiremo il mining e il modo in cui accresce la fiducia in <<mining>>.
 
 [[block-alice1]]
@@ -286,9 +284,9 @@ image::images/mbc3_0207.png["Alice's transaction included in a block"]
 [role="less_space pagebreak-before"]
 === Spendere la Transazione
 
-Ora che la transazione di Alice è stata incorporata in un blocco è visibile a tutte le applicazioni Bitcoin. Ogni full node può verificarne l'esattezza e la spendibilità. I full node controllano ogni trasferimento di fondi, dalla prima generazione in un blocco fino a ogni passaggio successivo, compreso quello all'indirizzo di Bob. I client leggeri possono verificare solo in parte, controllando che la transazione sia presente nella blockchain e che siano stati minati vari blocchi successivi. In questo modo si ha la certezza che i miner abbiano investito uno sforzo significativo per registrarla (vedi <<spv_nodes>>).
+Ora che la transazione di Alice è stata incorporata in un blocco, è visibile a tutte le applicazioni Bitcoin. Ogni full node può verificare in modo indipendente la transazione come valida e spendibile. I full node convalidano ogni trasferimento di fondi, dal momento in cui i bitcoin sono stati generati per la prima volta in un blocco, attraverso ogni transazione successiva, fino a quando raggiungono l'indirizzo di Bob. I client leggeri possono verificare solo in parte le transazioni, controllando che la transazione sia presente nella blockchain e che siano stati minati vari blocchi successivi. In questo modo si ha la certezza che i miner abbiano investito uno sforzo significativo per registrarla (vedi <<spv_nodes>>).
 
-Bob può ora spendere l'output ricevuto. Per esempio potrebbe pagare un appaltatore o un fornitore trasferendo il valore del pagamento di Alice a nuovi destinatari. Man mano che Bob spende i pagamenti ricevuti da Alice e dagli altri clienti, la catena di transazioni si allunga. Supponiamo che Bob paghi il suo web designer Gopesh per una nuova pagina del sito: la catena apparirà come in <<block-alice2>>.
+Bob ora può spendere l'output di questa e altre transazioni. Per esempio potrebbe pagare un appaltatore o un fornitore trasferendo il valore del pagamento di Alice a nuovi destinatari. Man mano che Bob spende i pagamenti ricevuti da Alice e dagli altri clienti, estende la catena di transazioni. Supponiamo che Bob paghi il suo web designer Gopesh per una nuova pagina del sito: la catena apparirà come in <<block-alice2>>.
 
 [[block-alice2]]
 .La transazione di Alice come parte di una catena da Joe a Gopesh.
