@@ -271,10 +271,10 @@ You can see the block that includes
 https://oreil.ly/7v_lH[Alice's transaction].
 ====
 
+Circa 19 minuti dopo la trasmissione del blocco contenente la transazione di Alice, un nuovo blocco viene minato da un altro miner. Poiché questo nuovo blocco è costruito sopra a quello che conteneva la transazione di Alice (fornendo alla transazione di Alice due conferme), la sua transazione ora può essere modificata soltanto se vengono minati due blocchi alternativi — più un nuovo blocco costruito sopra di essi — per un totale di tre blocchi che dovrebbero essere minati affinché Alice si riprenda il denaro inviato a Bob.
+​Ogni blocco minato sopra a quello contenente la transazione di Alice conta come una conferma aggiuntiva. Man mano che i blocchi si accumulano uno sopra l'altro, diventa più difficile annullare la transazione, dando così a Bob sempre più fiducia nella sicurezza del pagamento di Alice.
 
 
-Circa 19 minuti dopo un altro miner produce un nuovo blocco. Poiché questo si basa su quello contenente la transazione di Alice (fornendo così due conferme), ora la transazione potrebbe essere modificata solo minando due blocchi alternativi e un terzo blocco sopra di essi, per un totale di tre blocchi qualora Alice volesse riprendersi il denaro inviato a Bob.
-Ogni blocco estratto sopra quello con la transazione di Alice costituisce una conferma in più. Con l'accumularsi dei blocchi diventa sempre più arduo annullare la transazione, e Bob può sentirsi sempre più sicuro del pagamento ricevuto.
 
 In <<block-alice1>> è visibile il blocco che contiene la transazione di Alice. Sotto di esso si susseguono centinaia di migliaia di blocchi collegati in una catena fino al blocco n.0, il _genesis block_. Con il passare del tempo, man mano che cresce l'"altezza" dei nuovi blocchi, aumenta anche la difficoltà di calcolo dell'intera catena.
 Per convenzione, un blocco con più di sei conferme è ritenuto molto difficile da modificare perché bisognerebbe ricalcolare sei blocchi più uno nuovo. Approfondiremo il mining e il modo in cui accresce la fiducia in <<mining>>.
