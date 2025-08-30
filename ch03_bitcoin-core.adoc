@@ -2,9 +2,12 @@
 
 == Bitcoin Core: L'implementazione di riferimento
 
-Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere accettato in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente che non vi siano problemi nel network. Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
+Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve. Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
+
+
+
 
 === Da Bitcoin a Bitcoin Core
 
