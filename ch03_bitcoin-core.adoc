@@ -20,8 +20,6 @@ image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
 Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del sistema. La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
 
-
-
 === Ambiente di sviluppo Bitcoin
 
 Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gli strumenti, le librerie e i software di supporto necessari per scrivere applicazioni Bitcoin. In questo capitolo molto tecnico, vedremo passo per passo come farlo. Se trovi che l'argomento diventa troppo complesso (e non stai effettivamente configurando un ambiente di sviluppo), puoi tranquillamente passare al capitolo successivo, meno tecnico.
@@ -53,14 +51,10 @@ Resolving deltas: 100% (175649/175649), done.
 
 [TIP]
 ====
-Git is the most widely used
-distributed version control system, an essential part of any software
-developer's toolkit. You may need to install the +git+ command, or a
-graphical user interface for Git, on your operating system if you do not
-have it already.
+Git è il sistema di controllo di versione distribuito più utilizzato, uno strumento essenziale per qualsiasi sviluppatore di software. Potrebbe essere necessario installare il comando +git+ o un'interfaccia grafica per Git sul tuo sistema operativo, se non è già presente.
 ====
 
-Al termine dell’operazione di clonazione eseguita da Git, avrai una copia locale completa del repository di codice sorgente nella cartella _bitcoin_. Passa a questa cartella con il comando +cd+:
+Al termine dell’operazione di clonazione eseguita da Git, avrai una copia locale completa del repository del codice sorgente nella cartella _bitcoin_. Passa a questa cartella con il comando +cd+:
 
 ----
 $ cd bitcoin
@@ -83,7 +77,7 @@ v0.12.0rc2
 ...
 ----
 
-L'elenco dei tag mostra tutte le versioni rilasciate di Bitcoin. Per convenzione, le versioni _candidate al rilascio_, destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
+L'elenco dei tag mostra tutte le versioni di Bitcoin che sono state rilasciate. Per convenzione, le versioni _candidate al rilascio_, destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
 Dall'elenco precedente, seleziona la versione più recente, che al momento della scrittura era la v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
@@ -103,6 +97,8 @@ Puoi confermare di aver selezionato la versione desiderata eseguendo il comando 
 HEAD detached at v24.0.1
 nothing to commit, working tree clean
 ----
+
+
 
 ==== Configurazione della Build di Bitcoin Core
 
