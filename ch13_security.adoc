@@ -20,7 +20,7 @@ need to think about securing our bitcoins in a novel way too.
 
 === Security Principles
 
-The ((("Bitcoin", "security", "principles of", id="bitcoin-security-principle")))((("security", "principles of", id="security-principle")))((("decentralized consensus", "as security principle", secondary-sortas="security principle", id="decentral-consensus-principle")))core principle in Bitcoin is
+The core principle in Bitcoin is
 decentralization and it has important implications for security. A
 centralized model, such as a traditional bank or payment network,
 depends on access control and vetting to keep bad actors out of the
@@ -88,11 +88,11 @@ replicates the fragile model of traditional financial networks, plagued
 by identity theft, corruption, and embezzlement. To take advantage of
 Bitcoin's unique decentralized security model, you have to avoid the
 temptation of centralized architectures that might feel familiar but
-ultimately subvert Bitcoin's ((("decentralized consensus", "as security principle", secondary-sortas="security principle", startref="decentral-consensus-principle")))security.
+ultimately subvert Bitcoin's security.
 
 ==== The Root of Trust
 
-Traditional ((("root of trust", id="root-trust")))security architecture is based
+Traditional security architecture is based
 upon a concept called the _root of trust_, which is a trusted core used
 as the foundation for the security of the overall system or application.
 Security architecture is developed around the root of trust as a series
@@ -140,11 +140,11 @@ this point because their security architecture and design fails even
 under the most casual scrutiny. These centralized implementations had
 invested trust explicitly in numerous components outside the Bitcoin
 blockchain, such as hot wallets, centralized databases,
-vulnerable encryption keys, and ((("Bitcoin", "security", "principles of", startref="bitcoin-security-principle")))((("security", "principles of", startref="security-principle")))((("root of trust", startref="root-trust")))similar schemes.
+vulnerable encryption keys, and similar schemes.
 
 === User Security Best Practices
 
-Humans ((("Bitcoin", "security", "best practices", id="bitcoin-security-best-practice")))((("security", "best practices", id="security-best-practice")))((("best practices, security", id="best-practice-security")))have
+Humans have
 used physical security controls for thousands of years. By comparison,
 our experience with digital security is less than 50 years old. Modern
 general-purpose operating systems are not very secure and not
@@ -190,7 +190,7 @@ we will examine various best practices for practical user security.
 
 ==== Physical Bitcoin Storage
 
-Because most ((("bitcoins", "physical storage")))((("physical bitcoin storage")))((("storing bitcoins", id="storing-bitcoin")))users are far more
+Because most users are far more
 comfortable with physical security than information security, a very
 effective method for protecting bitcoins is to convert them into physical
 form. Bitcoin keys, and the seeds used to create them, are nothing more than long numbers. This means that
@@ -200,7 +200,7 @@ physically securing a printed copy of the key seed. A seed
 that is printed on paper is called a "paper backup," and
 many wallets can create them.
 Keeping bitcoins
-offline is ((("cold storage")))called _cold storage_ and it is one of the most effective
+offline is called _cold storage_ and it is one of the most effective
 security techniques. A cold storage system is one where the keys are
 generated on an offline system (one never connected to the internet) and
 stored offline either on paper or on digital media, such as a USB memory
@@ -208,7 +208,7 @@ stick.
 
 ==== Hardware Signing Devices
 
-In the ((("hardware signing devices")))long term, Bitcoin security may increasingly take the
+In the long term, Bitcoin security may increasingly take the
 form of tamper-proof hardware signing devices. Unlike a smartphone or desktop
 computer, a Bitcoin hardware signing device only needs to hold keys and
 use them to generate signatures.  Without general-purpose software to
@@ -220,7 +220,7 @@ signing devices may become the predominant method of storing bitcoins.
 ==== Ensuring Your Access
 
 Although
-most users ((("backing up", "importance of")))are rightly concerned about theft of their bitcoins, there is an even
+most users are rightly concerned about theft of their bitcoins, there is an even
 bigger risk. Data files get lost all the time. If they contain Bitcoin keys,
 the loss is much more painful. In the effort to secure their Bitcoin
 wallets, users must be very careful not to go too far and end up losing
@@ -233,7 +233,7 @@ you secure your bitcoins too well you might not be able to find them again.
 
 [WARNING]
 ====
-To spend bitcoins, you may((("wallets", "recovery codes")))((("recovery codes"))) need to back up more than just your private
+To spend bitcoins, you may need to back up more than just your private
 keys or the BIP32 seed used to derive them.  This is especially the case
 when multisignatures or complex scripts are being used.  Most output
 scripts commit to the actual conditions that must be fulfilled to spend
@@ -245,7 +245,7 @@ more details, see <<ch05_wallets>>.
 
 ==== Diversifying Risk
 
-Would you((("risk diversification")))((("storing bitcoins", startref="storing-bitcoin"))) carry your entire net worth in cash in your wallet? Most
+Would you carry your entire net worth in cash in your wallet? Most
 people would consider that reckless, yet Bitcoin users often keep all
 their bitcoins using a single wallet application. Instead, users should spread the risk
 among multiple and diverse Bitcoin applications. Prudent users will keep only
@@ -256,7 +256,7 @@ storage).
 
 ==== Multisig and Governance
 
-Whenever a ((("multisignature addresses")))((("addresses", "multisignature")))company or individual stores large amounts of
+Whenever a company or individual stores large amounts of
 bitcoins, they should consider using a multisignature Bitcoin address.
 Multisignature addresses secure funds by requiring more than one
 signature to make a payment. The signing keys should be stored in a
@@ -271,7 +271,7 @@ stored in different locations.
 ==== Survivability
 
 One important
-security ((("survivability (of bitcoin access)")))((("estate planning")))consideration that is often overlooked is availability,
+security consideration that is often overlooked is availability,
 especially in the context of incapacity or death of the key holder.
 Bitcoin users are told to use complex passwords and keep their keys
 secure and private, not sharing them with anyone. Unfortunately, that
@@ -288,4 +288,4 @@ lawyer specialized as a "digital asset executor."
 Bitcoin is a complex new technology that is still being explored by developers. Over
 time we will develop better security tools and practices that are easier
 to use by nonexperts. For now, Bitcoin users can use many of the tips
-discussed here to enjoy a secure and trouble-free Bitcoin ((("Bitcoin", "security", "best practices", startref="bitcoin-security-best-practice")))((("security", "best practices", startref="security-best-practice")))((("best practices, security", startref="best-practice-security")))experience.
+discussed here to enjoy a secure and trouble-free Bitcoin experience.
