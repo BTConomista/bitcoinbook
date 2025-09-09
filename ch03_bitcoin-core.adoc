@@ -103,12 +103,10 @@ nothing to commit, working tree clean
 ==== Configurazione della Build di Bitcoin Core
 
 Il codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
-
 In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (o altri sistemi Unix). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
+Istruzioni alternative si possono trovare nella directory _doc_; ad esempio, _build-windows.md_ per le istruzioni relative a Windows. Al momento della stesura di questo testo, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
 
-Nel caso di piattaforme diverse, puoi trovare istruzioni alternative nella directory _doc_; ad esempio, _build-windows.md_ contiene le istruzioni specifiche per Windows. Al momento della stesura di questa guida, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
-
-Esamina attentamente i prerequisiti per la compilazione, che si trovano nella prima parte della documentazione sulla build. Questi prerequisiti includono librerie e pacchetti che devono essere presenti sul tuo sistema prima di iniziare a compilare Bitcoin Core.
+Esamina attentamente i prerequisiti per la compilazione, che si trovano nella prima parte della documentazione sulla build. Si tratta di librerie che devono essere presenti sul tuo sistema prima di iniziare a compilare Bitcoin.
 Se uno di questi prerequisiti è mancante, il processo di compilazione fallirà con un errore. Se ciò accade perché hai dimenticato di installare un prerequisito, puoi semplicemente installarlo e poi riprendere la compilazione dal punto in cui l'avevi lasciata.
 Una volta verificato che i prerequisiti siano tutti installati, puoi avviare il processo di compilazione generando una serie di script di build eseguendo lo script _autogen.sh_:
 
@@ -123,7 +121,7 @@ src/Makefile.am: installing 'build-aux/depcomp'
 parallel-tests: installing 'build-aux/test-driver'
 ----
 
-Lo script _autogen.sh_ genera una serie di script di configurazione automatica che analizzeranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
+Lo script _autogen.sh_ genera una serie di script di configurazione automatica che interroghrranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
 Il più importante di questi script è +configure+, che offre diverse opzioni per personalizzare il processo di compilazione. Per visualizzare le varie opzioni disponibili, utilizza il flag +--help+:
 
 ----
@@ -177,6 +175,9 @@ checking for a BSD-compatible install... /usr/bin/install -c
 [many pages of configuration tests follow]
 ...
 ----
+
+
+
 
 Se tutto è andato bene, il comando +configure+ terminerà creando gli script di build personalizzati che ci permetteranno di compilare +bitcoind+. Se invece mancano librerie o si verificano errori, il comando +configure+ si interromperà con un errore anziché generare gli script di build.
 Se si verifica un errore, è molto probabile che sia dovuto alla mancanza di una libreria necessaria o a una libreria incompatibile. In questo caso, rivedi la documentazione relativa alla compilazione e assicurati di installare tutti i prerequisiti mancanti. Dopodiché, esegui nuovamente +configure+ e verifica se il problema è stato risolto.
