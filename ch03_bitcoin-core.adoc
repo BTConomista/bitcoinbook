@@ -179,8 +179,8 @@ checking for a BSD-compatible install... /usr/bin/install -c
 
 
 
-Se tutto è andato bene, il comando +configure+ terminerà creando gli script di build personalizzati che ci permetteranno di compilare +bitcoind+. Se invece mancano librerie o si verificano errori, il comando +configure+ si interromperà con un errore anziché generare gli script di build.
-Se si verifica un errore, è molto probabile che sia dovuto alla mancanza di una libreria necessaria o a una libreria incompatibile. In questo caso, rivedi la documentazione relativa alla compilazione e assicurati di installare tutti i prerequisiti mancanti. Dopodiché, esegui nuovamente +configure+ e verifica se il problema è stato risolto.
+Se è andato tutto bene, il comando +configure+ terminerà creando gli script di build personalizzati che ci permetteranno di compilare +bitcoind+. Se invece mancano librerie o si verificano errori, il comando +configure+ si interromperà con un errore anziché generare gli script di build.
+Se si verifica un errore, è molto probabile che sia dovuto alla mancanza di una libreria necessaria o ad una libreria incompatibile. Rivedi la documentazione relativa alla compilazione e assicurati di installare tutti i prerequisiti mancanti. Dopodiché, esegui nuovamente +configure+ e verifica se il problema è stato risolto.
 
 ==== Compilazione degli eseguibili di Bitcoin Core
 
@@ -201,7 +201,7 @@ Making all in src
 ----
 
 Su un sistema veloce con più di una CPU, potresti voler impostare il numero di processi di compilazione paralleli. Ad esempio, il comando +make -j 2+ utilizzerà due core, se disponibili.
-Se tutto è andato bene, Bitcoin Core è ora compilato. A questo punto, dovresti eseguire la suite di test unitari con il comando +make check+ per verificare che le librerie collegate non presentino errori evidenti.
+Se tutto è andato bene, Bitcoin Core è ora compilato. A questo punto, dovresti eseguire la suite di unit test con il comando +make check+ per verificare che le librerie collegate non presentino errori evidenti.
 L'ultimo passaggio consiste nell'installare i vari eseguibili sul tuo sistema utilizzando il comando +make install+. Potrebbe essere richiesto di inserire la password dell'utente, poiché questo passaggio richiede privilegi di amministratore.
 
 ----
@@ -232,13 +232,13 @@ Eseguendo un nodo, non devi fare affidamento su terze parti per validare una tra
 
 Eseguire un nodo, tuttavia, richiede il download e l'elaborazione di oltre 500 GB di dati iniziali, oltre a circa 400 MB di transazioni Bitcoin al giorno. Questi dati si riferiscono al 2023 e probabilmente aumenteranno nel tempo.
 Se spegni il tuo nodo o perdi la connessione a Internet per diversi giorni, il nodo dovrà scaricare i dati mancanti al momento della riattivazione. Ad esempio, se chiudi Bitcoin Core per 10 giorni, al successivo avvio dovrai scaricare circa 4 GB di dati.
+
 A seconda che tu scelga di indicizzare tutte le transazioni e conservare una copia completa della blockchain, potresti aver bisogno di una notevole quantità di spazio su disco—almeno 1 TB se prevedi di eseguire Bitcoin Core per diversi anni.
 Per impostazione predefinita, i nodi Bitcoin trasmettono anche transazioni e blocchi ad altri nodi (chiamati "peer"), consumando banda internet in upload. Se la tua connessione Internet è limitata, ha un tetto massimo di dati o è tariffata in base al consumo (ad esempio, paghi per ogni gigabit trasferito), probabilmente non dovresti eseguire un nodo Bitcoin su di essa, oppure dovresti configurarlo in modo da limitare il consumo di banda (vedi <<bitcoincorenode_config>>).
 In alternativa, puoi collegare il tuo nodo a una rete diversa, come un fornitore di dati satellitari gratuito, ad esempio https://oreil.ly/cIwf3[Blockstream Satellite].
 
 [TIP]
 ====
-
 Bitcoin Core mantiene per impostazione predefinita una copia completa della blockchain, contenente quasi tutte le transazioni confermate sulla rete Bitcoin sin dal suo inizio nel 2009. Questo dataset occupa centinaia di gigabyte e viene scaricato gradualmente nel corso di diverse ore o giorni, a seconda della velocità della CPU e della connessione internet.
 Bitcoin Core non sarà in grado di elaborare transazioni o aggiornare i saldi degli account fino a quando l'intero dataset della blockchain non sarà stato scaricato. Assicurati di avere spazio su disco sufficiente, una larghezza di banda adeguata e il tempo necessario per completare la sincronizzazione iniziale.
 Puoi configurare Bitcoin Core per ridurre la dimensione della blockchain eliminando i blocchi più vecchi, ma dovrà comunque scaricare l’intero dataset.
@@ -309,6 +309,9 @@ Options:
 [many more options]
 ----
 
+
+
+
 Ecco alcune delle opzioni più importanti che puoi impostare nel file di configurazione o come parametri da riga di comando per +bitcoind+:
 
 ++alertnotify++:: Esegui un comando o uno script specifico per inviare avvisi di emergenza al proprietario di questo nodo.
@@ -329,12 +332,16 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 ++maxmempool++:: Limita la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
 
 [[txindex]]
-=== Indice del Database delle Transazioni e Opzione txindex
-
+.Indice del Database delle Transazioni e Opzione txindex
+****
 Per impostazione predefinita, Bitcoin Core crea un database contenente _solo_ le transazioni relative al wallet dell'utente. Se desideri poter accedere a qualsiasi transazione utilizzando comandi come +getrawtransaction+ (vedi <<exploring_and_decoding_transactions>>), devi configurare Bitcoin Core per creare un indice completo delle transazioni. Questo può essere ottenuto con l'opzione +txindex+.
 Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. Se inizialmente non attivi questa opzione e successivamente scegli di abilitare l'indicizzazione completa, dovrai attendere il tempo necessario per la ricostruzione dell'indice.
+****
 
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
+
+
+
 
 [[full_index_node]]
 .Esempio di configutazione di un nodo con indice completo
@@ -349,7 +356,7 @@ txindex=1
 <<constrained_resources>> mostra un nodo con risorse limitate in esecuzione su un server di dimensioni ridotte.
 
 [[constrained_resources]]
-.Sample configuration of a resource-constrained system
+.Configurazione di esempio per un sistema a risorse limitate.
 ====
 ----
 alertnotify=myemailscript.sh "Alert: %s"
@@ -394,6 +401,10 @@ $ bitcoind -printtoconsole
 2023-01-28T03:43:39Z Loaded 63866 addresses from peers.dat  114ms
 [... more startup messages ...]
 ----
+
+
+
+
 
 Puoi premere Ctrl-C per interrompere il processo una volta che sei sicuro che stia caricando le impostazioni corrette e funzionando come previsto.
 
