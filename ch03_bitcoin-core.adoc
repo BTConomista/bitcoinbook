@@ -98,8 +98,6 @@ HEAD detached at v24.0.1
 nothing to commit, working tree clean
 ----
 
-
-
 ==== Configurazione della Build di Bitcoin Core
 
 Il codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
@@ -146,6 +144,10 @@ In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità p
 Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
+
+
+
+
 ++++
 <dl>
 <dt><code>--prefix=$HOME</code></dt>
@@ -162,6 +164,10 @@ Ecco alcune opzioni utili che consentono di modificare il comportamento predefin
 </dl>
 ++++
 
+
+
+
+
 Successivamente, esegui lo script +configure+ per individuare automaticamente tutte le librerie necessarie e creare uno script di build personalizzato per il tuo sistema:
 
 ----
@@ -175,9 +181,6 @@ checking for a BSD-compatible install... /usr/bin/install -c
 [many pages of configuration tests follow]
 ...
 ----
-
-
-
 
 Se è andato tutto bene, il comando +configure+ terminerà creando gli script di build personalizzati che ci permetteranno di compilare +bitcoind+. Se invece mancano librerie o si verificano errori, il comando +configure+ si interromperà con un errore anziché generare gli script di build.
 Se si verifica un errore, è molto probabile che sia dovuto alla mancanza di una libreria necessaria o ad una libreria incompatibile. Rivedi la documentazione relativa alla compilazione e assicurati di installare tutti i prerequisiti mancanti. Dopodiché, esegui nuovamente +configure+ e verifica se il problema è stato risolto.
@@ -309,16 +312,13 @@ Options:
 [many more options]
 ----
 
-
-
-
 Ecco alcune delle opzioni più importanti che puoi impostare nel file di configurazione o come parametri da riga di comando per +bitcoind+:
 
 ++alertnotify++:: Esegui un comando o uno script specifico per inviare avvisi di emergenza al proprietario di questo nodo.
 
-++conf++:: Una posizione alternativa per il file di configurazione. Questa opzione ha senso solo come parametro da riga di comando per +bitcoind+, poiché non può essere specificata all'interno del file di configurazione a cui si riferisce.
+++conf++:: Una posizione alternativa per il file di configurazione. Questa opzione ha senso solo come parametro da riga di comando per +bitcoind+, poiché non può trovarsi all'interno del file di configurazione a cui si riferisce.
 
-++datadir++:: Seleziona la directory e il filesystem in cui salvare tutti i dati della blockchain. Per impostazione predefinita, viene utilizzata la sottodirectory _.bitcoin_ nella tua home directory. A seconda della configurazione, lo spazio utilizzato può variare da circa 10 GB fino a quasi 1 TB al momento della scrittura, con una crescita prevista di diverse centinaia di gigabyte all'anno.
+++datadir++:: Seleziona la directory e il filesystem in cui salvare tutti i dati della blockchain. Per impostazione predefinita, viene utilizzata la sottodirectory _.bitcoin_ nella tua home directory. A seconda della tua configurazione, lo spazio utilizzato può variare da circa 10 GB fino a quasi 1 TB al momento della scrittura, con una crescita prevista di diverse centinaia di gigabyte all'anno.
 
 ++prune++:: Riduci i requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
 
@@ -339,6 +339,8 @@ Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. S
 ****
 
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
+
+
 
 
 
