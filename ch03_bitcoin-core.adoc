@@ -144,29 +144,23 @@ In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità p
 Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
-
-
-
-
 ++++
 <dl>
 <dt><code>--prefix=$HOME</code></dt>
-<dd><p>This overrides the default installation location (which is <em>/usr/local/</em>) for the resulting executable. Use <code>$HOME</code> to put everything in your home directory, or a different path.</p></dd>
+<dd><p>Questo sovrascrive la posizione di installazione predefinita (che è <em>/usr/local/</em>) per l'eseguibile risultante. Usa <code>$HOME</code> per inserire tutto nella tua directory home, o un percorso diverso.</p></dd>
 
 <dt><code>--disable-wallet</code></dt>
-<dd><p>This is used to disable the reference wallet implementation.</p></dd>
+<dd><p>Questo serve per disabilitare l'implementazione del wallet di riferimento.
+</p></dd>
 
 <dt><code>--with-incompatible-bdb</code></dt>
-<dd><p>If you are building a wallet, allow the use of an incompatible version of the Berkeley DB library.</p></dd>
+<dd><p>Se stai compilando un wallet, consenti l'uso di una versione incompatibile della libreria Berkeley DB.
+</p></dd>
 
 <dt><code>--with-gui=no</code></dt>
-<dd><p>Don't build the graphical user interface, which requires the Qt library. This builds server and command-line Bitcoin Core only.</p></dd>
+<dd><p>​Non compilare l'interfaccia utente grafica, che richiede la libreria Qt. Questo compila soltanto il server e la versione a riga di comando di Bitcoin Core.</p></dd>
 </dl>
 ++++
-
-
-
-
 
 Successivamente, esegui lo script +configure+ per individuare automaticamente tutte le librerie necessarie e creare uno script di build personalizzato per il tuo sistema:
 
