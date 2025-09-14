@@ -334,11 +334,6 @@ Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. S
 
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
 
-
-
-
-
-
 [[full_index_node]]
 .Esempio di configutazione di un nodo con indice completo
 ====
@@ -398,10 +393,6 @@ $ bitcoind -printtoconsole
 [... more startup messages ...]
 ----
 
-
-
-
-
 Puoi premere Ctrl-C per interrompere il processo una volta che sei sicuro che stia caricando le impostazioni corrette e funzionando come previsto.
 
 Per eseguire Bitcoin Core in background come processo, avvialo con l'opzione +daemon+, utilizzando il comando +bitcoind -daemon+.
@@ -431,7 +422,9 @@ $ bitcoin-cli getblockchaininfo
 }
 ----
 
-Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, recupera gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
+Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, scarica gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
+
+
 
 Una volta che sei soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che venga eseguito continuamente e si riavvii automaticamente quando il sistema operativo si riavvia.
 
