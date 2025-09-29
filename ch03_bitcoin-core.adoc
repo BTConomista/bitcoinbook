@@ -426,6 +426,10 @@ Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 
 
 
 
+
+
+
+
 Una volta che sei soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che venga eseguito continuamente e si riavvii automaticamente quando il sistema operativo si riavvia.
 
 Nel codice sorgente di Bitcoin Core, sotto la directory _contrib/init_, troverai diversi esempi di script di avvio per vari sistemi operativi, insieme a un file README.md che indica quale sistema utilizza quale script.
