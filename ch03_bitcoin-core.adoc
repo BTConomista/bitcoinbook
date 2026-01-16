@@ -424,20 +424,11 @@ $ bitcoin-cli getblockchaininfo
 
 Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, scarica gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
 
-
-
-
-
-
-
-Una volta che sei soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che venga eseguito continuamente e si riavvii automaticamente quando il sistema operativo si riavvia.
-
-Nel codice sorgente di Bitcoin Core, sotto la directory _contrib/init_, troverai diversi esempi di script di avvio per vari sistemi operativi, insieme a un file README.md che indica quale sistema utilizza quale script.
+Una volta soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che rimanga in esecuzione continuamente e si riavvii al riavvio del sistema operativo. Troverai diversi esempi di script di avvio per vari sistemi operativi nella directory dei sorgenti di Bitcoin Core sotto _contrib/init_ e un file _README.md_ che indica quale script è utilizzato da ciascun sistema.
 
 === API Bitcoin Core 
-Bitcoin Core implementa un'interfaccia JSON-RPC che può essere raggiunta anche utilizzando l'helper da riga di comando +bitcoin-cli+. Da riga di comando possiamo sperimentare in modo interattivo le stesse funzionalità disponibili in modo programmabile tramite l'API.
 
-Per iniziare, esegui il comando +help+ per visualizzare l’elenco dei comandi RPC disponibili in Bitcoin Core.
+Bitcoin Core implementa un'interfaccia JSON-RPC a cui si può accedere anche utilizzando lo strumento a riga di comando +bitcoin-cli+. La riga di comando ci permette di sperimentare in modo interattivo le funzionalità che sono disponibili anche a livello di programmazione tramite le API. Per iniziare, esegui il comando +help+ per vedere un elenco dei comandi RPC di Bitcoin Core disponibili:
 
 [[bitcoind_commands]]
 
@@ -453,8 +444,7 @@ walletpassphrasechange "oldpassphrase" "newpassphrase"
 walletprocesspsbt "psbt" ( sign "sighashtype" bip32derivs finalize )
 ----
 
-
-Ognuno di questi comandi può accettare diversi parametri. Per ottenere ulteriore aiuto, una descrizione dettagliata e informazioni sui parametri, aggiungi il nome del comando dopo +help+. Ad esempio, per visualizzare l'aiuto relativo al comando RPC +getblockhash+:
+Ognuno di questi comandi può accettare diversi parametri. Per ottenere ulteriore aiuto, una descrizione dettagliata e le informazioni sui parametri, aggiungi il nome del comando dopo +help+. Ad esempio, per visualizzare l'aiuto relativo al comando RPC +getblockhash+:
 
 ----
 $ bitcoin-cli help getblockhash
@@ -474,6 +464,11 @@ Examples:
   "method": "getblockhash", 
   "params": [1000]}' -H 'content-type: text/plain;' http://127.0.0.1:8332/
 ----
+
+
+
+
+
 
 Alla fine delle informazioni di aiuto vedrai due esempi di comandi RPC, che utilizzano l’helper +bitcoin-cli+ o il client HTTP +curl+. Questi esempi mostrano come potresti chiamare il comando. Copia il primo esempio e guarda il risultato che ottieni:
 
