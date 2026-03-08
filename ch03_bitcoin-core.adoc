@@ -470,6 +470,13 @@ Examples:
 
 
 
+
+
+
+
+
+
+
 Alla fine delle informazioni di aiuto vedrai due esempi di comandi RPC, che utilizzano l’helper +bitcoin-cli+ o il client HTTP +curl+. Questi esempi mostrano come potresti chiamare il comando. Copia il primo esempio e guarda il risultato che ottieni:
 
 ----
