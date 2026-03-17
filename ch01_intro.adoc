@@ -228,9 +228,9 @@ Come molte valute tradizionali (Euro, Dollaro, Yen), anche Bitcoin ha un tasso d
 Sono disponibili centinaia di applicazioni e siti web che mostrano il tasso di cambio aggiornato.
 Ecco alcuni dei più popolari:
 
-https://bitcoinaverage.com[Bitcoin Average]:: Un sito che offre una vista semplice della media ponderata per volume per ciascuna valuta.
-https://coincap.io[CoinCap]:: Un servizio che elenca la capitalizzazione di mercato e i tassi di cambio di centinaia di criptovalute, incluso bitcoin.
-https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: Un tasso di riferimento utilizzabile in ambito istituzionale e contrattuale, fornito dalla CME all'interno dei propri flussi di dati finanziari.
+https://bitcoinaverage.com[Bitcoin Average]:: Un sito che mostra in modo semplice la media ponderata per i volumi di scambio per ogni valuta.
+https://coincap.io[CoinCap]:: Un servizio che riporta la capitalizzazione di mercato e i tassi di cambio di centinaia di criptovalute, tra cui bitcoin.
+https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: Un tasso di riferimento utilizzabile in ambito istituzionale e contrattuale, pubblicato dal CME come parte dei propri flussi di dati finanziari.
 
 Molti wallet Bitcoin includono anche una funzione per mostrare il valore dei bitcoin detenuti convertito automaticamente nella tua valuta locale.
 
