@@ -41,9 +41,9 @@ In questo capitolo introduttivo, spiegheremo alcuni termini e concetti fondament
 L'avvento di una moneta digitale efficace è strettamente legato ai progressi della crittografia. Questo non stupisce, considerando le sfide fondamentali della rappresentazione digitale di un valore scambiabile con beni e servizi.
 Tre domande essenziali che chiunque accetti denaro digitale deve porsi sono:
 
-*     Posso fidarmi dell'autenticità del denaro, ovvero che non sia contraffatto?
-*     Posso essere certo che il denaro digitale venga speso una sola volta (risolvendo il cosiddetto "problema della doppia spesa")?
-*     Posso essere sicuro che nessun altro possa rivendicare questo denaro come suo?
+* Posso fidarmi dell'autenticità del denaro, ovvero che non sia contraffatto?
+* Posso essere certo che il denaro digitale venga speso una sola volta (risolvendo il cosiddetto "problema della doppia spesa")?
+* Posso essere sicuro che nessun altro possa rivendicare questo denaro come suo?
 
 Gli enti che emettono valuta cartacea combattono costantemente la contraffazione usando carte e tecnologie di stampa sempre più sofisticate. Il denaro fisico risolve di per sé il problema della doppia spesa, perché la stessa banconota non può trovarsi in due posti contemporaneamente. Naturalmente, anche il denaro convenzionale viene spesso custodito e trasmesso in forma digitale. In questi casi, i problemi di contraffazione e doppia spesa si risolvono centralizzando tutte le transazioni elettroniche presso autorità che hanno una visione d'insieme della valuta in circolazione. Per il denaro digitale, che non può usare inchiostri speciali o ologrammi, è la crittografia a garantire l'affidabilità del valore dichiarato da un utente. In particolare, le firme digitali crittografiche consentono a un utente di firmare un asset digitale o una transazione, dimostrandone la proprietà. Con un'architettura appropriata, le firme digitali possono risolvere anche il problema della doppia spesa.
 
@@ -228,9 +228,9 @@ Come molte valute tradizionali (Euro, Dollaro, Yen), anche Bitcoin ha un tasso d
 Sono disponibili centinaia di applicazioni e siti web che mostrano il tasso di cambio aggiornato.
 Ecco alcuni dei più popolari:
 
-https://bitcoinaverage.com[Bitcoin Average]:: A site that provides a simple view of the volume-weighted average for each currency.
-https://coincap.io[CoinCap]:: A service listing the market capitalization and exchange rates of hundreds of cryptocurrencies, including bitcoins.
-https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: A reference rate that can be used for institutional and contractual reference, provided as part of investment data feeds by the CME.
+https://bitcoinaverage.com[Bitcoin Average]:: Un sito che offre una vista semplice della media ponderata per volume per ciascuna valuta.
+https://coincap.io[CoinCap]:: Un servizio che elenca la capitalizzazione di mercato e i tassi di cambio di centinaia di criptovalute, incluso bitcoin.
+https://oreil.ly/ACieC[Chicago Mercantile Exchange Bitcoin Reference Rate]:: Un tasso di riferimento utilizzabile in ambito istituzionale e contrattuale, fornito dalla CME all'interno dei propri flussi di dati finanziari.
 
 Molti wallet Bitcoin includono anche una funzione per mostrare il valore dei bitcoin detenuti convertito automaticamente nella tua valuta locale.
 
@@ -244,10 +244,10 @@ Joe, a sua volta, seleziona _Invia_ sul suo wallet mobile, attivando lo scanner 
 Joe ha ora impostato l'indirizzo Bitcoin di Alice come destinatario. Inserisce quindi l'importo di 0,001 bitcoin (BTC) (si veda la <<wallet-send>> Figura 2).
 Alcuni wallet potrebbero visualizzare l'importo in diverse denominazioni: 0,001 BTC equivale a 1 millibitcoin (mBTC) o 100.000 satoshi (sats).
 
-Il wallet potrebbe anche suggerire a Joe di aggiungere un'etichetta alla transazione; in tal caso, Joe digita "Alice". Questo gli consentirà, anche a distanza di settimane o mesi, di ricordare il motivo di questo invio di 0,001 bitcoin.  
-Alcuni wallet potrebbero inoltre richiedere a Joe di impostare una commissione di transazione. A seconda del wallet e del metodo di invio, potrebbe essergli chiesto di inserire manualmente un tasso di commissione oppure il wallet potrebbe mostrare una commissione suggerita (o un tasso per byte).  
+Il wallet potrebbe anche suggerire a Joe di aggiungere un'etichetta alla transazione; in tal caso, Joe digita "Alice". Questo gli consentirà, anche a distanza di settimane o mesi, di ricordare il motivo di questo invio di 0,001 bitcoin.
+Alcuni wallet potrebbero inoltre richiedere a Joe di impostare una commissione di transazione. A seconda del wallet e del metodo di invio, potrebbe essergli chiesto di inserire manualmente un tasso di commissione oppure il wallet potrebbe mostrare una commissione suggerita (o un tasso per byte).
 Una commissione più alta accelera la conferma della transazione (si veda la sezione <<confirmations>>).
-  
+
 [[wallet-send]]
 .Schermata di invio di un wallet Bitcoin.
 image::images/mbc3_0102.png["Wallet send screen.  Image derived from Bitcoin Design Guide CC-BY"]
