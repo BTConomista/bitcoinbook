@@ -114,6 +114,12 @@ oppure
 \end{equation}
 ++++
 
+
+
+
+
+
+
 The _mod p_ (modulo prime number _p_) indicates that this curve is over a
 finite field of prime order _p_, also written as latexmath:[\(
 \mathbb{F}_p\)], where _p_ = 2^256^ – 2^32^ – 2^9^ – 2^8^ – 2^7^ – 2^6^ –
