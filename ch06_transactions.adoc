@@ -247,6 +247,11 @@ Il terzo problema era la possibilità di sostituire una versione di una transazi
 Per eliminare il rischio di questo attacco, il tipo originale di sostituzione delle transazioni basata su sequence è stato disabilitato in una versione iniziale del software Bitcoin. Per diversi anni, i nodi completi Bitcoin non avrebbero permesso che una transazione non confermata contenente un particolare input (come indicato dal suo outpoint) fosse sostituita da una transazione diversa contenente lo stesso input. Tuttavia, questa situazione non è durata per sempre.
 
 
+
+
+
+
+
 [[sequence-bip125]]
 ===== Opt-in transaction replacement signaling
 
