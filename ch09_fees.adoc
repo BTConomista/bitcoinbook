@@ -1,176 +1,179 @@
 [[tx_fees]]
-== Transaction Fees
+== Commissioni di Transazione
 
 ++++
 <p class="fix_tracking">
-The digital signature we saw Alice create in <a data-type="xref" href="#c_signatures">#c_signatures</a> only
-proves that she knows her private key and that she committed to a
-transaction that pays Bob.  She can create another signature that
-instead commits to a transaction paying Carol—a transaction that spends
-the same output (bitcoins) that she used to pay Bob.  Those two
-transactions are now <em>conflicting transactions</em> because only one
-transaction spending a particular output can be included in the valid
-blockchain with the most proof of work—the blockchain that full nodes
-use to determine which keys control which bitcoins.
+La firma digitale che abbiamo visto creare ad Alice in <a data-type="xref" href="#c_signatures">#c_signatures</a> dimostra solo
+che lei conosce la sua chiave privata e che si è impegnata a effettuare una
+transazione che paga Bob. Può creare un'altra firma che invece
+si impegna a effettuare una transazione che paga Carol—una transazione che spende
+lo stesso output (bitcoin) che aveva usato per pagare Bob. Queste due
+transazioni sono ora <em>transazioni in conflitto</em> perché solo una
+transazione che spende un particolare output può essere inclusa nella blockchain
+valida con la maggior proof of work—la blockchain che i full node
+usano per determinare quali chiavi controllano quali bitcoin.
 </p>
 ++++
 
-To((("conflicting transactions")))((("transactions", "conflicts in"))) protect himself against conflicting transactions, it would be wise
-for Bob to wait until the transaction from Alice is included in the
-blockchain to a sufficient depth before he considers the money he
-received as his to spend (see <<confirmations>>).
-For Alice's transaction to be included in the
-blockchain, it must be included in a _block_ of transactions.  There are
-a limited number of((("blocks", "transactions in")))((("transactions", "in blocks", secondary-sortas="blocks"))) blocks produced in a given amount of time, and each
-block only has a limited amount of space.  Only the miner who creates
-that block gets to choose which transactions to include.  Miners may
-select transactions by any criteria they want, including refusing to
-include any transactions at all.
+Per proteggersi dalle transazioni in conflitto, sarebbe saggio
+per Bob aspettare che la transazione di Alice sia inclusa nella
+blockchain a una profondità sufficiente prima di considerare il denaro
+ricevuto come suo da spendere (vedi <<confirmations>>).
+Affinché la transazione di Alice sia inclusa nella
+blockchain, deve essere inclusa in un _blocco_ di transazioni. C'è
+un numero limitato di blocchi prodotti in un determinato periodo di tempo, e ogni
+blocco ha solo una quantità limitata di spazio. Solo il miner che crea
+quel blocco può scegliere quali transazioni includere. I miner possono
+selezionare le transazioni in base a qualsiasi criterio desiderino, incluso il rifiuto di
+includere qualsiasi transazione.
 
 ++++
 <div data-type="note">
-<p class="fix_tracking"> When we say "transactions" in this chapter, we refer to every
-transaction in a block except for the first transaction.  The first
-transaction in a block is a <em>coinbase transaction</em>, described in
-<a data-type="xref" href="#coinbase_transactions">#coinbase_transactions</a>, which allows the miner of the block to
-collect their reward for producing the block.  Unlike other
-transactions, a coinbase transaction doesn't spend the output of a
-previous transaction and is also an exception to several other rules
-that apply to other transactions.  Coinbase transactions don't pay
-transaction fees, don't need to be fee bumped, aren't subject to
-transaction pinning, and are largely uninteresting to the following
-discussion about fees—so we're going to ignore them in this chapter.
+<p class="fix_tracking"> Quando diciamo "transazioni" in questo capitolo, ci riferiamo a ogni
+transazione in un blocco eccetto la prima. La prima
+transazione in un blocco è una <em>transazione coinbase</em>, descritta in
+<a data-type="xref" href="#coinbase_transactions">#coinbase_transactions</a>, che permette al miner del blocco di
+raccogliere la sua ricompensa per la produzione del blocco. A differenza delle altre
+transazioni, una transazione coinbase non spende l'output di una
+transazione precedente ed è anche un'eccezione a diverse altre regole
+che si applicano alle altre transazioni. Le transazioni coinbase non pagano
+commissioni di transazione, non hanno bisogno di fee bumping, non sono soggette
+al transaction pinning, e sono in gran parte irrilevanti per la seguente
+discussione sulle commissioni—quindi le ignoreremo in questo capitolo.
 </p>
 </div>
 ++++
 
+Il criterio che quasi tutti i miner usano per selezionare quali transazioni
+includere nei loro blocchi è massimizzare le proprie entrate. Bitcoin è stato
+specificamente progettato per adattarsi a questo fornendo un meccanismo che
+permette a una transazione di dare denaro al miner che include quella
+transazione in un blocco. Chiamiamo questo meccanismo _commissioni di transazione_,
+anche se non è una commissione nel senso usuale del termine. Non è un
+importo stabilito dal protocollo o da un particolare miner--è molto più
+simile a un'offerta in un'asta. Il bene acquistato è la porzione di
+spazio limitato in un blocco che una transazione occuperà. I miner scelgono
+l'insieme di transazioni le cui offerte permetteranno loro di ottenere le maggiori
+entrate.
 
-The criterion that almost all miners use to select which transactions to
-include in their blocks is to maximize their revenue.  Bitcoin was
-specifically designed to accommodate this by providing a mechanism that
-allows a transaction to give money to the miner who includes that
-transaction in a block.  We call that mechanism _transaction fees_,
-although it's not a fee in the usual sense of that word.  It's not an
-amount set by the protocol or by any particular miner--it's much more
-like a bid in an auction.  The good being purchased is the portion of
-limited space in a block that a transaction will consume.  Miners choose
-the set of transactions whose bids will allow them to earn the greatest
-revenue.
+In questo capitolo, esploreremo vari aspetti di queste
+offerte--le commissioni di transazione--e come influenzano la creazione e
+la gestione delle transazioni Bitcoin.
 
-In this chapter, we'll explore various aspects of those
-bids--transaction fees--and how they influence the creation and
-management of Bitcoin transactions.
+=== Chi Paga la Commissione di Transazione?
 
-=== Who Pays the Transaction Fee?
+La maggior parte dei sistemi di pagamento prevede qualche tipo di commissione per effettuare transazioni, ma
+spesso questa commissione è nascosta agli acquirenti tipici. Per esempio, un commerciante
+potrebbe pubblicizzare lo stesso articolo allo stesso prezzo sia che tu paghi in contanti
+sia con carta di credito, anche se il suo processore di pagamenti potrebbe addebitargli
+una commissione più alta per le transazioni con carta di credito rispetto a quanto la sua banca gli addebita per
+i depositi in contanti.
 
-Most ((("transaction fees", "responsibility for", id="fees-responsibility")))((("payments", "transaction fees", see="transaction fees")))((("fees", see="transaction fees")))payment systems involve some sort of fee for transacting, but
-often this fee is hidden from typical buyers.  For example, a merchant
-may advertise the same item for the same price whether you pay with cash
-or a credit card even though their payment processor may charge them
-a higher fee for credit transactions than their bank charges them for
-cash deposits.
+In Bitcoin, ogni spesa di bitcoin deve essere autenticata (tipicamente
+con una firma), quindi non è possibile per una transazione pagare una commissione
+senza il permesso di chi spende. È possibile per il destinatario
+di una transazione pagare una commissione in una transazione diversa--e vedremo
+questo in uso più avanti--ma se vogliamo che una singola transazione paghi la propria
+commissione, quella commissione deve essere qualcosa concordato da chi spende. Non
+può essere nascosta.
 
-In Bitcoin, every spend of bitcoins must be authenticated (typically
-with a signature), so it's not possible for a transaction to pay a fee
-without the permission of the spender.  It is possible for the receiver
-of a transaction to pay a fee in a different transaction--and we'll see
-that in use later--but if we want a single transaction to pay its own
-fee, that fee needs to be something agreed upon by the spender.  It
-can't be hidden.
-
-Bitcoin transactions are designed so that it doesn't take any extra
-space in a transaction for a spender to commit to the fee it pays.  That
-means that, even though it's possible to pay the fee in a different
-transaction, it's most efficient (and thus cheapest) to pay the fee in a
-single transaction.
+Le transazioni Bitcoin sono progettate in modo che non serva spazio
+extra in una transazione perché chi spende si impegni sulla commissione che paga. Questo
+significa che, anche se è possibile pagare la commissione in una transazione
+diversa, è più efficiente (e quindi più economico) pagare la commissione in una
+singola transazione.
 
 In Bitcoin,
-the fee is a bid and the amount paid contributes to determining how long
-it will take the transaction to confirm.  Both spenders and receivers of
-a payment typically have an interest in having it confirming quickly, so
-normally allowing only spenders to choose fees can sometimes be a
-problem; we'll look at a solution to that problem in <<cpfp>>.  However,
-in many common payment flows, the parties with the highest desire to see a
-transaction confirm quickly--that is, the parties who would be the most
-willing to pay higher fees--are the spenders.
+la commissione è un'offerta e l'importo pagato contribuisce a determinare quanto
+tempo ci vorrà perché la transazione sia confermata. Sia chi spende sia chi riceve
+un pagamento tipicamente hanno interesse a vederlo confermare rapidamente, quindi
+normalmente permettere solo a chi spende di scegliere le commissioni può a volte essere un
+problema; vedremo una soluzione a questo problema in <<cpfp>>. Tuttavia,
+in molti flussi di pagamento comuni, le parti con il maggiore desiderio di vedere una
+transazione confermarsi rapidamente--cioè, le parti che sarebbero più
+disposte a pagare commissioni più alte--sono quelle che spendono.
 
-For those reasons, both technical and practical, it is customary in
-Bitcoin for spenders to pay transaction fees.  There are exceptions,
-such as for merchants that accept unconfirmed transactions and in
-protocols that don't immediately broadcast [.keep-together]#transactions# after they are
-signed (preventing the spender from being able to choose an appropriate
-fee for the current market).  We'll explore those exceptions((("transaction fees", "responsibility for", startref="fees-responsibility"))) later.
+Per queste ragioni, sia tecniche che pratiche, è consuetudine in
+Bitcoin che chi spende paghi le commissioni di transazione. Ci sono eccezioni,
+come per i commercianti che accettano transazioni non confermate e nei
+protocolli che non trasmettono immediatamente le [.keep-together]#transazioni# dopo che sono
+firmate (impedendo a chi spende di scegliere una commissione appropriata
+per il mercato attuale). Esploreremo queste eccezioni più avanti.
 
-=== Fees and Fee Rates
+=== Commissioni e Tassi di Commissione
 
-Each ((("transaction fees", "fee rates", id="fees-rates")))((("fee rates", id="fee-rate")))transaction only pays a single fee--it doesn't matter how large the
-transaction is.  However, the larger transactions become, the fewer of
-them a miner will be able to fit in a block.  For that reason, miners
-evaluate transactions the same way you might comparison shop between
-several equivalent items at the market: they divide the price by the
-quantity.
+Ogni((("commissioni di transazione", "tassi di commissione", id="fees-rates")))((("tassi di commissione", id="fee-rate"))) transazione paga una sola commissione--non importa quanto sia grande la
+transazione. Tuttavia, più le transazioni diventano grandi, meno
+un miner potrà inserirne in un blocco. Per questa ragione, i miner
+valutano le transazioni nello stesso modo in cui potresti confrontare i prezzi tra
+diversi articoli equivalenti al supermercato: dividono il prezzo per la
+quantità.
 
-Whereas you might divide the cost of several different bags of rice by
-each bag's weight to find the lowest price per weight (best deal), miners
-divide the fee of a transaction by its size (also called its weight) to
-find the highest fee per weight (most revenue).  In Bitcoin, we use the
-term _fee rate_ for a transaction's size divided by weight.  Due to
-changes in Bitcoin over the years, fee rate can be expressed in
-different units:
+Così come potresti dividere il costo di diversi sacchi di riso per
+il peso di ciascun sacco per trovare il prezzo più basso in rapporto al peso (l'affare migliore), i miner
+dividono la commissione di una transazione per la sua dimensione (chiamata anche peso) per
+trovare la commissione più alta per peso (maggiori entrate). In Bitcoin, usiamo il
+termine _tasso di commissione_ per indicare la commissione di una transazione divisa per il peso. A causa
+dei cambiamenti in Bitcoin nel corso degli anni, il tasso di commissione può essere espresso in
+diverse unità:
 
-- BTC/Bytes (a legacy unit rarely used anymore)
-- BTC/Kilobytes (a legacy unit rarely used anymore)
-- BTC/Vbytes (rarely used)
-- BTC/Kilo-vbyte (used mainly in Bitcoin Core)
-- Satoshi/Vbyte (most commonly used today)
-- Satoshi/Weight (also commonly used today)
+- BTC/Byte (un'unità obsoleta raramente usata oggi)
+- BTC/Kilobyte (un'unità obsoleta raramente usata oggi)
+- BTC/Vbyte (usato raramente)
+- BTC/Kilo-vbyte (usato principalmente in Bitcoin Core)
+- Satoshi/Vbyte (il più comunemente usato oggi)
+- Satoshi/Weight (anche questo comunemente usato oggi)
 
-We recommend either the sat/vbyte or sat/weight units for displaying
-fee rates.
+Consigliamo l'uso delle unità sat/vbyte o sat/weight per visualizzare
+i tassi di commissione.
+
+
+
+
 
 [WARNING]
 ====
-Be careful ((("absurd fees")))((("excessive fees")))((("transaction fees", "overpaying")))((("overpaying transaction fees")))accepting input for fee rates.  If a user copies and pastes a
-fee rate printed in one denominator into a field using a different
-denominator, they could overpay fees by 1,000 times.  If they instead
-switch the numerator, they could theoretically overpay by 100,000,000
-times.  Wallets should make it hard for the user to pay an excessive
-fee rate and may want to prompt the user to confirm any fee rate that was
-not generated by the wallet itself using a trusted data source.
+Fai attenzione((("commissioni assurde")))((("commissioni eccessive")))((("commissioni di transazione", "pagamento eccessivo")))((("pagamento eccessivo commissioni di transazione"))) nell'accettare input per i tassi di commissione. Se un utente copia e incolla un
+tasso di commissione stampato in un denominatore in un campo che usa un denominatore
+diverso, potrebbe pagare commissioni 1.000 volte superiori. Se invece
+scambia il numeratore, potrebbe teoricamente pagare 100.000.000 di
+volte di più. I wallet dovrebbero rendere difficile per l'utente pagare un tasso di commissione
+eccessivo e potrebbero voler chiedere conferma per qualsiasi tasso di commissione che non è stato
+generato dal wallet stesso usando una fonte di dati affidabile.
 
-An excessive fee, also called an _absurd fee_, is any fee rate that's
-significantly higher than the amount that fee rate estimators currently
-expect is necessary to get a transaction confirmed in the next block.
-Note that wallets should not entirely prevent users from choosing an
-excessive fee rate--they should only make using such a fee rate hard to do
-by accident.  There are legitimate reasons for users to overpay fees on
-rare occasions.
+Una commissione eccessiva, chiamata anche _commissione assurda_, è qualsiasi tasso di commissione che è
+significativamente più alto dell'importo che gli stimatori di commissioni attualmente
+prevedono sia necessario per ottenere la conferma di una transazione nel prossimo blocco.
+Nota che i wallet non dovrebbero impedire completamente agli utenti di scegliere un
+tasso di commissione eccessivo--dovrebbero solo rendere difficile farlo
+per errore. Ci sono ragioni legittime per cui gli utenti potrebbero voler pagare commissioni eccessive in
+rare occasioni.
 ====
 
-=== Estimating Appropriate Fee Rates
+=== Stima dei Tassi di Commissione Appropriati
 
-We've ((("estimating fee rates", id="estimate-fee-rate")))established that you can pay a lower fee rate if you're willing to
-wait longer for your transaction to be confirmed, with the exception
-that paying too low of a fee rate could result in your transaction never
-confirming.  Because fee rates are bids in an open auction for block
-space, it's not possible to perfectly predict what fee rate you need to
-pay to get your transaction confirmed by a certain time.  However, we
-can generate a rough estimate based on what fee rates other transactions
-have paid in the recent past.
+Abbiamo((("stima dei tassi di commissione", id="estimate-fee-rate"))) stabilito che puoi pagare un tasso di commissione più basso se sei disposto ad
+aspettare più a lungo che la tua transazione venga confermata, con l'eccezione
+che pagare un tasso di commissione troppo basso potrebbe far sì che la tua transazione non venga mai
+confermata. Poiché i tassi di commissione sono offerte in un'asta aperta per lo spazio
+nei blocchi, non è possibile prevedere perfettamente quale tasso di commissione devi
+pagare per far confermare la tua transazione entro un certo tempo. Tuttavia, possiamo
+generare una stima approssimativa basata sui tassi di commissione che altre transazioni
+hanno pagato nel recente passato.
 
-A full node can record three pieces of information about each
-transactions it sees: the time (block height) when it first received
-that transaction, the block height when that transaction was confirmed,
-and the fee rate paid by that transaction.  By grouping together
-transactions that arrived at similar heights, were confirmed at similar
-heights, and which paid similar fees, we can calculate how many blocks it
-took to confirm transactions paying a certain fee rate.  We can then
-assume that a transaction paying a similar fee rate now will take a
-similar number of blocks to confirm.  Bitcoin Core includes a fee rate
-estimator that uses these principles, which can be called using the
-`estimatesmartfee` RPC with a parameter specifying how many blocks
-you're willing to wait before the transaction is highly likely to
-confirm (for example, 144 blocks is about 1 day):
+Un full node può registrare tre informazioni su ciascuna
+transazione che vede: il momento (altezza del blocco) in cui ha ricevuto per la prima volta
+quella transazione, l'altezza del blocco in cui quella transazione è stata confermata,
+e il tasso di commissione pagato da quella transazione. Raggruppando insieme
+transazioni arrivate ad altezze simili, confermate ad altezze simili,
+e che hanno pagato commissioni simili, possiamo calcolare quanti blocchi ci sono
+voluti per confermare transazioni che pagavano un certo tasso di commissione. Possiamo quindi
+assumere che una transazione che paga un tasso di commissione simile ora impiegherà un
+numero simile di blocchi per essere confermata. Bitcoin Core include uno stimatore di tassi
+di commissione che usa questi principi, che può essere chiamato usando l'
+RPC `estimatesmartfee` con un parametro che specifica quanti blocchi
+sei disposto ad aspettare prima che la transazione sia molto probabilmente
+confermata (per esempio, 144 blocchi corrispondono a circa 1 giorno):
 
 ----
 $ bitcoin-cli -named estimatesmartfee conf_target=144
@@ -180,506 +183,506 @@ $ bitcoin-cli -named estimatesmartfee conf_target=144
 }
 ----
 
-Many web-based services also provide fee estimation as an API.  For a
-current list, see https://oreil.ly/TB6IN.
+Molti servizi web forniscono anche la stima delle commissioni come API. Per un
+elenco aggiornato, vedi https://oreil.ly/TB6IN.
 
-As mentioned, fee rate estimation can never be perfect.  One common
-problem is that the fundamental demand might change, adjusting the
-equilibrium and either increasing prices (fees) to new heights or
-decreasing them toward the minimum.
-If fee rates go down, then a transaction
-that previously paid a normal fee rate might now be paying a high fee
-rate and it will be confirmed earlier than expected.  There's no way to
-lower the fee rate on a transaction you've already sent, so you're stuck
-paying a higher fee rate.  But, when fee rates go up, there's a need for
-methods to be able to increase the fee rates on those transactions,
-which is called _fee bumping_.  There are two commonly used types of fee
-bumping in Bitcoin, replace by fee (RBF) and child pays for ((("fee rates", startref="fee-rate")))((("transaction fees", "fee rates", startref="fees-rates")))parent
+Come accennato, la stima del tasso di commissione non può mai essere perfetta. Un problema
+comune è che la domanda fondamentale potrebbe cambiare, modificando
+l'equilibrio e aumentando i prezzi (commissioni) a nuove vette oppure
+diminuendoli verso il minimo.
+Se i tassi di commissione scendono, allora una transazione
+che in precedenza pagava un tasso di commissione normale potrebbe ora stare pagando un tasso di commissione alto
+e sarà confermata prima del previsto. Non c'è modo di
+abbassare il tasso di commissione su una transazione che hai già inviato, quindi sei bloccato
+a pagare un tasso di commissione più alto. Ma quando i tassi di commissione salgono, c'è bisogno di
+metodi per poter aumentare i tassi di commissione su quelle transazioni,
+operazione chiamata _fee bumping_. Ci sono due tipi di fee bumping comunemente usati
+in Bitcoin, replace by fee (RBF) e child pays for ((("tassi di commissione", startref="fee-rate")))((("commissioni di transazione", "tassi di commissione", startref="fees-rates")))parent
 (CPFP).
 
 [[rbf]]
-=== Replace By Fee (RBF) Fee Bumping
+=== Fee Bumping con Replace By Fee (RBF)
 
-To((("transaction fees", "fee bumping", "RBF (replace by fee)", id="transaction-fees-bump-rbf")))((("fee bumping", "RBF (replace by fee)", id="fee-bump-rbf")))((("RBF (replace by fee) fee bumping", id="rbf-ch9"))) increase the fee of a transaction using RBF fee bumping, you create
-a conflicting version of the transaction that pays a higher fee.  Two
-or more transactions are considered((("conflicting transactions")))((("transactions", "conflicts in"))) to be _conflicting transactions_ if
-only one of them can be included in a valid blockchain, forcing a miner
-to choose only one of them.  Conflicts occur when two or more transactions
-each try to spend one of the same UTXOs, i.e., they each include an input
-that has the same outpoint (reference to the output of a previous
-transaction).
+Per((("commissioni di transazione", "fee bumping", "RBF (replace by fee)", id="transaction-fees-bump-rbf")))((("fee bumping", "RBF (replace by fee)", id="fee-bump-rbf")))((("RBF (replace by fee) fee bumping", id="rbf-ch9"))) aumentare la commissione di una transazione usando il fee bumping RBF, crei
+una versione in conflitto della transazione che paga una commissione più alta. Due
+o più transazioni sono considerate((("transazioni in conflitto")))((("transazioni", "conflitti nelle"))) _transazioni in conflitto_ se
+solo una di esse può essere inclusa in una blockchain valida, costringendo un miner
+a scegliere solo una di esse. I conflitti si verificano quando due o più transazioni
+cercano ciascuna di spendere uno degli stessi UTXO, cioè ciascuna include un input
+che ha lo stesso outpoint (riferimento all'output di una transazione
+precedente).
 
-To prevent someone from consuming large amounts of bandwidth by creating
-an unlimited number of conflicting transactions and sending them through
-the network of relaying full nodes, Bitcoin Core and other full nodes
-that support transaction replacement require each replacement
-transaction to pay a higher fee rate than the transaction being
-replaced.  Bitcoin Core also currently requires the replacement
-transaction to pay a higher total fee than the original transaction, but
-this requirement has undesired side effects and developers have been
-looking for ways to remove it at the time of writing.
+Per impedire a qualcuno di consumare grandi quantità di banda creando
+un numero illimitato di transazioni in conflitto e inviandole attraverso
+la rete di full node che fanno relay, Bitcoin Core e altri full node
+che supportano la sostituzione delle transazioni richiedono che ogni transazione sostitutiva
+paghi un tasso di commissione più alto della transazione che viene
+sostituita. Bitcoin Core attualmente richiede anche che la transazione sostitutiva
+paghi una commissione totale più alta della transazione originale, ma
+questo requisito ha effetti collaterali indesiderati e gli sviluppatori stanno
+cercando modi per rimuoverlo al momento della stesura.
 
-Bitcoin Core((("Bitcoin Core", "RBF variants", id="bitcoin-core-rbf"))) currently supports two variations of RBF:
+Bitcoin Core((("Bitcoin Core", "varianti RBF", id="bitcoin-core-rbf"))) attualmente supporta due varianti di RBF:
 
-Opt-in RBF::
-  An unconfirmed transaction can signal to miners and full nodes that
-  the creator of the transaction wants to allow it to be replaced by a
-  higher fee rate version.  This signal and the rules for using it
-  are specified in BIP125.  As of this writing, this has been enabled by
-  default in Bitcoin Core for several years.
+RBF opt-in::
+  Una transazione non confermata può segnalare ai miner e ai full node che
+  il creatore della transazione vuole permettere che sia sostituita da una
+  versione con tasso di commissione più alto. Questo segnale e le regole per usarlo
+  sono specificati nel BIP125. Al momento della stesura, questa opzione è abilitata di
+  default in Bitcoin Core da diversi anni.
 
-Full RBF::
-  Any unconfirmed transaction can be replaced by a higher fee rate
-  version.  As of this writing, this can be optionally enabled in
-  Bitcoin Core (but it is disabled by default).
+RBF completo::
+  Qualsiasi transazione non confermata può essere sostituita da una versione con tasso
+  di commissione più alto. Al momento della stesura, questo può essere abilitato opzionalmente in
+  Bitcoin Core (ma è disabilitato di default).
 
-.Why Are There Two Variants of RBF?
+.Perché Esistono Due Varianti di RBF?
 ****
-The reason for the two different versions of RBF is that full RBF has
-been controversial.  Early versions of Bitcoin allowed transaction
-replacement, but this behavior was disabled for several releases.  During
-that time, a miner or full node using the software now called Bitcoin
-Core would not replace the first version of an unconfirmed transaction
-they received with any different version.  Some merchants came to expect
-this behavior: they assumed that any valid unconfirmed transaction that
-paid an appropriate fee rate would eventually become a confirmed
-transaction, so they provided their goods or services shortly after
-receiving such an unconfirmed transaction.
+La ragione delle due diverse versioni di RBF è che l'RBF completo è stato
+controverso. Le prime versioni di Bitcoin permettevano la sostituzione delle transazioni,
+ma questo comportamento è stato disabilitato per diverse release. Durante
+quel periodo, un miner o full node che usava il software ora chiamato Bitcoin
+Core non avrebbe sostituito la prima versione di una transazione non confermata
+che riceveva con qualsiasi versione diversa. Alcuni commercianti si sono abituati
+a questo comportamento: presumevano che qualsiasi transazione non confermata valida che
+pagava un tasso di commissione appropriato sarebbe eventualmente diventata una transazione
+confermata, quindi fornivano i loro beni o servizi poco dopo
+aver ricevuto tale transazione non confermata.
 
-However, there's no way for the Bitcoin protocol to guarantee that any
-unconfirmed transaction will eventually be confirmed.  As mentioned
-earlier in this chapter, every miner gets to choose for themselves which
-transactions they will try to confirm--including which versions of those
-transactions.  Bitcoin Core is open source software, so anyone with a
-copy of its source code can add (or remove) transaction replacement.
-Even if Bitcoin Core wasn't open source, Bitcoin is an open protocol
-that can be reimplemented from scratch by a sufficiently competent
-programmer, allowing the reimplementor to include or not include
-transaction replacement.
+Tuttavia, non c'è modo per il protocollo Bitcoin di garantire che qualsiasi
+transazione non confermata sarà eventualmente confermata. Come menzionato
+prima in questo capitolo, ogni miner decide per sé quali
+transazioni proverà a confermare--incluse quali versioni di quelle
+transazioni. Bitcoin Core è software open source, quindi chiunque abbia una
+copia del suo codice sorgente può aggiungere (o rimuovere) la sostituzione delle transazioni.
+Anche se Bitcoin Core non fosse open source, Bitcoin è un protocollo aperto
+che può essere reimplementato da zero da un programmatore sufficientemente competente,
+permettendo al reimplementatore di includere o meno
+la sostituzione delle transazioni.
 
-Transaction replacement breaks the assumption of some merchants that
-every reasonable unconfirmed transaction will eventually be confirmed.
-An alternative version of a transaction can pay the same outputs as the
-original, but it isn't required to pay any of those outputs.  If the
-first version of an unconfirmed transaction pays a merchant, the second
-version might not pay them.  If the merchant provided goods or services
-based on the first version, but the second version gets confirmed, then
-the merchant will not receive payment for its costs.
+La sostituzione delle transazioni rompe l'assunzione di alcuni commercianti che
+ogni transazione non confermata ragionevole sarà eventualmente confermata.
+Una versione alternativa di una transazione può pagare gli stessi output dell'
+originale, ma non è obbligata a pagare nessuno di quegli output. Se la
+prima versione di una transazione non confermata paga un commerciante, la seconda
+versione potrebbe non pagarlo. Se il commerciante ha fornito beni o servizi
+basandosi sulla prima versione, ma la seconda versione viene confermata, allora
+il commerciante non riceverà il pagamento per i suoi costi.
 
-Some merchants, and people supporting them, requested that transaction
-replacement not be reenabled in Bitcoin Core.  Other people pointed out
-that transaction replacement provides benefits, including the ability to
-fee bump transactions that initially paid too low of a fee rate.
+Alcuni commercianti, e persone che li supportano, hanno chiesto che la sostituzione
+delle transazioni non fosse riabilitata in Bitcoin Core. Altre persone hanno fatto notare
+che la sostituzione delle transazioni fornisce benefici, inclusa la possibilità di
+fare fee bump di transazioni che inizialmente pagavano un tasso di commissione troppo basso.
 
-Eventually, developers working on Bitcoin Core implemented a compromise:
-instead of allowing every unconfirmed transaction to be replaced (full
-RBF), they only programmed Bitcoin Core to allow replacement of
-transactions that signaled they wanted to allow replacement (opt-in RBF).
-Merchants can check the transactions they receive for the opt-in
-signal and treat those transactions differently than those without the
-signal.
+Alla fine, gli sviluppatori che lavorano su Bitcoin Core hanno implementato un compromesso:
+invece di permettere che ogni transazione non confermata fosse sostituita (RBF
+completo), hanno programmato Bitcoin Core per permettere solo la sostituzione di
+transazioni che segnalavano di voler permettere la sostituzione (RBF opt-in).
+I commercianti possono controllare le transazioni che ricevono per il segnale opt-in
+e trattare quelle transazioni diversamente da quelle senza il
+segnale.
 
-This doesn't change the fundamental concern: anyone can still alter
-their copy of Bitcoin Core, or create a reimplementation, to allow full
-RBF--and some developers even did this, but seemingly few people used
-their software.
+Questo non cambia la preoccupazione fondamentale: chiunque può ancora alterare
+la propria copia di Bitcoin Core, o creare una reimplementazione, per permettere l'RBF
+completo--e alcuni sviluppatori lo hanno fatto, ma apparentemente poche persone hanno usato
+il loro software.
 
-After several years, developers working on Bitcoin Core changed the
-compromise slightly.  In addition to keeping opt-in RBF by default, they
-added an option that allows users to enable full RBF.  If enough mining
-hash rate and relaying full nodes enable this option, it will be
-possible for any unconfirmed transaction to eventually be replaced by a
-version paying a higher fee rate.  As of this writing, it's not clear
-whether or not that has happened ((("Bitcoin Core", "RBF variants", startref="bitcoin-core-rbf")))yet.
+Dopo diversi anni, gli sviluppatori che lavorano su Bitcoin Core hanno cambiato
+leggermente il compromesso. Oltre a mantenere l'RBF opt-in di default, hanno
+aggiunto un'opzione che permette agli utenti di abilitare l'RBF completo. Se abbastanza
+hash rate di mining e full node che fanno relay abilitano questa opzione, sarà
+possibile per qualsiasi transazione non confermata essere eventualmente sostituita da una
+versione che paga un tasso di commissione più alto. Al momento della stesura, non è chiaro
+se ciò sia già accaduto ((("Bitcoin Core", "varianti RBF", startref="bitcoin-core-rbf")))o meno.
 ****
 
-As a user, if you plan to use RBF fee bumping, you will first need to
-choose a wallet that supports it, such as one of the wallets listed as
-having "Sending support" on
+Come utente, se prevedi di usare il fee bumping RBF, dovrai prima
+scegliere un wallet che lo supporti, come uno dei wallet elencati come
+aventi "Sending support" su
 https://oreil.ly/IhMzx.
 
-As a developer, if you plan to implement RBF fee bumping, you will first
-need to decide whether to perform opt-in RBF or full RBF.  At the time
-of writing, opt-in RBF is the only method that's sure to work.  Even if
-full RBF becomes reliable, there will likely be several years where
-replacements of opt-in transactions get confirmed slightly faster than
-full-RBF replacements.  If you choose opt-in RBF, your wallet will need
-to implement the signaling specified in BIP125, which is a simple
-modification to any one of the sequence fields in a transaction (see
-<<sequence>>).  If you choose full RBF, you don't need to include any
-signaling in your transactions.  Everything else related to RBF is the
-same for both approaches.
+Come sviluppatore, se prevedi di implementare il fee bumping RBF, dovrai prima
+decidere se eseguire l'RBF opt-in o l'RBF completo. Al momento della
+stesura, l'RBF opt-in è l'unico metodo che funziona sicuramente. Anche se
+l'RBF completo diventasse affidabile, ci saranno probabilmente diversi anni in cui
+le sostituzioni di transazioni opt-in verranno confermate leggermente più velocemente delle
+sostituzioni RBF complete. Se scegli l'RBF opt-in, il tuo wallet dovrà
+implementare il segnale specificato nel BIP125, che è una semplice
+modifica a uno qualsiasi dei campi sequence in una transazione (vedi
+<<sequence>>). Se scegli l'RBF completo, non hai bisogno di includere alcun
+segnale nelle tue transazioni. Tutto il resto relativo all'RBF è lo
+stesso per entrambi gli approcci.
 
-When you need to fee bump a transaction, you will simply create a new
-transaction that spends at least one of the same UTXOs as the original
-transaction you want to replace.  You will likely want to keep the
-same outputs in the transaction that pay the receiver (or receivers).
-You may pay the increased fee by reducing the value of your change
-output or by adding additional inputs to the transaction.  Developers
-should provide users with a fee-bumping interface that does all of this
-work for them and simply asks them (or suggests to them) how much the
-fee rate should be increased.
+Quando hai bisogno di fare fee bump di una transazione, creerai semplicemente una nuova
+transazione che spende almeno uno degli stessi UTXO della transazione
+originale che vuoi sostituire. Probabilmente vorrai mantenere gli
+stessi output nella transazione che pagano il destinatario (o i destinatari).
+Puoi pagare la commissione aumentata riducendo il valore del tuo output di resto
+o aggiungendo input aggiuntivi alla transazione. Gli sviluppatori
+dovrebbero fornire agli utenti un'interfaccia di fee bumping che faccia tutto questo
+lavoro per loro e semplicemente chieda (o suggerisca) di quanto
+il tasso di commissione dovrebbe essere aumentato.
 
 [WARNING]
 ====
-Be very careful when creating more than one replacement of the same
-transaction.  You must ensure than all versions of the transactions
-conflict with each other.  If they aren't all conflicts, it may be
-possible for multiple separate transactions to confirm, leading you to
-overpay the receivers.  For example:
+Fai molta attenzione quando crei più di una sostituzione della stessa
+transazione. Devi assicurarti che tutte le versioni delle transazioni
+siano in conflitto tra loro. Se non sono tutte in conflitto, potrebbe essere
+possibile che più transazioni separate vengano confermate, portandoti a
+pagare i destinatari in eccesso. Per esempio:
 
-- Transaction version 0 includes input _A_.
-- Transaction version 1 includes inputs _A_ and _B_ (e.g., you had to add
-  input _B_ to pay the extra fees)
-- Transaction version 2 includes inputs _B_ and _C_ (e.g., you had to add input
-  _C_ to pay the extra fees but _C_ was large enough that you no longer
-  need input _A_).
+- La versione 0 della transazione include l'input _A_.
+- La versione 1 della transazione include gli input _A_ e _B_ (es., hai dovuto aggiungere
+  l'input _B_ per pagare le commissioni extra)
+- La versione 2 della transazione include gli input _B_ e _C_ (es., hai dovuto aggiungere l'input
+  _C_ per pagare le commissioni extra ma _C_ era abbastanza grande da non aver più
+  bisogno dell'input _A_).
 
-In this scenario, any miner who saved version 0 of the transaction
-will be able to confirm both it and version 2 of the transaction.  If
-both versions pay the same receivers, they'll be paid twice (and the
-miner will receive transaction fees from two separate transactions).
+In questo scenario, qualsiasi miner che ha salvato la versione 0 della transazione
+sarà in grado di confermare sia essa che la versione 2 della transazione. Se
+entrambe le versioni pagano gli stessi destinatari, saranno pagati due volte (e il
+miner riceverà commissioni di transazione da due transazioni separate).
 
-A simple method to avoid this problem is to ensure the replacement
-transaction always includes all of the same inputs as the previous
-version of the transaction.
+Un metodo semplice per evitare questo problema è assicurarsi che la transazione
+sostitutiva includa sempre tutti gli stessi input della versione
+precedente della transazione.
 ====
 
-The advantage of RBF fee bumping over other types of fee bumping is that
-it can be very efficient at using block space.  Often, a replacement
-transaction is the same size as the transaction it replaces.  Even when
-it's larger, it's often the same size as the transaction the user would
-have created if they had paid the increased fee rate in the first place.
+Il vantaggio del fee bumping RBF rispetto ad altri tipi di fee bumping è che
+può essere molto efficiente nell'uso dello spazio nei blocchi. Spesso, una transazione
+sostitutiva ha la stessa dimensione della transazione che sostituisce. Anche quando
+è più grande, spesso ha la stessa dimensione della transazione che l'utente avrebbe
+creato se avesse pagato il tasso di commissione aumentato in primo luogo.
 
-The fundamental disadvantage of RBF fee bumping is that it can normally
-only be performed by the creator of the transaction--the person or
-people who were required to provide signatures or other authentication
-data for the transaction.  An exception to this is transactions that
-were designed to allow additional inputs to be added by using sighash
-flags (see <<sighash_types>>), but that presents its own challenges.  In
-general, if you're the receiver of an unconfirmed transaction and you
-want to make it confirm faster (or at all), you can't use an RBF fee
-bump; you need some other method.
+Lo svantaggio fondamentale del fee bumping RBF è che normalmente può essere
+eseguito solo dal creatore della transazione--la persona o
+le persone a cui era richiesto di fornire firme o altri dati di autenticazione
+per la transazione. Un'eccezione sono le transazioni che
+sono state progettate per permettere l'aggiunta di input aggiuntivi usando flag sighash
+(vedi <<sighash_types>>), ma questo presenta le sue sfide. In
+generale, se sei il destinatario di una transazione non confermata e
+vuoi farla confermare più velocemente (o del tutto), non puoi usare un fee
+bump RBF; hai bisogno di qualche altro metodo.
 
-There are additional problems ((("transaction fees", "fee bumping", "RBF (replace by fee)", startref="transaction-fees-bump-rbf")))((("fee bumping", "RBF (replace by fee)", startref="fee-bump-rbf")))((("RBF (replace by fee) fee bumping", startref="rbf-ch9")))with RBF that we'll explore in <<transaction_pinning>>.
+Ci sono ulteriori problemi ((("commissioni di transazione", "fee bumping", "RBF (replace by fee)", startref="transaction-fees-bump-rbf")))((("fee bumping", "RBF (replace by fee)", startref="fee-bump-rbf")))((("RBF (replace by fee) fee bumping", startref="rbf-ch9")))con l'RBF che esploreremo in <<transaction_pinning>>.
 
 [[cpfp]]
-=== Child Pays for Parent (CPFP) Fee Bumping
+=== Fee Bumping con Child Pays for Parent (CPFP)
 
-Anyone ((("transaction fees", "fee bumping", "CPFP (child pays for parent)", id="transaction-fees-bump-cpfp")))((("fee bumping", "CPFP (child pays for parent)", id="fee-bump-cpfp")))((("CPFP (child pays for parent) fee bumping", id="cpfp-ch9")))who receives the output of an unconfirmed transaction can
-incentivize miners to confirm that transaction by spending that output.
-The transaction you want to get confirmed is called the _parent
-transaction_.  A transaction that spends an output of the parent
-transaction is called a _child transaction_.
+Chiunque((("commissioni di transazione", "fee bumping", "CPFP (child pays for parent)", id="transaction-fees-bump-cpfp")))((("fee bumping", "CPFP (child pays for parent)", id="fee-bump-cpfp")))((("CPFP (child pays for parent) fee bumping", id="cpfp-ch9"))) riceva l'output di una transazione non confermata può
+incentivare i miner a confermare quella transazione spendendo quell'output.
+La transazione che vuoi far confermare è chiamata _transazione
+genitore_. Una transazione che spende un output della transazione
+genitore è chiamata _transazione figlia_.
 
-As we learned in <<outpoints>>, every input in a confirmed transaction
-must reference the unspent output of a transaction that appears earlier
-in the blockchain (whether earlier in the same block or in a previous
-block).  That means a miner who wants to confirm a child transaction
-must also ensure that its parent transaction is confirmed.  If the
-parent transaction hasn't been confirmed yet but the child transaction
-pays a high enough fee, the miner can consider whether it would be
-profitable to confirm both of them in the same block.
+Come abbiamo imparato in <<outpoints>>, ogni input in una transazione confermata
+deve referenziare l'output non speso di una transazione che appare prima
+nella blockchain (sia prima nello stesso blocco che in un blocco
+precedente). Questo significa che un miner che vuole confermare una transazione figlia
+deve anche assicurarsi che la sua transazione genitore sia confermata. Se la
+transazione genitore non è stata ancora confermata ma la transazione figlia
+paga una commissione sufficientemente alta, il miner può valutare se sarebbe
+redditizio confermare entrambe nello stesso blocco.
 
-To evaluate the profitability of mining both a parent and child
-transaction, the miner looks at them as a _package of transactions_ with
-an aggregate size and aggregate fees, from which the fees can be divided
-by the size to calculate((("package fee rate"))) a _package fee rate_.  The miner can then sort
-all of the individual transactions and transaction packages they know
-about by fee rate and include the highest-revenue ones in the block
-they're attempting to mine, up to the maximum size (weight) allowed to
-be included in a block.  To find even more packages that might be
-profitable to mine, the miner can evaluate packages across multiple
-generations (e.g., an unconfirmed parent transaction being combined with
-both its child and grandchild).  This is ((("ancestor fee rate mining")))((("CPFP (child pays for parent) fee bumping", "ancestor fee rate mining")))called _ancestor fee rate
-mining_.
+Per valutare la redditività del mining sia di una transazione genitore che figlia,
+il miner le considera come un _pacchetto di transazioni_ con
+una dimensione aggregata e commissioni aggregate, da cui le commissioni possono essere divise
+per la dimensione per calcolare((("tasso di commissione del pacchetto"))) un _tasso di commissione del pacchetto_. Il miner può quindi ordinare
+tutte le transazioni individuali e i pacchetti di transazioni che conosce
+per tasso di commissione e includere quelli con le entrate più alte nel blocco
+che sta tentando di minare, fino alla dimensione massima (peso) permessa
+in un blocco. Per trovare ancora più pacchetti che potrebbero essere
+redditizi da minare, il miner può valutare pacchetti attraverso multiple
+generazioni (es., una transazione genitore non confermata combinata con
+sia la sua transazione figlia che nipote). Questo è ((("mining per tasso di commissione degli antenati")))((("CPFP (child pays for parent) fee bumping", "mining per tasso di commissione degli antenati")))chiamato _mining per tasso di commissione
+degli antenati_.
 
-Bitcoin Core has implemented ancestor fee rate mining for many years,
-and it's believed that almost all miners use it at the time of writing.
-That means it's practical for wallets to use this feature to fee bump an
-incoming transaction by using a child transaction to pay for its parent
+Bitcoin Core ha implementato il mining per tasso di commissione degli antenati per molti anni,
+e si crede che quasi tutti i miner lo usino al momento della stesura.
+Questo significa che è pratico per i wallet usare questa funzionalità per fare fee bump di una
+transazione in arrivo usando una transazione figlia per pagare per il suo genitore
 (CPFP).
 
-CPFP has several advantages over RBF.  Anyone who receives an output
-from a transaction can use CPFP--that includes both the receivers of
-payments and the spender (if the spender included a change output).  It
-also doesn't require replacing the original transaction, which makes it
-less disruptive to some merchants than RBF.
+CPFP ha diversi vantaggi rispetto a RBF. Chiunque riceva un output
+da una transazione può usare CPFP--questo include sia i destinatari dei
+pagamenti sia chi spende (se chi spende ha incluso un output di resto). Inoltre
+non richiede la sostituzione della transazione originale, il che lo rende
+meno dirompente per alcuni commercianti rispetto a RBF.
 
-The primary disadvantage of CPFP compared to RBF is that CPFP typically
-uses more block space.  In RBF, a fee bump transaction is often the same
-size as the transaction it replaces.  In CPFP, a fee bump adds a whole
-separate transaction.  Using extra block space requires paying extra
-fees beyond the cost of the fee bump.
+Lo svantaggio principale di CPFP rispetto a RBF è che CPFP tipicamente
+usa più spazio nei blocchi. In RBF, una transazione di fee bump spesso ha la stessa
+dimensione della transazione che sostituisce. In CPFP, un fee bump aggiunge un'intera
+transazione separata. Usare spazio extra nei blocchi richiede di pagare commissioni extra
+oltre al costo del fee bump.
 
-There are several challenges with CPFP, some of which we'll explore in
-<<transaction_pinning>>.  One other problem that we
-specifically need to mention is the minimum relay fee rate problem,
-which is addressed by ((("transaction fees", "fee bumping", "CPFP (child pays for parent)", startref="transaction-fees-bump-cpfp")))((("fee bumping", "CPFP (child pays for parent)", startref="fee-bump-cpfp")))((("CPFP (child pays for parent) fee bumping", startref="cpfp-ch9")))package relay.
+Ci sono diverse sfide con CPFP, alcune delle quali esploreremo in
+<<transaction_pinning>>. Un altro problema che
+dobbiamo specificamente menzionare è il problema del tasso di commissione minimo per il relay,
+che è affrontato da ((("commissioni di transazione", "fee bumping", "CPFP (child pays for parent)", startref="transaction-fees-bump-cpfp")))((("fee bumping", "CPFP (child pays for parent)", startref="fee-bump-cpfp")))((("CPFP (child pays for parent) fee bumping", startref="cpfp-ch9")))package relay.
 
 === Package Relay
 
-Early versions((("transaction fees", "package relay", id="transaction-fee-package-relay")))((("package relay", id="package-relay"))) of Bitcoin Core didn't place any limits on the number of
-unconfirmed transactions they stored for later relay and mining in their
-mempools (see <<mempool>>).  Of course, computers have physical limits, whether
-it's the memory (RAM) or disk space--it's not possible for a full node
-to store an unlimited number of unconfirmed transactions.  Later
-versions of Bitcoin Core limited the size of the mempool to hold about
-one day's worth of transactions, storing only the transactions or packages
-with the highest fee rate.
+Le prime versioni di((("commissioni di transazione", "package relay", id="transaction-fee-package-relay")))((("package relay", id="package-relay"))) Bitcoin Core non ponevano limiti al numero di
+transazioni non confermate che memorizzavano per il successivo relay e mining nei loro
+mempool (vedi <<mempool>>). Naturalmente, i computer hanno limiti fisici, che sia
+la memoria (RAM) o lo spazio su disco--non è possibile per un full node
+memorizzare un numero illimitato di transazioni non confermate. Versioni
+successive di Bitcoin Core hanno limitato la dimensione del mempool per contenere circa
+un giorno di transazioni, memorizzando solo le transazioni o i pacchetti
+con il tasso di commissione più alto.
 
-That works extremely well for most things, but it creates a dependency
-problem.  In order to calculate the fee rate for a transaction package,
-we need both the parent and descendant transactions--but if the parent
-transaction doesn't pay a high enough fee rate, it won't be kept in a
-node's mempool.  If a node receives a child transaction without having
-access to its parent, it can't do anything with that transaction.
+Questo funziona estremamente bene per la maggior parte delle cose, ma crea un problema di
+dipendenza. Per calcolare il tasso di commissione per un pacchetto di transazioni,
+abbiamo bisogno sia delle transazioni genitore che discendenti--ma se la transazione
+genitore non paga un tasso di commissione sufficientemente alto, non sarà conservata nel
+mempool di un nodo. Se un nodo riceve una transazione figlia senza avere
+accesso al suo genitore, non può fare nulla con quella transazione.
 
-The solution to this problem is the ability to relay transactions as a
-package, called _package relay_, allowing the receiving node to evaluate
-the fee rate of the entire package before operating on any individual
-transaction.  As of this writing, developers working on Bitcoin Core
-have made significant progress on implementing package relay, and a
-limited early version of it may be available by the time this book is
-published.
+La soluzione a questo problema è la possibilità di fare relay delle transazioni come
+pacchetto, chiamato _package relay_, permettendo al nodo ricevente di valutare
+il tasso di commissione dell'intero pacchetto prima di operare su qualsiasi singola
+transazione. Al momento della stesura, gli sviluppatori che lavorano su Bitcoin Core
+hanno fatto progressi significativi nell'implementazione del package relay, e una
+prima versione limitata potrebbe essere disponibile quando questo libro sarà
+pubblicato.
 
-Package relay is especially important for protocols based on
-time-sensitive presigned transactions, such as Lightning Network (LN).  In
-non-cooperative cases, some presigned transactions can't be fee bumped
-using RBF, forcing them to depend on CPFP.  In those protocols, some
-transactions may also be created long before they need to be broadcast,
-making it effectively impossible to estimate an appropriate fee rate.
-If a presigned transaction pays a fee rate below the amount necessary to
-get into a node's mempool, there's no way to fee bump it with a child.
-If that prevents the transaction from confirming in time, an honest user
-might lose money.  Package relay is the solution for this critical
-problem.
+Il package relay è particolarmente importante per i protocolli basati su
+transazioni prefirmate sensibili al tempo, come Lightning Network (LN). Nei
+casi non cooperativi, alcune transazioni prefirmate non possono fare fee bump
+usando RBF, costringendole a dipendere da CPFP. In quei protocolli, alcune
+transazioni possono anche essere create molto prima che debbano essere trasmesse,
+rendendo effettivamente impossibile stimare un tasso di commissione appropriato.
+Se una transazione prefirmata paga un tasso di commissione inferiore all'importo necessario per
+entrare nel mempool di un nodo, non c'è modo di fare fee bump con una transazione figlia.
+Se questo impedisce alla transazione di essere confermata in tempo, un utente onesto
+potrebbe perdere denaro. Il package relay è la soluzione per questo problema
+critico.
 
 [[transaction_pinning]]
 === Transaction Pinning
 
 ++++
 <p class="fix_tracking">
-Although both RBF and CPFP fee bumping work in the basic cases we
-described, there are rules related to both
-methods that are designed to prevent denial-of-service attacks on miners
-and relaying full nodes.  An unfortunate side effect of those rules
-is that they can sometimes prevent someone from being able to use fee
-bumping.  Making it impossible or difficult to fee bump a transaction is
-called <em>transaction pinning</em>.</p>
+Sebbene sia il fee bumping RBF che CPFP funzionino nei casi base che abbiamo
+descritto, ci sono regole relative a entrambi i
+metodi che sono progettate per prevenire attacchi denial-of-service ai miner
+e ai full node che fanno relay. Un effetto collaterale sfortunato di quelle regole
+è che a volte possono impedire a qualcuno di poter usare il fee
+bumping. Rendere impossibile o difficile fare fee bump di una transazione è
+chiamato <em>transaction pinning</em>.</p>
 ++++
 
-One((("transaction fees", "fee bumping", "transaction pinning", id="transaction-fee-bump-pin")))((("fee bumping", "transaction pinning", id="fee-bump-pin")))((("transaction pinning", id="transaction-pin")))((("RBF (replace by fee) fee bumping", "transaction pinning", id="rbf-pin")))((("CPFP (child pays for parent) fee bumping", "transaction pinning", id="cpfp-pin"))) of the major denial of service concerns revolves around the effect of
-transaction relationships.  Whenever the output of a transaction is
-spent, that transaction's identifier (txid) is referenced by the child
-transaction.  However, when a transaction is replaced, the replacement
-has a different txid.  If that replacement transaction gets confirmed,
-none of its descendants can be included in the same blockchain.  It's
-possible to re-create and re-sign the descendant transactions, but that's
-not guaranteed to happen.  This has related but divergent implications
-for RBF and CPFP:
+Una((("commissioni di transazione", "fee bumping", "transaction pinning", id="transaction-fee-bump-pin")))((("fee bumping", "transaction pinning", id="fee-bump-pin")))((("transaction pinning", id="transaction-pin")))((("RBF (replace by fee) fee bumping", "transaction pinning", id="rbf-pin")))((("CPFP (child pays for parent) fee bumping", "transaction pinning", id="cpfp-pin"))) delle principali preoccupazioni per il denial of service riguarda l'effetto delle
+relazioni tra transazioni. Ogni volta che l'output di una transazione viene
+speso, l'identificatore della transazione (txid) è referenziato dalla transazione
+figlia. Tuttavia, quando una transazione viene sostituita, la sostituzione
+ha un txid diverso. Se quella transazione sostitutiva viene confermata,
+nessuno dei suoi discendenti può essere incluso nella stessa blockchain. È
+possibile ricreare e rifirmare le transazioni discendenti, ma non è
+garantito che ciò accada. Questo ha implicazioni correlate ma divergenti
+per RBF e CPFP:
 
-- In the context of RBF, when Bitcoin Core accepts a replacement
-  transaction, it keeps things simple by forgetting about the original
-  transaction and all descendant transactions that depended on that
-  original.  To ensure that it's more profitable for miners to accept
-  replacements, Bitcoin Core only accepts a replacement transaction if it
-  pays more fees than all the transactions that will be forgotten.
+- Nel contesto di RBF, quando Bitcoin Core accetta una transazione
+  sostitutiva, mantiene le cose semplici dimenticando la transazione
+  originale e tutte le transazioni discendenti che dipendevano da quella
+  originale. Per assicurare che sia più redditizio per i miner accettare
+  sostituzioni, Bitcoin Core accetta una transazione sostitutiva solo se
+  paga più commissioni di tutte le transazioni che saranno dimenticate.
 +
-The downside of this approach is that Alice can create a small
-transaction that pays Bob.  Bob can then use his output to create a
-large child transaction.  If Alice then wants to replace her original
-transaction, she needs to pay a fee that's larger than what both she and
-Bob originally paid.  For example, if Alice's original transaction was
-about 100 vbytes and Bob's transaction was about 100,000 vbytes, and
-they both used the same fee rate, Alice now needs to pay more than 1,000
-times as much as she originally paid in order to RBF fee bump her
-transaction.
+Lo svantaggio di questo approccio è che Alice può creare una piccola
+transazione che paga Bob. Bob può quindi usare il suo output per creare una
+grande transazione figlia. Se Alice poi vuole sostituire la sua transazione
+originale, deve pagare una commissione che è più grande di quella che sia lei che
+Bob hanno originariamente pagato. Per esempio, se la transazione originale di Alice era
+di circa 100 vbyte e la transazione di Bob era di circa 100.000 vbyte, e
+entrambe usavano lo stesso tasso di commissione, Alice ora deve pagare più di 1.000
+volte quanto ha originariamente pagato per fare fee bump RBF della sua
+transazione.
 
-- In the context of CPFP, any time the node considers including a
-  package in a block, it must remove the transactions in that package
-  from any other package it wants to consider for the same block.  For
-  example, if a child transaction pays for 25 ancestors, and each of
-  those ancestors has 25 other children, then including the package in
-  the block requires updating approximately 625 packages (25^2^).
-  Similarly, if a transaction with 25 descendants is removed from a
-  node's mempool (such as for being included in a block), and each of
-  those descendants has 25 other ancestors, another 625 packages need to
-  be updated.  Each time we double our parameter (e.g., from 25 to 50),
-  we quadruple the amount of work our node needs to perform.
+- Nel contesto di CPFP, ogni volta che il nodo considera di includere un
+  pacchetto in un blocco, deve rimuovere le transazioni in quel pacchetto
+  da qualsiasi altro pacchetto che vuole considerare per lo stesso blocco. Per
+  esempio, se una transazione figlia paga per 25 antenati, e ciascuno di
+  quegli antenati ha altri 25 figli, allora includere il pacchetto nel
+  blocco richiede l'aggiornamento di circa 625 pacchetti (25^2^).
+  Similmente, se una transazione con 25 discendenti viene rimossa dal
+  mempool di un nodo (per esempio per essere stata inclusa in un blocco), e ciascuno di
+  quei discendenti ha altri 25 antenati, altri 625 pacchetti devono
+  essere aggiornati. Ogni volta che raddoppiamo il nostro parametro (es., da 25 a 50),
+  quadruplichiamo la quantità di lavoro che il nostro nodo deve eseguire.
 +
-Additionally, a transaction and all of its descendants is not
-  useful to keep in a mempool long term if an alternative version of
-  that transaction is mined--none of those transactions can now be
-  confirmed unless there's a rare blockchain reorganization.  Bitcoin
-  Core will remove from its mempool every transaction that can no longer
-  be confirmed on the current blockchain.  At it's worst, that can
-  waste an enormous amount of your node's bandwidth and possibly be used
-  to prevent transactions from propagating correctly.
+Inoltre, una transazione e tutti i suoi discendenti non sono
+  utili da mantenere in un mempool a lungo termine se una versione alternativa di
+  quella transazione viene minata--nessuna di quelle transazioni può ora essere
+  confermata a meno che non ci sia una rara riorganizzazione della blockchain. Bitcoin
+  Core rimuoverà dal suo mempool ogni transazione che non può più
+  essere confermata sulla blockchain corrente. Nel peggiore dei casi, questo può
+  sprecare un'enorme quantità di banda del tuo nodo e potrebbe essere usato
+  per impedire alle transazioni di propagarsi correttamente.
 +
-To prevent these problems, and other related
-  problems, Bitcoin Core limits a parent transaction to having a maximum
-  of 25 ancestors or descendants in its mempool and limits the
-  total size of all those transactions to 100,000 vbytes.  The downside
-  of this approach is that users are prevented from creating CPFP fee
-  bumps if a transaction already has too many descendants (or if it and
-  its descendants are too large).
+Per prevenire questi problemi, e altri problemi correlati,
+  Bitcoin Core limita una transazione genitore ad avere un massimo
+  di 25 antenati o discendenti nel suo mempool e limita la
+  dimensione totale di tutte quelle transazioni a 100.000 vbyte. Lo svantaggio
+  di questo approccio è che agli utenti viene impedito di creare fee
+  bump CPFP se una transazione ha già troppi discendenti (o se essa e
+  i suoi discendenti sono troppo grandi).
 
-Transaction pinning can happen by accident, but it also represents a
-serious vulnerability for multiparty time-sensitive protocols such as
-LN.  If your counterparty can prevent one of your
-transactions from confirming by a deadline, they may be able to steal
-money from you.
+Il transaction pinning può accadere per caso, ma rappresenta anche una
+seria vulnerabilità per i protocolli multiparty sensibili al tempo come
+LN. Se la tua controparte può impedire a una delle tue
+transazioni di essere confermata entro una scadenza, potrebbe essere in grado di rubare
+denaro da te.
 
-Protocol developers have been working on mitigating problems with
-transaction pinning for several years.  One partial solution is
-described in <<cpfp_carve_out>>.  Several other solutions have been
-proposed, and at least one solution is being actively ((("transaction fees", "fee bumping", "transaction pinning", startref="transaction-fee-bump-pin")))((("fee bumping", "transaction pinning", startref="fee-bump-pin")))((("transaction pinning", startref="transaction-pin")))((("RBF (replace by fee) fee bumping", "transaction pinning", startref="rbf-pin")))((("CPFP (child pays for parent) fee bumping", "transaction pinning", startref="cpfp-pin")))((("transaction fees", "fee bumping", "CPFP carve outs", id="transaction-fee-bump-carveout")))((("fee bumping", "CPFP carve outs", id="fee-bump-carveout")))((("carve outs (CPFP)", id="carveout")))((("CPFP (child pays for parent) fee bumping", "carve outs", id="cpfp-carveout")))developed as of
-this writing&mdash;https://oreil.ly/300dv[ephemeral anchors].
+Gli sviluppatori di protocolli stanno lavorando per mitigare i problemi con
+il transaction pinning da diversi anni. Una soluzione parziale è
+descritta in <<cpfp_carve_out>>. Sono state proposte diverse altre soluzioni,
+e almeno una soluzione è in fase di sviluppo attivo ((("commissioni di transazione", "fee bumping", "transaction pinning", startref="transaction-fee-bump-pin")))((("fee bumping", "transaction pinning", startref="fee-bump-pin")))((("transaction pinning", startref="transaction-pin")))((("RBF (replace by fee) fee bumping", "transaction pinning", startref="rbf-pin")))((("CPFP (child pays for parent) fee bumping", "transaction pinning", startref="cpfp-pin")))((("commissioni di transazione", "fee bumping", "CPFP carve out", id="transaction-fee-bump-carveout")))((("fee bumping", "CPFP carve out", id="fee-bump-carveout")))((("carve out (CPFP)", id="carveout")))((("CPFP (child pays for parent) fee bumping", "carve out", id="cpfp-carveout")))al momento della
+stesura&mdash;https://oreil.ly/300dv[ephemeral anchors].
 
 [[cpfp_carve_out]]
-=== CPFP Carve Out and Anchor Outputs
+=== CPFP Carve Out e Anchor Output
 
 ++++
 <p class="fix_tracking2">
-In 2018, developers working on LN had a problem.
-Their protocol uses transactions that require signatures from two
-different parties.  Neither party wants to trust the other, so they sign
-transactions at a point in the protocol when trust isn't needed,
-allowing either of them to broadcast one of those transactions at a
-later time when the other party may not want to (or be able to) fulfill
-its obligations.  The problem with this approach is that the
-transactions might need to be broadcast at an unknown time, far in the future, beyond any
-reasonable ability to estimate an appropriate fee rate for the
-transactions.</p>
+Nel 2018, gli sviluppatori che lavoravano su LN avevano un problema.
+Il loro protocollo usa transazioni che richiedono firme da due
+parti diverse. Nessuna delle parti vuole fidarsi dell'altra, quindi firmano
+transazioni in un punto del protocollo in cui la fiducia non è necessaria,
+permettendo a ciascuna di loro di trasmettere una di quelle transazioni in un
+momento successivo quando l'altra parte potrebbe non voler (o non essere in grado di) adempiere
+ai suoi obblighi. Il problema con questo approccio è che le
+transazioni potrebbero dover essere trasmesse in un momento sconosciuto, lontano nel futuro, oltre qualsiasi
+ragionevole capacità di stimare un tasso di commissione appropriato per le
+transazioni.</p>
 ++++
 
-In theory, the developers could have designed their transactions to
-allow fee bumping with either RBF (using special sighash flags) or CPFP,
-but both of those protocols are vulnerable to transaction pinning.
-Given that the involved transactions are time sensitive, allowing a
-counterparty to use transaction pinning to delay confirmation of a
-transaction can easily lead to a repeatable exploit that malicious
-parties could use to steal money from honest parties.
+In teoria, gli sviluppatori avrebbero potuto progettare le loro transazioni per
+permettere il fee bumping sia con RBF (usando flag sighash speciali) che con CPFP,
+ma entrambi quei protocolli sono vulnerabili al transaction pinning.
+Dato che le transazioni coinvolte sono sensibili al tempo, permettere a una
+controparte di usare il transaction pinning per ritardare la conferma di una
+transazione può facilmente portare a un exploit ripetibile che parti malintenzionate
+potrebbero usare per rubare denaro a parti oneste.
 
-LN developer Matt Corallo proposed a solution: give the rules for CPFP
-fee bumping a special exception, called _CPFP carve out_.  The normal
-rules for CPFP forbid the inclusion of an additional descendant if it
-would cause a parent transaction to have 26 or more descendants or if it
-would cause a parent and all of its descendants to exceed 100,000 vbytes
-in size.  Under the rules of CPFP carve out, a single additional
-transaction up to 1,000 vbytes in size can be added to a package even if
-it would exceed the other limits as long as it is a direct child of an
-unconfirmed transaction with no unconfirmed ancestors.
+Lo sviluppatore di LN Matt Corallo ha proposto una soluzione: dare alle regole per il fee
+bumping CPFP un'eccezione speciale, chiamata _CPFP carve out_. Le normali
+regole per CPFP vietano l'inclusione di un discendente aggiuntivo se
+causerebbe a una transazione genitore di avere 26 o più discendenti o se
+causerebbe a un genitore e a tutti i suoi discendenti di superare 100.000 vbyte
+di dimensione. Secondo le regole del CPFP carve out, una singola transazione
+aggiuntiva fino a 1.000 vbyte di dimensione può essere aggiunta a un pacchetto anche se
+supererebbe gli altri limiti purché sia una figlia diretta di una
+transazione non confermata senza antenati non confermati.
 
 ++++
 <p class="fix_tracking">
-For example, Bob and Mallory both co-sign a transaction with two
-outputs, one to each of them.  Mallory broadcasts that transaction and
-uses her output to attach either 25 child transactions or any smaller
-number of child transactions equaling 100,000 vbytes in size.  Without
-carve-out, Bob would be unable to attach another child transaction to
-his output for CPFP fee bumping.  With carve-out, he can spend one of
-the two outputs in the transaction, the one that belongs to him, as long
-as his child transaction is less than 1,000 vbytes in size (which should
-be more than enough space).</p>
+Per esempio, Bob e Mallory cofirmano entrambi una transazione con due
+output, uno per ciascuno di loro. Mallory trasmette quella transazione e
+usa il suo output per allegare 25 transazioni figlie o qualsiasi numero
+inferiore di transazioni figlie che totalizzano 100.000 vbyte di dimensione. Senza
+carve-out, Bob non sarebbe in grado di allegare un'altra transazione figlia al
+suo output per il fee bumping CPFP. Con carve-out, può spendere uno dei
+due output nella transazione, quello che appartiene a lui, purché
+la sua transazione figlia sia inferiore a 1.000 vbyte di dimensione (che dovrebbe
+essere più che sufficiente).</p>
 ++++
 
-It's not allowed to use CPFP carve-out more than once, so it only works
-for two-party protocols.  There have been proposals to extend it to
-protocols involving more participants, but there hasn't been much demand
-for that and developers are focused on building more generic solutions
-to transaction pinning attacks.
+Non è permesso usare CPFP carve-out più di una volta, quindi funziona solo
+per protocolli a due parti. Ci sono state proposte per estenderlo a
+protocolli che coinvolgono più partecipanti, ma non c'è stata molta richiesta
+per questo e gli sviluppatori sono concentrati sulla costruzione di soluzioni più generiche
+agli attacchi di transaction pinning.
 
-As of this writing, most popular LN implementations use a transaction
-template called _anchor outputs_, which is designed to be used ((("anchor outputs (CPFP)")))((("transaction fees", "fee bumping", "CPFP carve outs", startref="transaction-fee-bump-carveout")))((("fee bumping", "CPFP carve outs", startref="fee-bump-carveout")))((("carve outs (CPFP)", startref="carveout")))((("CPFP (child pays for parent) fee bumping", "carve outs", startref="cpfp-carveout")))with CPFP
+Al momento della stesura, la maggior parte delle implementazioni popolari di LN usa un template
+di transazione chiamato _anchor output_, che è progettato per essere usato ((("anchor output (CPFP)")))((("commissioni di transazione", "fee bumping", "CPFP carve out", startref="transaction-fee-bump-carveout")))((("fee bumping", "CPFP carve out", startref="fee-bump-carveout")))((("carve out (CPFP)", startref="carveout")))((("CPFP (child pays for parent) fee bumping", "carve out", startref="cpfp-carveout")))con CPFP
 carve out.
 
-=== Adding Fees to Transactions
+=== Aggiungere Commissioni alle Transazioni
 
-The data((("transaction fees", "change outputs and")))((("change output", "transaction fees and")))((("outputs", "transaction fees and")))((("inputs", "transaction fees and"))) structure of transactions does not have a field for fees.
-Instead, fees are implied as the difference between the sum of inputs
-and the sum of outputs. Any excess amount that remains after all outputs
-have been deducted from all inputs is the fee that is collected by the
-miners:
+La struttura dati((("commissioni di transazione", "output di resto e")))((("output di resto", "commissioni di transazione e")))((("output", "commissioni di transazione e")))((("input", "commissioni di transazione e"))) delle transazioni non ha un campo per le commissioni.
+Invece, le commissioni sono implicite come differenza tra la somma degli input
+e la somma degli output. Qualsiasi importo in eccesso che rimane dopo che tutti gli output
+sono stati sottratti da tutti gli input è la commissione che viene raccolta dai
+miner:
 
 [latexmath]
 ++++
 \begin{equation}
-{Fees = Sum(Inputs) - Sum(Outputs)}
+{Commissioni = Somma(Input) - Somma(Output)}
 \end{equation}
 ++++
 
 
-This is a somewhat confusing element of transactions and an important
-point to understand because if you are constructing your own
-transactions, you must ensure you do not inadvertently include a very
-large fee by underspending the inputs. That means that you must account
-for all inputs, if necessary, by creating change, or you will end up
-giving the miners a very big tip!
+Questo è un elemento un po' confuso delle transazioni e un punto
+importante da capire perché se stai costruendo le tue
+transazioni, devi assicurarti di non includere inavvertitamente una
+commissione molto grande spendendo meno degli input. Questo significa che devi contabilizzare
+tutti gli input, se necessario, creando resto, altrimenti finirai per
+dare ai miner una mancia molto generosa!
 
-For example, if you spend a 20-bitcoin UTXO to make a 1-bitcoin
-payment, you must include a 19-bitcoin change output back to your
-wallet. Otherwise, the 19-bitcoin "leftover" will be counted as a
-transaction fee and will be collected by the miner who mines your
-transaction in a block. Although you will receive priority processing
-and make a miner very happy, this is probably not what you intended.
+Per esempio, se spendi un UTXO di 20 bitcoin per effettuare un pagamento di 1 bitcoin,
+devi includere un output di resto di 19 bitcoin al tuo
+wallet. Altrimenti, i 19 bitcoin "rimanenti" saranno contati come una
+commissione di transazione e saranno raccolti dal miner che mina la tua
+transazione in un blocco. Anche se riceverai un'elaborazione prioritaria
+e renderai un miner molto felice, questo probabilmente non è quello che intendevi.
 
 [WARNING]
 ====
-If you forget to add a
-change output in a manually constructed transaction, you will be paying
-the change as a transaction fee. "Keep the change!" might not be what
-you intended.
+Se dimentichi di aggiungere un
+output di resto in una transazione costruita manualmente, pagherai
+il resto come commissione di transazione. "Tieni il resto!" potrebbe non essere quello
+che intendevi.
 ====
 
 [[fee_sniping]]
-=== Timelock Defense Against Fee Sniping
+=== Difesa con Timelock Contro il Fee Sniping
 
-Fee sniping ((("transaction fees", "fee sniping", id="transaction-fee-sniping")))((("fee sniping", id="fee-snipe")))((("timelocks", "fee sniping and", id="timelock-fee-snipe")))((("lock time", "fee sniping and", id="lock-time-fee-snipe")))is a theoretical
-attack scenario where miners attempting to rewrite past blocks "snipe"
-higher-fee transactions from future blocks to maximize their
-[.keep-together]#profitability.#
+Il fee sniping ((("commissioni di transazione", "fee sniping", id="transaction-fee-sniping")))((("fee sniping", id="fee-snipe")))((("timelock", "fee sniping e", id="timelock-fee-snipe")))((("lock time", "fee sniping e", id="lock-time-fee-snipe")))è uno scenario di attacco teorico
+in cui i miner che tentano di riscrivere blocchi passati "rubano"
+transazioni con commissioni più alte da blocchi futuri per massimizzare la loro
+[.keep-together]#redditività.#
 
-For example, let's say the highest block in existence is block
-#100,000. If instead of attempting to mine block #100,001 to extend the
-chain, some miners attempt to remine  #100,000. These miners can choose
-to include any valid transaction (that hasn't been mined yet) in their
-candidate block  #100,000. They don't have to remine the block with the
-same transactions. In fact, they have the incentive to select the most
-profitable (highest fee per kB) transactions to include in their block.
-They can include any transactions that were in the "old" block
-#100,000, as well as any transactions from the current mempool.
-Essentially they have the option to pull transactions from the "present"
-into the rewritten "past" when they re-create block  #100,000.
+Per esempio, diciamo che il blocco più alto in esistenza sia il blocco
+#100.000. Se invece di tentare di minare il blocco #100.001 per estendere la
+catena, alcuni miner tentano di riminare il #100.000. Questi miner possono scegliere
+di includere qualsiasi transazione valida (che non è stata ancora minata) nel loro
+blocco candidato #100.000. Non devono riminare il blocco con le
+stesse transazioni. Infatti, hanno l'incentivo di selezionare le
+transazioni più redditizie (commissione più alta per kB) da includere nel loro blocco.
+Possono includere qualsiasi transazione che era nel "vecchio" blocco
+#100.000, così come qualsiasi transazione dal mempool corrente.
+Essenzialmente hanno l'opzione di tirare transazioni dal "presente"
+nel "passato" riscritto quando ricreano il blocco #100.000.
 
-Today, this attack is not very lucrative because the block subsidy is much
-higher than total fees per block. But at some point in the future,
-transaction fees will be the majority of the reward (or even the
-entirety of the reward). At that time, this scenario becomes inevitable.
+Oggi, questo attacco non è molto redditizio perché il sussidio del blocco è molto
+più alto delle commissioni totali per blocco. Ma a un certo punto nel futuro,
+le commissioni di transazione saranno la maggioranza della ricompensa (o persino
+l'intera ricompensa). In quel momento, questo scenario diventa inevitabile.
 
-Several wallets discourage fee sniping by creating transactions with a
-lock time that limits those transactions to being included in the next
-block or any later block. In our
-scenario, our wallet would set lock time to 100,001 on any
-transaction it created. Under normal circumstances, this lock time has
-no effect&#x2014;the transactions could only be included in block
-#100,001 anyway; it's the next block.
+Diversi wallet scoraggiano il fee sniping creando transazioni con un
+lock time che limita quelle transazioni a essere incluse nel prossimo
+blocco o in qualsiasi blocco successivo. Nel nostro
+scenario, il nostro wallet imposterebbe il lock time a 100.001 su qualsiasi
+transazione che crea. In circostanze normali, questo lock time non ha
+effetto&#x2014;le transazioni potrebbero comunque essere incluse solo nel blocco
+#100.001; è il prossimo blocco.
 
-But under a reorganization attack, the miners would not be able to pull
-high-fee transactions from the mempool because all those transactions
-would be timelocked to block #100,001. They can only remine  #100,000
-with whatever transactions were valid at that time, essentially gaining
-no new fees.
+Ma sotto un attacco di riorganizzazione, i miner non sarebbero in grado di tirare
+transazioni con commissioni alte dal mempool perché tutte quelle transazioni
+sarebbero bloccate con timelock al blocco #100.001. Possono solo riminare il #100.000
+con qualsiasi transazione fosse valida in quel momento, essenzialmente non guadagnando
+nuove commissioni.
 
-This does not entirely prevent fee sniping, but it does make it less
-profitable in some cases and can help preserve the stability of the
-Bitcoin network as the block subsidy declines.  We recommend all wallets
-implement anti-fee sniping when it doesn't interfere with the wallet's
-other uses of the lock time field.
+Questo non previene completamente il fee sniping, ma lo rende meno
+redditizio in alcuni casi e può aiutare a preservare la stabilità della
+rete Bitcoin mentre il sussidio del blocco diminuisce. Raccomandiamo a tutti i wallet
+di implementare l'anti-fee sniping quando non interferisce con gli altri
+usi del campo lock time del wallet.
 
-As Bitcoin continues to mature, and as the subsidy continues to decline,
-fees become more and more important to Bitcoin users, both in their
-day-to-day use for getting transactions confirmed quickly and in
-providing an incentive for miners to continue securing Bitcoin
-transactions with new proof of work.
+Man mano che Bitcoin continua a maturare, e mentre il sussidio continua a diminuire,
+le commissioni diventano sempre più importanti per gli utenti Bitcoin, sia nel loro
+uso quotidiano per far confermare rapidamente le transazioni sia nel
+fornire un incentivo ai miner per continuare a proteggere le transazioni Bitcoin
+con nuova proof of work.
