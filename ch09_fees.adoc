@@ -651,6 +651,7 @@ di includere qualsiasi transazione valida (che non è stata ancora minata) nel l
 blocco candidato #100.000. Non devono riminare il blocco con le
 stesse transazioni. Infatti, hanno l'incentivo di selezionare le
 transazioni più redditizie (commissione più alta per kB) da includere nel loro blocco.
+// [REVISIONE]: calco dall'inglese — "tirare transazioni" rende "pull transactions" in modo poco naturale; preferire "prelevare/spostare/portare transazioni dal 'presente' al 'passato' riscritto" mantenendo il significato.
 Possono includere qualsiasi transazione che era nel "vecchio" blocco
 #100.000, così come qualsiasi transazione dal mempool corrente.
 Essenzialmente hanno l'opzione di tirare transazioni dal "presente"
@@ -669,6 +670,7 @@ transazione che crea. In circostanze normali, questo lock time non ha
 effetto&#x2014;le transazioni potrebbero comunque essere incluse solo nel blocco
 #100.001; è il prossimo blocco.
 
+// [REVISIONE]: stesso calco visto sopra ("tirare transazioni"); inoltre "sotto un attacco di riorganizzazione" è calco di "under a reorganization attack" — preferire "in caso di attacco di riorganizzazione".
 Ma sotto un attacco di riorganizzazione, i miner non sarebbero in grado di tirare
 transazioni con commissioni alte dal mempool perché tutte quelle transazioni
 sarebbero bloccate con timelock al blocco #100.001. Possono solo riminare il #100.000

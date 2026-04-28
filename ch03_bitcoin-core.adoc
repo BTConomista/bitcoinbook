@@ -15,6 +15,7 @@ Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte
 <<bitcoin_core_architecture>> mostra l'architettura di Bitcoin Core.
 
 [[bitcoin_core_architecture]]
+// [REVISIONE]: nella didascalia "Source:" è rimasto in inglese; valutare "Fonte:" per coerenza con la lingua della traduzione.
 .Architettura di Bitcoin Core (Source: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
@@ -845,4 +846,5 @@ https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il 
 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
+// [REVISIONE]: parola non tradotta — `[.keep-together]#convenient.#` lascia "convenient" in inglese; tradurre (es. "convenienti." o "comode.") mantenendo il markup `[.keep-together]#...#` e correggendo il punto finale duplicato.
 Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenient.#.

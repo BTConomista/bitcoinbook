@@ -15,6 +15,7 @@ In questo capitolo seguiremo una transazione reale, simulando le interazioni tra
 </p>
 ++++
 
+// [REVISIONE]: incoerenza terminologica all'interno dello stesso capitolo — qui e a riga 91 si usa "blockchain explorer" mentre a righe 26, 29 e 225 si usa "block explorer". L'originale usa coerentemente "block explorer". Uniformare la scelta in tutto il capitolo.
 Tra i blockchain explorer più popolari ci sono:
 * https://blockstream.info[Blockstream Explorer]
 * https://mempool.space[Mempool.Space]
@@ -33,6 +34,7 @@ Cercare informazioni su un block explorer può rivelare al suo gestore che sei i
 [[spending_bitcoin]]
 === Comprare da un negozio online
 
+// [REVISIONE]: errori multipli — refusi "Detenere  tuoi primi" (doppio spazio, manca "i") e "per2 bitcoin" (manca lo spazio); inoltre "scambiato contanti per 2 bitcoin" introduce una quantità ("2 bitcoin") non presente nell'originale ("to exchange some cash for bitcoins"): correggere quantità e refusi.
 Alice, introdotta nel capitolo precedente, ha appena acquistato i suoi primi bitcoin. Nel paragrafo "Detenere  tuoi primi bitcoin" <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe e ha scambiato contanti per2 bitcoin. Da allora ne ha comprati altri e ora è pronta alla sua prima spesa: acquistare l'accesso a un episodio premium di un podcast dal negozio online di Bob.
 
 Il negozio online di Bob ha da poco attivato i pagamenti in bitcoin sul proprio sito. I prezzi sono indicati in dollari statunitensi, ma al momento del pagamento i clienti possono scegliere se pagare in dollari o in bitcoin.
@@ -165,6 +167,7 @@ Il wallet può aggregare molti input di piccole dimensioni oppure usarne uno sol
 
 La forma più frequente di transazioni è il semplice pagamento con un input e due output, illustrato in <<transaction-common>>.
 
+// [REVISIONE]: errore tecnico — l'ID dell'ancora è stato tradotto da `transaction-common` a `transazione-comune`, ma la cross-reference subito sopra (`<<transaction-common>>`) usa ancora l'ID inglese: il riferimento risulta rotto. Ripristinare `[[transaction-common]]` (gli ID non vanno tradotti).
 [[transazione-comune]]
 .Il tipo di transazione più comune.
 image::images/mbc3_0204.png["Common Transaction"]
@@ -248,11 +251,14 @@ Il miner applica al blocco candidato un apposito algoritmo (funzione di _hash_) 
 Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
 
 Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
+// [REVISIONE]: imprecisione tecnica — l'originale dice "the data... is called proof of work (PoW)": la PoW è la prova/dato, non l'algoritmo. La traduzione "sono definiti algoritmo proof of work" confonde la prova con l'algoritmo che la produce. Rimuovere "algoritmo" o riformulare. Inoltre "prova di lavoro" è usata solo qui mentre nel resto dei capitoli si usa "proof of work" — verificare coerenza terminologica.
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti algoritmo _proof of work_ (PoW), ovvero algoritmo di _prova di lavoro_.
 
+// [REVISIONE]: errore grammaticale — "Ogni miner iniziano" deve essere "Ogni miner inizia" (concordanza soggetto–verbo singolare).
 Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con commissioni più alte e secondo altri criteri. Ogni miner iniziano a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano a calcolare l'algoritmo PoW per il blocco candidato.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia la ricompensa del blocco e tutte le commissioni al proprio indirizzo.
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
+// [REVISIONE]: incoerenza — "miners" con la "s" del plurale inglese; nel resto del libro il plurale di prestiti come "miner" resta invariato in italiano ("i miner"). Uniformare.
 I miners che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
 
 La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non confermate. Un full node l'ha poi validata e inserita in un blocco candidato.
@@ -265,6 +271,7 @@ Quando esistono blocchi alternativi, i full node scelgono la catena con il maggi
 
 ​Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. ​Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
 
+// [REVISIONE]: blocco TIP non tradotto — il contenuto è ancora in inglese. Tradurre il testo (es. "Puoi visualizzare il blocco che contiene la transazione di Alice."), lasciando invariato l'URL.
 [TIP]
 ====
 You can see the block that includes
