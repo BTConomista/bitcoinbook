@@ -1,6 +1,7 @@
 [[ch02_bitcoin_overview]]
 == Come funziona Bitcoin
 
+// [REVISIONE]: attenuazione di concetto chiave — l'originale dice "does not require trust in third parties" (non richiede fiducia in terze parti). La traduzione semplifica con "non dipende da intermediari", perdendo il riferimento al modello trustless centrale in Bitcoin. Suggerito: "non richiede di fidarsi di terze parti".
 A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non dipende da intermediari. Ogni utente può eseguire il software sul proprio computer e verificare in autonomia che il sistema funzioni correttamente, senza ricorrere a un'autorità centrale. In questo capitolo esamineremo Bitcoin in termini generali seguendo una transazione e vedendo come viene registrata sulla blockchain, il registro distribuito di tutte le operazioni. Nei capitoli successivi analizzeremo nel dettaglio transazioni, rete e mining.
 
 === Panoramica su Bitcoin

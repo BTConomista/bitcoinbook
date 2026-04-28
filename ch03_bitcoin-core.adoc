@@ -120,6 +120,7 @@ src/Makefile.am: installing 'build-aux/depcomp'
 parallel-tests: installing 'build-aux/test-driver'
 ----
 
+// [REVISIONE]: refuso — "interroghrranno" deve diventare "interrogheranno".
 Lo script _autogen.sh_ genera una serie di script di configurazione automatica che interroghrranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
 Il più importante di questi script è +configure+, che offre diverse opzioni per personalizzare il processo di compilazione. Per visualizzare le varie opzioni disponibili, utilizza il flag +--help+:
 

@@ -32,6 +32,7 @@ Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-p
 * Una rete peer-to-peer decentralizzata (il protocollo Bitcoin)
 * Un registro pubblico delle transazioni (la blockchain)
 * Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
+// [REVISIONE]: alterazione di significato — "global decentralized consensus on the valid blockchain" indica il consenso su QUALE blockchain è valida (la scelta tra catene candidate), non sulla "validità della blockchain". Suggerito: "sulla blockchain valida".
 * Un meccanismo per raggiungere un consenso decentralizzato globale sulla validità della blockchain (algoritmo di proof-of-work)
 
 Come sviluppatore, Andreas vede Bitcoin come una sorta di "denaro di Internet", una rete per propagare valore e tutelare la proprietà di beni digitali mediante il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
@@ -70,8 +71,9 @@ Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affid
 L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa a un problema di calcolo distribuito noto come il "Problema dei Generali Bizantini". In breve, il problema consiste nel far sì che più partecipanti, senza un leader, concordino una linea d'azione comune scambiandosi informazioni su una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che usa l'algoritmo di _proof-of-work_ per raggiungere il consenso _senza un'autorità centrale fidata_, è un progresso rivoluzionario nel settore del calcolo distribuito.
 ****
 
-=== Iniziare con Bitcoin 
+=== Iniziare con Bitcoin
 
+// [REVISIONE]: errore tecnico — l'originale dice "derived from the original implementation written by Satoshi Nakamoto" (il codice/implementazione, non il whitepaper). La traduzione "basata sul documento originale" confonde l'implementazione di riferimento con il whitepaper. Sostituire "documento" con "implementazione" o "codice originale".
 Bitcoin è un protocollo che si può usare tramite un'apposita applicazione. Un wallet Bitcoin è l'interfaccia utente più comune per il sistema Bitcoin, così come un browser web è l'interfaccia più comune per il protocollo HTTP. Esistono molte implementazioni e versioni di wallet Bitcoin, proprio come esistono diversi browser (es. Chrome, Safari, Firefox). E, come ognuno ha il suo browser preferito, anche i wallet Bitcoin variano per qualità, prestazioni, sicurezza, privacy e affidabilità. Esiste anche un'implementazione di riferimento del protocollo Bitcoin, chiamata 'Bitcoin Core', che include un wallet ed è basata sul documento originale di Satoshi Nakamoto.
 
 ==== Scegliere un Wallet Bitcoin
@@ -95,8 +97,10 @@ Un altro modo per classificare i wallet Bitcoin è in base al loro grado di auto
 
 - Client leggero:
 // [REVISIONE]: omessa una parte tecnica — l'originale ("for receiving and sending Bitcoin transaction information") indica che il client SPV non solo riceve, ma anche invia (broadcasta) informazioni di transazione tramite il full node; la traduzione attuale ("per ottenere le informazioni") riporta solo la ricezione.
+// [REVISIONE]: errore di nomenclatura — l'acronimo SPV sta per "Simplified Payment Verification" (originale: "simplified-payment-verification"), non "Simple Payment Verification". Correggere "Simple" in "Simplified".
 Un client leggero, noto anche come client SPV (dall'inglese Simple Payment Verification, ovvero Verifica Semplificata dei Pagamenti), si collega a un full node (gestito da altri utenti o da servizi) o a un server remoto per ottenere le informazioni sulle transazioni Bitcoin. A differenza di un full node, non scarica l'intera blockchain, ma conserva localmente il wallet dell'utente, convalida parzialmente le transazioni che lo riguardano e crea autonomamente le transazioni in uscita. Questo approccio richiede molte meno risorse.
 
+// [REVISIONE]: aggiunta non presente nell'originale — l'inglese cita solo "third-party API client". L'inciso "(o "wallet ospitato")" introduce un sinonimo non equivalente: un wallet custodial/ospitato non coincide necessariamente con un client API di terze parti. Valutare se rimuovere o riformulare.
 - Client API di Terze Parti: Un client API di terze parti (o "wallet ospitato") interagisce con la rete Bitcoin tramite un sistema di API di terze parti, invece di connettersi direttamente alla rete Bitcoin. In questa configurazione, le chiavi del wallet possono essere conservate dall'utente oppure (più comunemente) sui server del fornitore del servizio. L'utente dipende completamente da questo intermediario per la correttezza delle informazioni e per la protezione della propria privacy.
 
 [TIP]
@@ -202,6 +206,7 @@ Qualsiasi fondo inviato agli indirizzi presenti in questo libro andrà perso. Se
 ====
 
 [[getting_first_bitcoin]]
+// [REVISIONE]: errore di traduzione del titolo — l'originale è "Getting Your First Bitcoin" (acquisire/ottenere), non "Detenere" (=holding); l'errore si propaga in ch02 nel rimando a questa sezione. Suggerito: "Ottenere i tuoi primi bitcoin".
 ==== Detenere i tuoi primi bitcoin
 Il primo passo per chi inizia con Bitcoin è solitamente quello di acquistare una piccola quantità di bitcoin. È importante capire subito che le transazioni Bitcoin sono irreversibili. Una volta inviati, i bitcoin non possono essere richiamati indietro, a differenza di quanto avviene con molti sistemi di pagamento tradizionali (come carte di credito, PayPal, ecc.). Questa irreversibilità comporta un rischio per chi vende bitcoin: un acquirente disonesto potrebbe pagare con un metodo tradizionale, ricevere i bitcoin, e poi annullare il pagamento. Per proteggersi da questo rischio, i venditori di bitcoin che accettano pagamenti tradizionali spesso richiedono procedure di verifica dell'identità e della solvibilità dell'acquirente, che possono richiedere tempo (giorni o settimane).
 
