@@ -764,6 +764,7 @@ pass:[<a data-type="xref" href="#bip39_128_w_pass"
 data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
 pass:[<a data-type="xref" href="#bip39_256_no_pass"
 data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
+// [REVISIONE]: markup rotto — `(((che producono.` contiene un index marker AsciiDoc non chiuso (residuo di `((("key-stretching functions", startref="key-stretch")))they produce.` nell'originale). Rimuovere il `(((` orfano oppure ripristinare l'index marker chiuso.
 alcuni esempi di codici di recupero e i seed (((che producono.
 
 ++++

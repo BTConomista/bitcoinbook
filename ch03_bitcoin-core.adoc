@@ -337,6 +337,7 @@ Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. S
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
+// [REVISIONE]: refuso — "configutazione" deve diventare "configurazione".
 .Esempio di configutazione di un nodo con indice completo
 ====
 ----
@@ -490,8 +491,10 @@ Il risultato è un hash di blocco, descritto più nel dettaglio nei capitoli suc
 
 Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro output previsto.
 
+// [REVISIONE]: punto finale anomalo nel titolo della sezione (l'originale "Getting Information on Bitcoin Core's Status" non ha punto); i titoli AsciiDoc non terminano in punto, valutare la rimozione.
 ==== Ottenere informazioni sullo stato di Bitcoin Core.
 
+// [REVISIONE]: congiunzione "and" rimasta in inglese — tradurre con "e" (es. "+getnetworkinfo+ e +getwalletinfo+").
 Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+, and +getwalletinfo+.
 
 Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
@@ -543,6 +546,7 @@ In <<spending_bitcoin>>, Alice ha effettuato un acquisto presso il negozio di Bo
 Utilizziamo l’API per recuperare ed esaminare quella transazione mettendo l’ID della transazione (txid) come parametro:
 
 [[alice_tx_serialized]]
+// [REVISIONE]: didascalia non tradotta — "Alice's serialized transaction" andrebbe resa in italiano (es. "Transazione serializzata di Alice"), in coerenza con le altre didascalie del capitolo.
 .Alice's serialized transaction
 ----
 $ bitcoin-cli getrawtransaction 466200308696215bbc949d5141a49a41\
@@ -718,6 +722,7 @@ Potresti notare che +curl+ richiederà l'invio delle credenziali insieme alla ri
 L’helper +bitcoin-cli+ può leggere questo file di password se fornito con la directory dei dati. Allo stesso modo, puoi copiare la password e passarla a +curl+ (o a qualsiasi altro wrapper di livello superiore per le RPC di Bitcoin Core), come mostrato in <<cookie_auth>>.
 
 [[cookie_auth]]
+// [REVISIONE]: didascalia non tradotta — "Using cookie-based authentication with Bitcoin Core" da rendere in italiano (es. "Uso dell'autenticazione cookie-based con Bitcoin Core") per coerenza con le altre didascalie tradotte.
 .Using cookie-based authentication with Bitcoin Core
 ====
 ----
@@ -751,6 +756,7 @@ Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà 
 Lo script Python in <<rpc_example>> esegue una semplice chiamata a +getblockchaininfo+ e stampa il parametro block dai dati restituiti da Bitcoin Core.
 
 [[rpc_example]]
+// [REVISIONE]: didascalia non tradotta — "Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API" da rendere in italiano (es. "Esecuzione di +getblockchaininfo+ tramite l'API JSON-RPC di Bitcoin Core").
 .Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API
 ====
 [source,python]
@@ -772,6 +778,7 @@ Proseguiamo utilizzando le chiamate +getrawtransaction+ e +decodetransaction+ pe
 Per ogni output, mostriamo l’indirizzo del destinatario e il valore. Ricordiamo che la transazione di Alice aveva un output per il pagamento a Bob e un output per il resto destinato ad Alice.
 
 [[rpc_transaction]]
+// [REVISIONE]: didascalia non tradotta — "Retrieving a transaction and iterating its outputs" da rendere in italiano (es. "Recupero di una transazione e iterazione dei suoi output").
 .Retrieving a transaction and iterating its outputs
 ====
 [source,python]
@@ -793,6 +800,7 @@ Entrambi gli esempi precedenti sono piuttosto semplici. Non hai davvero bisogno 
 In <<rpc_block>>, iniziamo recuperando un blocco e poi estraiamo tutte le transazioni contenute al suo interno utilizzando i rispettivi transaction ID. Poi, analizziamo gli output di ogni transazione e sommiamo i relativi valori.
 
 [[rpc_block]]
+// [REVISIONE]: didascalia non tradotta — "Retrieving a block and adding all the transaction outputs" da rendere in italiano (es. "Recupero di un blocco e somma di tutti gli output delle transazioni").
 .Retrieving a block and adding all the transaction outputs
 ====
 [source,python]
