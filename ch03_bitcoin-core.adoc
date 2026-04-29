@@ -705,6 +705,7 @@ L'helper +bitcoin-cli+ è molto utile per esplorare l'API di Bitcoin Core e test
 In questa sezione, mostreremo come accedere a Bitcoin Core da un altro programma.
 
 L'API di Bitcoin Core è un'interfaccia JSON-RPC. JSON è un formato molto pratico per rappresentare i dati, leggibile sia dagli esseri umani che dai programmi.
+// [REVISIONE]: errore di markup nel testo italiano — l'originale chiude con "the network protocol is HTTP." (senza footnote). Nella traduzione "il protocollo di rete utilizzato è _HTTP.5_ ." sono presenti: (a) un ".5" spurio (probabile residuo di un vecchio footnote marker numerato non più presente nell'originale corrente); (b) underscore che applicano erroneamente il corsivo a "HTTP.5"; (c) uno spazio prima di un punto finale duplicato. Sostituire con "il protocollo di rete utilizzato è HTTP." senza alcuna footnote.
 RPC sta per remote [.keep-together]#procedure# call (chiamata di procedura remota), il che significa che stiamo invocando procedure (funzioni) che si trovano in remoto (sul nodo Bitcoin Core) tramite un protocollo di rete. In questo caso, il protocollo di rete utilizzato è _HTTP.5_ .
 
 Quando abbiamo usato il comando +bitcoin-cli+ per ottenere aiuto su un comando, ci ha mostrato un esempio di utilizzo di +curl+, il versatile client HTTP da riga di comando, per costruire una di queste chiamate JSON-RPC:
