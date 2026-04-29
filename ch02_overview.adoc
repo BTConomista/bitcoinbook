@@ -249,6 +249,7 @@ Il mining bilancia costi e ricompense. Consuma elettricità per risolvere un pro
 
 Il mining funziona come una lotteria decentralizzata. Ogni miner può creare il proprio biglietto generando un _blocco candidato_ con le transazioni che intende minare e alcuni campi di dati aggiuntivi.
 Il miner applica al blocco candidato un apposito algoritmo (funzione di _hash_) che mescola i dati producendo un output del tutto diverso dall'input. Questo hash produrrà sempre lo stesso output per un dato input, ma basta cambiare di poco l'input perché il risultato sia imprevedibile.
+// [REVISIONE]: "168 miliardi di trilioni" è una resa potenzialmente fuorviante di "168 billion trillion" (1.68×10^23). In italiano "trilione" è ambiguo (scala lunga vs breve). Suggerito esplicitare l'ordine di grandezza: "circa 1,68 × 10^23 (168 miliardi di miliardi di miliardi)" o equivalente.
 Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
 
 Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
@@ -270,6 +271,7 @@ Quando esistono blocchi alternativi, i full node scelgono la catena con il maggi
 
 
 
+// [REVISIONE]: presenza di caratteri zero-width (U+200B) all'inizio del paragrafo seguente e dopo "due nuovi blocchi." (subito prima di "Al contrario"). Stesso problema più sotto a inizio del paragrafo "Ogni blocco minato sopra a quello contenente la transazione di Alice...". Rimuovere i caratteri invisibili: possono creare problemi di rendering, ricerca testuale e copia-incolla.
 ​Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. ​Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
 
 // [REVISIONE]: blocco TIP non tradotto — il contenuto è ancora in inglese. Tradurre il testo (es. "Puoi visualizzare il blocco che contiene la transazione di Alice."), lasciando invariato l'URL.

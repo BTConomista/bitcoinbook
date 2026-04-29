@@ -28,6 +28,7 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 [[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
+// [REVISIONE]: ridondanza "Vai alla pagina ... pagina di download di Bitcoin Core" — il testo del link contiene già "pagina". Riformulare ad es. "Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core]". Stessa ridondanza nella seconda parte: "dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin]" → "dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin]".
 Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla pagina https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin].
 
 [TIP]
@@ -146,6 +147,7 @@ In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità p
 Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
+// [REVISIONE]: nel blocco passthrough HTML che segue, all'interno del <dd> dell'opzione "--with-gui=no", è presente un carattere zero-width (U+200B) immediatamente dopo "<p>" e prima di "Non compilare". Rimuoverlo per evitare problemi di rendering, ricerca testuale e copia-incolla.
 ++++
 <dl>
 <dt><code>--prefix=$HOME</code></dt>
@@ -497,6 +499,7 @@ Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro outpu
 // [REVISIONE]: congiunzione "and" rimasta in inglese — tradurre con "e" (es. "+getnetworkinfo+ e +getwalletinfo+").
 Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+, and +getwalletinfo+.
 
+// [REVISIONE]: l'originale dice "The Bitcoin Core RPC +getblockchaininfo+..."; la traduzione "Il comando RPC +getblockchaininfo+ di Bitcoin" omette "Core" — Bitcoin (il sistema/protocollo) e Bitcoin Core (l'implementazione che fornisce gli RPC) non vanno confusi. Ripristinare "L'RPC +getblockchaininfo+ di Bitcoin Core" o equivalente.
 Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
 
 ----
@@ -750,6 +753,7 @@ In alternativa, puoi creare una password statica utilizzando lo script helper fo
 
 Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare una libreria HTTP generica per costruire la chiamata, in modo simile a quanto mostrato nell'esempio precedente con +curl+.
 
+// [REVISIONE]: calco "wrappano" — preferire una resa più naturale come "incapsulano", "fanno da wrapper a" o "fanno da interfaccia a" l'API di Bitcoin Core.
 Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che "wrappano" l'API di Bitcoin Core rendendo questo processo molto più semplice.
 Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
 Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
