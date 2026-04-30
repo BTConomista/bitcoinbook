@@ -185,6 +185,7 @@ Se l’applicazione ti chiede il codice di recupero in qualsiasi altro momento, 
 Alice è ora pronta per utilizzare il suo nuovo wallet Bitcoin. 
 L'applicazione del wallet ha generato casualmente una chiave privata (descritta in dettaglio in <<private_keys>>), che sarà utilizzata per creare gli indirizzi Bitcoin associati al suo wallet. In questa fase, i suoi indirizzi Bitcoin non sono noti alla rete Bitcoin, né sono "registrati" da alcuna entità del sistema. I suoi indirizzi Bitcoin sono semplicemente numeri derivati dalla sua chiave privata, mediante la quale Alice può controllare l'accesso ai fondi. Gli indirizzi sono generati autonomamente dal suo wallet, senza alcun riferimento o registrazione presso servizi esterni.
 
+// [REVISIONE]: amplificazione editoriale del [TIP] originale — il blocco è stato esteso oltre il testo inglese, in particolare con l'inciso "Inoltre, tutte le transazioni sulla blockchain Bitcoin sono pubbliche. Se un indirizzo viene collegato alla tua identità, chiunque può potenzialmente tracciare tutti i pagamenti inviati e ricevuti da quell'indirizzo." Questa generalizzazione va oltre l'originale che dice solo "If you post your address publicly, everyone will be able to see how much bitcoin other people sent to that address." Valutare se ridurre l'amplificazione e attenersi al testo originale.
 [TIP]
 ====
 Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (invoice). Indirizzi e richieste di pagamento possono essere condivisi con altri utenti Bitcoin, i quali potranno utilizzarli per inviare bitcoin direttamente al wallet del destinatario.
@@ -192,6 +193,7 @@ Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (i
 È importante notare che, sebbene condividere un indirizzo non permetta ad altri di spendere i tuoi bitcoin, può avere implicazioni per la tua privacy. Se fornisci lo stesso indirizzo a più persone, queste potrebbero essere in grado di vedere i pagamenti che ricevi da altri su quell'indirizzo. Inoltre, tutte le transazioni sulla blockchain Bitcoin sono pubbliche. Se un indirizzo viene collegato alla tua identità, chiunque può potenzialmente tracciare tutti i pagamenti inviati e ricevuti da quell'indirizzo. Per massimizzare la privacy, è una buona pratica generare un nuovo indirizzo Bitcoin per ogni transazione che ricevi.
 ====
 
+// [REVISIONE]: aggiunta editoriale "Figura 1" non presente nell'originale ("see <<wallet_receive>>"); stesso pattern alla riga "(si veda la <<wallet-send>> Figura 2)". I numeri di figura sono fragili rispetto a riordinamenti del libro — verificare se mantenere solo <<wallet_receive>> e <<wallet-send>>.
 ==== Ricevere Bitcoin
 
 Alice preme il pulsante _Ricevi_, che fa visualizzare un codice QR (si veda la <<wallet_receive>>, Figura 1).

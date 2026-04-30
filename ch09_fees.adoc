@@ -244,6 +244,7 @@ ma questo comportamento è stato disabilitato per diverse release. Durante
 quel periodo, un miner o full node che usava il software ora chiamato Bitcoin
 Core non avrebbe sostituito la prima versione di una transazione non confermata
 che riceveva con qualsiasi versione diversa. Alcuni commercianti si sono abituati
+// [REVISIONE]: "eventualmente" è un falso amico ricorrente nel capitolo (vedi anche "sarà eventualmente confermata" in più punti). In italiano "eventualmente" significa "se del caso/possibilmente", non "alla fine/prima o poi" (= eventually). Sostituire ovunque con "alla fine", "prima o poi", "infine" o "in seguito" a seconda del contesto.
 a questo comportamento: presumevano che qualsiasi transazione non confermata valida che
 pagava un tasso di commissione appropriato sarebbe eventualmente diventata una transazione
 confermata, quindi fornivano i loro beni o servizi poco dopo
@@ -260,6 +261,7 @@ che può essere reimplementato da zero da un programmatore sufficientemente comp
 permettendo al reimplementatore di includere o meno
 la sostituzione delle transazioni.
 
+// [REVISIONE]: calco dall'inglese — "rompe l'assunzione" rende letteralmente "breaks the assumption". In italiano è più naturale "smentisce il presupposto", "contraddice l'ipotesi" o "infrange l'assunzione".
 La sostituzione delle transazioni rompe l'assunzione di alcuni commercianti che
 ogni transazione non confermata ragionevole sarà eventualmente confermata.
 Una versione alternativa di una transazione può pagare gli stessi output dell'

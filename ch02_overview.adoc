@@ -194,6 +194,7 @@ Così come possiamo compilare un assegno a casa e spedirlo in banca, la transazi
 
 Il wallet di Alice deve anzitutto individuare gli input in grado di coprire l'importo da inviare a Bob. In genere i wallet tengono traccia di tutti gli output disponibili per i propri indirizzi. Per questo il wallet di Alice conserva anche l'output della transazione con Joe, in cui scambiò contanti con bitcoin (vedi <<getting_first_bitcoin>>).
 
+// [REVISIONE]: errore tecnico — l'originale dice "many user wallets run lightweight clients that track only the user's own UTXOs", cioè molti wallet utente *sono* essi stessi client leggeri. La traduzione "molti wallet si appoggiano a client leggeri" suggerisce invece una dipendenza da un client leggero esterno. Suggerito: "molti wallet utente girano come client leggeri che registrano solo gli UTXO dell'utente".
 Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet si appoggiano a client leggeri che registrano solo gli UTXO dell'utente.
 
 In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse sufficiente, il wallet di Alice dovrebbe combinare più UTXO di piccole dimensioni, un po' come cercare monete nel portafoglio, finché non si raggiunge l'importo necessario. In entrambi i casi potrebbe avanzare del resto, come vedremo nella sezione successiva durante la creazione degli output.

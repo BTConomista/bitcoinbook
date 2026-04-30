@@ -608,6 +608,7 @@ importante differenza rende i codici di recupero molto più sicuri perché
 gli umani sono fonti molto scarse di casualità.
 ====
 
+// [REVISIONE]: incoerenza terminologica — qui si usa "wallet hardware" mentre altrove nel capitolo e in ch01 si usa "dispositivo di firma hardware" (con nota esplicita che "hardware wallet" è fuorviante). Valutare "il dispositivo di firma hardware Trezor" per coerenza interna.
 Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
 BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
 è compatibile con molte altre applicazioni wallet, anche se certamente
@@ -867,6 +868,7 @@ con un computer classico (l'unico tipo che può essere utilizzato per un
 attacco pratico al momento della stesura) avrebbe bisogno di eseguire circa 2^128^
 operazioni sulla curva ellittica di Bitcoin per trovare una chiave privata
 per la chiave pubblica di un altro utente. L'implicazione di una forza di sicurezza
+// [REVISIONE]: refuso/grammatica — "le tue chiavi private generate chiavi sono selezionate" contiene un "chiavi" duplicato e usa l'indicativo dopo "assicurarti che" (richiede congiuntivo). L'originale: "you need to ensure your generated private keys are selected uniformly from within the entire 2^256^ range". Suggerito: "devi assicurarti che le tue chiavi private generate siano selezionate uniformemente dall'intero intervallo di 2^256^ chiavi private".
 di 128 bit è che non c'è un apparente beneficio nell'utilizzare più di 128
 bit di entropia (anche se devi assicurarti che le tue chiavi private generate
 chiavi sono selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
@@ -1228,6 +1230,7 @@ l'applicazione wallet web-based Trezor. Il dispositivo Trezor deve essere colleg
 affinché le chiavi pubbliche possano essere esportate. Nota che la maggior parte dei dispositivi di firma hardware non
 esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
 
+// [REVISIONE]: calco dall'inglese "widely used" — "diffusamente utilizzato" suona innaturale in italiano. Suggerito: "ampiamente diffuso", "molto usato" o "il diffuso BTCPay Server open source".
 Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
 come il diffusamente utilizzato BTCPay Server open source.
 
