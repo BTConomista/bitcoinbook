@@ -126,6 +126,7 @@ Al primo avvio dell'app, Alice seleziona l'opzione per creare un nuovo wallet Bi
 ==== Codici di Recupero
 La maggior parte dei moderni wallet Bitcoin non-custodial fornisce un codice di recupero che l'utente utilizzerà per il backup.
 Il codice di recupero è tipicamente composto da numeri, lettere o parole generate casualmente dal software, e funge da "seme" (seed) per la generazione di tutte le chiavi del wallet.
+// [REVISIONE]: aggiunta editoriale non presente nell'originale ("See <<recovery_code_sample>> for examples.") — l'inciso "(tabella 1.1)" e l'aggiunta di "(1.1)" alla `<caption>` introducono una numerazione manuale che la toolchain non genera automaticamente da `<<...>>`; stesso pattern dei "Figura 1/Figura 2" segnalati più sotto. Verificare se rimuovere "(tabella 1.1)" e "(1.1)" dalla didascalia per coerenza.
 Vedi <<recovery_code_sample>>(tabella 1.1) per alcuni esempi:
 
 
@@ -223,6 +224,7 @@ Ecco alcuni metodi per acquistare bitcoin se sei un nuovo utente:
 // [REVISIONE]: markup AsciiDoc rotto — i quattro elementi seguenti iniziano con `*` senza spazio (es. `*Da un amico` invece di `* Da un amico`); di conseguenza non vengono renderizzati come bullet di un elenco puntato, ma come blocchi `bold` non chiusi. Inserire uno spazio dopo l'asterisco di apertura per ognuno dei quattro elementi.
 *Da un amico o conoscente: Se conosci qualcuno che già possiede bitcoin, puoi acquistarli direttamente da lui/lei. È spesso il metodo più semplice e diretto per iniziare. Un modo per incontrare persone con bitcoin è partecipare a un meetup Bitcoin locale elencato su pass:[<a href="https://meetup.com" class="orm:hideurl">Meetup.com</a>].
 
+// [REVISIONE]: l'esempio è stato cambiato rispetto all'originale: l'inglese usa due figure professionali contrastanti ("If you are a programmer, sell your programming skills. If you're a hairdresser, cut hair for bitcoins."), mentre la traduzione sostituisce l'esempio del parrucchiere con un generico negoziante ("Se hai un negozio, puoi accettare bitcoin dai clienti"), che si sovrappone all'idea già presente nel punto successivo (ATM/negozi). Valutare se ripristinare l'esempio originale.
 *Guadagnandoli: Puoi offrire beni o servizi in cambio di bitcoin. Ad esempio, se sei un programmatore, puoi farti pagare in bitcoin per un lavoro. Se hai un negozio, puoi accettare bitcoin dai clienti.
 
 *Tramite un ATM Bitcoin: Sono sportelli automatici simili a quelli bancari, ma specifici per criptovalute. Puoi inserire denaro contante e l'ATM invierà l'equivalente in bitcoin direttamente al tuo wallet.

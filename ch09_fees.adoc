@@ -86,6 +86,7 @@ singola transazione.
 In Bitcoin,
 la commissione è un'offerta e l'importo pagato contribuisce a determinare quanto
 tempo ci vorrà perché la transazione sia confermata. Sia chi spende sia chi riceve
+// [REVISIONE]: "vederlo confermare" è grammaticalmente discutibile (calco di "to see it confirming"). In italiano, dopo "vedere", il verbo all'infinito è transitivo: "vedere qualcuno fare qualcosa". Qui il pronome "lo" si riferisce al pagamento, ma "confermare" senza oggetto è ambiguo. Suggerito: "...hanno interesse a vederlo confermarsi rapidamente" oppure "...a che venga confermato rapidamente". Inoltre "normalmente ... a volte" ricalca "normally ... sometimes" creando una contraddizione apparente: riformulare con "perciò il fatto che di norma solo chi spende possa scegliere le commissioni può talvolta rappresentare un problema".
 un pagamento tipicamente hanno interesse a vederlo confermare rapidamente, quindi
 normalmente permettere solo a chi spende di scegliere le commissioni può a volte essere un
 problema; vedremo una soluzione a questo problema in <<cpfp>>. Tuttavia,
@@ -112,6 +113,7 @@ quantità.
 Così come potresti dividere il costo di diversi sacchi di riso per
 il peso di ciascun sacco per trovare il prezzo più basso in rapporto al peso (l'affare migliore), i miner
 dividono la commissione di una transazione per la sua dimensione (chiamata anche peso) per
+// [REVISIONE]: la traduzione corregge tacitamente un errore tecnico dell'originale inglese ("we use the term _fee rate_ for a transaction's size divided by weight" — concettualmente sbagliato perché il fee rate è la *commissione* divisa per il peso, non la dimensione della transazione). La resa italiana è quella tecnicamente corretta. Segnalare a O'Reilly come errata sull'originale e mantenere la versione italiana, eventualmente con una nota del traduttore.
 trovare la commissione più alta per peso (maggiori entrate). In Bitcoin, usiamo il
 termine _tasso di commissione_ per indicare la commissione di una transazione divisa per il peso. A causa
 dei cambiamenti in Bitcoin nel corso degli anni, il tasso di commissione può essere espresso in
@@ -409,6 +411,7 @@ CPFP ha diversi vantaggi rispetto a RBF. Chiunque riceva un output
 da una transazione può usare CPFP--questo include sia i destinatari dei
 pagamenti sia chi spende (se chi spende ha incluso un output di resto). Inoltre
 non richiede la sostituzione della transazione originale, il che lo rende
+// [REVISIONE]: calco semantico — "dirompente" rende "disruptive" ma in italiano ha sfumatura prevalentemente positiva ("innovativo, di rottura"); qui il senso è negativo (problematico per i commercianti). Suggerito: "meno problematico per alcuni commercianti rispetto a RBF".
 meno dirompente per alcuni commercianti rispetto a RBF.
 
 Lo svantaggio principale di CPFP rispetto a RBF è che CPFP tipicamente

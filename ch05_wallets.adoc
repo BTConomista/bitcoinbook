@@ -15,6 +15,7 @@ questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
 wallet moderni. Raccomanderemo queste soluzioni come migliori
+// [REVISIONE]: la traduzione "spingendo diversi sviluppatori di wallet a compiere scelte differenti" perde il termine tecnico chiave "trade-offs" dell'originale ("leading different wallet authors to make different trade-offs"), che indica compromessi consapevoli tra obiettivi in conflitto. Suggerito: "...portando diversi autori di wallet a operare compromessi differenti".
 pratiche. Altre soluzioni comportano vantaggi e svantaggi, spingendo diversi sviluppatori di wallet a compiere scelte differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
@@ -877,6 +878,7 @@ private).
 C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
 del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
 maggiore è l'entropia, più difficile sarà per loro scoprire la parte
+// [REVISIONE]: incoerenza terminologica interna al capitolo — qui (e a riga 906) si usa il calco "forzare brutalmente" / "forzare brutalmente l'altra metà", mentre poco sopra a righe 712 e 720 si usa "attacco a forza bruta" / "attaccare a forza bruta". Uniformare alla forma "attaccare a forza bruta" per coerenza terminologica e per evitare il calco da "brute-force".
 del codice che non hanno visto. Per esempio, se un attaccante vede metà di un
 codice a 128 bit (64 bit), è plausibile che sarà in grado di forzare
 brutalmente i restanti 64 bit. Se vede metà di un codice a 256 bit (128

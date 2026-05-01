@@ -151,6 +151,7 @@ Le transazioni Bitcoin serializzate, ossia il formato con cui il software le inv
 Oltre agli output che pagano il destinatario, molte transazioni prevedono un output di _resto_ che restituisce bitcoin a chi effettua il pagamento.
 
 Ciò accade perché gli input delle transazioni, proprio come le banconote, non possono essere spesi parzialmente. Se compri un oggetto da 5 dollari ma paghi con una banconota da 20, ti aspetti 15 dollari di resto. Lo stesso vale per gli input Bitcoin: se vuoi spendere 5 bitcoin ma disponi solo di un input da 20, invierai 5 bitcoin al venditore e 15 di resto a te stesso, al netto della commissione di transazione.
+// [REVISIONE]: virgola fuori posto: "(e l'indirizzo a cui viene inviato, è chiamato _change address_, cioè indirizzo di resto)" spezza il soggetto dal verbo. L'originale è una sola frase ("the address it pays, called a _change address_"). Riformulare ad es. "(e l'indirizzo a cui viene inviato è chiamato _change address_, cioè indirizzo di resto)".
 Nel protocollo Bitcoin non c'è differenza tra un output di resto (e l'indirizzo a cui viene inviato, è chiamato _change address_, cioè indirizzo di resto) e un output di pagamento.
 
 Per motivi di privacy il change address non coincide quasi mai con l'indirizzo di input e in genere è un nuovo indirizzo generato dal wallet. In situazioni ideali entrambi gli output usano indirizzi mai visti prima e risultano indistinguibili, impedendo di stabilire quali siano di resto e quali di pagamento. A scopo illustrativo abbiamo evidenziato gli output di resto in <<transaction-chain>>.
@@ -201,6 +202,7 @@ In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse suffici
 
 ==== Creazione degli Output
 
+// [REVISIONE]: l'originale tecnico ("Alice will therefore _encumber_ the output value with a demand for a signature from Bob") perde il concetto chiave di _encumber_ (vincolare l'output a una condizione di spesa); la traduzione "Alice quindi lega il valore dell'output alla firma di Bob" attenua il concetto e il paragrafo successivo ("In altre parole Bob dovrà firmare...") inverte il punto di vista (Bob deve firmare invece di Alice che vincola). Valutare una resa più aderente al concetto di "encumbrance" (es. "vincola l'output", "lega l'output a una condizione di spesa") e mantenere il soggetto del periodo originale.
 L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi lega il valore dell'output alla firma di Bob.
 
 In altre parole Bob dovrà firmare l'output di Alice per dimostrarne la proprietà prima di spenderlo.
