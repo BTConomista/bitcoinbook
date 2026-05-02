@@ -15,6 +15,7 @@ questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
 wallet moderni. Raccomanderemo queste soluzioni come migliori
+// [REVISIONE]: la traduzione "spingendo diversi sviluppatori di wallet a compiere scelte differenti" perde il termine tecnico chiave "trade-offs" dell'originale ("leading different wallet authors to make different trade-offs"), che indica compromessi consapevoli tra obiettivi in conflitto. Suggerito: "...portando diversi autori di wallet a operare compromessi differenti".
 pratiche. Altre soluzioni comportano vantaggi e svantaggi, spingendo diversi sviluppatori di wallet a compiere scelte differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
@@ -608,6 +609,7 @@ importante differenza rende i codici di recupero molto più sicuri perché
 gli umani sono fonti molto scarse di casualità.
 ====
 
+// [REVISIONE]: incoerenza terminologica — qui si usa "wallet hardware" mentre altrove nel capitolo e in ch01 si usa "dispositivo di firma hardware" (con nota esplicita che "hardware wallet" è fuorviante). Valutare "il dispositivo di firma hardware Trezor" per coerenza interna.
 Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
 BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
 è compatibile con molte altre applicazioni wallet, anche se certamente
@@ -764,6 +766,7 @@ pass:[<a data-type="xref" href="#bip39_128_w_pass"
 data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
 pass:[<a data-type="xref" href="#bip39_256_no_pass"
 data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
+// [REVISIONE]: markup rotto — `(((che producono.` contiene un index marker AsciiDoc non chiuso (residuo di `((("key-stretching functions", startref="key-stretch")))they produce.` nell'originale). Rimuovere il `(((` orfano oppure ripristinare l'index marker chiuso.
 alcuni esempi di codici di recupero e i seed (((che producono.
 
 ++++
@@ -866,6 +869,7 @@ con un computer classico (l'unico tipo che può essere utilizzato per un
 attacco pratico al momento della stesura) avrebbe bisogno di eseguire circa 2^128^
 operazioni sulla curva ellittica di Bitcoin per trovare una chiave privata
 per la chiave pubblica di un altro utente. L'implicazione di una forza di sicurezza
+// [REVISIONE]: refuso/grammatica — "le tue chiavi private generate chiavi sono selezionate" contiene un "chiavi" duplicato e usa l'indicativo dopo "assicurarti che" (richiede congiuntivo). L'originale: "you need to ensure your generated private keys are selected uniformly from within the entire 2^256^ range". Suggerito: "devi assicurarti che le tue chiavi private generate siano selezionate uniformemente dall'intero intervallo di 2^256^ chiavi private".
 di 128 bit è che non c'è un apparente beneficio nell'utilizzare più di 128
 bit di entropia (anche se devi assicurarti che le tue chiavi private generate
 chiavi sono selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
@@ -874,6 +878,7 @@ private).
 C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
 del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
 maggiore è l'entropia, più difficile sarà per loro scoprire la parte
+// [REVISIONE]: incoerenza terminologica interna al capitolo — qui (e a riga 906) si usa il calco "forzare brutalmente" / "forzare brutalmente l'altra metà", mentre poco sopra a righe 712 e 720 si usa "attacco a forza bruta" / "attaccare a forza bruta". Uniformare alla forma "attaccare a forza bruta" per coerenza terminologica e per evitare il calco da "brute-force".
 del codice che non hanno visto. Per esempio, se un attaccante vede metà di un
 codice a 128 bit (64 bit), è plausibile che sarà in grado di forzare
 brutalmente i restanti 64 bit. Se vede metà di un codice a 256 bit (128
@@ -1227,6 +1232,7 @@ l'applicazione wallet web-based Trezor. Il dispositivo Trezor deve essere colleg
 affinché le chiavi pubbliche possano essere esportate. Nota che la maggior parte dei dispositivi di firma hardware non
 esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
 
+// [REVISIONE]: calco dall'inglese "widely used" — "diffusamente utilizzato" suona innaturale in italiano. Suggerito: "ampiamente diffuso", "molto usato" o "il diffuso BTCPay Server open source".
 Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
 come il diffusamente utilizzato BTCPay Server open source.
 
