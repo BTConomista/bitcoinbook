@@ -352,6 +352,7 @@ sostitutiva includa sempre tutti gli stessi input della versione
 precedente della transazione.
 ====
 
+// [REVISIONE]: calco lessicale — "in primo luogo" rende "in the first place", ma in italiano "in primo luogo" significa "innanzitutto/prima di tutto", non "fin dall'inizio/in origine". L'originale "if they had paid the bumped fee rate in the first place" significa "se avesse pagato il tasso di commissione aumentato fin dall'inizio" o "in origine". Sostituire per evitare alterazione del significato.
 Il vantaggio del fee bumping RBF rispetto ad altri tipi di fee bumping è che
 può essere molto efficiente nell'uso dello spazio nei blocchi. Spesso, una transazione
 sostitutiva ha la stessa dimensione della transazione che sostituisce. Anche quando
