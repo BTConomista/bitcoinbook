@@ -1,7 +1,7 @@
 [[ch02_bitcoin_overview]]
 == Come funziona Bitcoin
 
-A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non dipende da intermediari. Ogni utente può eseguire il software sul proprio computer e verificare in autonomia che il sistema funzioni correttamente, senza ricorrere a un'autorità centrale. In questo capitolo esamineremo Bitcoin in termini generali seguendo una transazione e vedendo come viene registrata sulla blockchain, il registro distribuito di tutte le operazioni. Nei capitoli successivi analizzeremo nel dettaglio transazioni, rete e mining.
+A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non richiede di fidarsi di terze parti. Ogni utente può eseguire il software sul proprio computer e verificare in autonomia che il sistema funzioni correttamente, senza ricorrere a un'autorità centrale. In questo capitolo esamineremo Bitcoin in termini generali seguendo una transazione e vedendo come viene registrata sulla blockchain, il registro distribuito di tutte le operazioni. Nei capitoli successivi analizzeremo nel dettaglio transazioni, rete e mining.
 
 === Panoramica su Bitcoin
 
@@ -15,6 +15,7 @@ In questo capitolo seguiremo una transazione reale, simulando le interazioni tra
 </p>
 ++++
 
+// [REVISIONE — DA RIVEDERE]: incoerenza terminologica all'interno dello stesso capitolo — qui (e poco più sotto) si usa "blockchain explorer" mentre nelle sezioni di avviso/privacy si usa "block explorer". Anche l'originale inglese usa entrambi i termini in modo non perfettamente uniforme; valutare se uniformare la traduzione a una sola forma.
 Tra i blockchain explorer più popolari ci sono:
 * https://blockstream.info[Blockstream Explorer]
 * https://mempool.space[Mempool.Space]
@@ -33,7 +34,7 @@ Cercare informazioni su un block explorer può rivelare al suo gestore che sei i
 [[spending_bitcoin]]
 === Comprare da un negozio online
 
-Alice, introdotta nel capitolo precedente, ha appena acquistato i suoi primi bitcoin. Nel paragrafo "Detenere  tuoi primi bitcoin" <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe e ha scambiato contanti per2 bitcoin. Da allora ne ha comprati altri e ora è pronta alla sua prima spesa: acquistare l'accesso a un episodio premium di un podcast dal negozio online di Bob.
+Alice, introdotta nel capitolo precedente, ha appena acquistato i suoi primi bitcoin. In <<getting_first_bitcoin>>, Alice ha incontrato il suo amico Joe e ha scambiato contanti per dei bitcoin. Da allora ne ha comprati altri e ora è pronta alla sua prima spesa: acquistare l'accesso a un episodio premium di un podcast dal negozio online di Bob.
 
 Il negozio online di Bob ha da poco attivato i pagamenti in bitcoin sul proprio sito. I prezzi sono indicati in dollari statunitensi, ma al momento del pagamento i clienti possono scegliere se pagare in dollari o in bitcoin.
 
@@ -148,7 +149,7 @@ Le transazioni Bitcoin serializzate, ossia il formato con cui il software le inv
 Oltre agli output che pagano il destinatario, molte transazioni prevedono un output di _resto_ che restituisce bitcoin a chi effettua il pagamento.
 
 Ciò accade perché gli input delle transazioni, proprio come le banconote, non possono essere spesi parzialmente. Se compri un oggetto da 5 dollari ma paghi con una banconota da 20, ti aspetti 15 dollari di resto. Lo stesso vale per gli input Bitcoin: se vuoi spendere 5 bitcoin ma disponi solo di un input da 20, invierai 5 bitcoin al venditore e 15 di resto a te stesso, al netto della commissione di transazione.
-Nel protocollo Bitcoin non c'è differenza tra un output di resto (e l'indirizzo a cui viene inviato, è chiamato _change address_, cioè indirizzo di resto) e un output di pagamento.
+Nel protocollo Bitcoin non c'è differenza tra un output di resto (e l'indirizzo a cui viene inviato, chiamato _change address_, cioè indirizzo di resto) e un output di pagamento.
 
 Per motivi di privacy il change address non coincide quasi mai con l'indirizzo di input e in genere è un nuovo indirizzo generato dal wallet. In situazioni ideali entrambi gli output usano indirizzi mai visti prima e risultano indistinguibili, impedendo di stabilire quali siano di resto e quali di pagamento. A scopo illustrativo abbiamo evidenziato gli output di resto in <<transaction-chain>>.
 
@@ -165,7 +166,7 @@ Il wallet può aggregare molti input di piccole dimensioni oppure usarne uno sol
 
 La forma più frequente di transazioni è il semplice pagamento con un input e due output, illustrato in <<transaction-common>>.
 
-[[transazione-comune]]
+[[transaction-common]]
 .Il tipo di transazione più comune.
 image::images/mbc3_0204.png["Common Transaction"]
 
@@ -190,12 +191,13 @@ Così come possiamo compilare un assegno a casa e spedirlo in banca, la transazi
 
 Il wallet di Alice deve anzitutto individuare gli input in grado di coprire l'importo da inviare a Bob. In genere i wallet tengono traccia di tutti gli output disponibili per i propri indirizzi. Per questo il wallet di Alice conserva anche l'output della transazione con Joe, in cui scambiò contanti con bitcoin (vedi <<getting_first_bitcoin>>).
 
-Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet si appoggiano a client leggeri che registrano solo gli UTXO dell'utente.
+Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet utente girano come client leggeri che registrano solo gli UTXO dell'utente.
 
 In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse sufficiente, il wallet di Alice dovrebbe combinare più UTXO di piccole dimensioni, un po' come cercare monete nel portafoglio, finché non si raggiunge l'importo necessario. In entrambi i casi potrebbe avanzare del resto, come vedremo nella sezione successiva durante la creazione degli output.
 
 ==== Creazione degli Output
 
+// [REVISIONE — DA RIVEDERE]: l'originale tecnico ("Alice will therefore _encumber_ the output value with a demand for a signature from Bob") perde il concetto chiave di _encumber_ (vincolare l'output a una condizione di spesa); la traduzione "Alice quindi lega il valore dell'output alla firma di Bob" attenua il concetto e il paragrafo successivo ("In altre parole Bob dovrà firmare...") inverte il punto di vista (Bob deve firmare invece di Alice che vincola). Valutare una resa più aderente al concetto di "encumbrance" (es. "vincola l'output", "lega l'output a una condizione di spesa") e mantenere il soggetto del periodo originale.
 L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi lega il valore dell'output alla firma di Bob.
 
 In altre parole Bob dovrà firmare l'output di Alice per dimostrarne la proprietà prima di spenderlo.
@@ -220,7 +222,7 @@ Poiché la transazione contiene tutte le informazioni necessarie, non importa co
 
 ===== Come si propaga
 
-I nodi della rete peer-to-peer sono programmi che possiedono la logica e i dati necessari a verificare la correttezza di ogni nuova transazione. Le connessioni tra i peer sono spesso rappresentate come archi in un grafo, e per questo i peer di Bitcoin vengono chiamati "nodi di verifica completa" o, più semplicemente, full nodes.
+I peer della rete peer-to-peer sono programmi che possiedono la logica e i dati necessari a verificare la correttezza di ogni nuova transazione. Le connessioni tra i peer sono spesso rappresentate come archi (linee) in un grafo, mentre i peer stessi corrispondono ai nodi (puntini); per questo i peer di Bitcoin vengono chiamati "nodi di verifica completa" o, più semplicemente, full nodes.
 
 Il wallet di Alice può inviare la nuova transazione a qualsiasi nodo Bitcoin, con qualsiasi tipo di connessione: cablata, WiFi, mobile e così via. Può anche passarla ad altri programmi, come un block explorer, che la inoltreranno a un nodo. Non è necessario che il wallet di Alice sia collegato direttamente a quello di Bob o che usino la stessa connessione internet, anche se sarebbe possibile. Qualunque nodo che riceva per la prima volta una transazione valida la inoltrerà a tutti i nodi a cui è collegato, secondo la tecnica detta _gossiping_ (passaparola). In questo modo la transazione si diffonde rapidamente, raggiungendo la maggior parte dei nodi in pochi secondi.
 
@@ -245,15 +247,15 @@ Il mining bilancia costi e ricompense. Consuma elettricità per risolvere un pro
 
 Il mining funziona come una lotteria decentralizzata. Ogni miner può creare il proprio biglietto generando un _blocco candidato_ con le transazioni che intende minare e alcuni campi di dati aggiuntivi.
 Il miner applica al blocco candidato un apposito algoritmo (funzione di _hash_) che mescola i dati producendo un output del tutto diverso dall'input. Questo hash produrrà sempre lo stesso output per un dato input, ma basta cambiare di poco l'input perché il risultato sia imprevedibile.
-Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 168 miliardi di trilioni di blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
+Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 1,68 × 10^23^ (168 miliardi di miliardi di miliardi di) blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
 
 Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
-Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti algoritmo _proof of work_ (PoW), ovvero algoritmo di _prova di lavoro_.
+Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti _proof of work_ (PoW), ovvero _prova di lavoro_.
 
-Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con commissioni più alte e secondo altri criteri. Ogni miner iniziano a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano a calcolare l'algoritmo PoW per il blocco candidato.
+Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con commissioni più alte e secondo altri criteri. Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano a calcolare la PoW per il blocco candidato.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia la ricompensa del blocco e tutte le commissioni al proprio indirizzo.
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
-I miners che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
+I miner che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
 
 La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non confermate. Un full node l'ha poi validata e inserita in un blocco candidato.
 Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volta dal wallet di Alice, un miner trova la soluzione per il blocco e la annuncia alla rete. Dopo che ciascuno degli altri miner convalida il blocco vincente, questi avviano una nuova lotteria per generare il blocco successivo.
@@ -263,16 +265,16 @@ Quando esistono blocchi alternativi, i full node scelgono la catena con il maggi
 
 
 
-​Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. ​Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
+Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
 
 [TIP]
 ====
-You can see the block that includes
-https://oreil.ly/7v_lH[Alice's transaction].
+Puoi visualizzare il blocco che contiene la
+https://oreil.ly/7v_lH[transazione di Alice].
 ====
 
 Circa 19 minuti dopo la trasmissione del blocco contenente la transazione di Alice, un nuovo blocco viene minato da un altro miner. Poiché questo nuovo blocco è costruito sopra a quello che conteneva la transazione di Alice (fornendo alla transazione di Alice due conferme), la sua transazione ora può essere modificata soltanto se vengono minati due blocchi alternativi — più un nuovo blocco costruito sopra di essi — per un totale di tre blocchi che dovrebbero essere minati affinché Alice si riprenda il denaro inviato a Bob.
-​Ogni blocco minato sopra a quello contenente la transazione di Alice conta come una conferma aggiuntiva. Man mano che i blocchi si accumulano uno sopra l'altro, diventa più difficile annullare la transazione, dando così a Bob sempre più fiducia nella sicurezza del pagamento di Alice.
+Ogni blocco minato sopra a quello contenente la transazione di Alice conta come una conferma aggiuntiva. Man mano che i blocchi si accumulano uno sopra l'altro, diventa più difficile annullare la transazione, dando così a Bob sempre più fiducia nella sicurezza del pagamento di Alice.
 
 In <<block-alice1>> possiamo vedere il blocco che contiene la transazione di Alice. Sotto di esso si susseguono centinaia di migliaia di blocchi collegati in una catena di blocchi (blockchain) fino al blocco #0, il _genesis block_. Con il passare del tempo, man mano che cresce l'"altezza" (height) dei nuovi blocchi, aumenta anche la difficoltà di calcolo dell'intera catena.
 Per convenzione, un blocco con più di sei conferme è ritenuto molto difficile da modificare perché bisognerebbe ricalcolare sei blocchi più uno nuovo. Approfondiremo il mining e il modo in cui accresce la fiducia in <<mining>>.

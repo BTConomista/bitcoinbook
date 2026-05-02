@@ -83,6 +83,7 @@ significa che, anche se è possibile pagare la commissione in una transazione
 diversa, è più efficiente (e quindi più economico) pagare la commissione in una
 singola transazione.
 
+// [REVISIONE — DA RIVEDERE]: "vederlo confermare" è grammaticalmente discutibile (calco di "to see it confirming"). In italiano, dopo "vedere", il verbo all'infinito è transitivo: "vedere qualcuno fare qualcosa". Qui il pronome "lo" si riferisce al pagamento, ma "confermare" senza oggetto è ambiguo. Suggerito: "...hanno interesse a vederlo confermarsi rapidamente" oppure "...a che venga confermato rapidamente". Inoltre "normalmente ... a volte" ricalca "normally ... sometimes" creando una contraddizione apparente: riformulare con "perciò il fatto che di norma solo chi spende possa scegliere le commissioni può talvolta rappresentare un problema".
 In Bitcoin,
 la commissione è un'offerta e l'importo pagato contribuisce a determinare quanto
 tempo ci vorrà perché la transazione sia confermata. Sia chi spende sia chi riceve
@@ -112,6 +113,7 @@ quantità.
 Così come potresti dividere il costo di diversi sacchi di riso per
 il peso di ciascun sacco per trovare il prezzo più basso in rapporto al peso (l'affare migliore), i miner
 dividono la commissione di una transazione per la sua dimensione (chiamata anche peso) per
+// [REVISIONE — DA RIVEDERE]: la traduzione corregge tacitamente un errore tecnico dell'originale inglese ("we use the term _fee rate_ for a transaction's size divided by weight" — concettualmente sbagliato perché il fee rate è la *commissione* divisa per il peso, non la dimensione della transazione). La resa italiana è quella tecnicamente corretta. Segnalare a O'Reilly come errata sull'originale e mantenere la versione italiana, eventualmente con una nota del traduttore.
 trovare la commissione più alta per peso (maggiori entrate). In Bitcoin, usiamo il
 termine _tasso di commissione_ per indicare la commissione di una transazione divisa per il peso. A causa
 dei cambiamenti in Bitcoin nel corso degli anni, il tasso di commissione può essere espresso in
@@ -245,12 +247,12 @@ quel periodo, un miner o full node che usava il software ora chiamato Bitcoin
 Core non avrebbe sostituito la prima versione di una transazione non confermata
 che riceveva con qualsiasi versione diversa. Alcuni commercianti si sono abituati
 a questo comportamento: presumevano che qualsiasi transazione non confermata valida che
-pagava un tasso di commissione appropriato sarebbe eventualmente diventata una transazione
+pagava un tasso di commissione appropriato sarebbe alla fine diventata una transazione
 confermata, quindi fornivano i loro beni o servizi poco dopo
 aver ricevuto tale transazione non confermata.
 
 Tuttavia, non c'è modo per il protocollo Bitcoin di garantire che qualsiasi
-transazione non confermata sarà eventualmente confermata. Come menzionato
+transazione non confermata sarà prima o poi confermata. Come menzionato
 prima in questo capitolo, ogni miner decide per sé quali
 transazioni proverà a confermare--incluse quali versioni di quelle
 transazioni. Bitcoin Core è software open source, quindi chiunque abbia una
@@ -260,8 +262,9 @@ che può essere reimplementato da zero da un programmatore sufficientemente comp
 permettendo al reimplementatore di includere o meno
 la sostituzione delle transazioni.
 
+// [REVISIONE — DA RIVEDERE]: calco dall'inglese — "rompe l'assunzione" rende letteralmente "breaks the assumption". In italiano è più naturale "smentisce il presupposto", "contraddice l'ipotesi" o "infrange l'assunzione".
 La sostituzione delle transazioni rompe l'assunzione di alcuni commercianti che
-ogni transazione non confermata ragionevole sarà eventualmente confermata.
+ogni transazione non confermata ragionevole sarà alla fine confermata.
 Una versione alternativa di una transazione può pagare gli stessi output dell'
 originale, ma non è obbligata a pagare nessuno di quegli output. Se la
 prima versione di una transazione non confermata paga un commerciante, la seconda
@@ -291,7 +294,7 @@ Dopo diversi anni, gli sviluppatori che lavorano su Bitcoin Core hanno cambiato
 leggermente il compromesso. Oltre a mantenere l'RBF opt-in di default, hanno
 aggiunto un'opzione che permette agli utenti di abilitare l'RBF completo. Se abbastanza
 hash rate di mining e full node che fanno relay abilitano questa opzione, sarà
-possibile per qualsiasi transazione non confermata essere eventualmente sostituita da una
+possibile per qualsiasi transazione non confermata essere prima o poi sostituita da una
 versione che paga un tasso di commissione più alto. Al momento della stesura, non è chiaro
 se ciò sia già accaduto ((("Bitcoin Core", "varianti RBF", startref="bitcoin-core-rbf")))o meno.
 ****
@@ -348,6 +351,7 @@ sostitutiva includa sempre tutti gli stessi input della versione
 precedente della transazione.
 ====
 
+// [REVISIONE — DA RIVEDERE]: calco lessicale — "in primo luogo" rende "in the first place", ma in italiano "in primo luogo" significa "innanzitutto/prima di tutto", non "fin dall'inizio/in origine". L'originale "if they had paid the bumped fee rate in the first place" significa "se avesse pagato il tasso di commissione aumentato fin dall'inizio" o "in origine". Sostituire per evitare alterazione del significato.
 Il vantaggio del fee bumping RBF rispetto ad altri tipi di fee bumping è che
 può essere molto efficiente nell'uso dello spazio nei blocchi. Spesso, una transazione
 sostitutiva ha la stessa dimensione della transazione che sostituisce. Anche quando
@@ -405,6 +409,7 @@ transazione in arrivo usando una transazione figlia per pagare per il suo genito
 
 CPFP ha diversi vantaggi rispetto a RBF. Chiunque riceva un output
 da una transazione può usare CPFP--questo include sia i destinatari dei
+// [REVISIONE — DA RIVEDERE]: calco semantico — "dirompente" rende "disruptive" ma in italiano ha sfumatura prevalentemente positiva ("innovativo, di rottura"); qui il senso è negativo (problematico per i commercianti). Suggerito: "meno problematico per alcuni commercianti rispetto a RBF".
 pagamenti sia chi spende (se chi spende ha incluso un output di resto). Inoltre
 non richiede la sostituzione della transazione originale, il che lo rende
 meno dirompente per alcuni commercianti rispetto a RBF.
@@ -651,6 +656,7 @@ di includere qualsiasi transazione valida (che non è stata ancora minata) nel l
 blocco candidato #100.000. Non devono riminare il blocco con le
 stesse transazioni. Infatti, hanno l'incentivo di selezionare le
 transazioni più redditizie (commissione più alta per kB) da includere nel loro blocco.
+// [REVISIONE — DA RIVEDERE]: calco dall'inglese — "tirare transazioni" rende "pull transactions" in modo poco naturale; preferire "prelevare/spostare/portare transazioni dal 'presente' al 'passato' riscritto" mantenendo il significato.
 Possono includere qualsiasi transazione che era nel "vecchio" blocco
 #100.000, così come qualsiasi transazione dal mempool corrente.
 Essenzialmente hanno l'opzione di tirare transazioni dal "presente"
@@ -669,6 +675,7 @@ transazione che crea. In circostanze normali, questo lock time non ha
 effetto&#x2014;le transazioni potrebbero comunque essere incluse solo nel blocco
 #100.001; è il prossimo blocco.
 
+// [REVISIONE — DA RIVEDERE]: stesso calco visto sopra ("tirare transazioni"); inoltre "sotto un attacco di riorganizzazione" è calco di "under a reorganization attack" — preferire "in caso di attacco di riorganizzazione".
 Ma sotto un attacco di riorganizzazione, i miner non sarebbero in grado di tirare
 transazioni con commissioni alte dal mempool perché tutte quelle transazioni
 sarebbero bloccate con timelock al blocco #100.001. Possono solo riminare il #100.000

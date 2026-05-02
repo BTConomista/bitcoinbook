@@ -15,7 +15,7 @@ questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
 wallet moderni. Raccomanderemo queste soluzioni come migliori
-pratiche. Altre soluzioni comportano vantaggi e svantaggi, spingendo diversi sviluppatori di wallet a compiere scelte differenti.
+pratiche. Altre soluzioni comportano vantaggi e svantaggi, portando diversi autori di wallet a operare compromessi differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
 === Generazione Indipendente delle Chiavi
@@ -608,6 +608,7 @@ importante differenza rende i codici di recupero molto più sicuri perché
 gli umani sono fonti molto scarse di casualità.
 ====
 
+// [REVISIONE — DA RIVEDERE]: incoerenza terminologica — qui si usa "wallet hardware" mentre altrove nel capitolo e in ch01 si usa "dispositivo di firma hardware" (con nota esplicita che "hardware wallet" è fuorviante). Valutare "il dispositivo di firma hardware Trezor" per coerenza interna.
 Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
 BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
 è compatibile con molte altre applicazioni wallet, anche se certamente
@@ -764,7 +765,7 @@ pass:[<a data-type="xref" href="#bip39_128_w_pass"
 data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
 pass:[<a data-type="xref" href="#bip39_256_no_pass"
 data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
-alcuni esempi di codici di recupero e i seed (((che producono.
+alcuni esempi di codici di recupero e i seed che producono.
 
 ++++
 <table id="bip39_128_no_pass">
@@ -868,9 +869,10 @@ operazioni sulla curva ellittica di Bitcoin per trovare una chiave privata
 per la chiave pubblica di un altro utente. L'implicazione di una forza di sicurezza
 di 128 bit è che non c'è un apparente beneficio nell'utilizzare più di 128
 bit di entropia (anche se devi assicurarti che le tue chiavi private generate
-chiavi sono selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
+siano selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
 private).
 
+// [REVISIONE — DA RIVEDERE]: incoerenza terminologica interna al capitolo — qui (e poco più sotto) si usa il calco "forzare brutalmente" / "forzare brutalmente l'altra metà", mentre poco sopra si usa "attacco a forza bruta" / "attaccare a forza bruta". Uniformare alla forma "attaccare a forza bruta" per coerenza terminologica e per evitare il calco da "brute-force".
 C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
 del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
 maggiore è l'entropia, più difficile sarà per loro scoprire la parte
@@ -1228,6 +1230,7 @@ affinché le chiavi pubbliche possano essere esportate. Nota che la maggior part
 esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
 
 Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
+// [REVISIONE — DA RIVEDERE]: calco dall'inglese "widely used" — "diffusamente utilizzato" suona innaturale in italiano. Suggerito: "ampiamente diffuso", "molto usato" o "il diffuso BTCPay Server open source".
 come il diffusamente utilizzato BTCPay Server open source.
 
 ===== Derivazione di chiavi figlie indurite

@@ -15,7 +15,7 @@ Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte
 <<bitcoin_core_architecture>> mostra l'architettura di Bitcoin Core.
 
 [[bitcoin_core_architecture]]
-.Architettura di Bitcoin Core (Source: Eric Lombrozo).
+.Architettura di Bitcoin Core (Fonte: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
 Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del sistema. La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
@@ -27,7 +27,7 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 [[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
-Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla pagina https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dalla pagina https://oreil.ly/BdOwl[GitHub di Bitcoin].
+Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin].
 
 [TIP]
 ====
@@ -119,7 +119,7 @@ src/Makefile.am: installing 'build-aux/depcomp'
 parallel-tests: installing 'build-aux/test-driver'
 ----
 
-Lo script _autogen.sh_ genera una serie di script di configurazione automatica che interroghrranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
+Lo script _autogen.sh_ genera una serie di script di configurazione automatica che interrogheranno il tuo sistema per individuare le impostazioni corrette e verificare che siano presenti tutte le librerie necessarie per compilare il codice.
 Il più importante di questi script è +configure+, che offre diverse opzioni per personalizzare il processo di compilazione. Per visualizzare le varie opzioni disponibili, utilizza il flag +--help+:
 
 ----
@@ -158,7 +158,7 @@ Ecco alcune opzioni utili che consentono di modificare il comportamento predefin
 </p></dd>
 
 <dt><code>--with-gui=no</code></dt>
-<dd><p>​Non compilare l'interfaccia utente grafica, che richiede la libreria Qt. Questo compila soltanto il server e la versione a riga di comando di Bitcoin Core.</p></dd>
+<dd><p>Non compilare l'interfaccia utente grafica, che richiede la libreria Qt. Questo compila soltanto il server e la versione a riga di comando di Bitcoin Core.</p></dd>
 </dl>
 ++++
 
@@ -335,7 +335,7 @@ Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. S
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
-.Esempio di configutazione di un nodo con indice completo
+.Esempio di configurazione di un nodo con indice completo
 ====
 ----
 alertnotify=myemailscript.sh "Alert: %s"
@@ -488,10 +488,11 @@ Il risultato è un hash di blocco, descritto più nel dettaglio nei capitoli suc
 
 Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro output previsto.
 
-==== Ottenere informazioni sullo stato di Bitcoin Core.
+==== Ottenere informazioni sullo stato di Bitcoin Core
 
-Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+, and +getwalletinfo+.
+Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+ e +getwalletinfo+.
 
+// [REVISIONE — DA RIVEDERE]: l'originale inglese dice "Bitcoin's +getblockchaininfo+ RPC command was introduced earlier" (e non "Bitcoin Core's"); la traduzione "Il comando RPC +getblockchaininfo+ di Bitcoin" rispecchia fedelmente l'originale, ma sia in italiano che in inglese il riferimento è impreciso: gli RPC sono di Bitcoin Core (l'implementazione), non del protocollo Bitcoin. Valutare se correggere in "L'RPC +getblockchaininfo+ di Bitcoin Core" e segnalare l'imprecisione anche nell'originale O'Reilly.
 Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
 
 ----
@@ -541,7 +542,7 @@ In <<spending_bitcoin>>, Alice ha effettuato un acquisto presso il negozio di Bo
 Utilizziamo l’API per recuperare ed esaminare quella transazione mettendo l’ID della transazione (txid) come parametro:
 
 [[alice_tx_serialized]]
-.Alice's serialized transaction
+.Transazione serializzata di Alice
 ----
 $ bitcoin-cli getrawtransaction 466200308696215bbc949d5141a49a41\
 38ecdfdfaa2a8029c1f9bcecd1f96177
@@ -699,7 +700,7 @@ L'helper +bitcoin-cli+ è molto utile per esplorare l'API di Bitcoin Core e test
 In questa sezione, mostreremo come accedere a Bitcoin Core da un altro programma.
 
 L'API di Bitcoin Core è un'interfaccia JSON-RPC. JSON è un formato molto pratico per rappresentare i dati, leggibile sia dagli esseri umani che dai programmi.
-RPC sta per remote [.keep-together]#procedure# call (chiamata di procedura remota), il che significa che stiamo invocando procedure (funzioni) che si trovano in remoto (sul nodo Bitcoin Core) tramite un protocollo di rete. In questo caso, il protocollo di rete utilizzato è _HTTP.5_ .
+RPC sta per remote [.keep-together]#procedure# call (chiamata di procedura remota), il che significa che stiamo invocando procedure (funzioni) che si trovano in remoto (sul nodo Bitcoin Core) tramite un protocollo di rete. In questo caso, il protocollo di rete utilizzato è HTTP.
 
 Quando abbiamo usato il comando +bitcoin-cli+ per ottenere aiuto su un comando, ci ha mostrato un esempio di utilizzo di +curl+, il versatile client HTTP da riga di comando, per costruire una di queste chiamate JSON-RPC:
 
@@ -716,7 +717,7 @@ Potresti notare che +curl+ richiederà l'invio delle credenziali insieme alla ri
 L’helper +bitcoin-cli+ può leggere questo file di password se fornito con la directory dei dati. Allo stesso modo, puoi copiare la password e passarla a +curl+ (o a qualsiasi altro wrapper di livello superiore per le RPC di Bitcoin Core), come mostrato in <<cookie_auth>>.
 
 [[cookie_auth]]
-.Using cookie-based authentication with Bitcoin Core
+.Uso dell'autenticazione cookie-based con Bitcoin Core
 ====
 ----
 $ cat .bitcoin/.cookie
@@ -742,6 +743,7 @@ In alternativa, puoi creare una password statica utilizzando lo script helper fo
 
 Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare una libreria HTTP generica per costruire la chiamata, in modo simile a quanto mostrato nell'esempio precedente con +curl+.
 
+// [REVISIONE — DA RIVEDERE]: calco "wrappano" — preferire una resa più naturale come "incapsulano", "fanno da wrapper a" o "fanno da interfaccia a" l'API di Bitcoin Core.
 Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che "wrappano" l'API di Bitcoin Core rendendo questo processo molto più semplice.
 Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
 Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
@@ -749,7 +751,7 @@ Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà 
 Lo script Python in <<rpc_example>> esegue una semplice chiamata a +getblockchaininfo+ e stampa il parametro block dai dati restituiti da Bitcoin Core.
 
 [[rpc_example]]
-.Running +getblockchaininfo+ via Bitcoin Core's JSON-RPC API
+.Esecuzione di +getblockchaininfo+ tramite l'API JSON-RPC di Bitcoin Core
 ====
 [source,python]
 ----
@@ -770,7 +772,7 @@ Proseguiamo utilizzando le chiamate +getrawtransaction+ e +decodetransaction+ pe
 Per ogni output, mostriamo l’indirizzo del destinatario e il valore. Ricordiamo che la transazione di Alice aveva un output per il pagamento a Bob e un output per il resto destinato ad Alice.
 
 [[rpc_transaction]]
-.Retrieving a transaction and iterating its outputs
+.Recupero di una transazione e iterazione dei suoi output
 ====
 [source,python]
 ----
@@ -791,7 +793,7 @@ Entrambi gli esempi precedenti sono piuttosto semplici. Non hai davvero bisogno 
 In <<rpc_block>>, iniziamo recuperando un blocco e poi estraiamo tutte le transazioni contenute al suo interno utilizzando i rispettivi transaction ID. Poi, analizziamo gli output di ogni transazione e sommiamo i relativi valori.
 
 [[rpc_block]]
-.Retrieving a block and adding all the transaction outputs
+.Recupero di un blocco e somma di tutti gli output delle transazioni
 ====
 [source,python]
 ----
@@ -845,4 +847,4 @@ https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il 
 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
-Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenient.#.
+Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#
