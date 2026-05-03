@@ -214,7 +214,7 @@ Aezeed::
   wallet (come il numero di versione di Electrum v2); l'altro numero di
   versione è esterno, che può essere incrementato per modificare le proprietà
   crittografiche sottostanti del codice di recupero.
-  // [REVISIONE]: "compleanno del wallet" è una traduzione letterale di "wallet birthday" che in italiano suona goffa. Il termine tecnico standard nelle traduzioni è "data di creazione del wallet" o "data di nascita del wallet". Considerare "data di creazione del wallet" (già usata in parte nella frase seguente).
+// [REVISIONE]: "compleanno del wallet" è una traduzione letterale di "wallet birthday" che in italiano suona goffa. Il termine tecnico standard nelle traduzioni è "data di creazione del wallet" o "data di nascita del wallet". Considerare "data di creazione del wallet" (già usata in parte nella frase seguente).
   Include anche un _compleanno del wallet_
   nel codice di recupero, un riferimento alla data in cui l'utente ha creato
   il database wallet. Questo permette a un processo di ripristino di trovare tutti i
@@ -721,6 +721,7 @@ un wallet deterministico e derivare le sue chiavi.
 
 La funzione di key-stretching prende due
 parametri: l'entropia e un _salt_. Lo scopo di un salt in una
+// [REVISIONE]: "tabella di lookup" è un calco dall'inglese "lookup table". Suggerito: "tabella di ricerca" o, se si vuole mantenere il tecnicismo, almeno "lookup table" in corsivo come termine straniero. La forma "tabella di lookup" è ibrida e incoerente.
 funzione di key-stretching è rendere difficile costruire una tabella di lookup
 che permetta un attacco a forza bruta. Nello standard BIP39, il salt ha
 un altro scopo--permette l'introduzione di una passphrase che
@@ -930,6 +931,7 @@ La passphrase opzionale crea due importanti caratteristiche:
   solo, proteggendo i codici di recupero dalla compromissione da parte di un ladro occasionale. Per
   la protezione da un ladro esperto di tecnologia, avrai bisogno di utilizzare una passphrase molto forte.
 
+// [REVISIONE]: "wallet sotto coercizione" è una parafrasi di "duress wallet" — il termine tecnico inglese è usato in letteratura tecnica Bitcoin e potrebbe essere mantenuto tra virgolette come "duress wallet" con traduzione esplicativa, per permettere al lettore di riconoscerlo in altri contesti. La forma attuale è comprensibile ma non corrisponde al termine standard.
 - Una forma di negabilità plausibile o "wallet sotto coercizione", dove una passphrase scelta
   porta a un wallet con una piccola quantità di fondi utilizzati per
   distrarre un attaccante dal wallet "reale" che contiene la maggioranza
@@ -1084,6 +1086,7 @@ base58check per le chiavi estese utilizza un numero di versione speciale che ris
 prefisso "xprv" e "xpub" quando codificato in caratteri base58 per renderli
 facilmente riconoscibili. Poiché la chiave estesa contiene molti più
 byte rispetto agli indirizzi regolari,
+// [REVISIONE]: errore di accordo grammaticale — "lungo" è maschile ma il soggetto è "la chiave estesa" (femminile). Correggere in "è anche molto più lunga di altre stringhe codificate in base58check che abbiamo visto in precedenza."
 è anche molto più lungo di altre stringhe codificate in base58check che abbiamo
 visto in precedenza.
 
@@ -1184,6 +1187,7 @@ fresco per la transazione effettiva. Tuttavia, queste altre soluzioni non
 sono state utilizzate in produzione al momento della stesura.
 ****
 
+// [REVISIONE]: "dispositivi di firma cold-storage o hardware" è una costruzione ambigua e poco naturale — il "cold-storage" non è un tipo di dispositivo di firma ma una modalità di conservazione. L'originale dice "cold-storage or hardware signing devices". Suggerito: "dispositivi di firma hardware o cold-storage" oppure "dispositivi hardware per la firma, usati in modalità cold storage". Inoltre "wallet di carta" (paper wallet) è un termine tecnico accettato ma andrebbe verificata la coerenza dell'uso nel resto del libro.
 Un'altra applicazione comune di questa soluzione è per
 dispositivi di firma cold-storage o hardware. In quello scenario, la chiave
 privata estesa può essere memorizzata su un wallet di carta o un dispositivo hardware, mentre
