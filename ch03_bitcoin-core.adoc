@@ -2,8 +2,12 @@
 
 == Bitcoin Core: L'implementazione di riferimento
 
-Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve. Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
+// [REVISIONE]: "controllare attentamente l'integrità" è impreciso rispetto all'originale "verify the integrity" — preferire "verificare l'integrità"
+Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve.
+// [REVISIONE]: "altri problemi critici" omette "several" dell'originale ("several other critical problems") — preferire "diversi altri problemi critici"
+Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
+// [REVISIONE]: "analizzeremo" non rende bene "inspect" dell'originale, che indica un'ispezione diretta dei dati del proprio nodo; preferire "esamineremo" o "ispezioneremmo"
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
 === Da Bitcoin a Bitcoin Core
@@ -18,7 +22,9 @@ Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte
 .Architettura di Bitcoin Core (Fonte: Eric Lombrozo).
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
-Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del sistema. La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
+Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del sistema.
+// [REVISIONE]: l'originale usa "BIPs" (plurale con la s), che è la forma standard corretta della sigla. "Bitcoin Improvement Proposals (BIP)" omette la s del plurale — preferire "Bitcoin Improvement Proposals (BIPs)"
+La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
 
 === Ambiente di sviluppo Bitcoin
 
@@ -27,6 +33,7 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 [[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
+// [REVISIONE]: l'originale dice "compressed archive" (archivio compresso), non "file zip" specificamente — preferire "archivio compresso" per entrambe le occorrenze in questo paragrafo
 Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin].
 
 [TIP]
@@ -78,6 +85,7 @@ v0.12.0rc2
 ----
 
 L'elenco dei tag mostra tutte le versioni di Bitcoin che sono state rilasciate. Per convenzione, le versioni _candidate al rilascio_, destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
+// [REVISIONE]: "la versione più recente" non rende "the highest version release" dell'originale — l'inglese indica la versione con il numero più alto tra le release stabili, non necessariamente la più recente cronologicamente; preferire "la versione con il numero più alto" o "la versione stabile più recente"
 Dall'elenco precedente, seleziona la versione più recente, che al momento della scrittura era la v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
@@ -101,6 +109,7 @@ nothing to commit, working tree clean
 ==== Configurazione della Build di Bitcoin Core
 
 Il codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
+// [REVISIONE]: "Linux (o altri sistemi Unix)" non rende "Linux (a Unix-like system)" — la parentesi originale descrive Linux come sistema Unix-like, non indica altri sistemi; preferire "Linux (un sistema Unix-like)"
 In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (o altri sistemi Unix). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
 Istruzioni alternative si possono trovare nella directory _doc_; ad esempio, _build-windows.md_ per le istruzioni relative a Windows. Al momento della stesura di questo testo, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
 
@@ -141,6 +150,7 @@ Optional Features:
 Lo script +configure+ ti permette di abilitare o disabilitare specifiche funzionalità di +bitcoind+ tramite i flag +--enable-FEATURE+ e +--disable-FEATURE+, in cui pass:[<span
 class="keep-together"><code>FEATURE</code></span>] deve essere sostituito con il nome della funzionalità, come indicato nell'output della guida.
 In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminarli per comprendere quali funzionalità opzionali fanno parte del client.
+// [REVISIONE]: "potresti dover installare" omette la motivazione esplicita dell'originale: "computer lab restrictions may require you to install" — le restrizioni del laboratorio informatico impongono l'installazione nella home directory; preferire "le restrizioni del laboratorio informatico potrebbero imporre di installare"
 Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
@@ -225,6 +235,7 @@ $ which bitcoin-cli
 === Esecuzione di un Nodo Bitcoin Core
 
 La rete peer-to-peer di Bitcoin è composta da "nodi", gestiti principalmente da individui e da alcune aziende che forniscono servizi Bitcoin. Chi esegue un nodo Bitcoin ha una visione diretta e autorevole della blockchain di Bitcoin, con una copia locale di tutti i bitcoin spendibili, validata in modo indipendente dal proprio sistema.
+// [REVISIONE]: "rendendola più robusta e sicura" aggiunge "e sicura" non presente nell'originale "help make it more robust" — rimuovere "e sicura"
 Eseguendo un nodo, non devi fare affidamento su terze parti per validare una transazione. Inoltre, utilizzando un nodo Bitcoin per verificare completamente le transazioni che ricevi nel tuo wallet, contribuisci alla rete Bitcoin, rendendola più robusta e sicura.
 
 Eseguire un nodo, tuttavia, richiede il download e l'elaborazione di oltre 500 GB di dati iniziali, oltre a circa 400 MB di transazioni Bitcoin al giorno. Questi dati si riferiscono al 2023 e probabilmente aumenteranno nel tempo.
@@ -255,6 +266,7 @@ Ecco alcune delle ragioni più comuni:
 
 - Stai creando applicazioni che devono validare le transazioni in base alle regole di consenso di Bitcoin. Di solito, le aziende che sviluppano software Bitcoin gestiscono diversi nodi.
 
+// [REVISIONE]: "più robusta e sicura" aggiunge "e sicura" non presente nell'originale "makes the network more robust" — rimuovere "e sicura"
 - Vuoi supportare Bitcoin. Eseguire un nodo per validare le transazioni che ricevi nel tuo wallet contribuisce a rendere la rete più robusta e sicura.
 
 Se stai leggendo questo libro e sei interessato a una sicurezza avanzata, a una maggiore privacy o allo sviluppo di software Bitcoin, dovresti eseguire il tuo nodo.
@@ -281,6 +293,7 @@ $ bitcoind -printtoconsole
 ...
 ----
 
+// [REVISIONE]: l'originale usa "Ctrl-C" (con trattino); più avanti nel file viene usato correttamente "Ctrl-C" — uniformare a "Ctrl-C" per coerenza con l'originale e con il resto del file
 Puoi premere Ctrl+C per spegnere il nodo una volta individuata la posizione del file di configurazione.
 Di solito, il file di configurazione si trova nella directory dei dati _.bitcoin_ all'interno della home directory dell'utente.
 Apri il file di configurazione con il tuo editor preferito per modificarlo.
@@ -316,11 +329,13 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++prune++:: Riduci i requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
 
+// [REVISIONE]: "recuperare tramite script" è impreciso rispetto a "programmatically retrieve" dell'originale — preferire "recuperare in modo programmatico" o "recuperare via programma"
 ++txindex++:: Mantieni un indice di tutte le transazioni. Questo consente di recuperare tramite script qualsiasi transazione tramite il suo ID, a condizione che il blocco contenente quella transazione non sia stato eliminato tramite pruning.
 
 [role="less_space pagebreak-before"]
 ++dbcache++:: La dimensione della cache UTXO. Il valore predefinito è di 450 mebibyte (MiB). Aumenta questa dimensione su hardware di fascia alta per ridurre la frequenza di lettura e scrittura sul disco, oppure riducila su hardware di fascia bassa per risparmiare memoria, a scapito di un utilizzo più frequente del disco.
 
+// [REVISIONE]: "trasmettere" non rende "relaying" — in contesto P2P Bitcoin, "relay" indica l'inoltro/ritrasmissione di transazioni ai peer; preferire "invece di inoltrare/ritrasmettere transazioni non confermate"
 ++blocksonly++:: Minimizza l'utilizzo della larghezza di banda accettando solo blocchi di transazioni confermate dai tuoi peer, invece di trasmettere transazioni non confermate.
 
 ++maxmempool++:: Limita la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
@@ -332,6 +347,7 @@ Per impostazione predefinita, Bitcoin Core crea un database contenente _solo_ le
 Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. Se inizialmente non attivi questa opzione e successivamente scegli di abilitare l'indicizzazione completa, dovrai attendere il tempo necessario per la ricostruzione dell'indice.
 ****
 
+// [REVISIONE]: "un API" è scorretto grammaticalmente (API inizia con vocale) — preferire "un'API backend"
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
@@ -422,6 +438,7 @@ $ bitcoin-cli getblockchaininfo
 }
 ----
 
+// [REVISIONE]: "83.999 header" usa il punto come separatore delle migliaia (italiano), corretto; tuttavia più avanti a riga 536 si usa "775,072" con la virgola anglosassone — uniformare a "775.072"
 Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, scarica gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
 
 Una volta soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che rimanga in esecuzione continuamente e si riavvii al riavvio del sistema operativo. Troverai diversi esempi di script di avvio per vari sistemi operativi nella directory dei sorgenti di Bitcoin Core sotto _contrib/init_ e un file _README.md_ che indica quale script è utilizzato da ciascun sistema.
@@ -533,6 +550,7 @@ I dati vengono restituiti in formato JavaScript Object Notation (JSON), facilmen
 ====
 Ci vorrà un po’ di tempo, forse più di un giorno, prima che +bitcoind+ raggiunga l’altezza della blockchain attuale mentre scarica i blocchi dagli altri nodi Bitcoin e convalida ogni transazione contenuta in essi—quasi un miliardo di transazioni al momento in cui scriviamo.
 
+// [REVISIONE]: "775,072" usa la virgola come separatore delle migliaia in stile anglosassone — in italiano il separatore delle migliaia è il punto: "775.072"
 Puoi controllare i suoi progressi usando +getblockchaininfo+ per vedere il numero di blocchi noti. Gli esempi nel resto di questo capitolo presuppongono che tu abbia raggiunto almeno il blocco 775,072. Poiché la sicurezza delle transazioni Bitcoin dipende dai blocchi, alcune delle informazioni nei prossimi esempi cambieranno leggermente in base al numero di blocchi del tuo nodo.
 ====
 
@@ -558,6 +576,7 @@ e739df2f899c49dc267c0ad280aca6dab0d2fa2b42a45182fc83e81713010000
 
 [TIP]
 ====
+// [REVISIONE]: "non sono autorevoli" non rende il senso tecnico di "not authoritative" in questo contesto: il txid non è un identificatore definitivo/certo finché la transazione non è confermata in un blocco; preferire "non sono identificatori certi/definitivi" o "non costituiscono prova definitiva"
 Gli ID di transazione (txid) non sono autorevoli. L’assenza di un txid nella blockchain non significa che la transazione non sia stata elaborata. Questo fenomeno è noto come "malleabilità delle transazioni" perché le transazioni possono essere modificate prima di essere confermate in un blocco, cambiando di conseguenza il loro txid.
 
 Una volta che una transazione è inclusa in un blocco, il suo txid non può cambiare se non avviene una riorganizzazione della blockchain, in cui quel blocco viene rimosso dalla best blockchain. Difficilmente si verificano delle riorganizzazioni dopo che una transazione ha ricevuto diverse conferme.
@@ -831,6 +850,7 @@ https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in
 https://bitcoinj.github.io[bitcoinj]:: Una libreria Java per client full node
 
 ==== Python
+// [REVISIONE]: "sviluppati" ha concordanza errata — il soggetto di pycoin è "Una libreria" (singolare femminile), quindi deve essere "sviluppata"; per python-bitcoinlib il participio regge una lista mista (libreria + full node), ma resta preferibile "sviluppata" accordandosi con il sostantivo principale
 https://oreil.ly/xn_rg[python-bitcoinlib]::  Una libreria Bitcoin in Python, una libreria per il consenso e un full node sviluppati da Peter Todd
 https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppati da Richard Kiss
 
@@ -841,6 +861,7 @@ https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio
 https://oreil.ly/me6gf[rust-bitcoin]:: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l'analisi dei dati e le chiamate API
 
 ==== Scala
+// [REVISIONE]: "Una versione di Bitcoin sviluppata in Scala" non rende "A Bitcoin implementation in Scala" — "versione" implica una variante del protocollo, mentre "implementation" indica un'implementazione software; preferire "Un'implementazione Bitcoin in Scala"
 https://bitcoin-s.org[bitcoin-s]:: Una versione di Bitcoin sviluppata in Scala
 
 ==== C#
@@ -848,4 +869,5 @@ https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il 
 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
+// [REVISIONE]: "rendere l’invio e la ricezione delle transazioni più convenienti" aggiunge "delle transazioni" (non nell’originale "spending and receiving") e "più" (l’originale dice "convenient", non "more convenient") — preferire "rendere l’invio e la ricezione [di bitcoin] più agevoli" o semplicemente "semplici"
 Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#

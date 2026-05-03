@@ -25,8 +25,10 @@ un numero limitato di blocchi prodotti in un determinato periodo di tempo, e ogn
 blocco ha solo una quantità limitata di spazio. Solo il miner che crea
 quel blocco può scegliere quali transazioni includere. I miner possono
 selezionare le transazioni in base a qualsiasi criterio desiderino, incluso il rifiuto di
+// [REVISIONE]: "incluso il rifiuto di includere qualsiasi transazione" è ambiguo: in italiano "qualsiasi transazione" può essere letto come "qualunque specifica transazione" piuttosto che "nessuna transazione in assoluto". L'inglese dice "refusing to include any transactions at all". Suggerire: "incluso il rifiuto di includere del tutto transazioni" o "incluso rifiutarsi di includere qualsiasi transazione".
 includere qualsiasi transazione.
 
+// [REVISIONE]: nel testo della nota, "irrilevanti" (per "largely uninteresting") è troppo forte — implica "non pertinenti/privi di valore" mentre l'inglese "uninteresting" significa solo "di scarso interesse per questa discussione". Preferire "di scarso interesse" o "non particolarmente rilevanti".
 ++++
 <div data-type="note">
 <p class="fix_tracking"> Quando diciamo "transazioni" in questo capitolo, ci riferiamo a ogni
@@ -245,7 +247,9 @@ controverso. Le prime versioni di Bitcoin permettevano la sostituzione delle tra
 ma questo comportamento è stato disabilitato per diverse release. Durante
 quel periodo, un miner o full node che usava il software ora chiamato Bitcoin
 Core non avrebbe sostituito la prima versione di una transazione non confermata
-che riceveva con qualsiasi versione diversa. Alcuni commercianti si sono abituati
+che riceveva con qualsiasi versione diversa.
+// [REVISIONE]: "si sono abituati a questo comportamento" traduce "came to expect this behavior" ma con perdita semantica: "came to expect" significa "iniziarono a dare per scontato/fare affidamento su", mentre "si sono abituati" significa "si sono familiarizzati con". Suggerire: "Alcuni commercianti iniziarono a fare affidamento su questo comportamento" o "presero a dare per scontato questo comportamento".
+Alcuni commercianti si sono abituati
 a questo comportamento: presumevano che qualsiasi transazione non confermata valida che
 pagava un tasso di commissione appropriato sarebbe alla fine diventata una transazione
 confermata, quindi fornivano i loro beni o servizi poco dopo
@@ -546,6 +550,7 @@ e almeno una soluzione è in fase di sviluppo attivo ((("commissioni di transazi
 stesura&mdash;https://oreil.ly/300dv[ephemeral anchors].
 
 [[cpfp_carve_out]]
+// [REVISIONE]: titolo di sezione usa il singolare "Anchor Output" mentre l'originale inglese ha il plurale "Anchor Outputs". Nella sezione stessa (riga ~602) si usa anch'esso il singolare. Verificare se la scelta del singolare è intenzionale o deve essere uniformata al plurale per coerenza con l'inglese e con il termine tecnico comunemente usato ("anchor outputs").
 === CPFP Carve Out e Anchor Output
 
 ++++
@@ -619,6 +624,7 @@ miner:
 ++++
 
 
+// [REVISIONE]: "spendendo meno degli input" è calco di "underspending the inputs" e risulta poco chiaro in italiano. Il significato è "non assegnando agli output tutto il valore degli input" ovvero "non restituendoti il resto". Suggerire: "non assegnando interamente agli output il valore degli input" o "non aggiungendo un output di resto adeguato".
 Questo è un elemento un po' confuso delle transazioni e un punto
 importante da capire perché se stai costruendo le tue
 transazioni, devi assicurarti di non includere inavvertitamente una

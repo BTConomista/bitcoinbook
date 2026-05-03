@@ -1,5 +1,6 @@
 //FIXME:reduce difficulty / we ramp up too quick Lesmes feedback
 [[ch05_wallets]]
+// [REVISIONE]: Il titolo originale è "Wallet Recovery" — "Recupero del Wallet" è accettabile, ma nella terminologia del capitolo il tema principale è il backup e il recupero. Valutare "Recupero e Backup del Wallet" per riflettere meglio il contenuto.
 == Recupero del Wallet
 
 La creazione di coppie di chiavi private e pubbliche è un elemento cruciale che permette
@@ -22,6 +23,7 @@ In questi casi, descriveremo le varie opzioni disponibili.
 
 ++++
 <p class="fix_tracking2">
+// [REVISIONE]: "portafogli per contanti fisici" è una resa ibrida (portafogli per l'italiano, cash dall'inglese) e suona innaturale. L'originale dice "Wallets for physical cash" — suggerito: "I portafogli fisici contengono denaro contante" oppure "I portafogli tradizionali contengono denaro fisico".
 I portafogli per contanti fisici contengono quel contante, quindi non sorprende che molte persone pensino, erroneamente, che i wallet Bitcoin contengano bitcoin. In realtà, ciò che molti chiamano wallet Bitcoin—che noi definiamo <em>database wallet</em> per distinguerlo dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate ai bitcoin registrati sulla blockchain. Se dimostri ai full node di Bitcoin di controllare le chiavi, puoi spendere i bitcoin associati.
 </p>
 ++++
@@ -37,6 +39,7 @@ Per ogni chiave generata indipendentemente, l’utente avrebbe dovuto eseguire i
 .Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database wallet.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
 
+// [REVISIONE]: L'originale dice "repeatable (deterministic) algorithm" — l'aggettivo "ripetibile" è omesso nella traduzione. Aggiungere: "...attraverso un algoritmo ripetibile (deterministico)." per preservare la sfumatura tecnica.
 Le moderne applicazioni wallet non generano più le chiavi in modo indipendente, bensì le derivano da un singolo seed casuale attraverso un algoritmo deterministico.
 
 ==== Generazione Deterministica delle Chiavi
@@ -78,6 +81,7 @@ image::images/mbc3_0502.png["Deterministic Wallet"]
 [[public_child_key_derivation]]
 ==== Derivazione di Chiavi Pubbliche Figlie
 
+// [REVISIONE]: L’originale dice "we learned how to create" — "abbiamo visto come creare" è accettabile ma "abbiamo imparato" sarebbe più fedele. Problema più importante: l’originale dice "it’s possible to add or subtract from a public key, or to multiply it" — la traduzione aggiunge "sommare, sottrarre o moltiplicare una chiave pubblica" che omette la preposizione "a/da": si sottrae *da* una chiave pubblica, non si "sottrae una chiave pubblica". Suggerito: "è possibile sommare o sottrarre un valore a/da una chiave pubblica, oppure moltiplicarla."
 In <<public_key_derivation>>, abbiamo visto come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni sulle curve ellittiche non siano intuitive, sono analoghe all’addizione, sottrazione e moltiplicazione dell’aritmetica tradizionale. In altre parole, è possibile sommare, sottrarre o moltiplicare una chiave pubblica. Considera l'operazione che abbiamo usato in <<public_key_derivation>> per generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore (_G_):
 
 [latexmath]
@@ -113,8 +117,10 @@ operazioni come _K_ = _k_ × _G_ in cui si assegna un valore a una variabile. Us
 
 Una conseguenza interessante di questo meccanismo è che aggiungere 123 alla chiave pubblica è possibile utilizzando esclusivamente informazioni pubbliche. Per esempio, Alice genera la chiave pubblica _K_ e la fornisce a Bob. Bob non conosce la chiave privata, ma conosce la costante globale _G_, quindi può aggiungere qualsiasi valore alla chiave pubblica per produrre una chiave pubblica figlia. Se poi comunica ad Alice il valore che ha aggiunto, lei può sommare lo stesso valore alla chiave privata, ottenendo una chiave privata figlia che corrisponde alla chiave pubblica figlia generata da Bob.
 
+// [REVISIONE]: La resa di "key tweak" come "(modifica applicata alla chiave)" è una parafrasi descrittiva aggiunta dal traduttore, non presente nell'originale. L'originale dice semplicemente "known as a _key tweak_". Valutare se mantenere il termine tecnico senza parafrasi, oppure usare una nota a piè di pagina, per non appesantire il testo.
 In altre parole, è possibile creare chiavi pubbliche figlie anche senza conoscere nulla della chiave privata genitore. Il valore aggiunto a una chiave pubblica è noto come _key tweak_ (modifica applicata alla chiave). Se si utilizza un algoritmo deterministico per generare i key tweak, allora chi non conosce la chiave privata può creare una sequenza praticamente illimitata di chiavi pubbliche figlie a partire da una singola chiave pubblica genitore. La persona che controlla la chiave privata genitore può quindi usare gli stessi key tweak per generare tutte le corrispondenti chiavi private figlie.
 
+// [REVISIONE]: "frontend" è usato come calco dall’inglese senza traduzione. L’originale usa "frontends" come termine tecnico accettato, ma nel testo italiano la parentesi esplicativa "(cioè la parte che interagisce con l’utente...)" suggerisce un’intenzione di chiarire il termine; valutare se mantenere "frontend" come tecnicismo oppure sostituire con "interfaccia utente" o "componente front-end" per coerenza con il livello di localizzazione scelto nel resto del libro.
 Questa tecnica è comunemente utilizzata per separare il frontend dell’applicazione wallet (cioè la parte che interagisce con l’utente e non richiede l’accesso alle chiavi private) dalle operazioni di firma (che invece richiedono le chiavi private). Per esempio, il frontend di Alice distribuisce le sue chiavi pubbliche alle persone che vogliono pagarla. Successivamente, quando vuole spendere il denaro ricevuto, può fornire i key tweak che ha utilizzato a un dispositivo di firma hardware (a volte chiamato, in modo fuorviante, _hardware wallet_) che conserva in modo sicuro la sua chiave privata originale. Il dispositivo di firma utilizza i key tweak per derivare le necessarie chiavi private figlie e firmare le transazioni, restituendole al frontend meno sicuro, che le trasmette alla rete Bitcoin.
 
 La derivazione di chiavi pubbliche figlie può produrre una sequenza lineare di chiavi, simile a quella vista in precedenza in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet adottano un’ulteriore tecnica che consente di organizzare le chiavi in una struttura a forma di albero, anziché come una singola sequenza, come descritto nella sezione seguente.
@@ -141,9 +147,11 @@ La struttura ad albero può essere utilizzata per scopi organizzativi più avanz
 Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 
 ==== Seed e Codici di Recupero
+// [REVISIONE]: L'originale dice "reduce the security of bitcoins in multisignature wallets" — la traduzione "compromettere la sicurezza dei bitcoin conservati in wallet multifirma" è imprecisa: il testo originale non dice che li "ruba" ma che "riduce la sicurezza" dei wallet multifirma (perché il seed controlla solo una delle chiavi). Suggerito: "...oltre a ridurre la sicurezza dei bitcoin conservati in wallet multifirma."
 I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a compromettere la sicurezza dei bitcoin conservati in wallet multifirma.
 In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere i backup più semplici e sicuri.
 
+// [REVISIONE]: "parole di uso comune" non cattura il senso di "human-language words" — l'originale enfatizza che si tratta di parole del linguaggio naturale/umano (contrapposto a stringhe esadecimali), non solo parole frequenti. Suggerito: "parole del linguaggio naturale" o "parole di una lingua naturale".
 Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di uso comune. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
 Per esempio, considera il codice di recupero rappresentato sia in esadecimale che in forma di parole, in <<hex_seed_vs_recovery_words>>.
 
@@ -160,6 +168,7 @@ garbage claim echo media make crunch
 ----
 ====
 
+// [REVISIONE]: "supporti fisici" non è la resa corretta di "physical belongings" — l'originale parla di oggetti fisici in generale (non solo supporti di memorizzazione). Suggerito: "oggetti fisici" o "effetti personali fisici".
 Ci sono situazioni in cui ricordare un codice di recupero può rappresentare un grande vantaggio, ad esempio quando non puoi trasportare supporti fisici (come un codice di recupero scritto su carta) senza il rischio che vengano sequestrati o ispezionati da terzi che potrebbero rubare i tuoi bitcoin. Tuttavia, nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
 
 - Se dimentichi il tuo codice di recupero e perdi l’accesso al tuo database wallet originale, non potrai più recuperare i tuoi bitcoin: saranno persi per sempre.
@@ -179,6 +188,7 @@ memorizzabile, ti incoraggiamo fortemente a considerare di scriverlo.
 Diversi tipi di codici di recupero sono ampiamente utilizzati al momento della
 stesura:
 
+// [REVISIONE]: L'originale dice "for the past decade" — "negli ultimi dieci anni" è corretto, ma l'originale usa "decade" (= decennio). Da mantenere coerente con la nota tecnica: BIP39 è del 2013, non del 2014 come implica il testo della sezione successiva ("since 2014 or earlier").
 BIP39::
   Il metodo più popolare per generare codici di recupero negli ultimi
   dieci anni, BIP39 comporta la generazione di una sequenza casuale di byte,
@@ -204,6 +214,7 @@ Aezeed::
   wallet (come il numero di versione di Electrum v2); l'altro numero di
   versione è esterno, che può essere incrementato per modificare le proprietà
   crittografiche sottostanti del codice di recupero.
+// [REVISIONE]: "compleanno del wallet" è una traduzione letterale di "wallet birthday" che in italiano suona goffa. Il termine tecnico standard nelle traduzioni è "data di creazione del wallet" o "data di nascita del wallet". Considerare "data di creazione del wallet" (già usata in parte nella frase seguente).
   Include anche un _compleanno del wallet_
   nel codice di recupero, un riferimento alla data in cui l'utente ha creato
   il database wallet. Questo permette a un processo di ripristino di trovare tutti i
@@ -243,6 +254,7 @@ SLIP39::
 Un nuovo sistema per distribuire codici di recupero con somiglianze a SLIP39
 è stato proposto durante la stesura di questo libro. Codex32 permette di creare
 e validare codici di recupero con nient'altro che istruzioni stampate,
+// [REVISIONE]: "fermacampioni" è una resa errata di "brass fasteners" (graffette/fermagli in ottone usati per rilegare fogli). Suggerito: "fermagli in ottone" o "graffette in ottone".
 forbici, un coltello di precisione, fermacampioni e una penna--più privacy
 e qualche ora di tempo libero. In alternativa, coloro che si fidano dei computer possono creare codici di recupero
 istantaneamente utilizzando software su un dispositivo digitale. Puoi creare fino a 31
@@ -288,6 +300,7 @@ positivo o un negativo, a seconda della tua prospettiva:
   continuare a cercare di costringerti anche dopo che gli hai dato tutti i
   tuoi bitcoin.
 
+// [REVISIONE]: La frase "A meno che tu non riesca a capire quale errore di battitura hai fatto in precedenza, i tuoi fondi sono persi" manca del contesto temporale dell'originale: "Unless you can figure out what typo you previously made, your funds are gone." — la traduzione è fedele, ma "i tuoi fondi sono persi" dovrebbe essere "i tuoi fondi sono perduti" o "i tuoi fondi sono andati" per preservare il tono definitivo dell'originale ("are gone"). Valutare anche "quei fondi sono persi per sempre".
 - Un ulteriore aspetto negativo è la ridotta quantità di rilevamento degli errori. Se
   inserisci una passphrase leggermente sbagliata durante il ripristino da un backup,
   il tuo wallet non può avvisarti dell'errore. Se ti aspettavi
@@ -580,6 +593,7 @@ utilizzato nei wallet all'inizio del 2023:
 
 Tutti questi standard esistono dal 2014 o prima, e
 non avrai problemi a trovare risorse aggiuntive per utilizzarli.
+// [REVISIONE]: "investigare" è un falso amico — in italiano significa indagare/fare un'indagine (accezione poliziesca), non "esaminare/approfondire". L'originale dice "investigate more modern standards" — suggerito: "esplorare", "approfondire" o "esaminare". Lo stesso problema si riscontra alle righe 265 e 290.
 Tuttavia, se ti senti audace, ti incoraggiamo a investigare standard
 più moderni che potrebbero fornire funzionalità o sicurezza aggiuntive.
 
@@ -708,6 +722,7 @@ un wallet deterministico e derivare le sue chiavi.
 
 La funzione di key-stretching prende due
 parametri: l'entropia e un _salt_. Lo scopo di un salt in una
+// [REVISIONE]: "tabella di lookup" è un calco dall'inglese "lookup table". Suggerito: "tabella di ricerca" o, se si vuole mantenere il tecnicismo, almeno "lookup table" in corsivo come termine straniero. La forma "tabella di lookup" è ibrida e incoerente.
 funzione di key-stretching è rendere difficile costruire una tabella di lookup
 che permetta un attacco a forza bruta. Nello standard BIP39, il salt ha
 un altro scopo--permette l'introduzione di una passphrase che
@@ -917,6 +932,7 @@ La passphrase opzionale crea due importanti caratteristiche:
   solo, proteggendo i codici di recupero dalla compromissione da parte di un ladro occasionale. Per
   la protezione da un ladro esperto di tecnologia, avrai bisogno di utilizzare una passphrase molto forte.
 
+// [REVISIONE]: "wallet sotto coercizione" è una parafrasi di "duress wallet" — il termine tecnico inglese è usato in letteratura tecnica Bitcoin e potrebbe essere mantenuto tra virgolette come "duress wallet" con traduzione esplicativa, per permettere al lettore di riconoscerlo in altri contesti. La forma attuale è comprensibile ma non corrisponde al termine standard.
 - Una forma di negabilità plausibile o "wallet sotto coercizione", dove una passphrase scelta
   porta a un wallet con una piccola quantità di fondi utilizzati per
   distrarre un attaccante dal wallet "reale" che contiene la maggioranza
@@ -982,7 +998,9 @@ che [.keep-together]#combina:#
 Il codice di catena viene utilizzato per introdurre dati casuali deterministici nel
 processo, in modo che conoscere l'indice e una chiave figlia non sia sufficiente per
 derivare altre chiavi figlie. Conoscere una chiave figlia non rende possibile
-trovare i suoi fratelli a meno che non si abbia anche il codice di catena. Il
+trovare i suoi fratelli a meno che non si abbia anche il codice di catena.
+// [REVISIONE]: "codice di catena seed iniziale" è una resa letterale di "initial chain code seed" che in italiano risulta ridondante e confusa (il "seed" appare sia nel nome che nell'origine). Suggerito: "il codice di catena iniziale (alla radice dell'albero) è ricavato dal seed" oppure "il codice di catena radice è generato dal seed".
+Il
 codice di catena seed iniziale (alla radice dell'albero) è creato dal seed, mentre
 i codici di catena figli successivi sono derivati da ciascun codice di catena genitore.
 
@@ -1016,7 +1034,9 @@ generazioni.
 
 Le chiavi private figlie sono indistinguibili dalle chiavi non deterministiche (casuali).
 Poiché la funzione di derivazione è una funzione unidirezionale, la chiave
-figlia non può essere utilizzata per trovare la chiave genitore. La chiave figlia non può anche
+figlia non può essere utilizzata per trovare la chiave genitore.
+// [REVISIONE]: "La chiave figlia non può anche essere utilizzata" è un calco dall'inglese "The child key also cannot be used". In italiano la forma naturale è "La chiave figlia non può nemmeno essere utilizzata" oppure "Nemmeno la chiave figlia può essere utilizzata". La costruzione "non ... anche" è un anglicismo da evitare.
+La chiave figlia non può anche
 essere utilizzata per trovare eventuali fratelli. Se hai l'n-esimo figlio, non puoi trovare
 i suoi fratelli, come il figlio n-1 o il figlio n+1, o qualsiasi
 altro figlio che fa parte della sequenza. Solo la chiave genitore e
@@ -1069,6 +1089,7 @@ base58check per le chiavi estese utilizza un numero di versione speciale che ris
 prefisso "xprv" e "xpub" quando codificato in caratteri base58 per renderli
 facilmente riconoscibili. Poiché la chiave estesa contiene molti più
 byte rispetto agli indirizzi regolari,
+// [REVISIONE]: errore di accordo grammaticale — "lungo" è maschile ma il soggetto è "la chiave estesa" (femminile). Correggere in "è anche molto più lunga di altre stringhe codificate in base58check che abbiamo visto in precedenza."
 è anche molto più lungo di altre stringhe codificate in base58check che abbiamo
 visto in precedenza.
 
@@ -1169,6 +1190,7 @@ fresco per la transazione effettiva. Tuttavia, queste altre soluzioni non
 sono state utilizzate in produzione al momento della stesura.
 ****
 
+// [REVISIONE]: "dispositivi di firma cold-storage o hardware" è una costruzione ambigua e poco naturale — il "cold-storage" non è un tipo di dispositivo di firma ma una modalità di conservazione. L'originale dice "cold-storage or hardware signing devices". Suggerito: "dispositivi di firma hardware o cold-storage" oppure "dispositivi hardware per la firma, usati in modalità cold storage". Inoltre "wallet di carta" (paper wallet) è un termine tecnico accettato ma andrebbe verificata la coerenza dell'uso nel resto del libro.
 Un'altra applicazione comune di questa soluzione è per
 dispositivi di firma cold-storage o hardware. In quello scenario, la chiave
 privata estesa può essere memorizzata su un wallet di carta o un dispositivo hardware, mentre
