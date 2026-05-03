@@ -1,5 +1,6 @@
 //FIXME:reduce difficulty / we ramp up too quick Lesmes feedback
 [[ch05_wallets]]
+// [REVISIONE]: Il titolo originale è "Wallet Recovery" — "Recupero del Wallet" è accettabile, ma nella terminologia del capitolo il tema principale è il backup e il recupero. Valutare "Recupero e Backup del Wallet" per riflettere meglio il contenuto.
 == Recupero del Wallet
 
 La creazione di coppie di chiavi private e pubbliche è un elemento cruciale che permette
@@ -15,13 +16,14 @@ questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
 wallet moderni. Raccomanderemo queste soluzioni come migliori
-pratiche. Altre soluzioni comportano vantaggi e svantaggi, spingendo diversi sviluppatori di wallet a compiere scelte differenti.
+pratiche. Altre soluzioni comportano vantaggi e svantaggi, portando diversi autori di wallet a operare compromessi differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
 === Generazione Indipendente delle Chiavi
 
 ++++
 <p class="fix_tracking2">
+// [REVISIONE]: "portafogli per contanti fisici" è una resa ibrida (portafogli per l'italiano, cash dall'inglese) e suona innaturale. L'originale dice "Wallets for physical cash" — suggerito: "I portafogli fisici contengono denaro contante" oppure "I portafogli tradizionali contengono denaro fisico".
 I portafogli per contanti fisici contengono quel contante, quindi non sorprende che molte persone pensino, erroneamente, che i wallet Bitcoin contengano bitcoin. In realtà, ciò che molti chiamano wallet Bitcoin—che noi definiamo <em>database wallet</em> per distinguerlo dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate ai bitcoin registrati sulla blockchain. Se dimostri ai full node di Bitcoin di controllare le chiavi, puoi spendere i bitcoin associati.
 </p>
 ++++
@@ -37,6 +39,7 @@ Per ogni chiave generata indipendentemente, l’utente avrebbe dovuto eseguire i
 .Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database wallet.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
 
+// [REVISIONE]: L'originale dice "repeatable (deterministic) algorithm" — l'aggettivo "ripetibile" è omesso nella traduzione. Aggiungere: "...attraverso un algoritmo ripetibile (deterministico)." per preservare la sfumatura tecnica.
 Le moderne applicazioni wallet non generano più le chiavi in modo indipendente, bensì le derivano da un singolo seed casuale attraverso un algoritmo deterministico.
 
 ==== Generazione Deterministica delle Chiavi
@@ -78,6 +81,7 @@ image::images/mbc3_0502.png["Deterministic Wallet"]
 [[public_child_key_derivation]]
 ==== Derivazione di Chiavi Pubbliche Figlie
 
+// [REVISIONE]: L’originale dice "we learned how to create" — "abbiamo visto come creare" è accettabile ma "abbiamo imparato" sarebbe più fedele. Problema più importante: l’originale dice "it’s possible to add or subtract from a public key, or to multiply it" — la traduzione aggiunge "sommare, sottrarre o moltiplicare una chiave pubblica" che omette la preposizione "a/da": si sottrae *da* una chiave pubblica, non si "sottrae una chiave pubblica". Suggerito: "è possibile sommare o sottrarre un valore a/da una chiave pubblica, oppure moltiplicarla."
 In <<public_key_derivation>>, abbiamo visto come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni sulle curve ellittiche non siano intuitive, sono analoghe all’addizione, sottrazione e moltiplicazione dell’aritmetica tradizionale. In altre parole, è possibile sommare, sottrarre o moltiplicare una chiave pubblica. Considera l'operazione che abbiamo usato in <<public_key_derivation>> per generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore (_G_):
 
 [latexmath]
@@ -113,8 +117,10 @@ operazioni come _K_ = _k_ × _G_ in cui si assegna un valore a una variabile. Us
 
 Una conseguenza interessante di questo meccanismo è che aggiungere 123 alla chiave pubblica è possibile utilizzando esclusivamente informazioni pubbliche. Per esempio, Alice genera la chiave pubblica _K_ e la fornisce a Bob. Bob non conosce la chiave privata, ma conosce la costante globale _G_, quindi può aggiungere qualsiasi valore alla chiave pubblica per produrre una chiave pubblica figlia. Se poi comunica ad Alice il valore che ha aggiunto, lei può sommare lo stesso valore alla chiave privata, ottenendo una chiave privata figlia che corrisponde alla chiave pubblica figlia generata da Bob.
 
+// [REVISIONE]: La resa di "key tweak" come "(modifica applicata alla chiave)" è una parafrasi descrittiva aggiunta dal traduttore, non presente nell'originale. L'originale dice semplicemente "known as a _key tweak_". Valutare se mantenere il termine tecnico senza parafrasi, oppure usare una nota a piè di pagina, per non appesantire il testo.
 In altre parole, è possibile creare chiavi pubbliche figlie anche senza conoscere nulla della chiave privata genitore. Il valore aggiunto a una chiave pubblica è noto come _key tweak_ (modifica applicata alla chiave). Se si utilizza un algoritmo deterministico per generare i key tweak, allora chi non conosce la chiave privata può creare una sequenza praticamente illimitata di chiavi pubbliche figlie a partire da una singola chiave pubblica genitore. La persona che controlla la chiave privata genitore può quindi usare gli stessi key tweak per generare tutte le corrispondenti chiavi private figlie.
 
+// [REVISIONE]: "frontend" è usato come calco dall’inglese senza traduzione. L’originale usa "frontends" come termine tecnico accettato, ma nel testo italiano la parentesi esplicativa "(cioè la parte che interagisce con l’utente...)" suggerisce un’intenzione di chiarire il termine; valutare se mantenere "frontend" come tecnicismo oppure sostituire con "interfaccia utente" o "componente front-end" per coerenza con il livello di localizzazione scelto nel resto del libro.
 Questa tecnica è comunemente utilizzata per separare il frontend dell’applicazione wallet (cioè la parte che interagisce con l’utente e non richiede l’accesso alle chiavi private) dalle operazioni di firma (che invece richiedono le chiavi private). Per esempio, il frontend di Alice distribuisce le sue chiavi pubbliche alle persone che vogliono pagarla. Successivamente, quando vuole spendere il denaro ricevuto, può fornire i key tweak che ha utilizzato a un dispositivo di firma hardware (a volte chiamato, in modo fuorviante, _hardware wallet_) che conserva in modo sicuro la sua chiave privata originale. Il dispositivo di firma utilizza i key tweak per derivare le necessarie chiavi private figlie e firmare le transazioni, restituendole al frontend meno sicuro, che le trasmette alla rete Bitcoin.
 
 La derivazione di chiavi pubbliche figlie può produrre una sequenza lineare di chiavi, simile a quella vista in precedenza in <<Type1_wallet>>. Tuttavia, le moderne applicazioni wallet adottano un’ulteriore tecnica che consente di organizzare le chiavi in una struttura a forma di albero, anziché come una singola sequenza, come descritto nella sezione seguente.
@@ -141,9 +147,11 @@ La struttura ad albero può essere utilizzata per scopi organizzativi più avanz
 Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 
 ==== Seed e Codici di Recupero
+// [REVISIONE]: L'originale dice "reduce the security of bitcoins in multisignature wallets" — la traduzione "compromettere la sicurezza dei bitcoin conservati in wallet multifirma" è imprecisa: il testo originale non dice che li "ruba" ma che "riduce la sicurezza" dei wallet multifirma (perché il seed controlla solo una delle chiavi). Suggerito: "...oltre a ridurre la sicurezza dei bitcoin conservati in wallet multifirma."
 I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a compromettere la sicurezza dei bitcoin conservati in wallet multifirma.
 In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere i backup più semplici e sicuri.
 
+// [REVISIONE]: "parole di uso comune" non cattura il senso di "human-language words" — l'originale enfatizza che si tratta di parole del linguaggio naturale/umano (contrapposto a stringhe esadecimali), non solo parole frequenti. Suggerito: "parole del linguaggio naturale" o "parole di una lingua naturale".
 Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di uso comune. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
 Per esempio, considera il codice di recupero rappresentato sia in esadecimale che in forma di parole, in <<hex_seed_vs_recovery_words>>.
 
@@ -160,6 +168,7 @@ garbage claim echo media make crunch
 ----
 ====
 
+// [REVISIONE]: "supporti fisici" non è la resa corretta di "physical belongings" — l'originale parla di oggetti fisici in generale (non solo supporti di memorizzazione). Suggerito: "oggetti fisici" o "effetti personali fisici".
 Ci sono situazioni in cui ricordare un codice di recupero può rappresentare un grande vantaggio, ad esempio quando non puoi trasportare supporti fisici (come un codice di recupero scritto su carta) senza il rischio che vengano sequestrati o ispezionati da terzi che potrebbero rubare i tuoi bitcoin. Tuttavia, nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
 
 - Se dimentichi il tuo codice di recupero e perdi l’accesso al tuo database wallet originale, non potrai più recuperare i tuoi bitcoin: saranno persi per sempre.
@@ -179,6 +188,7 @@ memorizzabile, ti incoraggiamo fortemente a considerare di scriverlo.
 Diversi tipi di codici di recupero sono ampiamente utilizzati al momento della
 stesura:
 
+// [REVISIONE]: L'originale dice "for the past decade" — "negli ultimi dieci anni" è corretto, ma l'originale usa "decade" (= decennio). Da mantenere coerente con la nota tecnica: BIP39 è del 2013, non del 2014 come implica il testo della sezione successiva ("since 2014 or earlier").
 BIP39::
   Il metodo più popolare per generare codici di recupero negli ultimi
   dieci anni, BIP39 comporta la generazione di una sequenza casuale di byte,
@@ -204,6 +214,7 @@ Aezeed::
   wallet (come il numero di versione di Electrum v2); l'altro numero di
   versione è esterno, che può essere incrementato per modificare le proprietà
   crittografiche sottostanti del codice di recupero.
+  // [REVISIONE]: "compleanno del wallet" è una traduzione letterale di "wallet birthday" che in italiano suona goffa. Il termine tecnico standard nelle traduzioni è "data di creazione del wallet" o "data di nascita del wallet". Considerare "data di creazione del wallet" (già usata in parte nella frase seguente).
   Include anche un _compleanno del wallet_
   nel codice di recupero, un riferimento alla data in cui l'utente ha creato
   il database wallet. Questo permette a un processo di ripristino di trovare tutti i
@@ -243,6 +254,7 @@ SLIP39::
 Un nuovo sistema per distribuire codici di recupero con somiglianze a SLIP39
 è stato proposto durante la stesura di questo libro. Codex32 permette di creare
 e validare codici di recupero con nient'altro che istruzioni stampate,
+// [REVISIONE]: "fermacampioni" è una resa errata di "brass fasteners" (graffette/fermagli in ottone usati per rilegare fogli). Suggerito: "fermagli in ottone" o "graffette in ottone".
 forbici, un coltello di precisione, fermacampioni e una penna--più privacy
 e qualche ora di tempo libero. In alternativa, coloro che si fidano dei computer possono creare codici di recupero
 istantaneamente utilizzando software su un dispositivo digitale. Puoi creare fino a 31
@@ -288,6 +300,7 @@ positivo o un negativo, a seconda della tua prospettiva:
   continuare a cercare di costringerti anche dopo che gli hai dato tutti i
   tuoi bitcoin.
 
+// [REVISIONE]: La frase "A meno che tu non riesca a capire quale errore di battitura hai fatto in precedenza, i tuoi fondi sono persi" manca del contesto temporale dell'originale: "Unless you can figure out what typo you previously made, your funds are gone." — la traduzione è fedele, ma "i tuoi fondi sono persi" dovrebbe essere "i tuoi fondi sono perduti" o "i tuoi fondi sono andati" per preservare il tono definitivo dell'originale ("are gone"). Valutare anche "quei fondi sono persi per sempre".
 - Un ulteriore aspetto negativo è la ridotta quantità di rilevamento degli errori. Se
   inserisci una passphrase leggermente sbagliata durante il ripristino da un backup,
   il tuo wallet non può avvisarti dell'errore. Se ti aspettavi
@@ -608,6 +621,7 @@ importante differenza rende i codici di recupero molto più sicuri perché
 gli umani sono fonti molto scarse di casualità.
 ====
 
+// [REVISIONE — DA RIVEDERE]: incoerenza terminologica — qui si usa "wallet hardware" mentre altrove nel capitolo e in ch01 si usa "dispositivo di firma hardware" (con nota esplicita che "hardware wallet" è fuorviante). Valutare "il dispositivo di firma hardware Trezor" per coerenza interna.
 Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
 BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
 è compatibile con molte altre applicazioni wallet, anche se certamente
@@ -764,7 +778,7 @@ pass:[<a data-type="xref" href="#bip39_128_w_pass"
 data-xrefstyle="select: labelnumber">#bip39_128_w_pass</a>], e
 pass:[<a data-type="xref" href="#bip39_256_no_pass"
 data-xrefstyle="select: labelnumber">#bip39_256_no_pass</a>] mostrano
-alcuni esempi di codici di recupero e i seed (((che producono.
+alcuni esempi di codici di recupero e i seed che producono.
 
 ++++
 <table id="bip39_128_no_pass">
@@ -868,9 +882,10 @@ operazioni sulla curva ellittica di Bitcoin per trovare una chiave privata
 per la chiave pubblica di un altro utente. L'implicazione di una forza di sicurezza
 di 128 bit è che non c'è un apparente beneficio nell'utilizzare più di 128
 bit di entropia (anche se devi assicurarti che le tue chiavi private generate
-chiavi sono selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
+siano selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
 private).
 
+// [REVISIONE — DA RIVEDERE]: incoerenza terminologica interna al capitolo — qui (e poco più sotto) si usa il calco "forzare brutalmente" / "forzare brutalmente l'altra metà", mentre poco sopra si usa "attacco a forza bruta" / "attaccare a forza bruta". Uniformare alla forma "attaccare a forza bruta" per coerenza terminologica e per evitare il calco da "brute-force".
 C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
 del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
 maggiore è l'entropia, più difficile sarà per loro scoprire la parte
@@ -1014,7 +1029,9 @@ generazioni.
 
 Le chiavi private figlie sono indistinguibili dalle chiavi non deterministiche (casuali).
 Poiché la funzione di derivazione è una funzione unidirezionale, la chiave
-figlia non può essere utilizzata per trovare la chiave genitore. La chiave figlia non può anche
+figlia non può essere utilizzata per trovare la chiave genitore.
+// [REVISIONE]: "La chiave figlia non può anche essere utilizzata" è un calco dall'inglese "The child key also cannot be used". In italiano la forma naturale è "La chiave figlia non può nemmeno essere utilizzata" oppure "Nemmeno la chiave figlia può essere utilizzata". La costruzione "non ... anche" è un anglicismo da evitare.
+La chiave figlia non può anche
 essere utilizzata per trovare eventuali fratelli. Se hai l'n-esimo figlio, non puoi trovare
 i suoi fratelli, come il figlio n-1 o il figlio n+1, o qualsiasi
 altro figlio che fa parte della sequenza. Solo la chiave genitore e
@@ -1228,6 +1245,7 @@ affinché le chiavi pubbliche possano essere esportate. Nota che la maggior part
 esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
 
 Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
+// [REVISIONE — DA RIVEDERE]: calco dall'inglese "widely used" — "diffusamente utilizzato" suona innaturale in italiano. Suggerito: "ampiamente diffuso", "molto usato" o "il diffuso BTCPay Server open source".
 come il diffusamente utilizzato BTCPay Server open source.
 
 ===== Derivazione di chiavi figlie indurite
