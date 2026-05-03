@@ -40,6 +40,7 @@ Il negozio online di Bob ha da poco attivato i pagamenti in bitcoin sul proprio 
 
 Alice trova l'episodio che le interessa e va alla pagina di pagamento. Qui può scegliere di pagare in bitcoin oltre che con i metodi tradizionali. Il carrello mostra il prezzo in dollari e in bitcoin (BTC), calcolato sul cambio corrente.
 
+// [REVISIONE]: incoerenza terminologica con ch01 — qui "invoice" è reso come "ordine di pagamento", mentre in ch01 ("Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (invoice)") è reso come "richiesta di pagamento". Uniformare la traduzione di "invoice" in tutto il libro (suggerito: "richiesta di pagamento" come in ch01).
 Il sistema di pagamento genera automaticamente un codice QR con un _ordine di pagamento_ (<<invoice-QR>>).
 
 ////
@@ -236,6 +237,7 @@ La transazione di Alice è ora propagata sulla rete Bitcoin. Tuttavia, non diven
 
 Il meccanismo che impedisce la contraffazione si fonda su un grande dispendio di calcolo. Le transazioni sono raggruppate in _blocchi_, ciascuno con un'intestazione minuscola che deve rispettare un formato molto preciso. Servono enormi risorse computazionali per crearla, ma solo un modesto sforzo per verificarla.
 
+// [REVISIONE]: nel primo punto della lista che segue, l'originale "Miners can only receive *honest income* from creating blocks that follow all of Bitcoin's _consensus rules_" perde la qualificazione "honest" nella resa "I miner possono ricevere la loro ricompensa solo se...". L'aggettivo "honest" è concettualmente importante perché distingue il guadagno da blocchi validi (onesto) dal possibile profitto da comportamenti disonesti (riferimento esplicito poco oltre, "miners who behave honestly" / "questo comportamento disonesto"). Suggerito: "I miner possono ricevere un guadagno onesto solo se..." o equivalente.
 Il processo di mining svolge due funzioni fondamentali in Bitcoin:
 
 [role="less_space pagebreak-before"]
@@ -247,16 +249,19 @@ Il mining bilancia costi e ricompense. Consuma elettricità per risolvere un pro
 
 Il mining funziona come una lotteria decentralizzata. Ogni miner può creare il proprio biglietto generando un _blocco candidato_ con le transazioni che intende minare e alcuni campi di dati aggiuntivi.
 Il miner applica al blocco candidato un apposito algoritmo (funzione di _hash_) che mescola i dati producendo un output del tutto diverso dall'input. Questo hash produrrà sempre lo stesso output per un dato input, ma basta cambiare di poco l'input perché il risultato sia imprevedibile.
+// [REVISIONE]: errore numerico — la formula 1,68 × 10^23 è corretta (= 168 × 10^21), ma il parentetico "168 miliardi di miliardi di miliardi" rende (10^9)^3 = 10^27, cioè 1,68 × 10^29 (sei ordini di grandezza in più). L'inglese "168 billion trillion" significa 168 × 10^9 × 10^12 = 168 × 10^21 (scala corta US). Suggerito: "168 mila miliardi di miliardi" oppure "168 triliardi" (long scale italiana, 10^21), oppure rimuovere il parentetico e lasciare solo la notazione scientifica.
 Se l'output della funzione di hash corrisponde a un modello stabilito dal protocollo, il miner vince la lotteria e il blocco viene accettato come valido. In caso contrario modifica leggermente il blocco candidato e riprova. Nel periodo di questa stesura, in media un miner deve provare circa 1,68 × 10^23^ (168 miliardi di miliardi di miliardi di) blocchi candidati, e altrettante volte deve eseguire la funzione di hash, prima di trovare la combinazione vincente.
 
 Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti _proof of work_ (PoW), ovvero _prova di lavoro_.
 
+// [REVISIONE]: l'originale dice "prioritized by the highest fee rate transactions first" — non "highest fee". In Bitcoin il criterio di priorità è il *fee rate* (commissione divisa per peso/dimensione), non il valore assoluto della commissione. La traduzione "commissioni più alte" perde questa distinzione tecnica fondamentale (rilevante per RBF/CPFP discusso in ch09). Suggerito: "dando priorità a quelle con il tasso di commissione (fee rate) più alto".
 Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con commissioni più alte e secondo altri criteri. Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano a calcolare la PoW per il blocco candidato.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia la ricompensa del blocco e tutte le commissioni al proprio indirizzo.
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
 I miner che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
 
+// [REVISIONE]: l'originale dice "the pool of *unverified* transactions" (transazioni non ancora verificate/validate); la traduzione "transazioni non confermate" sposta il concetto a "unconfirmed" (non ancora incluse in un blocco), che è una proprietà diversa. Tecnicamente la mempool contiene transazioni "unverified" finché il nodo non le valida, e poi rimangono "unconfirmed" finché non finiscono in un blocco. Suggerito: "transazioni non verificate".
 La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non confermate. Un full node l'ha poi validata e inserita in un blocco candidato.
 Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volta dal wallet di Alice, un miner trova la soluzione per il blocco e la annuncia alla rete. Dopo che ciascuno degli altri miner convalida il blocco vincente, questi avviano una nuova lotteria per generare il blocco successivo.
 
