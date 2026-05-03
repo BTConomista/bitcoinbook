@@ -593,6 +593,7 @@ utilizzato nei wallet all'inizio del 2023:
 
 Tutti questi standard esistono dal 2014 o prima, e
 non avrai problemi a trovare risorse aggiuntive per utilizzarli.
+// [REVISIONE]: "investigare" è un falso amico — in italiano significa indagare/fare un'indagine (accezione poliziesca), non "esaminare/approfondire". L'originale dice "investigate more modern standards" — suggerito: "esplorare", "approfondire" o "esaminare". Lo stesso problema si riscontra alle righe 265 e 290.
 Tuttavia, se ti senti audace, ti incoraggiamo a investigare standard
 più moderni che potrebbero fornire funzionalità o sicurezza aggiuntive.
 
@@ -997,7 +998,9 @@ che [.keep-together]#combina:#
 Il codice di catena viene utilizzato per introdurre dati casuali deterministici nel
 processo, in modo che conoscere l'indice e una chiave figlia non sia sufficiente per
 derivare altre chiavi figlie. Conoscere una chiave figlia non rende possibile
-trovare i suoi fratelli a meno che non si abbia anche il codice di catena. Il
+trovare i suoi fratelli a meno che non si abbia anche il codice di catena.
+// [REVISIONE]: "codice di catena seed iniziale" è una resa letterale di "initial chain code seed" che in italiano risulta ridondante e confusa (il "seed" appare sia nel nome che nell'origine). Suggerito: "il codice di catena iniziale (alla radice dell'albero) è ricavato dal seed" oppure "il codice di catena radice è generato dal seed".
+Il
 codice di catena seed iniziale (alla radice dell'albero) è creato dal seed, mentre
 i codici di catena figli successivi sono derivati da ciascun codice di catena genitore.
 

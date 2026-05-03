@@ -860,6 +860,7 @@ https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio
 https://oreil.ly/me6gf[rust-bitcoin]:: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l'analisi dei dati e le chiamate API
 
 ==== Scala
+// [REVISIONE]: "Una versione di Bitcoin sviluppata in Scala" non rende "A Bitcoin implementation in Scala" — "versione" implica una variante del protocollo, mentre "implementation" indica un'implementazione software; preferire "Un'implementazione Bitcoin in Scala"
 https://bitcoin-s.org[bitcoin-s]:: Una versione di Bitcoin sviluppata in Scala
 
 ==== C#
@@ -867,4 +868,5 @@ https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il 
 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
+// [REVISIONE]: "rendere l’invio e la ricezione delle transazioni più convenienti" aggiunge "delle transazioni" (non nell’originale "spending and receiving") e "più" (l’originale dice "convenient", non "more convenient") — preferire "rendere l’invio e la ricezione [di bitcoin] più agevoli" o semplicemente "semplici"
 Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#
