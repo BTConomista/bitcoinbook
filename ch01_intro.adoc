@@ -38,8 +38,7 @@ Dietro le quinte, Bitcoin è anche il nome del protocollo, di una rete peer-to-p
 * Un insieme di regole per la validazione indipendente delle transazioni e l'emissione di valuta (regole di consenso)
 * Un meccanismo per raggiungere un consenso decentralizzato globale sulla blockchain valida (algoritmo di proof-of-work)
 
-// [REVISIONE]: "internet of money" → "denaro di Internet" inverte il significato. La famosa metafora di Antonopoulos indica una "rete (internet) per il denaro" (analoga all'internet per l'informazione), non "il denaro di Internet". Suggerito: "l'_internet del denaro_" o "l'internet del valore".
-Come sviluppatore, vedo Bitcoin come una sorta di "denaro di Internet", una rete per propagare valore e tutelare la proprietà di beni digitali mediante il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
+Come sviluppatore, vedo Bitcoin come una sorta di _internet del denaro_, una rete per propagare valore e tutelare la proprietà di beni digitali mediante il calcolo distribuito. In Bitcoin c'è molto più di quanto possa sembrare a prima vista.
 
 In questo capitolo introduttivo, spiegheremo alcuni termini e concetti fondamentali, illustreremo come scaricare il software necessario e come usare Bitcoin per semplici transazioni. Nei capitoli seguenti, inizieremo a svelare gli strati tecnologici che rendono Bitcoin possibile ed esamineremo come funzionano la sua rete e il suo protocollo.
 
