@@ -198,7 +198,7 @@ In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse suffici
 
 ==== Creazione degli Output
 
-L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi _vincola_ il valore dell'output a una richiesta di firma da parte di Bob.
+L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi _vincola_ il valore dell'output alla firma di Bob.
 
 In altre parole Bob dovrà firmare l'output di Alice per dimostrarne la proprietà prima di spenderlo.
 
