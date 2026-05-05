@@ -624,11 +624,10 @@ miner:
 ++++
 
 
-// [REVISIONE]: "spendendo meno degli input" è calco di "underspending the inputs" e risulta poco chiaro in italiano. Il significato è "non assegnando agli output tutto il valore degli input" ovvero "non restituendoti il resto". Suggerire: "non assegnando interamente agli output il valore degli input" o "non aggiungendo un output di resto adeguato".
 Questo è un elemento un po' confuso delle transazioni e un punto
 importante da capire perché se stai costruendo le tue
 transazioni, devi assicurarti di non includere inavvertitamente una
-commissione molto grande spendendo meno degli input. Questo significa che devi contabilizzare
+commissione molto grande non assegnando agli output l'intero valore degli input. Questo significa che devi contabilizzare
 tutti gli input, se necessario, creando resto, altrimenti finirai per
 dare ai miner una mancia molto generosa!
 

@@ -99,8 +99,7 @@ Una transazione comunica alla rete che il proprietario di certi bitcoin ha autor
 
 ==== Input e Output di una Transazione
 
-// [REVISIONE]: l'originale dice "the difference represents an implied _transaction fee_" (commissione di transazione _implicita_). La traduzione omette sia "implicita" (implied) sia "di transazione", rendendo solo "_commissione_". Il termine "implied" è tecnicamente rilevante: la commissione non è dichiarata esplicitamente nella transazione ma si ricava come differenza tra input e output. Preferire "commissione di transazione _implicita_".
-Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione include uno o più input, che spendono fondi, e uno o più output, che li ricevono. Di norma, la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione_ incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come registrazione in un libro mastro basato sul metodo della partita doppia.
+Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione include uno o più input, che spendono fondi, e uno o più output, che li ricevono. Di norma, la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione di transazione_ implicita incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come registrazione in un libro mastro basato sul metodo della partita doppia.
 
 La transazione contiene anche una prova di proprietà per ogni quantità di bitcoin spesa. Questa prova è una firma digitale del proprietario, che chiunque può verificare autonomamente. Nella rete Bitcoin, spendere significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario identificato da un indirizzo Bitcoin.
 
@@ -199,8 +198,7 @@ In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse suffici
 
 ==== Creazione degli Output
 
-// [REVISIONE — DA RIVEDERE]: l'originale tecnico ("Alice will therefore _encumber_ the output value with a demand for a signature from Bob") perde il concetto chiave di _encumber_ (vincolare l'output a una condizione di spesa); la traduzione "Alice quindi lega il valore dell'output alla firma di Bob" attenua il concetto e il paragrafo successivo ("In altre parole Bob dovrà firmare...") inverte il punto di vista (Bob deve firmare invece di Alice che vincola). Valutare una resa più aderente al concetto di "encumbrance" (es. "vincola l'output", "lega l'output a una condizione di spesa") e mantenere il soggetto del periodo originale.
-L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi lega il valore dell'output alla firma di Bob.
+L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi _vincola_ il valore dell'output a una richiesta di firma da parte di Bob.
 
 In altre parole Bob dovrà firmare l'output di Alice per dimostrarne la proprietà prima di spenderlo.
 
@@ -239,11 +237,10 @@ La transazione di Alice è ora propagata sulla rete Bitcoin. Tuttavia, non diven
 
 Il meccanismo che impedisce la contraffazione si fonda su un grande dispendio di calcolo. Le transazioni sono raggruppate in _blocchi_, ciascuno con un'intestazione minuscola che deve rispettare un formato molto preciso. Servono enormi risorse computazionali per crearla, ma solo un modesto sforzo per verificarla.
 
-// [REVISIONE]: nel primo punto della lista che segue, l'originale "Miners can only receive *honest income* from creating blocks that follow all of Bitcoin's _consensus rules_" perde la qualificazione "honest" nella resa "I miner possono ricevere la loro ricompensa solo se...". L'aggettivo "honest" è concettualmente importante perché distingue il guadagno da blocchi validi (onesto) dal possibile profitto da comportamenti disonesti (riferimento esplicito poco oltre, "miners who behave honestly" / "questo comportamento disonesto"). Suggerito: "I miner possono ricevere un guadagno onesto solo se..." o equivalente.
 Il processo di mining svolge due funzioni fondamentali in Bitcoin:
 
 [role="less_space pagebreak-before"]
-* I miner possono ricevere la loro ricompensa solo se creano blocchi che rispettano tutte le _regole di consenso_ di Bitcoin. Per questo motivo sono incentivati a includere nei blocchi solo transazioni valide e a costruire su blocchi corretti. Gli utenti possono quindi assumere, se lo desiderano, che ogni transazione contenuta in un blocco sia valida.
+* I miner possono ottenere un _guadagno onesto_ solo creando blocchi che rispettano tutte le _regole di consenso_ di Bitcoin. Per questo motivo sono incentivati a includere nei blocchi solo transazioni valide e a costruire su blocchi corretti. Gli utenti possono quindi assumere, se lo desiderano, che ogni transazione contenuta in un blocco sia valida.
 
 * Il mining attualmente genera nuovi bitcoin in ogni blocco, in modo simile a una banca centrale che emette moneta. Tuttavia l'ammontare creato per blocco è limitato e diminuisce nel tempo secondo un programma prestabilito.
 
@@ -261,8 +258,7 @@ Ogni miner inserisce nel blocco candidato una transazione speciale che invia la 
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
 I miner che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
 
-// [REVISIONE]: l'originale dice "the pool of *unverified* transactions" (transazioni non ancora verificate/validate); la traduzione "transazioni non confermate" sposta il concetto a "unconfirmed" (non ancora incluse in un blocco), che è una proprietà diversa. Tecnicamente la mempool contiene transazioni "unverified" finché il nodo non le valida, e poi rimangono "unconfirmed" finché non finiscono in un blocco. Suggerito: "transazioni non verificate".
-La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non confermate. Un full node l'ha poi validata e inserita in un blocco candidato.
+La transazione di Alice è stata propagata nella rete, finendo nel pool delle transazioni non verificate. Un full node l'ha poi validata e inserita in un blocco candidato.
 Circa cinque minuti dopo che la transazione è stata trasmessa per la prima volta dal wallet di Alice, un miner trova la soluzione per il blocco e la annuncia alla rete. Dopo che ciascuno degli altri miner convalida il blocco vincente, questi avviano una nuova lotteria per generare il blocco successivo.
 
 Il blocco vincente contenente la transazione di Alice entra così a far parte della blockchain. Quel blocco viene conteggiato come una  _conferma_ di quella transazione. Dopo che il blocco contenente la transazione di Alice si è propagato nella rete, creare un blocco alternativo con una versione diversa della transazione (ad esempio una transazione che non paga Bob) richiederebbe la stessa quantità di lavoro che serve a tutti i miner di Bitcoin per creare un blocco interamente nuovo.

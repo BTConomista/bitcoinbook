@@ -81,8 +81,7 @@ image::images/mbc3_0502.png["Deterministic Wallet"]
 [[public_child_key_derivation]]
 ==== Derivazione di Chiavi Pubbliche Figlie
 
-// [REVISIONE]: L’originale dice "we learned how to create" — "abbiamo visto come creare" è accettabile ma "abbiamo imparato" sarebbe più fedele. Problema più importante: l’originale dice "it’s possible to add or subtract from a public key, or to multiply it" — la traduzione aggiunge "sommare, sottrarre o moltiplicare una chiave pubblica" che omette la preposizione "a/da": si sottrae *da* una chiave pubblica, non si "sottrae una chiave pubblica". Suggerito: "è possibile sommare o sottrarre un valore a/da una chiave pubblica, oppure moltiplicarla."
-In <<public_key_derivation>>, abbiamo visto come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni sulle curve ellittiche non siano intuitive, sono analoghe all’addizione, sottrazione e moltiplicazione dell’aritmetica tradizionale. In altre parole, è possibile sommare, sottrarre o moltiplicare una chiave pubblica. Considera l'operazione che abbiamo usato in <<public_key_derivation>> per generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore (_G_):
+In <<public_key_derivation>>, abbiamo visto come creare una chiave pubblica da una chiave privata utilizzando la crittografia a curva ellittica (ECC). Sebbene le operazioni sulle curve ellittiche non siano intuitive, sono analoghe all’addizione, sottrazione e moltiplicazione dell’aritmetica tradizionale. In altre parole, è possibile sommare o sottrarre un valore a/da una chiave pubblica, oppure moltiplicarla. Considera l'operazione che abbiamo usato in <<public_key_derivation>> per generare una chiave pubblica (_K_) da una chiave privata (_k_) utilizzando il punto generatore (_G_):
 
 [latexmath]
 ++++
