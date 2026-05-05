@@ -149,8 +149,7 @@ Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a ridurre la sicurezza dei bitcoin conservati in wallet multifirma.
 In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere i backup più semplici e sicuri.
 
-// [REVISIONE]: "parole di uso comune" non cattura il senso di "human-language words" — l'originale enfatizza che si tratta di parole del linguaggio naturale/umano (contrapposto a stringhe esadecimali), non solo parole frequenti. Suggerito: "parole del linguaggio naturale" o "parole di una lingua naturale".
-Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di uso comune. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
+Sebbene i seed siano valori casuali di grandi dimensioni, solitamente compresi tra 128 e 256 bit, la maggior parte dei codici di recupero utilizza parole di una lingua naturale. La scelta di usare parole è motivata soprattutto dal desiderio di rendere il codice più facile da ricordare.
 Per esempio, considera il codice di recupero rappresentato sia in esadecimale che in forma di parole, in <<hex_seed_vs_recovery_words>>.
 
 [[hex_seed_vs_recovery_words]]
