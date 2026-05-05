@@ -192,7 +192,7 @@ Così come possiamo compilare un assegno a casa e spedirlo in banca, la transazi
 
 Il wallet di Alice deve anzitutto individuare gli input in grado di coprire l'importo da inviare a Bob. In genere i wallet tengono traccia di tutti gli output disponibili per i propri indirizzi. Per questo il wallet di Alice conserva anche l'output della transazione con Joe, in cui scambiò contanti con bitcoin (vedi <<getting_first_bitcoin>>).
 
-Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet utente girano come client leggeri che registrano solo gli UTXO dell'utente.
+Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet funzionano come client leggeri che registrano solo gli UTXO dell'utente.
 
 In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse sufficiente, il wallet di Alice dovrebbe combinare più UTXO di piccole dimensioni, un po' come cercare monete nel portafoglio, finché non si raggiunge l'importo necessario. In entrambi i casi potrebbe avanzare del resto, come vedremo nella sezione successiva durante la creazione degli output.
 
@@ -253,7 +253,7 @@ Se l'output della funzione di hash corrisponde a un modello stabilito dal protoc
 Quando si trova la combinazione vincente, chiunque può verificare che il blocco sia valido eseguendo la funzione di hash una sola volta. Un blocco valido richiede quindi una grande quantità di lavoro per essere creato ma solo un minimo sforzo per essere verificato.
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti _proof of work_ (PoW), ovvero _prova di lavoro_.
 
-Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con il tasso di commissione (_fee rate_) più alto, e secondo altri criteri. Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano a calcolare la PoW per il blocco candidato.
+Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con il tasso di commissione (_fee rate_) più alto, e secondo altri criteri. Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano i calcoli PoW per il blocco candidato.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia la ricompensa del blocco e tutte le commissioni al proprio indirizzo.
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
 I miner che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.
