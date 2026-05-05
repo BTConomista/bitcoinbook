@@ -16,7 +16,7 @@ questo capitolo, esamineremo alcuni dei diversi metodi impiegati dai
 wallet per evitare che la perdita di dati si trasformi in una perdita di denaro.
 Alcune soluzioni presentano pochissimi svantaggi e sono adottate dai
 wallet moderni. Raccomanderemo queste soluzioni come migliori
-pratiche. Altre soluzioni comportano vantaggi e svantaggi, portando diversi autori di wallet a operare compromessi differenti.
+pratiche. Altre soluzioni comportano vantaggi e svantaggi, portando diversi sviluppatori di wallet a scendere a compromessi differenti.
 In questi casi, descriveremo le varie opzioni disponibili.
 
 === Generazione Indipendente delle Chiavi
