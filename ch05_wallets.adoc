@@ -146,8 +146,7 @@ La struttura ad albero può essere utilizzata per scopi organizzativi più avanz
 Analizzeremo in dettaglio i wallet HD in <<hd_wallet_details>>.
 
 ==== Seed e Codici di Recupero
-// [REVISIONE]: L'originale dice "reduce the security of bitcoins in multisignature wallets" — la traduzione "compromettere la sicurezza dei bitcoin conservati in wallet multifirma" è imprecisa: il testo originale non dice che li "ruba" ma che "riduce la sicurezza" dei wallet multifirma (perché il seed controlla solo una delle chiavi). Suggerito: "...oltre a ridurre la sicurezza dei bitcoin conservati in wallet multifirma."
-I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a compromettere la sicurezza dei bitcoin conservati in wallet multifirma.
+I wallet HD sono un potente strumento per gestire numerose chiavi derivate da un unico seed. Se il tuo database wallet dovesse danneggiarsi o andare perso, puoi rigenerare tutte le chiavi private del tuo wallet utilizzando il seed originale. Tuttavia, se qualcun altro entra in possesso del tuo seed, può generare tutte le chiavi private e rubare tutti i bitcoin da un wallet a firma singola, oltre a ridurre la sicurezza dei bitcoin conservati in wallet multifirma.
 In questa sezione esamineremo diversi _codici di recupero_, pensati per rendere i backup più semplici e sicuri.
 
 // [REVISIONE]: "parole di uso comune" non cattura il senso di "human-language words" — l'originale enfatizza che si tratta di parole del linguaggio naturale/umano (contrapposto a stringhe esadecimali), non solo parole frequenti. Suggerito: "parole del linguaggio naturale" o "parole di una lingua naturale".
@@ -167,8 +166,7 @@ garbage claim echo media make crunch
 ----
 ====
 
-// [REVISIONE]: "supporti fisici" non è la resa corretta di "physical belongings" — l'originale parla di oggetti fisici in generale (non solo supporti di memorizzazione). Suggerito: "oggetti fisici" o "effetti personali fisici".
-Ci sono situazioni in cui ricordare un codice di recupero può rappresentare un grande vantaggio, ad esempio quando non puoi trasportare supporti fisici (come un codice di recupero scritto su carta) senza il rischio che vengano sequestrati o ispezionati da terzi che potrebbero rubare i tuoi bitcoin. Tuttavia, nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
+Ci sono situazioni in cui ricordare un codice di recupero può rappresentare un grande vantaggio, ad esempio quando non puoi trasportare oggetti fisici (come un codice di recupero scritto su carta) senza il rischio che vengano sequestrati o ispezionati da terzi che potrebbero rubare i tuoi bitcoin. Tuttavia, nella maggior parte dei casi, affidarsi solo alla memoria è pericoloso:
 
 - Se dimentichi il tuo codice di recupero e perdi l’accesso al tuo database wallet originale, non potrai più recuperare i tuoi bitcoin: saranno persi per sempre.
 

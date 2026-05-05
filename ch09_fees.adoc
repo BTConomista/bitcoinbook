@@ -413,10 +413,9 @@ transazione in arrivo usando una transazione figlia per pagare per il suo genito
 
 CPFP ha diversi vantaggi rispetto a RBF. Chiunque riceva un output
 da una transazione può usare CPFP--questo include sia i destinatari dei
-// [REVISIONE — DA RIVEDERE]: calco semantico — "dirompente" rende "disruptive" ma in italiano ha sfumatura prevalentemente positiva ("innovativo, di rottura"); qui il senso è negativo (problematico per i commercianti). Suggerito: "meno problematico per alcuni commercianti rispetto a RBF".
 pagamenti sia chi spende (se chi spende ha incluso un output di resto). Inoltre
 non richiede la sostituzione della transazione originale, il che lo rende
-meno dirompente per alcuni commercianti rispetto a RBF.
+meno problematico per alcuni commercianti rispetto a RBF.
 
 Lo svantaggio principale di CPFP rispetto a RBF è che CPFP tipicamente
 usa più spazio nei blocchi. In RBF, una transazione di fee bump spesso ha la stessa
