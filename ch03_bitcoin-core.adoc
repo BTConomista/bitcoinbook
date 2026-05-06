@@ -435,7 +435,6 @@ $ bitcoin-cli getblockchaininfo
 }
 ----
 
-// [REVISIONE]: "83.999 header" usa il punto come separatore delle migliaia (italiano), corretto; tuttavia più avanti a riga 536 si usa "775,072" con la virgola anglosassone — uniformare a "775.072"
 Questo mostra un nodo con un'altezza della blockchain pari a 0 blocchi e 83.999 header. Il nodo, per prima cosa, scarica gli header dei blocchi dai suoi peer per individuare la blockchain con la maggiore proof of work e, successivamente, procede a scaricare i blocchi completi, validandoli man mano.
 
 Una volta soddisfatto delle opzioni di configurazione selezionate, dovresti aggiungere Bitcoin Core agli script di avvio del tuo sistema operativo, in modo che rimanga in esecuzione continuamente e si riavvii al riavvio del sistema operativo. Troverai diversi esempi di script di avvio per vari sistemi operativi nella directory dei sorgenti di Bitcoin Core sotto _contrib/init_ e un file _README.md_ che indica quale script è utilizzato da ciascun sistema.
@@ -547,8 +546,7 @@ I dati vengono restituiti in formato JavaScript Object Notation (JSON), facilmen
 ====
 Ci vorrà un po’ di tempo, forse più di un giorno, prima che +bitcoind+ raggiunga l’altezza della blockchain attuale mentre scarica i blocchi dagli altri nodi Bitcoin e convalida ogni transazione contenuta in essi—quasi un miliardo di transazioni al momento in cui scriviamo.
 
-// [REVISIONE]: "775,072" usa la virgola come separatore delle migliaia in stile anglosassone — in italiano il separatore delle migliaia è il punto: "775.072"
-Puoi controllare i suoi progressi usando +getblockchaininfo+ per vedere il numero di blocchi noti. Gli esempi nel resto di questo capitolo presuppongono che tu abbia raggiunto almeno il blocco 775,072. Poiché la sicurezza delle transazioni Bitcoin dipende dai blocchi, alcune delle informazioni nei prossimi esempi cambieranno leggermente in base al numero di blocchi del tuo nodo.
+Puoi controllare i suoi progressi usando +getblockchaininfo+ per vedere il numero di blocchi noti. Gli esempi nel resto di questo capitolo presuppongono che tu abbia raggiunto almeno il blocco 775.072. Poiché la sicurezza delle transazioni Bitcoin dipende dai blocchi, alcune delle informazioni nei prossimi esempi cambieranno leggermente in base al numero di blocchi del tuo nodo.
 ====
 
 [[exploring_and_decoding_transactions]]
