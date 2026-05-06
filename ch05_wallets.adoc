@@ -296,7 +296,6 @@ positivo o un negativo, a seconda della tua prospettiva:
   continuare a cercare di costringerti anche dopo che gli hai dato tutti i
   tuoi bitcoin.
 
-// [REVISIONE]: La frase "A meno che tu non riesca a capire quale errore di battitura hai fatto in precedenza, i tuoi fondi sono persi" manca del contesto temporale dell'originale: "Unless you can figure out what typo you previously made, your funds are gone." — la traduzione è fedele, ma "i tuoi fondi sono persi" dovrebbe essere "i tuoi fondi sono perduti" o "i tuoi fondi sono andati" per preservare il tono definitivo dell'originale ("are gone"). Valutare anche "quei fondi sono persi per sempre".
 - Un ulteriore aspetto negativo è la ridotta quantità di rilevamento degli errori. Se
   inserisci una passphrase leggermente sbagliata durante il ripristino da un backup,
   il tuo wallet non può avvisarti dell'errore. Se ti aspettavi

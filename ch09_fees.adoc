@@ -28,7 +28,6 @@ selezionare le transazioni in base a qualsiasi criterio desiderino, incluso il r
 // [REVISIONE]: "incluso il rifiuto di includere qualsiasi transazione" è ambiguo: in italiano "qualsiasi transazione" può essere letto come "qualunque specifica transazione" piuttosto che "nessuna transazione in assoluto". L'inglese dice "refusing to include any transactions at all". Suggerire: "incluso il rifiuto di includere del tutto transazioni" o "incluso rifiutarsi di includere qualsiasi transazione".
 includere qualsiasi transazione.
 
-// [REVISIONE]: nel testo della nota, "irrilevanti" (per "largely uninteresting") è troppo forte — implica "non pertinenti/privi di valore" mentre l'inglese "uninteresting" significa solo "di scarso interesse per questa discussione". Preferire "di scarso interesse" o "non particolarmente rilevanti".
 ++++
 <div data-type="note">
 <p class="fix_tracking"> Quando diciamo "transazioni" in questo capitolo, ci riferiamo a ogni

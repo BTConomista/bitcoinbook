@@ -2,12 +2,10 @@
 
 == Bitcoin Core: L'implementazione di riferimento
 
-// [REVISIONE]: "controllare attentamente l'integrità" è impreciso rispetto all'originale "verify the integrity" — preferire "verificare l'integrità"
 Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve.
 // [REVISIONE]: "altri problemi critici" omette "several" dell'originale ("several other critical problems") — preferire "diversi altri problemi critici"
 Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
-// [REVISIONE]: "analizzeremo" non rende bene "inspect" dell'originale, che indica un'ispezione diretta dei dati del proprio nodo; preferire "esamineremo" o "ispezioneremmo"
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
 === Da Bitcoin a Bitcoin Core
@@ -327,13 +325,11 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++prune++:: Riduci i requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
 
-// [REVISIONE]: "recuperare tramite script" è impreciso rispetto a "programmatically retrieve" dell'originale — preferire "recuperare in modo programmatico" o "recuperare via programma"
 ++txindex++:: Mantieni un indice di tutte le transazioni. Questo consente di recuperare tramite script qualsiasi transazione tramite il suo ID, a condizione che il blocco contenente quella transazione non sia stato eliminato tramite pruning.
 
 [role="less_space pagebreak-before"]
 ++dbcache++:: La dimensione della cache UTXO. Il valore predefinito è di 450 mebibyte (MiB). Aumenta questa dimensione su hardware di fascia alta per ridurre la frequenza di lettura e scrittura sul disco, oppure riducila su hardware di fascia bassa per risparmiare memoria, a scapito di un utilizzo più frequente del disco.
 
-// [REVISIONE]: "trasmettere" non rende "relaying" — in contesto P2P Bitcoin, "relay" indica l'inoltro/ritrasmissione di transazioni ai peer; preferire "invece di inoltrare/ritrasmettere transazioni non confermate"
 ++blocksonly++:: Minimizza l'utilizzo della larghezza di banda accettando solo blocchi di transazioni confermate dai tuoi peer, invece di trasmettere transazioni non confermate.
 
 ++maxmempool++:: Limita la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
