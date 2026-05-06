@@ -85,7 +85,6 @@ v0.12.0rc2
 ----
 
 L'elenco dei tag mostra tutte le versioni di Bitcoin che sono state rilasciate. Per convenzione, le versioni _candidate al rilascio_, destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
-// [REVISIONE]: "la versione più recente" non rende "the highest version release" dell'originale — l'inglese indica la versione con il numero più alto tra le release stabili, non necessariamente la più recente cronologicamente; preferire "la versione con il numero più alto" o "la versione stabile più recente"
 Dall'elenco precedente, seleziona la versione più recente, che al momento della scrittura era la v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
