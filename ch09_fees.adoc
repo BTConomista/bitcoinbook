@@ -85,13 +85,12 @@ significa che, anche se è possibile pagare la commissione in una transazione
 diversa, è più efficiente (e quindi più economico) pagare la commissione in una
 singola transazione.
 
-// [REVISIONE — DA RIVEDERE]: "vederlo confermare" è grammaticalmente discutibile (calco di "to see it confirming"). In italiano, dopo "vedere", il verbo all'infinito è transitivo: "vedere qualcuno fare qualcosa". Qui il pronome "lo" si riferisce al pagamento, ma "confermare" senza oggetto è ambiguo. Suggerito: "...hanno interesse a vederlo confermarsi rapidamente" oppure "...a che venga confermato rapidamente". Inoltre "normalmente ... a volte" ricalca "normally ... sometimes" creando una contraddizione apparente: riformulare con "perciò il fatto che di norma solo chi spende possa scegliere le commissioni può talvolta rappresentare un problema".
 In Bitcoin,
 la commissione è un'offerta e l'importo pagato contribuisce a determinare quanto
 tempo ci vorrà perché la transazione sia confermata. Sia chi spende sia chi riceve
-un pagamento tipicamente hanno interesse a vederlo confermare rapidamente, quindi
-normalmente permettere solo a chi spende di scegliere le commissioni può a volte essere un
-problema; vedremo una soluzione a questo problema in <<cpfp>>. Tuttavia,
+un pagamento tipicamente hanno interesse affinché venga confermato rapidamente; perciò
+il fatto che di norma solo chi spende possa scegliere le commissioni può talvolta
+rappresentare un problema. Vedremo una soluzione a questo problema in <<cpfp>>. Tuttavia,
 in molti flussi di pagamento comuni, le parti con il maggiore desiderio di vedere una
 transazione confermarsi rapidamente--cioè, le parti che sarebbero più
 disposte a pagare commissioni più alte--sono quelle che spendono.
@@ -266,8 +265,7 @@ che può essere reimplementato da zero da un programmatore sufficientemente comp
 permettendo al reimplementatore di includere o meno
 la sostituzione delle transazioni.
 
-// [REVISIONE — DA RIVEDERE]: calco dall'inglese — "rompe l'assunzione" rende letteralmente "breaks the assumption". In italiano è più naturale "smentisce il presupposto", "contraddice l'ipotesi" o "infrange l'assunzione".
-La sostituzione delle transazioni rompe l'assunzione di alcuni commercianti che
+La sostituzione delle transazioni smentisce l'assunzione di alcuni commercianti che
 ogni transazione non confermata ragionevole sarà alla fine confermata.
 Una versione alternativa di una transazione può pagare gli stessi output dell'
 originale, ma non è obbligata a pagare nessuno di quegli output. Se la
@@ -355,12 +353,11 @@ sostitutiva includa sempre tutti gli stessi input della versione
 precedente della transazione.
 ====
 
-// [REVISIONE — DA RIVEDERE]: calco lessicale — "in primo luogo" rende "in the first place", ma in italiano "in primo luogo" significa "innanzitutto/prima di tutto", non "fin dall'inizio/in origine". L'originale "if they had paid the bumped fee rate in the first place" significa "se avesse pagato il tasso di commissione aumentato fin dall'inizio" o "in origine". Sostituire per evitare alterazione del significato.
 Il vantaggio del fee bumping RBF rispetto ad altri tipi di fee bumping è che
 può essere molto efficiente nell'uso dello spazio nei blocchi. Spesso, una transazione
 sostitutiva ha la stessa dimensione della transazione che sostituisce. Anche quando
 è più grande, spesso ha la stessa dimensione della transazione che l'utente avrebbe
-creato se avesse pagato il tasso di commissione aumentato in primo luogo.
+creato se avesse pagato il tasso di commissione aumentato fin dall'inizio.
 
 Lo svantaggio fondamentale del fee bumping RBF è che normalmente può essere
 eseguito solo dal creatore della transazione--la persona o
@@ -660,11 +657,10 @@ di includere qualsiasi transazione valida (che non è stata ancora minata) nel l
 blocco candidato #100.000. Non devono riminare il blocco con le
 stesse transazioni. Infatti, hanno l'incentivo di selezionare le
 transazioni più redditizie (commissione più alta per kB) da includere nel loro blocco.
-// [REVISIONE — DA RIVEDERE]: calco dall'inglese — "tirare transazioni" rende "pull transactions" in modo poco naturale; preferire "prelevare/spostare/portare transazioni dal 'presente' al 'passato' riscritto" mantenendo il significato.
 Possono includere qualsiasi transazione che era nel "vecchio" blocco
 #100.000, così come qualsiasi transazione dal mempool corrente.
-Essenzialmente hanno l'opzione di tirare transazioni dal "presente"
-nel "passato" riscritto quando ricreano il blocco #100.000.
+Essenzialmente hanno l'opzione di spostare transazioni dal "presente"
+al "passato" riscritto quando ricreano il blocco #100.000.
 
 Oggi, questo attacco non è molto redditizio perché il sussidio del blocco è molto
 più alto delle commissioni totali per blocco. Ma a un certo punto nel futuro,
@@ -679,8 +675,7 @@ transazione che crea. In circostanze normali, questo lock time non ha
 effetto&#x2014;le transazioni potrebbero comunque essere incluse solo nel blocco
 #100.001; è il prossimo blocco.
 
-// [REVISIONE — DA RIVEDERE]: stesso calco visto sopra ("tirare transazioni"); inoltre "sotto un attacco di riorganizzazione" è calco di "under a reorganization attack" — preferire "in caso di attacco di riorganizzazione".
-Ma sotto un attacco di riorganizzazione, i miner non sarebbero in grado di tirare
+Ma in caso di attacco di riorganizzazione, i miner non sarebbero in grado di prelevare
 transazioni con commissioni alte dal mempool perché tutte quelle transazioni
 sarebbero bloccate con timelock al blocco #100.001. Possono solo riminare il #100.000
 con qualsiasi transazione fosse valida in quel momento, essenzialmente non guadagnando

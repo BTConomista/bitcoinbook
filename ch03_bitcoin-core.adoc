@@ -292,8 +292,7 @@ $ bitcoind -printtoconsole
 ...
 ----
 
-// [REVISIONE]: l'originale usa "Ctrl-C" (con trattino); più avanti nel file viene usato correttamente "Ctrl-C" — uniformare a "Ctrl-C" per coerenza con l'originale e con il resto del file
-Puoi premere Ctrl+C per spegnere il nodo una volta individuata la posizione del file di configurazione.
+Puoi premere Ctrl-C per spegnere il nodo una volta individuata la posizione del file di configurazione.
 Di solito, il file di configurazione si trova nella directory dei dati _.bitcoin_ all'interno della home directory dell'utente.
 Apri il file di configurazione con il tuo editor preferito per modificarlo.
 
@@ -346,8 +345,7 @@ Per impostazione predefinita, Bitcoin Core crea un database contenente _solo_ le
 Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. Se inizialmente non attivi questa opzione e successivamente scegli di abilitare l'indicizzazione completa, dovrai attendere il tempo necessario per la ricostruzione dell'indice.
 ****
 
-// [REVISIONE]: "un API" è scorretto grammaticalmente (API inizia con vocale) — preferire "un'API backend"
-<<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un API backend per un'applicazione Bitcoin.
+<<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un'API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
 .Esempio di configurazione di un nodo con indice completo
@@ -761,8 +759,7 @@ In alternativa, puoi creare una password statica utilizzando lo script helper fo
 
 Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare una libreria HTTP generica per costruire la chiamata, in modo simile a quanto mostrato nell'esempio precedente con +curl+.
 
-// [REVISIONE — DA RIVEDERE]: calco "wrappano" — preferire una resa più naturale come "incapsulano", "fanno da wrapper a" o "fanno da interfaccia a" l'API di Bitcoin Core.
-Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che "wrappano" l'API di Bitcoin Core rendendo questo processo molto più semplice.
+Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che incapsulano l'API di Bitcoin Core rendendo questo processo molto più semplice.
 Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
 Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
 
@@ -848,9 +845,8 @@ https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in
 https://bitcoinj.github.io[bitcoinj]:: Una libreria Java per client full node
 
 ==== Python
-// [REVISIONE]: "sviluppati" ha concordanza errata — il soggetto di pycoin è "Una libreria" (singolare femminile), quindi deve essere "sviluppata"; per python-bitcoinlib il participio regge una lista mista (libreria + full node), ma resta preferibile "sviluppata" accordandosi con il sostantivo principale
 https://oreil.ly/xn_rg[python-bitcoinlib]::  Una libreria Bitcoin in Python, una libreria per il consenso e un full node sviluppati da Peter Todd
-https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppati da Richard Kiss
+https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppata da Richard Kiss
 
 ==== Go
 https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio Go

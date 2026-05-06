@@ -618,9 +618,8 @@ importante differenza rende i codici di recupero molto più sicuri perché
 gli umani sono fonti molto scarse di casualità.
 ====
 
-// [REVISIONE — DA RIVEDERE]: incoerenza terminologica — qui si usa "wallet hardware" mentre altrove nel capitolo e in ch01 si usa "dispositivo di firma hardware" (con nota esplicita che "hardware wallet" è fuorviante). Valutare "il dispositivo di firma hardware Trezor" per coerenza interna.
 Nota che BIP39 è un'implementazione di uno standard di codice di recupero.
-BIP39 è stato proposto dall'azienda dietro il wallet hardware Trezor e
+BIP39 è stato proposto dall'azienda dietro il dispositivo di firma hardware Trezor e
 è compatibile con molte altre applicazioni wallet, anche se certamente
 non tutte.
 
@@ -718,8 +717,7 @@ un wallet deterministico e derivare le sue chiavi.
 
 La funzione di key-stretching prende due
 parametri: l'entropia e un _salt_. Lo scopo di un salt in una
-// [REVISIONE]: "tabella di lookup" è un calco dall'inglese "lookup table". Suggerito: "tabella di ricerca" o, se si vuole mantenere il tecnicismo, almeno "lookup table" in corsivo come termine straniero. La forma "tabella di lookup" è ibrida e incoerente.
-funzione di key-stretching è rendere difficile costruire una tabella di lookup
+funzione di key-stretching è rendere difficile costruire una tabella di ricerca
 che permetta un attacco a forza bruta. Nello standard BIP39, il salt ha
 un altro scopo--permette l'introduzione di una passphrase che
 serve come fattore di sicurezza aggiuntivo che protegge il seed, come
@@ -883,14 +881,13 @@ bit di entropia (anche se devi assicurarti che le tue chiavi private generate
 siano selezionate uniformemente dall'intero intervallo di 2^256^ chiavi
 private).
 
-// [REVISIONE — DA RIVEDERE]: incoerenza terminologica interna al capitolo — qui (e poco più sotto) si usa il calco "forzare brutalmente" / "forzare brutalmente l'altra metà", mentre poco sopra si usa "attacco a forza bruta" / "attaccare a forza bruta". Uniformare alla forma "attaccare a forza bruta" per coerenza terminologica e per evitare il calco da "brute-force".
 C'è un ulteriore vantaggio di una maggiore entropia: se una percentuale fissa
 del tuo codice di recupero (ma non l'intero codice) viene vista da un attaccante,
 maggiore è l'entropia, più difficile sarà per loro scoprire la parte
 del codice che non hanno visto. Per esempio, se un attaccante vede metà di un
-codice a 128 bit (64 bit), è plausibile che sarà in grado di forzare
-brutalmente i restanti 64 bit. Se vede metà di un codice a 256 bit (128
-bit), non è plausibile che possa forzare brutalmente l'altra metà. Non
+codice a 128 bit (64 bit), è plausibile che sarà in grado di attaccare
+a forza bruta i restanti 64 bit. Se vede metà di un codice a 256 bit (128
+bit), non è plausibile che possa attaccare a forza bruta l'altra metà. Non
 raccomandiamo di fare affidamento su questa difesa--o mantieni i tuoi codici di recupero
 molto sicuri o usa un metodo come SLIP39 che ti permette di distribuire il tuo
 codice di recupero in più luoghi senza fare affidamento sulla sicurezza di
@@ -913,7 +910,7 @@ possibile passphrase porta a un seed diverso. Essenzialmente, non c'è
 passphrase "sbagliata". Tutte le passphrase sono valide e tutte portano a
 seed diversi, formando un vasto insieme di possibili wallet non inizializzati.
 L'insieme di possibili wallet è così grande (2^512^) che non c'è
-possibilità pratica di forzare brutalmente o indovinare accidentalmente uno che
+possibilità pratica di attaccare a forza bruta o indovinare accidentalmente uno che
 è in uso.
 
 [TIP]
@@ -1031,9 +1028,7 @@ generazioni.
 Le chiavi private figlie sono indistinguibili dalle chiavi non deterministiche (casuali).
 Poiché la funzione di derivazione è una funzione unidirezionale, la chiave
 figlia non può essere utilizzata per trovare la chiave genitore.
-// [REVISIONE]: "La chiave figlia non può anche essere utilizzata" è un calco dall'inglese "The child key also cannot be used". In italiano la forma naturale è "La chiave figlia non può nemmeno essere utilizzata" oppure "Nemmeno la chiave figlia può essere utilizzata". La costruzione "non ... anche" è un anglicismo da evitare.
-La chiave figlia non può anche
-essere utilizzata per trovare eventuali fratelli. Se hai l'n-esimo figlio, non puoi trovare
+Nemmeno la chiave figlia può essere utilizzata per trovare eventuali fratelli. Se hai l'n-esimo figlio, non puoi trovare
 i suoi fratelli, come il figlio n-1 o il figlio n+1, o qualsiasi
 altro figlio che fa parte della sequenza. Solo la chiave genitore e
 il codice di catena possono derivare tutti i figli. Senza il codice di catena del figlio,
@@ -1085,8 +1080,7 @@ base58check per le chiavi estese utilizza un numero di versione speciale che ris
 prefisso "xprv" e "xpub" quando codificato in caratteri base58 per renderli
 facilmente riconoscibili. Poiché la chiave estesa contiene molti più
 byte rispetto agli indirizzi regolari,
-// [REVISIONE]: errore di accordo grammaticale — "lungo" è maschile ma il soggetto è "la chiave estesa" (femminile). Correggere in "è anche molto più lunga di altre stringhe codificate in base58check che abbiamo visto in precedenza."
-è anche molto più lungo di altre stringhe codificate in base58check che abbiamo
+è anche molto più lunga di altre stringhe codificate in base58check che abbiamo
 visto in precedenza.
 
 Ecco un esempio di una chiave _privata_ estesa, codificata in base58check:
@@ -1248,8 +1242,7 @@ affinché le chiavi pubbliche possano essere esportate. Nota che la maggior part
 esporterà mai chiavi private--quelle rimangono sempre sul dispositivo.
 
 Gabriel copia la xpub nel software di elaborazione dei pagamenti Bitcoin del suo negozio web,
-// [REVISIONE — DA RIVEDERE]: calco dall'inglese "widely used" — "diffusamente utilizzato" suona innaturale in italiano. Suggerito: "ampiamente diffuso", "molto usato" o "il diffuso BTCPay Server open source".
-come il diffusamente utilizzato BTCPay Server open source.
+come il diffuso BTCPay Server open source.
 
 ===== Derivazione di chiavi figlie indurite
 

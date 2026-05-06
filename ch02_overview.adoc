@@ -40,23 +40,22 @@ Il negozio online di Bob ha da poco attivato i pagamenti in bitcoin sul proprio 
 
 Alice trova l'episodio che le interessa e va alla pagina di pagamento. Qui può scegliere di pagare in bitcoin oltre che con i metodi tradizionali. Il carrello mostra il prezzo in dollari e in bitcoin (BTC), calcolato sul cambio corrente.
 
-// [REVISIONE]: incoerenza terminologica con ch01 — qui "invoice" è reso come "ordine di pagamento", mentre in ch01 ("Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (invoice)") è reso come "richiesta di pagamento". Uniformare la traduzione di "invoice" in tutto il libro (suggerito: "richiesta di pagamento" come in ch01).
-Il sistema di pagamento genera automaticamente un codice QR con un _ordine di pagamento_ (<<invoice-QR>>).
+Il sistema di pagamento genera automaticamente un codice QR con una _richiesta di pagamento_ (<<invoice-QR>>).
 
 ////
 TODO: Replace QR code with test-BTC address
 ////
 
 [[invoice-QR]]
-.Codice QR di un ordine di pagamento.
+.Codice QR di una richiesta di pagamento.
 image::images/mbc3_0201.png["payment-request"]
 
-Rispetto a un semplice codice QR con il solo indirizzo di destinazione, questo ordine di pagamento è un URI codificato che include indirizzo, importo e descrizione.
+Rispetto a un semplice codice QR con il solo indirizzo di destinazione, questa richiesta di pagamento è un URI codificato che include indirizzo, importo e descrizione.
 Ciò consente al wallet di compilare automaticamente i dati necessari e di mostrare all'utente una descrizione leggibile. Puoi scansionare il codice QR con un wallet Bitcoin per vedere ciò che compare ad Alice:
 
 
 [[invoice-URI]]
-.Il codice QR dell'ordine di pagamento codifica il seguente URI, definito nel BIP21:
+.Il codice QR della richiesta di pagamento codifica il seguente URI, definito nel BIP21:
 ----
 bitcoin:bc1qk2g6u8p4qm2s2lh3gts5cpt2mrv5skcuu7u3e4?amount=0.01577764&
 label=Bob%27s%20Store&
@@ -75,7 +74,7 @@ Una descrizione del pagamento: "Purchase at Bob's Store"
 Prova a scansionarlo con il tuo wallet per vedere indirizzo e importo, MA NON INVIARE SOLDI.
 ====
 
-Alice scansiona il codice con lo smartphone. Sullo schermo compare l'ordine di pagamento per l'importo corretto destinato a +Bob's Store+ e lei tocca Invia per autorizzarlo.
+Alice scansiona il codice con lo smartphone. Sullo schermo compare la richiesta di pagamento per l'importo corretto destinato a +Bob's Store+ e lei tocca Invia per autorizzarlo.
 In pochi secondi, un tempo paragonabile all'autorizzazione di una carta di credito, Bob vede comparire la transazione nel sistema.
 
 [NOTE]
