@@ -103,8 +103,7 @@ nothing to commit, working tree clean
 ==== Configurazione della Build di Bitcoin Core
 
 Il codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
-// [REVISIONE]: "Linux (o altri sistemi Unix)" non rende "Linux (a Unix-like system)" — la parentesi originale descrive Linux come sistema Unix-like, non indica altri sistemi; preferire "Linux (un sistema Unix-like)"
-In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (o altri sistemi Unix). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
+In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (un sistema Unix-like). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
 Istruzioni alternative si possono trovare nella directory _doc_; ad esempio, _build-windows.md_ per le istruzioni relative a Windows. Al momento della stesura di questo testo, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
 
 Esamina attentamente i prerequisiti per la compilazione, che si trovano nella prima parte della documentazione sulla build. Si tratta di librerie che devono essere presenti sul tuo sistema prima di iniziare a compilare Bitcoin.
