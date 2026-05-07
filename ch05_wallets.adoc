@@ -1,7 +1,6 @@
 //FIXME:reduce difficulty / we ramp up too quick Lesmes feedback
 [[ch05_wallets]]
-// [REVISIONE]: Il titolo originale è "Wallet Recovery" — "Recupero del Wallet" è accettabile, ma nella terminologia del capitolo il tema principale è il backup e il recupero. Valutare "Recupero e Backup del Wallet" per riflettere meglio il contenuto.
-== Recupero del Wallet
+== Recupero e Backup del Wallet
 
 La creazione di coppie di chiavi private e pubbliche è un elemento cruciale che permette
 ai wallet Bitcoin di ricevere e spendere bitcoin. Ma perdere l'accesso a una
@@ -23,8 +22,7 @@ In questi casi, descriveremo le varie opzioni disponibili.
 
 ++++
 <p class="fix_tracking2">
-// [REVISIONE]: "portafogli per contanti fisici" è una resa ibrida (portafogli per l'italiano, cash dall'inglese) e suona innaturale. L'originale dice "Wallets for physical cash" — suggerito: "I portafogli fisici contengono denaro contante" oppure "I portafogli tradizionali contengono denaro fisico".
-I portafogli per contanti fisici contengono quel contante, quindi non sorprende che molte persone pensino, erroneamente, che i wallet Bitcoin contengano bitcoin. In realtà, ciò che molti chiamano wallet Bitcoin—che noi definiamo <em>database wallet</em> per distinguerlo dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate ai bitcoin registrati sulla blockchain. Se dimostri ai full node di Bitcoin di controllare le chiavi, puoi spendere i bitcoin associati.
+I portafogli tradizionali contengono denaro fisico, quindi non sorprende che molte persone pensino, erroneamente, che i wallet Bitcoin contengano bitcoin. In realtà, ciò che molti chiamano wallet Bitcoin—che noi definiamo <em>database wallet</em> per distinguerlo dalle applicazioni wallet—contiene solo chiavi. Queste chiavi sono associate ai bitcoin registrati sulla blockchain. Se dimostri ai full node di Bitcoin di controllare le chiavi, puoi spendere i bitcoin associati.
 </p>
 ++++
 
@@ -39,8 +37,7 @@ Per ogni chiave generata indipendentemente, l’utente avrebbe dovuto eseguire i
 .Generazione non deterministica delle chiavi: una collezione di chiavi generate indipendentemente memorizzate in un database wallet.
 image::images/mbc3_0501.png["Non-Deterministic Wallet"]
 
-// [REVISIONE]: L'originale dice "repeatable (deterministic) algorithm" — l'aggettivo "ripetibile" è omesso nella traduzione. Aggiungere: "...attraverso un algoritmo ripetibile (deterministico)." per preservare la sfumatura tecnica.
-Le moderne applicazioni wallet non generano più le chiavi in modo indipendente, bensì le derivano da un singolo seed casuale attraverso un algoritmo deterministico.
+Le moderne applicazioni wallet non generano più le chiavi in modo indipendente, bensì le derivano da un singolo seed casuale attraverso un algoritmo ripetibile (deterministico).
 
 ==== Generazione Deterministica delle Chiavi
 
@@ -210,8 +207,7 @@ Aezeed::
   wallet (come il numero di versione di Electrum v2); l'altro numero di
   versione è esterno, che può essere incrementato per modificare le proprietà
   crittografiche sottostanti del codice di recupero.
-// [REVISIONE]: "compleanno del wallet" è una traduzione letterale di "wallet birthday" che in italiano suona goffa. Il termine tecnico standard nelle traduzioni è "data di creazione del wallet" o "data di nascita del wallet". Considerare "data di creazione del wallet" (già usata in parte nella frase seguente).
-  Include anche un _compleanno del wallet_
+  Include anche una _data di creazione del wallet_
   nel codice di recupero, un riferimento alla data in cui l'utente ha creato
   il database wallet. Questo permette a un processo di ripristino di trovare tutti i
   fondi associati a un wallet senza scansionare l'intera
@@ -588,8 +584,7 @@ utilizzato nei wallet all'inizio del 2023:
 
 Tutti questi standard esistono dal 2014 o prima, e
 non avrai problemi a trovare risorse aggiuntive per utilizzarli.
-// [REVISIONE]: "investigare" è un falso amico — in italiano significa indagare/fare un'indagine (accezione poliziesca), non "esaminare/approfondire". L'originale dice "investigate more modern standards" — suggerito: "esplorare", "approfondire" o "esaminare". Lo stesso problema si riscontra alle righe 265 e 290.
-Tuttavia, se ti senti audace, ti incoraggiamo a investigare standard
+Tuttavia, se ti senti audace, ti incoraggiamo a esplorare standard
 più moderni che potrebbero fornire funzionalità o sicurezza aggiuntive.
 
 [[recovery_code_words]]

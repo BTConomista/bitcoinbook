@@ -545,7 +545,6 @@ e almeno una soluzione è in fase di sviluppo attivo ((("commissioni di transazi
 stesura&mdash;https://oreil.ly/300dv[ephemeral anchors].
 
 [[cpfp_carve_out]]
-// [REVISIONE]: titolo di sezione usa il singolare "Anchor Output" mentre l'originale inglese ha il plurale "Anchor Outputs". Nella sezione stessa (riga ~602) si usa anch'esso il singolare. Verificare se la scelta del singolare è intenzionale o deve essere uniformata al plurale per coerenza con l'inglese e con il termine tecnico comunemente usato ("anchor outputs").
 === CPFP Carve Out e Anchor Output
 
 ++++

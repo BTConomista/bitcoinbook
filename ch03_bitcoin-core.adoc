@@ -3,8 +3,7 @@
 == Bitcoin Core: L'implementazione di riferimento
 
 Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve.
-// [REVISIONE]: "altri problemi critici" omette "several" dell'originale ("several other critical problems") — preferire "diversi altri problemi critici"
-Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
+Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e diversi altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
@@ -21,8 +20,7 @@ Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte
 image::images/mbc3_0301.png["Bitcoin Core Architecture"]
 
 Anche se Bitcoin Core rappresenta l'implementazione di riferimento per molte parti fondamentali del sistema, il whitepaper di Bitcoin descrive diverse delle prime componenti del sistema.
-// [REVISIONE]: l'originale usa "BIPs" (plurale con la s), che è la forma standard corretta della sigla. "Bitcoin Improvement Proposals (BIP)" omette la s del plurale — preferire "Bitcoin Improvement Proposals (BIPs)"
-La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIP)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
+La maggior parte dei componenti principali dal 2011 in poi è documentata nei https://oreil.ly/BCXAQ[Bitcoin Improvement Proposals (BIPs)]. Nel corso di questo libro, ci riferiremo alle specifiche BIP utilizzando il loro numero; ad esempio, il BIP9 descrive un meccanismo utilizzato per diversi aggiornamenti importanti di Bitcoin.
 
 === Ambiente di sviluppo Bitcoin
 
@@ -31,7 +29,6 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 [[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
-// [REVISIONE]: l'originale dice "compressed archive" (archivio compresso), non "file zip" specificamente — preferire "archivio compresso" per entrambe le occorrenze in questo paragrafo
 Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin].
 
 [TIP]
@@ -147,8 +144,7 @@ Optional Features:
 Lo script +configure+ ti permette di abilitare o disabilitare specifiche funzionalità di +bitcoind+ tramite i flag +--enable-FEATURE+ e +--disable-FEATURE+, in cui pass:[<span
 class="keep-together"><code>FEATURE</code></span>] deve essere sostituito con il nome della funzionalità, come indicato nell'output della guida.
 In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminarli per comprendere quali funzionalità opzionali fanno parte del client.
-// [REVISIONE]: "potresti dover installare" omette la motivazione esplicita dell'originale: "computer lab restrictions may require you to install" — le restrizioni del laboratorio informatico impongono l'installazione nella home directory; preferire "le restrizioni del laboratorio informatico potrebbero imporre di installare"
-Se ti trovi in un ambiente accademico, ad esempio in un laboratorio informatico, potresti dover installare le applicazioni nella tua directory personale, utilizzando ad esempio l'opzione +--prefix=$HOME+.
+Se ti trovi in un ambiente accademico, le restrizioni del laboratorio informatico potrebbero richiederti di installare le applicazioni nella tua directory personale (ad esempio, utilizzando l'opzione +--prefix=$HOME+).
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
 
 ++++
@@ -232,7 +228,6 @@ $ which bitcoin-cli
 === Esecuzione di un Nodo Bitcoin Core
 
 La rete peer-to-peer di Bitcoin è composta da "nodi", gestiti principalmente da individui e da alcune aziende che forniscono servizi Bitcoin. Chi esegue un nodo Bitcoin ha una visione diretta e autorevole della blockchain di Bitcoin, con una copia locale di tutti i bitcoin spendibili, validata in modo indipendente dal proprio sistema.
-// [REVISIONE]: "rendendola più robusta e sicura" aggiunge "e sicura" non presente nell'originale "help make it more robust" — rimuovere "e sicura"
 Eseguendo un nodo, non devi fare affidamento su terze parti per validare una transazione. Inoltre, utilizzando un nodo Bitcoin per verificare completamente le transazioni che ricevi nel tuo wallet, contribuisci alla rete Bitcoin, rendendola più robusta e sicura.
 
 Eseguire un nodo, tuttavia, richiede il download e l'elaborazione di oltre 500 GB di dati iniziali, oltre a circa 400 MB di transazioni Bitcoin al giorno. Questi dati si riferiscono al 2023 e probabilmente aumenteranno nel tempo.
@@ -263,7 +258,6 @@ Ecco alcune delle ragioni più comuni:
 
 - Stai creando applicazioni che devono validare le transazioni in base alle regole di consenso di Bitcoin. Di solito, le aziende che sviluppano software Bitcoin gestiscono diversi nodi.
 
-// [REVISIONE]: "più robusta e sicura" aggiunge "e sicura" non presente nell'originale "makes the network more robust" — rimuovere "e sicura"
 - Vuoi supportare Bitcoin. Eseguire un nodo per validare le transazioni che ricevi nel tuo wallet contribuisce a rendere la rete più robusta e sicura.
 
 Se stai leggendo questo libro e sei interessato a una sicurezza avanzata, a una maggiore privacy o allo sviluppo di software Bitcoin, dovresti eseguire il tuo nodo.
