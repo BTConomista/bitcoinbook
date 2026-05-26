@@ -227,6 +227,7 @@ $ which bitcoin-cli
 === Esecuzione di un Nodo Bitcoin Core
 
 La rete peer-to-peer di Bitcoin è composta da "nodi", gestiti principalmente da individui e da alcune aziende che forniscono servizi Bitcoin. Chi esegue un nodo Bitcoin ha una visione diretta e autorevole della blockchain di Bitcoin, con una copia locale di tutti i bitcoin spendibili, validata in modo indipendente dal proprio sistema.
+// [REVISIONE]: "help make it more robust" è reso come "rendendola più robusta e sicura" (e analogamente "rendere la rete più robusta e sicura" nel punto elenco di questa stessa sezione); l'originale cita solo "more robust", non menziona la sicurezza. Suggerito: "rendendola più robusta" e nel punto elenco "rendere la rete più robusta".
 Eseguendo un nodo, non devi fare affidamento su terze parti per validare una transazione. Inoltre, utilizzando un nodo Bitcoin per verificare completamente le transazioni che ricevi nel tuo wallet, contribuisci alla rete Bitcoin, rendendola più robusta e sicura.
 
 Eseguire un nodo, tuttavia, richiede il download e l'elaborazione di oltre 500 GB di dati iniziali, oltre a circa 400 MB di transazioni Bitcoin al giorno. Questi dati si riferiscono al 2023 e probabilmente aumenteranno nel tempo.

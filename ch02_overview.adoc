@@ -265,7 +265,9 @@ Quando esistono blocchi alternativi, i full node scelgono la catena con il maggi
 
 
 
-Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco. Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
+Ciò significa che i miner hanno una scelta. In teoria i miner potrebbero collaborare con Alice su un'alternativa alla transazione in cui paga Bob, che magari preveda il pagamento da parte sua di una quota del denaro precedentemente versato a Bob. Questo comportamento disonesto richiederà loro di compiere lo sforzo necessario a creare due nuovi blocchi. Al contrario, i miner che si comportano onestamente possono creare un singolo nuovo blocco e ricevere tutte le commissioni dalle transazioni che vi includono, oltre al sussidio del blocco.
+// [REVISIONE]: l'originale specifica il ragionamento economico comparativo: "the high cost of dishonestly creating two blocks for a small additional payment is much less profitable than honestly creating a new block"; la traduzione lo riduce a "il costo della frode supererebbe i benefici", perdendo il confronto esplicito tra i due scenari (2 blocchi disonesti vs 1 blocco onesto + commissioni + sussidio). Suggerito: "Di norma, creare disonestamente due blocchi per un piccolo guadagno aggiuntivo è molto meno redditizio che creare onestamente un solo blocco".
+Poiché il costo della frode supererebbe i benefici, è improbabile che una transazione confermata venga alterata. Bob può quindi ritenere affidabile il pagamento di Alice.
 
 [TIP]
 ====
