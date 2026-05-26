@@ -5,6 +5,7 @@ A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non richie
 
 === Panoramica su Bitcoin
 
+// [REVISIONE]: "The Bitcoin system" è reso come "La rete Bitcoin"; "sistema Bitcoin" comprende protocollo, wallet, miner e rete, mentre "rete Bitcoin" designa solo il layer peer-to-peer. Suggerito: "Il sistema Bitcoin è formato da...".
 ++++
 <p class="fix_tracking">
 La rete Bitcoin è formata da utenti con wallet che custodiscono chiavi, da transazioni che si diffondono nella rete e da miner che, tramite un calcolo competitivo, costruiscono la blockchain di consenso, ossia il registro ufficiale di tutte le transazioni.
