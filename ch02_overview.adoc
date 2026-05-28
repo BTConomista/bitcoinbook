@@ -1,6 +1,7 @@
 [[ch02_bitcoin_overview]]
 == Come funziona Bitcoin
 
+// [REVISIONE]: "verify the correct operation of every aspect of the Bitcoin system" è reso come "verificare in autonomia che il sistema funzioni correttamente": si perde "every aspect" (ogni aspetto), affermazione chiave sull'ampiezza della verifica indipendente. Suggerito: "verificare in autonomia il corretto funzionamento di ogni aspetto del sistema Bitcoin".
 A differenza dei sistemi bancari e di pagamento tradizionali, Bitcoin non richiede di fidarsi di terze parti. Ogni utente può eseguire il software sul proprio computer e verificare in autonomia che il sistema funzioni correttamente, senza ricorrere a un'autorità centrale. In questo capitolo esamineremo Bitcoin in termini generali seguendo una transazione e vedendo come viene registrata sulla blockchain, il registro distribuito di tutte le operazioni. Nei capitoli successivi analizzeremo nel dettaglio transazioni, rete e mining.
 
 === Panoramica su Bitcoin
@@ -192,6 +193,7 @@ Così come possiamo compilare un assegno a casa e spedirlo in banca, la transazi
 
 Il wallet di Alice deve anzitutto individuare gli input in grado di coprire l'importo da inviare a Bob. In genere i wallet tengono traccia di tutti gli output disponibili per i propri indirizzi. Per questo il wallet di Alice conserva anche l'output della transazione con Joe, in cui scambiò contanti con bitcoin (vedi <<getting_first_bitcoin>>).
 
+// [REVISIONE]: "unspent transaction outputs (UTXOs)" è reso come "output non spesi (UTXO)": si perde "transaction" dall'acronimo, che non risulta completamente espanso. L'acronimo UTXO sta per Unspent Transaction Output. Suggerito: "output di transazione non spesi (UTXO)".
 Un wallet che gira su un full node mantiene l'intero set degli output non spesi (UTXO) di ogni transazione confermata. Poiché però i full node richiedono molte risorse, molti wallet funzionano come client leggeri che registrano solo gli UTXO dell'utente.
 
 In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse sufficiente, il wallet di Alice dovrebbe combinare più UTXO di piccole dimensioni, un po' come cercare monete nel portafoglio, finché non si raggiunge l'importo necessario. In entrambi i casi potrebbe avanzare del resto, come vedremo nella sezione successiva durante la creazione degli output.

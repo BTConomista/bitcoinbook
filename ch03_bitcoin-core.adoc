@@ -319,6 +319,7 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++prune++:: Riduci i requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
 
+// [REVISIONE]: "This allows you to programmatically retrieve any transaction" è reso come "Questo consente di recuperare tramite script qualsiasi transazione": "tramite script" restringe il significato a script/procedure automatizzate, mentre "programmatically" indica genericamente qualsiasi accesso via codice. Suggerito: "recuperare in modo programmatico" o "recuperare tramite codice".
 ++txindex++:: Mantieni un indice di tutte le transazioni. Questo consente di recuperare tramite script qualsiasi transazione tramite il suo ID, a condizione che il blocco contenente quella transazione non sia stato eliminato tramite pruning.
 
 [role="less_space pagebreak-before"]
@@ -697,6 +698,7 @@ f6cd83c3ca
 </pre>
 ++++
 
+// [REVISIONE]: "its legacy stripped size" è reso come "la stripped size (misurazione legacy, ottenuta rimuovendo i dati witness)": la glossa "ottenuta rimuovendo i dati witness" non è presente nell'originale ed è un'aggiunta editoriale. Suggerito: rimuovere la glossa oppure segnalarla come nota del traduttore.
 La voce +confirmations+ ci indica la _profondità_ (depth) di questo blocco--quanti blocchi sono stati costruiti sopra di esso, indicando la difficoltà di modificare qualsiasi transazione in questo blocco. La +height+ (altezza) ci dice quanti blocchi hanno preceduto questo blocco. Vediamo la versione del blocco, l'ora in cui è stato creato (secondo il suo miner), il tempo mediano degli 11 blocchi che precedono questo blocco (una misurazione temporale più difficile da manipolare per i miner), e la dimensione del blocco in tre diverse misurazioni: la stripped size (misurazione legacy, ottenuta rimuovendo i dati witness), la full size (dimensione completa) e le weight units (dimensione in unità di peso). Vediamo anche alcuni campi utilizzati per la sicurezza e la proof of work (merkle root, nonce, bits, difficulty e chainwork); esamineremo questi in dettaglio in <<mining>>.
 
 ==== Utilizzo dell'interfaccia programmabile di Bitcoin Core
