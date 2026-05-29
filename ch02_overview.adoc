@@ -17,7 +17,6 @@ In questo capitolo seguiremo una transazione reale, simulando le interazioni tra
 </p>
 ++++
 
-// [REVISIONE — DA RIVEDERE]: incoerenza terminologica all'interno dello stesso capitolo — qui (e poco più sotto) si usa "blockchain explorer" mentre nelle sezioni di avviso/privacy si usa "block explorer". Anche l'originale inglese usa entrambi i termini in modo non perfettamente uniforme; valutare se uniformare la traduzione a una sola forma.
 Tra i blockchain explorer più popolari ci sono:
 * https://blockstream.info[Blockstream Explorer]
 * https://mempool.space[Mempool.Space]
@@ -91,7 +90,7 @@ regole valgono anche per le altre unità contabili di bitcoin, come i
 millibitcoin e i satoshi.
 ====
 
-È possibile usare un blockchain explorer per esaminare i dati presenti sulla blockchain, come la https://oreil.ly/hAeyh[transazione] effettuata da Alice.
+È possibile usare un block explorer per esaminare i dati presenti sulla blockchain, come la https://oreil.ly/hAeyh[transazione] effettuata da Alice.
 
 Nei paragrafi successivi approfondiremo questa transazione: vedremo come il wallet di Alice l'ha costruita, come si è propagata sulla rete, come è stata verificata e infine come Bob potrà spendere l'importo ricevuto in transazioni successive.
 

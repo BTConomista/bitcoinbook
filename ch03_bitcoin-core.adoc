@@ -496,7 +496,6 @@ Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro outpu
 
 Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+ e +getwalletinfo+.
 
-// [REVISIONE — DA RIVEDERE]: l'originale inglese dice "Bitcoin's +getblockchaininfo+ RPC command was introduced earlier" (e non "Bitcoin Core's"); la traduzione "Il comando RPC +getblockchaininfo+ di Bitcoin" rispecchia fedelmente l'originale, ma sia in italiano che in inglese il riferimento è impreciso: gli RPC sono di Bitcoin Core (l'implementazione), non del protocollo Bitcoin. Valutare se correggere in "L'RPC +getblockchaininfo+ di Bitcoin Core" e segnalare l'imprecisione anche nell'originale O'Reilly.
 Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
 
 ----
