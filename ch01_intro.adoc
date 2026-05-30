@@ -81,7 +81,8 @@ Satoshi Nakamoto si è ritirato dalla scena pubblica nell'aprile del 2011, affid
 
 .Una soluzione ad un problema di calcolo distribuito
 ****
-L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa a un problema di calcolo distribuito noto come il "Problema dei Generali Bizantini". // [REVISIONE]: "over an unreliable and potentially compromised network" è reso come "su una rete potenzialmente compromessa"; si omette "unreliable" (inaffidabile/non affidabile), caratteristica tecnica distinta dal "compromessa": la rete può perdere o ritardare messaggi (inaffidabile) indipendentemente da interferenze malevole (compromessa). Suggerito: "su una rete inaffidabile e potenzialmente compromessa".
+// [REVISIONE]: "over an unreliable and potentially compromised network" è reso come "su una rete potenzialmente compromessa"; si omette "unreliable" (inaffidabile/non affidabile), caratteristica tecnica distinta dal "compromessa": la rete può perdere o ritardare messaggi (inaffidabile) indipendentemente da interferenze malevole (compromessa). Suggerito: "su una rete inaffidabile e potenzialmente compromessa".
+L'invenzione di Satoshi Nakamoto rappresenta anche una soluzione pratica e innovativa a un problema di calcolo distribuito noto come il "Problema dei Generali Bizantini".
 In breve, il problema consiste nel far sì che più partecipanti, senza un leader, concordino una linea d'azione comune scambiandosi informazioni su una rete potenzialmente compromessa. La soluzione proposta da Satoshi Nakamoto, che usa l'algoritmo di _proof-of-work_ per raggiungere il consenso _senza un'autorità centrale fidata_, è un progresso rivoluzionario nel settore del calcolo distribuito.
 ****
 
@@ -118,7 +119,8 @@ Un altro modo per classificare i wallet Bitcoin è in base al loro grado di auto
 
 // [REVISIONE]: "validates" è reso come "scarica e verifica": l'originale descrive solo la validazione, non il download; inoltre "every transaction by every user" diventa "ogni singola transazione mai avvenuta sulla rete", perdendo "by every user". Suggerito: "è un programma che valida l'intera cronologia delle transazioni Bitcoin (ogni transazione di ogni utente, da sempre)".
 // [REVISIONE]: "previously validated transactions" è reso come "tutte le transazioni validate", perdendo il qualificatore temporale "previously": il full node archivia le transazioni già validate in precedenza, non semplicemente tutte. Suggerito: "conservare le transazioni validate in precedenza".
-- Client full node: Un client full node (o "nodo completo") è un programma che scarica e verifica l'intera cronologia delle transazioni Bitcoin (cioè, ogni singola transazione mai avvenuta sulla rete). Questi nodi possono anche conservare una copia di tutte le transazioni validate e condividerla con altri programmi Bitcoin, sia sullo stesso computer sia attraverso internet. // [REVISIONE]: "the full node offers complete autonomy to its users" è reso come "offre all'utente il massimo livello di autonomia e sicurezza"; "sicurezza" non è presente nell'originale: l'originale afferma solo l'autonomia (verifica indipendente), non la sicurezza in senso generale. Suggerito: "offre all'utente la massima autonomia".
+// [REVISIONE]: "the full node offers complete autonomy to its users" è reso come "offre all'utente il massimo livello di autonomia e sicurezza"; "sicurezza" non è presente nell'originale: l'originale afferma solo l'autonomia (verifica indipendente), non la sicurezza in senso generale. Suggerito: "offre all'utente la massima autonomia".
+- Client full node: Un client full node (o "nodo completo") è un programma che scarica e verifica l'intera cronologia delle transazioni Bitcoin (cioè, ogni singola transazione mai avvenuta sulla rete). Questi nodi possono anche conservare una copia di tutte le transazioni validate e condividerla con altri programmi Bitcoin, sia sullo stesso computer sia attraverso internet.
 Per funzionare, un full node richiede risorse informatiche considerevoli (paragonabili allo streaming di un'ora di video per ogni giorno di transazioni Bitcoin elaborate), ma in cambio offre all'utente il massimo livello di autonomia e sicurezza.
 
 // [REVISIONE]: nel punto elenco "Client leggero/SPV", la traduzione aggiunge due frasi assenti nell'originale: "A differenza di un full node, non scarica l'intera blockchain" e "Questo approccio richiede molte meno risorse" — l'originale descrive solo le funzioni del client SPV senza questi confronti espliciti. Valutare se rimuovere le aggiunte per attenersi al testo originale.
@@ -238,7 +240,7 @@ Esistono diversi formati di indirizzi Bitcoin e per le richieste di pagamento (i
 Alice preme il pulsante _Ricevi_, che fa visualizzare un codice QR (si veda <<wallet_receive>>).
 
 // [REVISIONE]: nella didascalia dell'immagine seguente, omesso “mobile” — l'originale dice “her mobile Bitcoin wallet”. Suggerito: “Alice usa la schermata “Ricevi” sul suo wallet Bitcoin mobile e mostra il suo indirizzo in formato codice QR.”
-[role=”width-50”]
+[role="width-50"]
 [[wallet_receive]]
 .Alice usa la schermata “Ricevi” sul suo wallet Bitcoin e mostra il suo indirizzo in formato codice QR.
 image::images/mbc3_0101.png["Wallet receive screen with QR code displayed.  Image derived from Bitcoin Design Guide CC-BY"]
