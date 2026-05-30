@@ -3,7 +3,8 @@
 == Bitcoin Core: L'implementazione di riferimento
 
 Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve.
-Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e diversi altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
+Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e diversi altri problemi critici. // [REVISIONE]: "full verification node" tradotto come "nodo di verifica completa" — "full" modifica "node" (non "verification"), quindi il nodo è completo, non la verifica; preferire "nodo di verifica completo" o "nodo di validazione completo". Più avanti nella stessa frase la traduzione usa "nodi completi (full nodes)" correttamente, ma l'epiteto iniziale crea ambiguità.
+Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
 
@@ -11,6 +12,7 @@ In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla
 
 Bitcoin è un progetto _open source_ e il codice sorgente è disponibile con una licenza aperta (MIT), scaricabile gratuitamente e utilizzabile per qualsiasi scopo. Oltre ad essere open source, Bitcoin è sviluppato da una comunità aperta di volontari. Inizialmente questa comunità era composta soltanto da Satoshi Nakamoto. Nel 2023 il codice sorgente di Bitcoin contava oltre 1.000 contributori, con circa una dozzina di sviluppatori impegnati a tempo pieno e diverse decine che collaborano part-time. Chiunque può contribuire al codice—compreso tu!
 
+// [REVISIONE]: la parentetica "(puoi leggerlo in <<satoshi_whitepaper>>)" è un'aggiunta del traduttore; l'originale dice "(reproduced in <<satoshi_whitepaper>>)". Preferire "(riprodotto in <<satoshi_whitepaper>>)" per aderire all'originale.
 Quando Bitcoin fu creato da Satoshi Nakamoto, il software era già in gran parte completato prima della pubblicazione del whitepaper (puoi leggerlo in <<satoshi_whitepaper>>). Satoshi voleva assicurarsi che l'implementazione funzionasse correttamente prima di pubblicare un paper al riguardo. Quella prima implementazione, nota semplicemente come "Bitcoin", è stata pesantemente modificata e migliorata nel tempo. È evoluta in ciò che oggi è conosciuto come _Bitcoin Core_, per differenziarla da altre implementazioni. Bitcoin Core è l'_implementazione di riferimento_ del sistema Bitcoin, il che significa che fornisce un riferimento per come ogni parte della tecnologia dovrebbe essere implementata. Bitcoin Core implementa tutti gli aspetti di Bitcoin, compresi wallet, un motore di validazione di transazioni e blocchi, strumenti per la costruzione di blocchi, e tutte le parti moderne della comunicazione peer-to-peer di Bitcoin.
 
 <<bitcoin_core_architecture>> mostra l'architettura di Bitcoin Core.
@@ -29,7 +31,8 @@ Se sei uno sviluppatore, vorrai configurare un ambiente di sviluppo con tutti gl
 [[compiling_core]]
 === Compilare Bitcoin Core dal codice sorgente
 
-Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin].
+Il codice sorgente di Bitcoin Core può essere scaricato come file zip o clonando il repository GitHub. // [REVISIONE]: "download the compressed archive of the source code" è reso come "scarica il file zip del codice sorgente" — l'originale dice "compressed archive" (archivio compresso, generico), non specificamente "zip"; Bitcoin Core distribuisce sia .zip sia .tar.gz. Preferire "scarica l'archivio compresso del codice sorgente".
+Vai alla https://oreil.ly/hN9g1[pagina di download di Bitcoin Core], seleziona la versione più recente e scarica il file zip del codice sorgente. In alternativa, utilizza il comando Git per creare una copia locale del codice sorgente dal https://oreil.ly/BdOwl[repository GitHub di Bitcoin].
 
 [TIP]
 ====
@@ -254,6 +257,7 @@ Ecco alcune delle ragioni più comuni:
 
 - Non vuoi rivelare a terzi quali transazioni appartengono al tuo wallet.
 
+// [REVISIONE]: "need to rely on a Bitcoin node for programmable (API) access" — "programmable" (accesso programmabile/via codice) è omesso nella traduzione; preferire "per accedere alla rete e alla blockchain in modo programmabile (tramite API)".
 - Stai sviluppando software Bitcoin e hai bisogno di un nodo Bitcoin per accedere alla rete e alla blockchain tramite API.
 
 - Stai creando applicazioni che devono validare le transazioni in base alle regole di consenso di Bitcoin. Di solito, le aziende che sviluppano software Bitcoin gestiscono diversi nodi.
@@ -325,10 +329,12 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 [role="less_space pagebreak-before"]
 ++dbcache++:: La dimensione della cache UTXO. Il valore predefinito è di 450 mebibyte (MiB). Aumenta questa dimensione su hardware di fascia alta per ridurre la frequenza di lettura e scrittura sul disco, oppure riducila su hardware di fascia bassa per risparmiare memoria, a scapito di un utilizzo più frequente del disco.
 
+// [REVISIONE]: "instead of relaying unconfirmed transactions" — "relay" ha un significato tecnico specifico (propagazione P2P di transazioni ai peer); "trasmettere" è più generico. Preferire "invece di fare il relay di transazioni non confermate" o "invece di propagare transazioni non confermate ai peer".
 ++blocksonly++:: Minimizza l'utilizzo della larghezza di banda accettando solo blocchi di transazioni confermate dai tuoi peer, invece di trasmettere transazioni non confermate.
 
 ++maxmempool++:: Limita la dimensione del memory pool delle transazioni a un determinato numero di megabyte. Utilizza questa opzione per ridurre il consumo di memoria su nodi con risorse limitate.
 
+// [REVISIONE]: nel blocco sidebar seguente, "_any_ transaction" nell'originale è in corsivo enfatico; la traduzione usa "qualsiasi transazione" senza enfasi, perdendo il contrasto con il comportamento predefinito (solo transazioni del wallet). Preferire "_qualsiasi_ transazione" per preservare l'enfasi tecnica dell'originale.
 [[txindex]]
 .Indice del Database delle Transazioni e Opzione txindex
 ****
@@ -530,6 +536,7 @@ $ bitcoin-cli getnetworkinfo
 }
 ----
 
+// [REVISIONE]: "also quite human-readable" tradotto come "anche piuttosto intuitivo per noi esseri umani" — "human-readable" è un termine tecnico standard (leggibile dall'uomo senza strumenti di decodifica), non equivalente a "intuitivo". Preferire "leggibile anche dall'essere umano" o "comprensibile anche senza strumenti di decodifica".
 I dati vengono restituiti in formato JavaScript Object Notation (JSON), facilmente "consumabile" da qualsiasi linguaggio di programmazione e anche piuttosto intuitivo per noi esseri umani. Tra queste informazioni troviamo i numeri di versione del software Bitcoin Core e del protocollo Bitcoin, il numero corrente di connessioni e varie altre informazioni sulla rete Bitcoin e sulle impostazioni di questo nodo.
 
 [TIP]
@@ -749,6 +756,7 @@ In alternativa, puoi creare una password statica utilizzando lo script helper fo
 
 Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare una libreria HTTP generica per costruire la chiamata, in modo simile a quanto mostrato nell'esempio precedente con +curl+.
 
+// [REVISIONE]: "libraries that 'wrap' the Bitcoin Core API" — "wrap" (virgolettato nell'originale) è tradotto come "incapsulano": in programmazione "wrap" (creare un wrapper) e "encapsulate" (incapsulamento OOP) hanno significati tecnici distinti. Preferire "che forniscono un'interfaccia semplificata per l'API di Bitcoin Core" o "che fanno il wrap dell'API di Bitcoin Core".
 Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che incapsulano l'API di Bitcoin Core rendendo questo processo molto più semplice.
 Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
 Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
@@ -819,6 +827,7 @@ Il nostro codice di esempio calcola che il valore totale transato in questo bloc
 [[alt_libraries]]
 === Client, librerie e toolkit alternativi
 
+// [REVISIONE]: (1) "full-node implementations" tradotto come "implementazioni complete di full node" — "full-node" è aggettivo composto che descrive il tipo di nodo, non un attributo di completezza; preferire "implementazioni di full node"; (2) "native interfaces" (plurale) tradotto come "un’interfaccia nativa" (singolare) — ogni libreria per linguaggio diverso ha le sue interfacce native; preferire "interfacce native nel linguaggio che preferiscono".
 Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolkit e persino implementazioni complete di full node. Sono realizzati in vari linguaggi di programmazione, offrendo agli sviluppatori un’interfaccia nativa nel linguaggio che preferiscono.
 
 Le sezioni seguenti elencano alcune tra le migliori librerie, client e toolkit, suddivisi per linguaggio di programmazione.
@@ -853,4 +862,5 @@ https://oreil.ly/Qfjgq[NBitcoin]:: Una libreria Bitcoin completa pensata per il 
 Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di programmazione e ne vengono create continuamente di nuove.
 
 // [REVISIONE]: "rendere l’invio e la ricezione delle transazioni più convenienti" aggiunge "delle transazioni" (non nell’originale "spending and receiving") e "più" (l’originale dice "convenient", non "more convenient") — preferire "rendere l’invio e la ricezione [di bitcoin] più agevoli" o semplicemente "semplici"
-Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#
+Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, // [REVISIONE]: "without having to trust any outside authority" — "trust" ha il significato tecnico e filosofico preciso nel contesto Bitcoin (concetto di trustless); "fare affidamento su" descrive dipendenza funzionale, non fiducia in senso tecnico. Preferire "senza dover riporre fiducia in alcuna autorità esterna".
+senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#
