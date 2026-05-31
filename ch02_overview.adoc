@@ -14,7 +14,8 @@ La rete Bitcoin è formata da utenti con wallet che custodiscono chiavi, da tran
 </p>
 
 <p class="fix_tracking2">
-In questo capitolo seguiremo una transazione reale, simulando le interazioni tra diversi utenti che spostano fondi da un wallet a un altro. Per ogni fase useremo un blockchain explorer, ossia un'applicazione web che consente di cercare indirizzi, transazioni e blocchi e di esaminarne i collegamenti.
+In questo capitolo seguiremo una transazione reale, simulando le interazioni tra diversi utenti che spostano fondi da un wallet a un altro. // [REVISIONE]: la descrizione del blockchain explorer omette due elementi dell'originale: (1) "operates as a Bitcoin search engine" (funziona come un motore di ricerca Bitcoin), metafora pedagogica utile per il lettore; (2) "flows" (flussi) — l'IT rende solo "i collegamenti" (relationships), perdendo la visualizzazione dei flussi di valore tra entità. Suggerito: "un'applicazione web che funziona come un motore di ricerca Bitcoin: consente di cercare indirizzi, transazioni e blocchi e di esaminarne le relazioni e i flussi."
+Per ogni fase useremo un blockchain explorer, ossia un'applicazione web che consente di cercare indirizzi, transazioni e blocchi e di esaminarne i collegamenti.
 </p>
 ++++
 
@@ -23,7 +24,8 @@ Tra i blockchain explorer più popolari ci sono:
 * https://mempool.space[Mempool.Space]
 * https://live.blockcypher.com[BlockCypher Explorer]
 
-Ciascuno di questi strumenti offre una funzione di ricerca in cui inserire un indirizzo Bitcoin, un hash di transazione o un numero (o hash) di blocco per recuperare le informazioni corrispondenti dalla rete. Per ogni esempio di transazione o blocco forniremo un URL che consentirà di visualizzarlo e studiarlo nel dettaglio.
+Ciascuno di questi strumenti offre una funzione di ricerca in cui inserire un indirizzo Bitcoin, un hash di transazione o un numero (o hash) di blocco per recuperare le informazioni corrispondenti dalla rete. // [REVISIONE]: "so you can look it up yourself and study it in detail" reso come "che consentirà di visualizzarlo e studiarlo nel dettaglio": si perde la seconda persona singolare (TU) e il riferimento all'autonomia del lettore ("yourself"). Suggerito: "in modo che tu possa consultarlo autonomamente e studiarlo nel dettaglio."
+Per ogni esempio di transazione o blocco forniremo un URL che consentirà di visualizzarlo e studiarlo nel dettaglio.
 
 [[block-explorer-privacy]]
 .Attenzione alla privacy quando usi i block explorer
@@ -91,16 +93,19 @@ regole valgono anche per le altre unità contabili di bitcoin, come i
 millibitcoin e i satoshi.
 ====
 
+// [REVISIONE]: (1) "You can use a block explorer" → "È possibile usare": forma impersonale invece della seconda persona TU, in contrasto con il resto della sezione (es. "Puoi scansionare", "Prova a scansionarlo"); (2) "the payment made to Bob in Alice's transaction" → "la transazione effettuata da Alice": si perde "the payment made to Bob", precisazione utile per orientarsi nell'explorer. Suggerito: "Puoi usare un block explorer per esaminare i dati sulla blockchain, come il pagamento effettuato da Alice a Bob nella https://oreil.ly/hAeyh[transazione] indicata."
 È possibile usare un block explorer per esaminare i dati presenti sulla blockchain, come la https://oreil.ly/hAeyh[transazione] effettuata da Alice.
 
 Nei paragrafi successivi approfondiremo questa transazione: vedremo come il wallet di Alice l'ha costruita, come si è propagata sulla rete, come è stata verificata e infine come Bob potrà spendere l'importo ricevuto in transazioni successive.
 
 === Transazioni Bitcoin
-Una transazione comunica alla rete che il proprietario di certi bitcoin ha autorizzato il trasferimento di quel valore a un altro. Il nuovo proprietario potrà a sua volta spenderli creando un'altra transazione diretta a un nuovo destinatario, e così via in una catena di proprietà.
+Una transazione comunica alla rete che il proprietario di certi bitcoin ha autorizzato il trasferimento di quel valore a un altro. // [REVISIONE]: "another owner" tradotto come "un nuovo destinatario" invece di "un nuovo proprietario": "destinatario" (recipient) è terminologicamente diverso da "owner" (proprietario); il concetto di catena di *proprietà* (ownership) è centrale nel modello UTXO. Lo stesso termine "owner" è correttamente reso come "proprietario" nel resto del capitolo. Suggerito: "creando un'altra transazione che trasferisce il valore a un nuovo proprietario".
+Il nuovo proprietario potrà a sua volta spenderli creando un'altra transazione diretta a un nuovo destinatario, e così via in una catena di proprietà.
 
 ==== Input e Output di una Transazione
 
-Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione include uno o più input, che spendono fondi, e uno o più output, che li ricevono. Di norma, la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione di transazione_ implicita incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come registrazione in un libro mastro basato sul metodo della partita doppia.
+Le transazioni si possono immaginare come righe di un registro a partita doppia. Ogni transazione include uno o più input, che spendono fondi, e uno o più output, che li ricevono. // [REVISIONE]: "outputs add up to slightly less than inputs" reso come "Di norma, la somma degli output è leggermente inferiore a quella degli input": l'EN enuncia una regola strutturale del protocollo (la differenza tra input e output è sempre la commissione implicita), mentre "di norma" implica che si tratta di un'osservazione empirica con possibili eccezioni. Suggerito: "La somma degli output non è necessariamente uguale a quella degli input; di regola gli output sono leggermente inferiori agli input".
+Di norma, la somma degli output è leggermente inferiore a quella degli input: la differenza è rappresentata dalla _commissione di transazione_ implicita incassata dal miner che include la transazione nella blockchain. La figura <<transaction-double-entry>> mostra una transazione come registrazione in un libro mastro basato sul metodo della partita doppia.
 
 // [REVISIONE]: "proof of ownership for each amount of bitcoins (inputs)" — la parentetica "(inputs)" è omessa nella traduzione; il chiarimento tecnico che la prova di proprietà riguarda gli input è rilevante per il lettore. Suggerito: "per ogni quantità di bitcoin spesa (input)".
 La transazione contiene anche una prova di proprietà per ogni quantità di bitcoin spesa. Questa prova è una firma digitale del proprietario, che chiunque può verificare autonomamente. Nella rete Bitcoin, spendere significa firmare una transazione che trasferisce valore da una transazione precedente a un nuovo proprietario identificato da un indirizzo Bitcoin.
@@ -167,7 +172,8 @@ _transazioni senza resto_ (changeless transaction) e possono avere un solo outpu
 
 I diversi wallet adottano varie strategie per scegliere gli input da usare in un pagamento, in un processo chiamato _coin selection_.
 
-Il wallet può aggregare molti input di piccole dimensioni oppure usarne uno solo di valore pari o superiore all'importo desiderato. Se gli input non corrispondono esattamente alla somma richiesta più la commissione, sarà necessario restituire del resto. Pensiamo a come gestiamo il contante: se usiamo sempre la banconota più grande, accumuliamo spiccioli; se invece paghiamo solo con spiccioli, ci restano banconote di grosso taglio. Di solito si trova un equilibrio e gli sviluppatori di wallet cercano di replicare lo stesso comportamento.
+Il wallet può aggregare molti input di piccole dimensioni oppure usarne uno solo di valore pari o superiore all'importo desiderato. Se gli input non corrispondono esattamente alla somma richiesta più la commissione, sarà necessario restituire del resto. // [REVISIONE]: due problemi: (1) l'analogy del contante usa "noi" (usiamo, paghiamo, ci restano) invece della seconda persona TU ("you" nell'originale), rompendo il registro del libro; (2) "strive to program this balance" (si sforzano di programmare) diventa "cercano di replicare" — "replicare" implica copia meccanica di un comportamento esistente, mentre "program" implica la costruzione deliberata di una logica algoritmica. Suggerito: "Di solito trovi un equilibrio tra i due estremi, e gli sviluppatori di wallet si sforzano di programmare lo stesso equilibrio."
+Pensiamo a come gestiamo il contante: se usiamo sempre la banconota più grande, accumuliamo spiccioli; se invece paghiamo solo con spiccioli, ci restano banconote di grosso taglio. Di solito si trova un equilibrio e gli sviluppatori di wallet cercano di replicare lo stesso comportamento.
 
 ==== Forme comuni di Transazioni
 
@@ -205,8 +211,10 @@ In questo caso quel singolo UTXO basta a pagare il podcast. Se non fosse suffici
 
 ==== Creazione degli Output
 
+// [REVISIONE]: "a signature from the key corresponding to Bob's public address" reso come "corrispondente all'indirizzo di Bob": si perde l'aggettivo "public". Nel contesto dello script locking, la distinzione è rilevante: l'output è vincolato all'indirizzo *pubblico* di Bob (non a un generico indirizzo), differenziando esplicitamente dalla chiave privata usata per spendere. Suggerito: "corrispondente all'indirizzo pubblico di Bob".
 L'output di una transazione è definito da uno script del tipo: "Questo output potrà essere speso da chi presenterà una firma della chiave corrispondente all'indirizzo di Bob". Poiché solo Bob possiede quelle chiavi nel suo wallet, soltanto lui potrà firmare e spendere l'output. Alice quindi _vincola_ il valore dell'output alla firma di Bob.
 
+// [REVISIONE]: questa frase non ha corrispondente nell'originale inglese ed è un'aggiunta editoriale che introduce imprecisioni: (1) Bob non "firma l'output di Alice" ma firma la propria transazione che *spende* quell'output; (2) la firma non "dimostra la proprietà" in senso assoluto, ma autorizza il trasferimento. Suggerito: valutare la rimozione di questa frase.
 In altre parole Bob dovrà firmare l'output di Alice per dimostrarne la proprietà prima di spenderlo.
 
 Poiché gli input di Alice superano il costo del podcast, la transazione include un secondo output di resto. Il wallet di Alice suddivide i fondi in due output: uno per Bob e uno che torna a lei, che potrà spendere in una transazione successiva.
@@ -221,6 +229,7 @@ Visualizza la https://oreil.ly/GwBq1[transazione di Alice al negozio di Bob].
 
 ==== Aggiungere la Transazione alla Blockchain
 
+// [REVISIONE]: "confirm ownership of the funds and assign new owners" reso come "dimostrare la proprietà dei fondi e trasferirli a Bob": (1) "confirm ownership" (confermare la proprietà, crittograficamente) diventa "dimostrare la proprietà" — sfumatura diversa; (2) "assign new owners" (principio generale del protocollo) diventa "trasferirli a Bob" (specifico), perdendo la valenza generale. Suggerito: "confermare la proprietà dei fondi e assegnare nuovi proprietari".
 La transazione appena creata contiene tutto il necessario per dimostrare la proprietà dei fondi e trasferirli a Bob. Deve solo essere trasmessa alla rete Bitcoin, dove diventerà parte della blockchain. Nella prossima sezione vedremo come una transazione viene inclusa in un nuovo blocco e come quel blocco viene "minato". Infine scopriremo come, una volta aggiunto alla blockchain, il blocco ottenga progressivamente più fiducia con l'aggiunta di altri blocchi.
 
 ===== Trasmissione della Transazione
@@ -262,7 +271,8 @@ Quando si trova la combinazione vincente, chiunque può verificare che il blocco
 Questo semplice controllo dimostra in modo probabilistico che il lavoro è stato effettivamente svolto. Per questo i dati necessari a fornire questa prova--cioè il blocco stesso--sono definiti _proof of work_ (PoW), ovvero _prova di lavoro_.
 
 // [REVISIONE]: "create a new candidate block with a commitment to the previous block" — "commitment" (impegno crittografico: l'hash del blocco precedente incluso nell'header) è reso come "collegandolo al blocco precedente", perdendo la connotazione tecnica precisa. Suggerito: "con un commitment al blocco precedente" o "includendo il riferimento crittografico al blocco precedente".
-Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con il tasso di commissione (_fee rate_) più alto, e secondo altri criteri. Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano i calcoli PoW per il blocco candidato.
+Le transazioni vengono aggiunte al nuovo blocco dando priorità a quelle con il tasso di commissione (_fee rate_) più alto, e secondo altri criteri. // [REVISIONE]: "network" non tradotto in questo punto; in tutto il capitolo il termine è costantemente reso come "rete" (rr. 6, 13, 84, 96, ecc.). Incoerenza terminologica interna. Suggerito: "dalla rete".
+Ogni miner inizia a minare un nuovo blocco candidato appena riceve il blocco precedente dal network, consapevole che un altro miner ha vinto quella tornata della lotteria. I miner creano subito un nuovo blocco candidato collegandolo al blocco precedente, lo riempiono di transazioni e iniziano i calcoli PoW per il blocco candidato.
 Ogni miner inserisce nel blocco candidato una transazione speciale che invia la ricompensa del blocco e tutte le commissioni al proprio indirizzo.
 Se trovano una soluzione che rende valido il blocco candidato, i miner ottengono la ricompensa dopo che il loro blocco vincente viene aggiunto alla blockchain e la relativa transazione premio diventa spendibile.
 I miner che partecipano a una mining pool impostano il proprio software per creare blocchi candidati che assegnano la ricompensa a un indirizzo della pool. Da lì, una quota della ricompensa viene distribuita ai membri della pool in proporzione al lavoro svolto.

@@ -67,6 +67,7 @@ $ cd bitcoin
 
 ==== Selezionare una Versione di Bitcoin Core
 
+// [REVISIONE]: "a specific snapshot of the code repository identified by a keyword tag" reso come "una versione precisa del codice salvata nel repository, identificata da un'etichetta": "snapshot" (istantanea del repository in un dato momento, termine tecnico Git) è parafrasato come "versione precisa salvata", perdendo il significato tecnico; "keyword tag" perde "keyword" (parola chiave). Suggerito: "uno snapshot preciso del repository identificato da un tag (parola chiave)".
 Per impostazione predefinita, la copia locale sarà sincronizzata con il codice più recente, che potrebbe essere una versione instabile o beta di Bitcoin. Prima di compilare il codice, seleziona una versione specifica eseguendo un checkout su un _tag_ di release. Questo permetterà di sincronizzare la copia locale con una versione precisa del codice salvata nel repository, identificata da un'etichetta. Gli sviluppatori utilizzano i tag per contrassegnare le diverse versioni del codice in base al numero di versione. Per prima cosa, per trovare i tag disponibili, usiamo il comando +git tag+:
 
 ----
@@ -105,6 +106,7 @@ nothing to commit, working tree clean
 
 ==== Configurazione della Build di Bitcoin Core
 
+// [REVISIONE]: "Review the main documentation" reso come "Ti consigliamo di consultare" — l'originale usa l'imperativo diretto (rivolgendosi a "you"), coerente con il registro TU del libro; la traduzione introduce una prima persona plurale implicita ("Ti consigliamo") non presente nell'originale. Suggerito: "Consulta la documentazione principale contenuta in _README.md_ nella directory _bitcoin_."
 Il codice sorgente include documentazione che può essere trovata in diversi file. Ti consigliamo di consultare la documentazione principale contenuta in _README.md_ nella directory _bitcoin_.
 In questo capitolo, compileremo il daemon di Bitcoin Core (server), noto come +bitcoind+ su Linux (un sistema Unix-like). Per istruzioni dettagliate sulla compilazione del client da riga di comando +bitcoind+ per la tua piattaforma, consulta il file _doc/build-unix.md_.
 Istruzioni alternative si possono trovare nella directory _doc_; ad esempio, _build-windows.md_ per le istruzioni relative a Windows. Al momento della stesura di questo testo, sono disponibili istruzioni per Android, FreeBSD, NetBSD, OpenBSD, macOS (OSX), Unix e Windows.
@@ -319,6 +321,7 @@ Ecco alcune delle opzioni più importanti che puoi impostare nel file di configu
 
 ++conf++:: Una posizione alternativa per il file di configurazione. Questa opzione ha senso solo come parametro da riga di comando per +bitcoind+, poiché non può trovarsi all'interno del file di configurazione a cui si riferisce.
 
+// [REVISIONE]: "the maximum size expected to increase by several hundred gigabytes per year" reso come "con una crescita prevista di diverse centinaia di gigabyte all'anno": si omette "maximum size" (dimensione massima), indicazione tecnica rilevante per la pianificazione dei requisiti hardware a lungo termine. Suggerito: "con la dimensione massima prevista in crescita di diverse centinaia di gigabyte all'anno".
 ++datadir++:: Seleziona la directory e il filesystem in cui salvare tutti i dati della blockchain. Per impostazione predefinita, viene utilizzata la sottodirectory _.bitcoin_ nella tua home directory. A seconda della tua configurazione, lo spazio utilizzato può variare da circa 10 GB fino a quasi 1 TB al momento della scrittura, con una crescita prevista di diverse centinaia di gigabyte all'anno.
 
 ++prune++:: Riduci i requisiti di spazio su disco della blockchain a un determinato numero di megabyte eliminando i blocchi più vecchi. Usa questa opzione su un nodo con risorse limitate che non può contenere l'intera blockchain. Tuttavia, altre parti del sistema utilizzeranno comunque spazio su disco aggiuntivo che al momento non può essere ridotto, quindi sarà comunque necessario disporre almeno dello spazio minimo indicato nell'opzione +datadir+.
@@ -438,6 +441,7 @@ Una volta soddisfatto delle opzioni di configurazione selezionate, dovresti aggi
 
 === API Bitcoin Core 
 
+// [REVISIONE]: "available programmatically via the API" reso come "disponibili anche a livello di programmazione tramite le API": l'originale usa "the API" (singolare, riferito all'unica interfaccia JSON-RPC di Bitcoin Core); "le API" (plurale) è impreciso nel contesto. Suggerito: "disponibili anche programmaticamente tramite l'API".
 Bitcoin Core implementa un'interfaccia JSON-RPC a cui si può accedere anche utilizzando lo strumento a riga di comando +bitcoin-cli+. La riga di comando ci permette di sperimentare in modo interattivo le funzionalità che sono disponibili anche a livello di programmazione tramite le API. Per iniziare, esegui il comando +help+ per vedere un elenco dei comandi RPC di Bitcoin Core disponibili:
 
 [[bitcoind_commands]]
@@ -759,6 +763,7 @@ Se stai implementando una chiamata JSON-RPC nel tuo programma, puoi utilizzare u
 // [REVISIONE]: "libraries that 'wrap' the Bitcoin Core API" — "wrap" (virgolettato nell'originale) è tradotto come "incapsulano": in programmazione "wrap" (creare un wrapper) e "encapsulate" (incapsulamento OOP) hanno significati tecnici distinti. Preferire "che forniscono un'interfaccia semplificata per l'API di Bitcoin Core" o "che fanno il wrap dell'API di Bitcoin Core".
 Tuttavia, esistono librerie nella maggior parte dei linguaggi di programmazione più diffusi che incapsulano l'API di Bitcoin Core rendendo questo processo molto più semplice.
 Utilizzeremo la libreria +python-bitcoinlib+ per semplificare l'accesso all’API. Questa libreria non fa parte del progetto Bitcoin Core e deve essere installata nel modo consueto in cui installi le librerie Python.
+// [REVISIONE]: "this requires you to have a running Bitcoin Core instance" reso come "è necessario avere un’istanza attiva di Bitcoin Core" — l’originale usa la seconda persona diretta ("you"), coerente con il registro TU del libro; la traduzione usa la forma impersonale. Suggerito: "Ricorda che devi avere un’istanza attiva di Bitcoin Core, che verrà usata per effettuare chiamate JSON-RPC."
 Ricorda che è necessario avere un’istanza attiva di Bitcoin Core, che verrà utilizzata per effettuare chiamate JSON-RPC.
 
 Lo script Python in <<rpc_example>> esegue una semplice chiamata a +getblockchaininfo+ e stampa il parametro block dai dati restituiti da Bitcoin Core.
@@ -833,6 +838,7 @@ Nell’ecosistema Bitcoin esistono numerosi client alternativi, librerie, toolki
 Le sezioni seguenti elencano alcune tra le migliori librerie, client e toolkit, suddivisi per linguaggio di programmazione.
 
 ==== C/C++
+// [REVISIONE]: "The reference implementation of Bitcoin" reso come "La versione di riferimento di Bitcoin": "implementation" (implementazione) ≠ "versione" (version); il termine "implementazione di riferimento" è già usato correttamente nel capitolo. Suggerito: "L'implementazione di riferimento di Bitcoin".
 https://oreil.ly/BdOwl[Bitcoin Core] :: La versione di riferimento di Bitcoin
 
 ==== JavaScript
@@ -854,6 +860,7 @@ https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio
 https://oreil.ly/me6gf[rust-bitcoin]:: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l'analisi dei dati e le chiamate API
 
 ==== Scala
+// [REVISIONE]: nell'elenco delle librerie, la voce "bitcoin-s" aggiunge enfasi corsivo "_implementazione_" non presente nell'originale ("A Bitcoin implementation in Scala"); nessun'altra voce dell'elenco usa enfasi su "implementation". Incoerenza editoriale interna all'elenco. Suggerito: "Un'implementazione Bitcoin in Scala".
 https://bitcoin-s.org[bitcoin-s]:: Un'_implementazione_ Bitcoin in Scala
 
 ==== C#
@@ -863,4 +870,5 @@ Molte altre librerie sono disponibili per un'ampia varietà di linguaggi di prog
 
 // [REVISIONE]: "rendere l’invio e la ricezione delle transazioni più convenienti" aggiunge "delle transazioni" (non nell’originale "spending and receiving") e "più" (l’originale dice "convenient", non "more convenient") — preferire "rendere l’invio e la ricezione [di bitcoin] più agevoli" o semplicemente "semplici"
 // [REVISIONE]: "without having to trust any outside authority" — "trust" ha il significato tecnico e filosofico preciso nel contesto Bitcoin (concetto di trustless); "fare affidamento su" descrive dipendenza funzionale, non fiducia in senso tecnico. Preferire "senza dover riporre fiducia in alcuna autorità esterna".
+// [REVISIONE]: "any bitcoins you receive" reso come "i bitcoin che ricevi": l'EN usa "any" per indicare universalità (qualsiasi bitcoin ricevuto), mentre l'articolo determinativo "i bitcoin" può riferirsi a bitcoin specifici, perdendo la generalizzazione tecnica. Suggerito: "qualsiasi bitcoin ricevuto".
 Se hai seguito le istruzioni di questo capitolo, ora hai Bitcoin Core in esecuzione e hai iniziato a esplorare la rete e la blockchain con il tuo full node. Da questo momento in poi, puoi utilizzare in modo indipendente un software sotto il tuo controllo (su un computer che controlli tu) per verificare che i bitcoin che ricevi rispettino tutte le regole del sistema Bitcoin, senza dover fare affidamento su alcuna autorità esterna. Nei prossimi capitoli, approfondiremo le regole del sistema e scopriremo come il tuo nodo e il tuo wallet le utilizzino per mettere al sicuro i tuoi fondi, proteggere la tua privacy e rendere l’invio e la ricezione delle transazioni più [.keep-together]#convenienti.#
