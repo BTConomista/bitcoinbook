@@ -27,6 +27,7 @@ Tra i blockchain explorer più popolari ci sono:
 Ciascuno di questi strumenti offre una funzione di ricerca in cui inserire un indirizzo Bitcoin, un hash di transazione o un numero (o hash) di blocco per recuperare le informazioni corrispondenti dalla rete. // [REVISIONE]: "so you can look it up yourself and study it in detail" reso come "che consentirà di visualizzarlo e studiarlo nel dettaglio": si perde la seconda persona singolare (TU) e il riferimento all'autonomia del lettore ("yourself"). Suggerito: "in modo che tu possa consultarlo autonomamente e studiarlo nel dettaglio."
 Per ogni esempio di transazione o blocco forniremo un URL che consentirà di visualizzarlo e studiarlo nel dettaglio.
 
+// [REVISIONE]: nel blocco WARNING, "operator" è reso come "gestore" nella prima occorrenza e "operatore" nelle due successive — stesso referente, due termini diversi. Uniformare: "rivelare al suo operatore" (o usare "gestore" per tutte e tre).
 [[block-explorer-privacy]]
 .Attenzione alla privacy quando usi i block explorer
 [WARNING]
@@ -314,6 +315,7 @@ image::images/mbc3_0207.png["Alice's transaction included in a block"]
 // [REVISIONE]: (1) "partially verify payments" è reso come "verificare solo in parte le transazioni" — nel contesto SPV, "payments" (pagamenti) ha un significato tecnico specifico distinto da "transazioni"; (2) "committing to it" (il commitment crittografico nella blockchain) è reso come "registrarla", perdendo la connotazione tecnica di commitment. Suggerito: "verificare solo in parte i pagamenti" e "aver effettuato un commitment significativo su di essa".
 Ora che la transazione di Alice è stata incorporata in un blocco, è visibile a tutte le applicazioni Bitcoin. Ogni full node può verificare in modo indipendente la transazione come valida e spendibile. I full node convalidano ogni trasferimento di fondi, dal momento in cui i bitcoin sono stati generati per la prima volta in un blocco, attraverso ogni transazione successiva, fino a quando raggiungono l'indirizzo di Bob. I client leggeri possono verificare solo in parte le transazioni, controllando che la transazione sia presente nella blockchain e che siano stati minati vari blocchi successivi. In questo modo si ha la certezza che i miner abbiano investito uno sforzo significativo per registrarla (vedi <<spv_nodes>>).
 
+// [REVISIONE]: "new owners" reso come "nuovi destinatari": "destinatari" (recipients) è terminologicamente diverso da "proprietari" (owners); il concetto di catena di proprietà (ownership) è centrale nel modello UTXO di Bitcoin. Suggerito: "a nuovi proprietari".
 Bob ora può spendere l'output di questa e altre transazioni. Per esempio potrebbe pagare un appaltatore o un fornitore trasferendo il valore del pagamento di Alice a nuovi destinatari. Man mano che Bob spende i pagamenti ricevuti da Alice e dagli altri clienti, estende la catena di transazioni. Supponiamo che Bob paghi il suo web designer Gopesh per una nuova pagina del sito: la catena apparirà come in <<block-alice2>>.
 
 [[block-alice2]]

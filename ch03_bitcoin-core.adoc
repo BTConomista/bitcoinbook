@@ -147,6 +147,7 @@ Optional Features:
 
 Lo script +configure+ ti permette di abilitare o disabilitare specifiche funzionalità di +bitcoind+ tramite i flag +--enable-FEATURE+ e +--disable-FEATURE+, in cui pass:[<span
 class="keep-together"><code>FEATURE</code></span>] deve essere sostituito con il nome della funzionalità, come indicato nell'output della guida.
+// [REVISIONE]: "without any of the optional features" reso come "senza utilizzare flag di configurazione" (significato diverso: l'originale dice che si compila senza funzionalità opzionali, non senza flag); omesse inoltre le frasi EN "possibly enable features that you want" e "We recommend looking at each option to see if it's relevant", che invitano il lettore a rivedere e abilitare le opzioni desiderate.
 In questo capitolo compileremo il client +bitcoind+ con tutte le funzionalità predefinite, senza utilizzare flag di configurazione. Tuttavia, è consigliabile esaminarli per comprendere quali funzionalità opzionali fanno parte del client.
 Se ti trovi in un ambiente accademico, le restrizioni del laboratorio informatico potrebbero richiederti di installare le applicazioni nella tua directory personale (ad esempio, utilizzando l'opzione +--prefix=$HOME+).
 Ecco alcune opzioni utili che consentono di modificare il comportamento predefinito dello script +configure+:
@@ -857,6 +858,7 @@ https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppata da Ri
 https://oreil.ly/h5MEI[btcd]:: Un client Bitcoin full node scritto in linguaggio Go
 
 ==== Rust
+// [REVISIONE]: "parsing" (analisi sintattica di strutture dati binarie Bitcoin) reso come "l'analisi dei dati": "analisi dei dati" è un concetto più ampio e non equivalente al termine tecnico "parsing". Suggerito: conservare "parsing" o usare "analisi sintattica".
 https://oreil.ly/me6gf[rust-bitcoin]:: Una libreria Bitcoin scritta in Rust, pensata per la serializzazione, l'analisi dei dati e le chiamate API
 
 ==== Scala
