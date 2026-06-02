@@ -193,6 +193,7 @@ Un'altra tipologia ricorrente è la _transazione di consolidamento_, che spende 
 .Transazione di consolidamento che aggrega i fondi.
 image::images/mbc3_0205.png["Aggregating Transaction"]
 
+// [REVISIONE]: "This type of transaction is sometimes used by commercial entities" — "sometimes" (talvolta) è reso come "spesso" (often), cambiando da uso occasionale a frequente; "commercial entities" (entità commerciali) è ampliato a "aziende e organizzazioni". Suggerito: "Questa modalità viene talvolta utilizzata da entità commerciali per distribuire fondi, ad esempio per elaborare pagamenti salariali a più dipendenti."
 Infine, con il _payment batching_ si possono inviare più output a destinatari diversi in un'unica transazione (<<transaction-distributing>>). Questa modalità è spesso adottata da aziende e organizzazioni per distribuire fondi, ad esempio per pagare gli stipendi a più dipendenti.
 
 [[transaction-distributing]]
