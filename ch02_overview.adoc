@@ -238,6 +238,7 @@ La transazione appena creata contiene tutto il necessario per dimostrare la prop
 
 ===== Trasmissione della Transazione
 
+// [REVISIONE]: "how or where it is transmitted" reso come "come o da quale nodo venga inviata": "where" copre qualsiasi origine (applicazione, servizio, tipo di connessione), non solo il nodo di partenza. Suggerito: "come o da dove venga inviata alla rete Bitcoin".
 Poiché la transazione contiene tutte le informazioni necessarie, non importa come o da quale nodo venga inviata alla rete. Bitcoin è una rete peer-to-peer: ogni nodo si collega a vari altri nodi con l'obiettivo di diffondere transazioni e blocchi a tutti i partecipanti.
 
 ===== Come si propaga

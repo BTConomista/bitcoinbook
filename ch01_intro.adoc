@@ -46,6 +46,7 @@ In questo capitolo introduttivo, spiegheremo alcuni termini e concetti fondament
 
 // [REVISIONE]: nel blocco sidebar "Monete Digitali Prima di Bitcoin": "viable digital money" reso come "moneta digitale efficace" — "viable" indica praticabile/sostenibile, non efficace; e "using bits to represent value" reso come "della rappresentazione digitale di un valore", perdendo la specificità tecnica del termine "bit". Suggerito: "moneta digitale praticabile" e "dell'utilizzo dei bit per rappresentare un valore".
 // [REVISIONE]: nel blocco sidebar "Monete Digitali Prima di Bitcoin": "parent company liquidated abruptly" reso come "crollo improvviso della società emittente" — "parent company" (società madre/capogruppo) ≠ "società emittente" (issuer); "liquidated abruptly" (messa in liquidazione bruscamente) ≠ "crollo improvviso" (generico). Suggerito: "quando la società madre venne messa in liquidazione bruscamente".
+// [REVISIONE]: nel blocco sidebar "Monete Digitali Prima di Bitcoin": "trusting the legitimacy of a user's claim to value" reso come "l'affidabilità del valore dichiarato da un utente": "claim to value" indica la rivendicazione di proprietà di un asset digitale, non l'affidabilità di un importo dichiarato. Suggerito: "la legittimità della rivendicazione di valore da parte di un utente".
 .Monete Digitali Prima di Bitcoin
 ****
 L'avvento di una moneta digitale efficace è strettamente legato ai progressi della crittografia. Questo non stupisce, considerando le sfide fondamentali della rappresentazione digitale di un valore scambiabile con beni e servizi.
@@ -199,7 +200,8 @@ Un codice di recupero viene a volte chiamato _mnemonic_ o _mnemonic phrase_, esp
 ====
 
 Se dovesse succedere qualcosa al wallet di Alice, potrebbe reinstallare il software e inserire il codice di recupero per ripristinare il database del wallet, che include tutte le transazioni onchain inviate o ricevute.
-Tuttavia, il solo codice di recupero non ripristina eventuali dati aggiuntivi inseriti da Alice nel wallet, come le etichette associate a specifici indirizzi o transazioni. 
+Tuttavia, il solo codice di recupero non ripristina eventuali dati aggiuntivi inseriti da Alice nel wallet, come le etichette associate a specifici indirizzi o transazioni.
+// [REVISIONE]: "can still be important in its own way" reso come "può comunque rappresentare un disagio": "important" indica rilevanza/importanza, mentre "disagio" (inconvenience) è un downgrading semantico. Suggerito: "può comunque avere la propria importanza".
 Sebbene la perdita di questi metadati non sia grave come quella dei fondi, può comunque rappresentare un disagio. Immagina di dover consultare un vecchio 
 estratto conto bancario o della carta di credito e di trovare i nomi di tutti i 
 soggetti a cui hai effettuato pagamenti (o da cui hai ricevuto pagamenti) cancellati. 
