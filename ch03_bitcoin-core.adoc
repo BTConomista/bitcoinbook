@@ -787,6 +787,7 @@ $ python rpc_example.py
 
 Ci mostra quanti blocchi sono presenti nella blockchain del nostro nodo locale di Bitcoin Core. Anche se non è un risultato particolarmente impressionante, dimostra l'utilizzo basilare della libreria come interfaccia semplificata per l’API JSON-RPC di Bitcoin Core.
 
+// [REVISIONE]: "+getrawtransaction+ e +decodetransaction+" — il nome del secondo comando è errato: il comando bitcoin-cli corretto è +decoderawtransaction+ (correttamente citato poco prima nel capitolo nella sezione "Esplorare e Decodificare le Transazioni"). "+decodetransaction+" non esiste nell'API di Bitcoin Core. Suggerito: "+getrawtransaction+ e +decoderawtransaction+".
 Proseguiamo utilizzando le chiamate +getrawtransaction+ e +decodetransaction+ per recuperare i dettagli del pagamento di Alice a Bob. In <<rpc_transaction>>, recuperiamo la transazione di Alice ed elenchiamo gli output della transazione.
 Per ogni output, mostriamo l’indirizzo del destinatario e il valore. Ricordiamo che la transazione di Alice aveva un output per il pagamento a Bob e un output per il resto destinato ad Alice.
 
