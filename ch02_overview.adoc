@@ -176,6 +176,7 @@ _transazioni senza resto_ (changeless transaction) e possono avere un solo outpu
 
 I diversi wallet adottano varie strategie per scegliere gli input da usare in un pagamento, in un processo chiamato _coin selection_.
 
+// [REVISIONE]: nella frase "Di solito si trova un equilibrio..." l'avverbio "subconsciously" (in modo inconsapevole) dell'originale è omesso e reso con "Di solito" (usually): si perde il contrasto tra l'equilibrio che le persone trovano istintivamente e quello che gli sviluppatori di wallet devono invece programmare deliberatamente. Verificare.
 Il wallet può aggregare molti input di piccole dimensioni oppure usarne uno solo di valore pari o superiore all'importo desiderato. Se gli input non corrispondono esattamente alla somma richiesta più la commissione, sarà necessario restituire del resto. // [REVISIONE]: due problemi: (1) l'analogy del contante usa "noi" (usiamo, paghiamo, ci restano) invece della seconda persona TU ("you" nell'originale), rompendo il registro del libro; (2) "strive to program this balance" (si sforzano di programmare) diventa "cercano di replicare" — "replicare" implica copia meccanica di un comportamento esistente, mentre "program" implica la costruzione deliberata di una logica algoritmica. Suggerito: "Di solito trovi un equilibrio tra i due estremi, e gli sviluppatori di wallet si sforzano di programmare lo stesso equilibrio."
 Pensiamo a come gestiamo il contante: se usiamo sempre la banconota più grande, accumuliamo spiccioli; se invece paghiamo solo con spiccioli, ci restano banconote di grosso taglio. Di solito si trova un equilibrio e gli sviluppatori di wallet cercano di replicare lo stesso comportamento.
 
@@ -195,6 +196,7 @@ Un'altra tipologia ricorrente è la _transazione di consolidamento_, che spende 
 image::images/mbc3_0205.png["Aggregating Transaction"]
 
 // [REVISIONE]: "This type of transaction is sometimes used by commercial entities" — "sometimes" (talvolta) è reso come "spesso" (often), cambiando da uso occasionale a frequente; "commercial entities" (entità commerciali) è ampliato a "aziende e organizzazioni". Suggerito: "Questa modalità viene talvolta utilizzata da entità commerciali per distribuire fondi, ad esempio per elaborare pagamenti salariali a più dipendenti."
+// [REVISIONE]: la frase omette "another transaction form that is seen often on the blockchain": si perde l'indicazione che il payment batching è una forma di transazione osservata di frequente sulla blockchain. Verificare l'incipit "Infine, con il payment batching...".
 Infine, con il _payment batching_ si possono inviare più output a destinatari diversi in un'unica transazione (<<transaction-distributing>>). Questa modalità è spesso adottata da aziende e organizzazioni per distribuire fondi, ad esempio per pagare gli stipendi a più dipendenti.
 
 [[transaction-distributing]]
@@ -203,6 +205,7 @@ image::images/mbc3_0206.png["Distributing Transaction"]
 
 === Creare una transazione
 
+// [REVISIONE]: nella frase "Così come possiamo compilare un assegno a casa..." è introdotto il "noi" editoriale ("possiamo"), assente nell'originale impersonale ("Like writing a check at home"), in contrasto con il registro allocutivo TU del libro. Verificare.
 Il wallet di Alice si occupa di scegliere gli input e creare gli output necessari per generare la transazione secondo le indicazioni di Alice stessa. A lei basta indicare destinazione, importo e commissione; tutto il resto avviene nel wallet senza che lei ne veda i dettagli. Se il wallet conosce già gli input che controlla può addirittura creare la transazione restando offline.
 Così come possiamo compilare un assegno a casa e spedirlo in banca, la transazione non deve necessariamente essere costruita e firmata mentre si è connessi alla rete Bitcoin.
 
