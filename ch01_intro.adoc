@@ -13,6 +13,7 @@ In questo libro, l’unità di valuta è chiamata “bitcoin” (con la _b_ minu
 ====
 
 // [REVISIONE]: "extending credit" reso come "erogare prestiti": il termine originale indica genericamente "concedere credito" (prestiti, aperture di credito, dilazioni di pagamento), non solo i prestiti. Suggerito: "concedere credito".
+// [REVISIONE]: "Bitcoin is arguably the perfect form of money" reso come "Bitcoin è probabilmente la forma di denaro perfetta": "arguably" introduce una tesi sostenibile/opinabile ("si può sostenere che"), mentre "probabilmente" esprime una probabilità. Suggerito: "è forse la forma di denaro perfetta" oppure "si può sostenere che sia la forma di denaro perfetta".
 Gli utenti possono trasferire bitcoin sulla rete Bitcoin per compiere praticamente qualsiasi operazione realizzabile con le valute convenzionali, come acquistare e vendere beni, inviare denaro a persone o organizzazioni, o erogare prestiti. I bitcoin si possono acquistare, vendere e scambiare con altre valute presso appositi cambi di valuta, i cosiddetti _exchange_.
 Bitcoin è probabilmente la forma di denaro perfetta per Internet, grazie alla sua velocità, sicurezza e natura priva di confini.
 
