@@ -10,6 +10,7 @@ In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla
 
 === Da Bitcoin a Bitcoin Core
 
+// [REVISIONE]: "almost full time" reso come "a tempo pieno" — omesso "almost" (quasi); l'originale indica che la dozzina di sviluppatori lavora _quasi_ a tempo pieno, non a tempo pieno. Suggerito: "con circa una dozzina di sviluppatori impegnati quasi a tempo pieno".
 Bitcoin è un progetto _open source_ e il codice sorgente è disponibile con una licenza aperta (MIT), scaricabile gratuitamente e utilizzabile per qualsiasi scopo. Oltre ad essere open source, Bitcoin è sviluppato da una comunità aperta di volontari. Inizialmente questa comunità era composta soltanto da Satoshi Nakamoto. Nel 2023 il codice sorgente di Bitcoin contava oltre 1.000 contributori, con circa una dozzina di sviluppatori impegnati a tempo pieno e diverse decine che collaborano part-time. Chiunque può contribuire al codice—compreso tu!
 
 // [REVISIONE]: la parentetica "(puoi leggerlo in <<satoshi_whitepaper>>)" è un'aggiunta del traduttore; l'originale dice "(reproduced in <<satoshi_whitepaper>>)". Preferire "(riprodotto in <<satoshi_whitepaper>>)" per aderire all'originale.
