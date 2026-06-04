@@ -448,6 +448,7 @@ Una volta soddisfatto delle opzioni di configurazione selezionate, dovresti aggi
 === API Bitcoin Core 
 
 // [REVISIONE]: "available programmatically via the API" reso come "disponibili anche a livello di programmazione tramite le API": l'originale usa "the API" (singolare, riferito all'unica interfaccia JSON-RPC di Bitcoin Core); "le API" (plurale) è impreciso nel contesto. Suggerito: "disponibili anche programmaticamente tramite l'API".
+// [REVISIONE]: "command-line helper" reso qui come "strumento a riga di comando", mentre altrove nel capitolo lo stesso termine "helper" è reso coerentemente con "l'helper +bitcoin-cli+" (es. righe successive: "l'helper +bitcoin-cli+ o il client HTTP +curl+"). Uniformare la terminologia, es. "l'helper a riga di comando +bitcoin-cli+".
 Bitcoin Core implementa un'interfaccia JSON-RPC a cui si può accedere anche utilizzando lo strumento a riga di comando +bitcoin-cli+. La riga di comando ci permette di sperimentare in modo interattivo le funzionalità che sono disponibili anche a livello di programmazione tramite le API. Per iniziare, esegui il comando +help+ per vedere un elenco dei comandi RPC di Bitcoin Core disponibili:
 
 [[bitcoind_commands]]
@@ -861,6 +862,7 @@ https://oreil.ly/4iqf2[BitcoinJS] :: Una libreria Bitcoin scritta interamente in
 https://bitcoinj.github.io[bitcoinj]:: Una libreria Java per client full node
 
 ==== Python
+// [REVISIONE]: "un full node" aggiunge il qualificatore "full" assente nell'originale ("consensus library, and node by Peter Todd", cioè un "node" generico); in Bitcoin un full node verifica tutte le regole di consenso mentre "node" non lo implica. Suggerito: "un nodo". Da notare l'incoerenza con la voce "Go" che rende "full-node" con "full node".
 https://oreil.ly/xn_rg[python-bitcoinlib]::  Una libreria Bitcoin in Python, una libreria per il consenso e un full node sviluppati da Peter Todd
 https://oreil.ly/wcpXP[pycoin]:: Una libreria Bitcoin in Python sviluppata da Richard Kiss
 

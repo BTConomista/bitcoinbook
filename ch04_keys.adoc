@@ -1,6 +1,7 @@
 [[ch04_keys_addresses]]
 == 4. Chiavi e indirizzi
 
+// [REVISIONE]: la traduzione amplia la portata dell'originale. L'EN lega il vincolo di privacy solo a "Bob's real-world identity" e a "other Bitcoin payments that Bob receives"; l'IT introduce anche l'identità di Alice ("alla sua identità reale") e "altri pagamenti Bitcoin che loro inviano o ricevono" (verbo "inviano" e soggetto plurale assenti nell'originale). Verificare aderenza all'EN: "...all'identità reale di Bob o ad altri pagamenti Bitcoin che Bob riceve."
 Alice vuole pagare Bob. Le migliaia di full nodes Bitcoin che verificheranno la sua transazione non sanno chi sono Alice e Bob--e vogliamo che rimanga così per proteggere la loro privacy. Alice deve comunicare alla rete che Bob deve ricevere alcuni dei suoi bitcoin senza collegare alcun aspetto di quella transazione alla sua identità reale o a quella di Bob, o ad altri pagamenti Bitcoin che loro inviano o ricevono. Il metodo che Alice utilizza deve garantire che solo Bob possa spendere i bitcoin che riceve.
 
 Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiungere questi obiettivi, mostrato in figura 4.1 <<pay-to-pure-pubkey>>
@@ -9,6 +10,7 @@ Il whitepaper originale di Bitcoin descrive un sistema molto semplice per raggiu
 .Catena di Transazioni dal whitepaper di Satoshi Nakamoto.
 image::images/mbc3_aain01.png["Transaction chain from original Bitcoin paper"]
 
+// [REVISIONE]: nella frase "I full node possono verificare...", "commits to" (impegno/vincolo crittografico, commitment) compare due volte nell'originale ma è reso in modo incoerente: "si riferisce a" (troppo debole, perde il senso di commitment) e poi "lega". Usare una resa coerente e tecnicamente fedele in entrambe le occorrenze, es. "vincola/impegna".
 Il destinatario, in questo caso Bob, riceve bitcoin su una chiave pubblica all'interno di una transazione firmata dal mittente (Alice). I bitcoin che Alice sta spendendo erano stati precedentemente ricevuti su una delle sue chiavi pubbliche, e ora lei utilizza la corrispondente chiave privata per generare la sua firma.
 I full node possono verificare che la firma di Alice si riferisca all'output di una funzione di hash, che a sua volta lega la transazione alla chiave pubblica di Bob e ad altri dettagli della transazione.
 
