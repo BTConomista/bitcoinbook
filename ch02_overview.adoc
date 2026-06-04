@@ -81,6 +81,7 @@ Una descrizione del pagamento: "Purchase at Bob's Store"
 Prova a scansionarlo con il tuo wallet per vedere indirizzo e importo, MA NON INVIARE SOLDI.
 ====
 
+// [REVISIONE]: "Bob vede comparire la transazione nel sistema" rende "Bob sees the transaction on the register": "register" è il registratore/sistema di cassa (POS) del negozio, non un generico "sistema"; si perde l'immagine concreta della transazione che compare alla cassa, in parallelo con l'autorizzazione di una carta. Suggerito: "Bob vede comparire la transazione alla cassa"
 Alice scansiona il codice con lo smartphone. Sullo schermo compare la richiesta di pagamento per l'importo corretto destinato a +Bob's Store+ e lei tocca Invia per autorizzarlo.
 In pochi secondi, un tempo paragonabile all'autorizzazione di una carta di credito, Bob vede comparire la transazione nel sistema.
 

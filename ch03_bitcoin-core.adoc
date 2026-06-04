@@ -560,6 +560,7 @@ Puoi controllare i suoi progressi usando +getblockchaininfo+ per vedere il numer
 
 [[exploring_and_decoding_transactions]]
 ==== Esplorare e Decodificare le Transazioni
+// [REVISIONE]: nel secondo periodo "mettendo l'ID della transazione (txid) come parametro" rende "by passing ... as a parameter" con una collocazione poco idiomatica; il verbo tecnico corretto è "passare" (passare un valore come parametro), anche per coerenza con "passando i dati esadecimali come parametro" usato poco più avanti nella stessa sezione
 In <<spending_bitcoin>>, Alice ha effettuato un acquisto presso il negozio di Bob. La sua transazione è stata registrata sulla blockchain.
 Utilizziamo l’API per recuperare ed esaminare quella transazione mettendo l’ID della transazione (txid) come parametro:
 
@@ -739,6 +740,7 @@ Questo comando mostra che +curl+ invia una richiesta HTTP all’host locale (127
 
 Potresti notare che +curl+ richiederà l'invio delle credenziali insieme alla richiesta. Bitcoin Core genera una password casuale ad ogni avvio e la salva nella directory dei dati con il nome +.cookie+.
 
+// [REVISIONE]: "se fornito con la directory dei dati" è un calco di "given the data directory" e risulta ambiguo (il soggetto sottinteso di "fornito" non è chiaro); il senso è che l'helper legge il file solo se gli viene indicata la directory dei dati: preferire "se gli viene fornita/indicata la directory dei dati"
 L’helper +bitcoin-cli+ può leggere questo file di password se fornito con la directory dei dati. Allo stesso modo, puoi copiare la password e passarla a +curl+ (o a qualsiasi altro wrapper di livello superiore per le RPC di Bitcoin Core), come mostrato in <<cookie_auth>>.
 
 [[cookie_auth]]
