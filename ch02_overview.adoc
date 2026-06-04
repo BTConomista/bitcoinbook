@@ -265,6 +265,7 @@ Se il wallet di Bob è collegato direttamente a quello di Alice potrebbe essere 
 
 La transazione di Alice è ora propagata sulla rete Bitcoin. Tuttavia, non diventa parte della _blockchain_ finché non viene inclusa in un blocco tramite un processo chiamato _mining_ e quel blocco non viene convalidato dai full nodes. Per una spiegazione dettagliata, vedi <<mining>>.
 
+// [REVISIONE]: incoerenza terminologica tra capitoli in scope: qui l'"header" del blocco è reso come "intestazione", mentre nel capitolo su Bitcoin Core lo stesso termine è lasciato costantemente in inglese come "header" (es. "hash dell'header"). Valutare se uniformare la resa del termine in tutto il libro.
 Il meccanismo che impedisce la contraffazione si fonda su un grande dispendio di calcolo. Le transazioni sono raggruppate in _blocchi_, ciascuno con un'intestazione minuscola che deve rispettare un formato molto preciso. Servono enormi risorse computazionali per crearla, ma solo un modesto sforzo per verificarla.
 
 Il processo di mining svolge due funzioni fondamentali in Bitcoin:
