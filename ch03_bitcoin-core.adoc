@@ -497,6 +497,7 @@ Examples:
 
 
 
+// [REVISIONE]: "two examples of the RPC command" (singolare, riferito all'unico comando getblockhash appena illustrato) reso come "due esempi di comandi RPC" (plurale generico): si perde il riferimento all'unico comando in esame, facendo intendere che siano esempi di comandi RPC diversi. Suggerito: "due esempi del comando RPC" o "due esempi di invocazione del comando RPC".
 Alla fine delle informazioni di aiuto vedrai due esempi di comandi RPC, che utilizzano l’helper +bitcoin-cli+ o il client HTTP +curl+. Questi esempi mostrano come potresti chiamare il comando. Copia il primo esempio e guarda il risultato che ottieni:
 
 ----
@@ -510,6 +511,7 @@ Nelle prossime sezioni mostreremo alcuni comandi RPC molto utili e il loro outpu
 
 ==== Ottenere informazioni sullo stato di Bitcoin Core
 
+// [REVISIONE]: l'originale usa "include" ("The most important commands include..."), che introduce un elenco non esaustivo; la resa "I comandi più importanti sono..." presenta l'elenco come chiuso/esaustivo, restringendo l'informazione tecnica. Suggerito: "Tra i comandi più importanti ci sono..." o "I comandi più importanti includono...".
 Bitcoin Core fornisce rapporti di stato sui diversi moduli tramite l'interfaccia JSON-RPC. I comandi più importanti sono +getblockchaininfo+, +getmempoolinfo+, +getnetworkinfo+ e +getwalletinfo+.
 
 Il comando RPC +getblockchaininfo+ di Bitcoin è stato introdotto in precedenza. Il comando +getnetworkinfo+ mostra informazioni di base sullo stato del nodo della rete Bitcoin. Utilizza +bitcoin-cli+ per eseguirlo:
