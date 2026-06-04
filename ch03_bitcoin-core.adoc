@@ -4,6 +4,7 @@
 
 Le persone accettano denaro in cambio dei loro beni e servizi solo se credono che potranno spendere quel denaro successivamente. Denaro contraffatto o svalutato in maniera inattesa potrebbe non essere speso in futuro, perciò chiunque riceva bitcoin ha un forte incentivo a controllare attentamente l'integrità dei bitcoin che riceve.
 // [REVISIONE]: "full verification node" tradotto come "nodo di verifica completa" — "full" modifica "node" (non "verification"), quindi il nodo è completo, non la verifica; preferire "nodo di verifica completo" o "nodo di validazione completo". Più avanti nella stessa frase la traduzione usa "nodi completi (full nodes)" correttamente, ma l'epiteto iniziale crea ambiguità.
+// [REVISIONE]: omesso "entirely" ("interamente") dell'originale "software running entirely on your local computer"; l'avverbio sottolinea che il nodo di verifica gira completamente in locale, senza dipendere da terze parti — punto centrale della tesi sull'assenza di fiducia. Suggerito: "il software in esecuzione interamente sul tuo computer locale".
 Il sistema Bitcoin è stato progettato in modo che sia possibile per il software in esecuzione sul tuo computer locale prevenire perfettamente la contraffazione, la svalutazione e diversi altri problemi critici. Il software che fornisce questa funzione è chiamato _nodo di verifica completa_, perché verifica ogni transazione Bitcoin confermata rispetto a tutte le regole del sistema. I nodi di verifica completa, o semplicemente _nodi completi_ (full nodes), possono anche fornire strumenti e dati utili per comprendere il funzionamento di Bitcoin e cosa sta succedendo attualmente nella rete.
 
 In questo capitolo installeremo Bitcoin Core, l'implementazione utilizzata dalla maggior parte degli operatori di full nodes fin dall'inizio della rete Bitcoin. Successivamente analizzeremo blocchi, transazioni e altri dati provenienti dal tuo nodo, dati che sono autorevoli non perché lo abbia deciso qualche entità potente, ma perché il tuo nodo li ha verificati autonomamente. Nel resto del libro continueremo a usare Bitcoin Core per creare ed esaminare dati relativi alla blockchain e alla rete.
@@ -85,6 +86,7 @@ v0.12.0rc2
 ----
 
 L'elenco dei tag mostra tutte le versioni di Bitcoin che sono state rilasciate. Per convenzione, le versioni _candidate al rilascio_, destinate ai test, hanno il suffisso "rc". Le versioni stabili, adatte all'uso in ambienti di produzione, non hanno alcun suffisso.
+// [REVISIONE]: "la versione più recente" rende "the highest version release" — il criterio dell'originale è il numero di versione più alto, non la cronologia. Nell'elenco dei tag (che include suffissi "rc") "più recente" può divergere da "numero più alto" ed essere fuorviante. Suggerito: "la versione con il numero più alto" (versione stabile).
 Dall'elenco precedente, seleziona la versione più recente, che al momento della scrittura era la v24.0.1. Per sincronizzare il codice locale con questa versione, utilizza il comando +git checkout+:
 
 ----
