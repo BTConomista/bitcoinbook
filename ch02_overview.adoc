@@ -19,6 +19,7 @@ Per ogni fase useremo un blockchain explorer, ossia un'applicazione web che cons
 </p>
 ++++
 
+// [REVISIONE]: manca la riga vuota tra la frase introduttiva e l'elenco puntato (presente nell'originale EN): senza riga vuota AsciiDoc non interpreta le righe "*" come lista ma come continuazione del paragrafo, alterando la resa. Aggiungere una riga vuota dopo i due punti.
 Tra i blockchain explorer più popolari ci sono:
 * https://blockstream.info[Blockstream Explorer]
 * https://mempool.space[Mempool.Space]
@@ -47,6 +48,7 @@ Il negozio online di Bob ha da poco attivato i pagamenti in bitcoin sul proprio 
 
 Alice trova l'episodio che le interessa e va alla pagina di pagamento. Qui può scegliere di pagare in bitcoin oltre che con i metodi tradizionali. Il carrello mostra il prezzo in dollari e in bitcoin (BTC), calcolato sul cambio corrente.
 
+// [REVISIONE]: "Bob's ecommerce system will automatically create a QR code containing an _invoice_": (1) omesso "di Bob" e "ecommerce" — "Il sistema di pagamento" è generico; (2) il termine tecnico "invoice" è reso solo come "richiesta di pagamento" senza riportare il termine EN, mentre nel capitolo 1 la prima occorrenza è introdotta con la coppia "richieste di pagamento (invoice)". Incoerenza terminologica tra capitoli: valutare "una _invoice_ (richiesta di pagamento)" alla prima occorrenza del capitolo. Suggerito: "Il sistema ecommerce di Bob genera automaticamente un codice QR contenente una _invoice_ (richiesta di pagamento)".
 Il sistema di pagamento genera automaticamente un codice QR con una _richiesta di pagamento_ (<<invoice-QR>>).
 
 ////
@@ -248,6 +250,7 @@ La transazione appena creata contiene tutto il necessario per dimostrare la prop
 
 // [REVISIONE]: "how or where it is transmitted" reso come "come o da quale nodo venga inviata": "where" copre qualsiasi origine (applicazione, servizio, tipo di connessione), non solo il nodo di partenza. Suggerito: "come o da dove venga inviata alla rete Bitcoin".
 // [REVISIONE]: "contains all the information necessary for it to be processed" reso come "contiene tutte le informazioni necessarie": omessa la clausola "for it to be processed" (per essere elaborata) che ne specifica lo scopo. È proprio l'auto-sufficienza ai fini dell'elaborazione a giustificare che non importi da dove la transazione venga trasmessa. Suggerito: "contiene tutte le informazioni necessarie per essere elaborata".
+// [REVISIONE]: "with each Bitcoin peer participating by connecting to several other Bitcoin peers" è reso come "ogni nodo si collega a vari altri nodi": l'EN usa deliberatamente "peer", che viene definito ed equiparato a "nodo" solo nella sezione successiva ("Come si propaga"); anticipare "nodo" qui vanifica la progressione didattica peer → full node. Suggerito: "ogni peer Bitcoin partecipa collegandosi a diversi altri peer".
 Poiché la transazione contiene tutte le informazioni necessarie, non importa come o da quale nodo venga inviata alla rete. Bitcoin è una rete peer-to-peer: ogni nodo si collega a vari altri nodi con l'obiettivo di diffondere transazioni e blocchi a tutti i partecipanti.
 
 ===== Come si propaga

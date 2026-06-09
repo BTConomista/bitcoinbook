@@ -351,6 +351,7 @@ Per impostazione predefinita, Bitcoin Core crea un database contenente _solo_ le
 Per attivarlo, imposta +txindex=1+ nel file di configurazione di Bitcoin Core. Se inizialmente non attivi questa opzione e successivamente scegli di abilitare l'indicizzazione completa, dovrai attendere il tempo necessario per la ricostruzione dell'indice.
 ****
 
+// [REVISIONE]: "running as an API backend for a bitcoin application" reso come "eseguendolo come un'API backend": calco con testa del sintagma invertita — il nodo funge da _backend_ (con interfaccia API), non da "API"; in italiano "un'API backend" è fuorviante. Suggerito: "eseguendolo come backend API per un'applicazione Bitcoin".
 <<full_index_node>> mostra come puoi combinare le opzioni precedenti con un nodo completamente indicizzato, eseguendolo come un'API backend per un'applicazione Bitcoin.
 
 [[full_index_node]]
